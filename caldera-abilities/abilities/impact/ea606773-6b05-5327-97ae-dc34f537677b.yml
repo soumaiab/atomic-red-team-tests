@@ -10,7 +10,7 @@
   technique_name: 'Defacement: Internal Defacement'
   executors:
   - cleanup:
-    - 'try { Get-Process notepad -ErrorAction SilentlyContinue |; ForEach-Object { Stop-Process -Id $_.Id -Force -ErrorAction SilentlyContinue }; Start-Sleep -Seconds 1; $notePath = Join-Path $env:TEMP "ART-T1491-ransom-note.txt"; $pidPath  = Join-Path $env:TEMP "ART-T1491-notepad.pid"; if (Test-Path $notePath) { Remove-Item $notePath -Force -ErrorAction Stop }; if (Test-Path $pidPath) { Remove-Item $pidPath -Force -ErrorAction Stop } } catch { Write-Warning "Cleanup failed with error: $_" }'
+    - 'try { Get-Process notepad -ErrorAction SilentlyContinue | ForEach-Object { Stop-Process -Id $_.Id -Force -ErrorAction SilentlyContinue }; Start-Sleep -Seconds 1; $notePath = Join-Path $env:TEMP "ART-T1491-ransom-note.txt"; $pidPath  = Join-Path $env:TEMP "ART-T1491-notepad.pid"; if (Test-Path $notePath) { Remove-Item $notePath -Force -ErrorAction Stop }; if (Test-Path $pidPath) { Remove-Item $pidPath -Force -ErrorAction Stop } } catch { Write-Warning "Cleanup failed with error: $_" }'
     timeout: 60
     platform: windows
     name: psh

@@ -16,7 +16,7 @@
   technique_name: 'Proxy: Multi-hop Proxy'
   executors:
   - cleanup:
-    - $Proxy = Get-Content $env:Temp\proxy-backup.txt -ErrorAction Ignore; if($null -ne $Proxy); {Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings' -Name "ProxyServer" -Value $Proxy}
+    - $Proxy = Get-Content $env:Temp\proxy-backup.txt -ErrorAction Ignore; if($null -ne $Proxy) {Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings' -Name "ProxyServer" -Value $Proxy}
     timeout: 60
     platform: windows
     name: psh

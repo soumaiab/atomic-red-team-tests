@@ -6,7 +6,7 @@
 - Payload files copied: 168
 - Payload source files missing on disk: 63
 - Abilities with a missing payload (routed to `_missing-payloads/`): 32
-- Tests needing manual input (no default for an argument): 18
+- Tests needing manual input (no default for an argument): 20
 - cmd-shell dependency prereqs (best-effort escaping, recommend review): 26
 
 ## Skipped tests by reason
@@ -26,6 +26,8 @@
 - T1016 / 9bb45dd7-c466-4f93-83a1-be30e56033ee / Adfind - Enumerate Active Directory Subnet Objects: optional_args
 - T1018 / a889f5be-2d54-4050-bd05-884578748bb4 / Adfind - Enumerate Active Directory Computer Objects: optional_args
 - T1018 / 5838c31e-a0e2-4b9f-b60a-d79d2cb7995e / Adfind - Enumerate Active Directory Domain Controller Objects: optional_args
+- T1020 / 5b380e96-b0ef-4072-8a8e-f194cb9eb9ac / Exfiltration via Encrypted FTP: credentials
+- T1030 / f0287b58-f4bc-40f6-87eb-692e126e7f8f / Network-Based Data Transfer in Small Chunks: source_file_path
 - T1048 / c943d285-ada3-45ca-b3aa-7cd6500c6a48 / DNSExfiltration (doh): encoding
 - T1048.003 / 57799bc2-ad1e-4130-a793-fb0c385130ba / MAZE FTP Upload: password, username
 - T1069.002 / 48ddc687-82af-40b7-8472-ff1e742e8274 / Adfind - Query Active Directory Groups: optional_args

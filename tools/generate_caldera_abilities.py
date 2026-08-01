@@ -34,7 +34,10 @@ EXECUTOR_TO_SHELL = {"powershell": "psh", "command_prompt": "cmd"}
 DEFAULT_TIMEOUT = 60
 
 PLACEHOLDER_RE = re.compile(r"#\{([A-Za-z0-9_]+)\}")
-PATH_TO_ATOMICS_RE = re.compile(r"PathToAtomicsFolder[\\/]([^\s\"'`)]+)")
+# (?:\$env:)? absorbs a rare upstream ART typo (e.g. T1555.003's
+# "$env:PathToAtomicsFolder\...") where a stray '$env:' was mistakenly written right
+# before the placeholder - without this the '$env:' is left dangling in the output.
+PATH_TO_ATOMICS_RE = re.compile(r"(?:\$env:)?PathToAtomicsFolder[\\/]([^\s\"'`)]+)")
 
 # Keywords that must stay adjacent to the previous statement's closing '}' with only
 # whitespace between them (PowerShell's try/catch/finally and if/elseif/else grammar
@@ -188,17 +191,28 @@ def substitute_args(text: str, resolved_args: dict, missing: list) -> str:
 
     def repl(m: re.Match) -> str:
         name = m.group(1)
-        if name in resolved_args:
-            return resolved_args[name]
-        missing.append(name)
-        return m.group(0)
+        if name not in resolved_args:
+            missing.append(name)
+            return m.group(0)
+        value = resolved_args[name]
+        # ART commonly writes "#{tool_path} -args ..." bare/unquoted, expecting tool_path
+        # to resolve to a literal path (auto-invokable at statement-start in PowerShell).
+        # Our ExternalPayloads rewrite can turn that into "$env:TEMP\...", a variable
+        # reference - PowerShell won't auto-invoke that without the call operator, so add
+        # '&' whenever the placeholder is the first token on its (source) line.
+        line_start = text.rfind("\n", 0, m.start()) + 1
+        if text[line_start:m.start()].strip() == "" and value.startswith("$"):
+            return "& " + value
+        return value
 
     return PLACEHOLDER_RE.sub(repl, text)
 
 
 def strip_ps_line_comment(line: str) -> str:
     """Drop a trailing '# ...' PowerShell comment, tracking quotes so a '#' inside a
-    string literal (e.g. a URL fragment) isn't mistaken for a comment marker."""
+    string literal (e.g. a URL fragment) isn't mistaken for a comment marker. A bare
+    '#{' is never treated as a comment start - that's ART's own placeholder syntax,
+    and an unresolved one (no default supplied) can still be sitting there unquoted."""
     in_single = False
     in_double = False
     for i, c in enumerate(line):
@@ -206,14 +220,70 @@ def strip_ps_line_comment(line: str) -> str:
             in_single = not in_single
         elif c == '"' and not in_single:
             in_double = not in_double
-        elif c == "#" and not in_single and not in_double:
+        elif c == "#" and not in_single and not in_double and line[i + 1 : i + 2] != "{":
             return line[:i].rstrip()
     return line.rstrip()
 
 
+def paren_bracket_delta(line: str) -> int:
+    """Net change in open '(' / '[' depth contributed by this line, ignoring
+    parens/brackets that appear inside quoted strings."""
+    depth = 0
+    in_single = False
+    in_double = False
+    for c in line:
+        if c == "'" and not in_double:
+            in_single = not in_single
+        elif c == '"' and not in_single:
+            in_double = not in_double
+        elif not in_single and not in_double:
+            if c in "([":
+                depth += 1
+            elif c in ")]":
+                depth -= 1
+    return depth
+
+
+# Here-strings (@"..."@ / @'...'@) require their opening delimiter to be the last
+# thing on its line and the closing delimiter to be the first thing on its line -
+# fundamentally incompatible with flattening to one line. Convert them to an ordinary
+# quoted string with the same content first, escaping newlines as `r`n.
+HERESTRING_DQ_RE = re.compile(r'@"[ \t]*\r?\n(.*?)\r?\n[ \t]*"@', re.DOTALL)
+HERESTRING_SQ_RE = re.compile(r"@'[ \t]*\r?\n(.*?)\r?\n[ \t]*'@", re.DOTALL)
+
+
+def _herestring_dq_repl(m: re.Match) -> str:
+    content = m.group(1)
+    content = content.replace("`", "``")
+    content = content.replace('"', '`"')
+    content = content.replace("\r\n", "`r`n").replace("\n", "`n")
+    return '"' + content + '"'
+
+
+def _herestring_sq_repl(m: re.Match) -> str:
+    content = m.group(1)
+    content = content.replace("`", "``")
+    content = content.replace("$", "`$")  # preserve the literal (non-interpolating) semantics
+    content = content.replace('"', '`"')
+    content = content.replace("\r\n", "`r`n").replace("\n", "`n")
+    return '"' + content + '"'
+
+
+def convert_herestrings(script: str) -> str:
+    script = HERESTRING_DQ_RE.sub(_herestring_dq_repl, script)
+    script = HERESTRING_SQ_RE.sub(_herestring_sq_repl, script)
+    return script
+
+
 def flatten_psh(script: str) -> str:
     """Collapse a multi-line PowerShell script into one logical line (';'-joined),
-    dropping comment lines and respecting try/catch/if/else adjacency rules."""
+    dropping comment lines and respecting try/catch/if/else adjacency rules.
+    Never inserts a ';' while inside an unclosed '(' / '[' grouping (e.g. a
+    multi-line `param (...)` list) - a bare statement separator is invalid there.
+    Also skips the ';' before a line that opens with '{' (Allman-style bracing,
+    e.g. `while (...)` / `{` on separate lines) and after a line ending in '|'
+    (pipeline continues on the next line) - both need a plain space, not ';'."""
+    script = convert_herestrings(script)
     lines = []
     for raw in script.splitlines():
         stripped = strip_ps_line_comment(raw.strip())
@@ -222,12 +292,19 @@ def flatten_psh(script: str) -> str:
     if not lines:
         return ""
     parts = [lines[0]]
+    open_depth = paren_bracket_delta(lines[0])
     for i in range(1, len(lines)):
         prev, cur = lines[i - 1], lines[i]
-        if prev.endswith(("{", ";")) or cur.lower().startswith(PS_CONTINUATION_KEYWORDS):
+        if (
+            open_depth > 0
+            or prev.endswith(("{", ";", "|"))
+            or cur.startswith("{")
+            or cur.lower().startswith(PS_CONTINUATION_KEYWORDS)
+        ):
             parts.append(" " + cur)
         else:
             parts.append("; " + cur)
+        open_depth += paren_bracket_delta(cur)
     return "".join(parts)
 
 
@@ -316,8 +393,13 @@ def process_test(
     def build_resolved_args(ctx_shell):
         resolved = {}
         for arg_name, spec in input_arguments.items():
-            if isinstance(spec, dict) and spec.get("default") is not None:
-                value = resolve_pta(str(spec["default"]), ctx_shell)
+            default = spec.get("default") if isinstance(spec, dict) else None
+            # A handful of ART tests (e.g. T1030's source_file_path) use bracketed prose
+            # like "[User specified]" as the default instead of omitting it - not a real
+            # value, and "[...]" parses as a PowerShell type literal if substituted in raw.
+            is_placeholder_prose = isinstance(default, str) and default.strip().startswith("[") and default.strip().endswith("]")
+            if default is not None and not is_placeholder_prose:
+                value = resolve_pta(str(default), ctx_shell)
                 # Argument values get substituted inline into an already-flattened
                 # single-line command, so any embedded newline in a default has to go.
                 resolved[arg_name] = " ".join(value.split())

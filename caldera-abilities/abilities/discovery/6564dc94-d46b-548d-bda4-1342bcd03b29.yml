@@ -15,5 +15,5 @@
     name: psh
     payloads: []
     parsers: []
-    command: Get-ChildItem -Path 'HKLM:\SYSTEM\CurrentControlSet\Services' |; ForEach-Object { $p = Get-ItemProperty -Path $_.PSPath -ErrorAction SilentlyContinue; [PSCustomObject]@{ Name        = $_.PSChildName; DisplayName = $p.DisplayName; ImagePath   = $p.ImagePath; StartType   = $p.Start } }
+    command: Get-ChildItem -Path 'HKLM:\SYSTEM\CurrentControlSet\Services' | ForEach-Object { $p = Get-ItemProperty -Path $_.PSPath -ErrorAction SilentlyContinue; [PSCustomObject]@{ Name        = $_.PSChildName; DisplayName = $p.DisplayName; ImagePath   = $p.ImagePath; StartType   = $p.Start } }
   id: 6564dc94-d46b-548d-bda4-1342bcd03b29

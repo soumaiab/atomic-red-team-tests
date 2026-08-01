@@ -11,5 +11,5 @@
     name: psh
     payloads: []
     parsers: []
-    command: '& "$env:TEMP\ART-ExternalPayloads\AdFind.exe"'
+    command: '& "$env:TEMP\ART-ExternalPayloads\AdFind.exe" #{optional_args} -h $env:USERDOMAIN -s subtree -f "objectclass=computer" *'
   id: 22c960bc-d349-5c1c-9731-ae3afa26959d

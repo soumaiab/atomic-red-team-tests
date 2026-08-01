@@ -12,5 +12,5 @@
     name: psh
     payloads: []
     parsers: []
-    command: Add-Type -TypeDefinition @'; public class Test { public static void Main(string[] args) { System.Console.WriteLine("tweet, tweet"); } }; '@ -OutputAssembly "$Env:windir\Temp\svchost.exe"; Start-Process -FilePath "$Env:windir\Temp\svchost.exe"
+    command: Add-Type -TypeDefinition "public class Test {`n    public static void Main(string[] args) {`n        System.Console.WriteLine(`"tweet, tweet`");`n    }`n}" -OutputAssembly "$Env:windir\Temp\svchost.exe"; Start-Process -FilePath "$Env:windir\Temp\svchost.exe"
   id: 4bb50ab9-ecf3-55de-a2ca-28efbf95d9da

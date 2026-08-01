@@ -11,5 +11,5 @@
     name: psh
     payloads: []
     parsers: []
-    command: '& "$env:TEMP\ART-ExternalPayloads\AdFind.exe"'
+    command: '& "$env:TEMP\ART-ExternalPayloads\AdFind.exe" #{optional_args} -h $env:USERDOMAIN -s subtree -f "objectclass=computer" ms-Mcs-AdmPwd, ms-Mcs-AdmPwdExpirationTime'
   id: 2431dc46-db6f-5760-8359-6edb2f8ec527

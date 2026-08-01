@@ -12,5 +12,5 @@
     name: psh
     payloads: []
     parsers: []
-    command: New-PSDrive -PSProvider registry -Root HKEY_CLASSES_ROOT -Name HKCR; Get-ChildItem -Path HKCR:\CLSID -Name | Select -Skip 1 > $env:temp\clsids.txt; ForEach($CLSID in Get-Content "$env:temp\clsids.txt"); {try{write-output "$($Position)-$($CLSID)"; write-output "------------"| out-file $env:temp\T1592.002Test1.txt -append; write-output $($CLSID)| out-file $env:temp\T1592.002Test1.txt -append; $handle=[activator]::CreateInstance([type]::GetTypeFromCLSID($CLSID)); $handle | get-member -erroraction silentlycontinue | out-file $env:temp\T1592.002Test1.txt -append; $position += 1} catch{}}
+    command: New-PSDrive -PSProvider registry -Root HKEY_CLASSES_ROOT -Name HKCR; Get-ChildItem -Path HKCR:\CLSID -Name | Select -Skip 1 > $env:temp\clsids.txt; ForEach($CLSID in Get-Content "$env:temp\clsids.txt") {try{write-output "$($Position)-$($CLSID)"; write-output "------------"| out-file $env:temp\T1592.002Test1.txt -append; write-output $($CLSID)| out-file $env:temp\T1592.002Test1.txt -append; $handle=[activator]::CreateInstance([type]::GetTypeFromCLSID($CLSID)); $handle | get-member -erroraction silentlycontinue | out-file $env:temp\T1592.002Test1.txt -append; $position += 1} catch{}}
   id: fcdb5bca-4eab-5487-be8f-d59609dc4830

@@ -12,5 +12,5 @@
     name: psh
     payloads: []
     parsers: []
-    command: '$filepath = [System.IO.Path]::Combine($env:USERPROFILE, "Desktop"); $rtlo = [char]0x202E; $fileloc = Join-Path "$filepath" ("evil_batch" + $rtlo + "fdp.bat"); $payload = @"; @echo off; echo Hello World!; timeout /t 30 /nobreak; exit; "@; Set-Content -Path $fileloc -Value $payload -Encoding Ascii -Force; Write-Host "Real filename on disk: $fileloc"; Write-Host "Displays in explorer as: evil_batchtab.pdf"; Start-Process -FilePath $fileloc -Wait'
+    command: '$filepath = [System.IO.Path]::Combine($env:USERPROFILE, "Desktop"); $rtlo = [char]0x202E; $fileloc = Join-Path "$filepath" ("evil_batch" + $rtlo + "fdp.bat"); $payload = "@echo off`necho Hello World!`ntimeout /t 30 /nobreak`nexit"; Set-Content -Path $fileloc -Value $payload -Encoding Ascii -Force; Write-Host "Real filename on disk: $fileloc"; Write-Host "Displays in explorer as: evil_batchtab.pdf"; Start-Process -FilePath $fileloc -Wait'
   id: bcb64770-9eb6-52d6-b8fb-f826a3e4b158
