@@ -1,12 +1,15 @@
-- id: ed28412c-de42-5dde-8204-9e8142b4be5c
+- requirements: []
   name: Soumaia ART Tests - Windows MachineGUID Discovery
   description: Identify the Windows MachineGUID value for a system. Upon execution, the machine GUID will be displayed from registry.
   tactic: discovery
-  technique:
-    attack_id: T1082
-    name: System Information Discovery
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          REG QUERY HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Cryptography /v MachineGuid
+  technique_id: T1082
+  technique_name: System Information Discovery
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: REG QUERY HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Cryptography /v MachineGuid
+  id: ed28412c-de42-5dde-8204-9e8142b4be5c

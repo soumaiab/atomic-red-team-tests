@@ -1,21 +1,18 @@
-- id: 0f1e88d4-e5eb-511e-bab0-8738a5c7f3aa
+- requirements: []
   name: Soumaia ART Tests - Windows Screen Capture (CopyFromScreen)
   description: 'Take a screen capture of the desktop through a call to the [Graphics.CopyFromScreen] .NET API.
 
     [Graphics.CopyFromScreen]: https://docs.microsoft.com/en-us/dotnet/api/system.drawing.graphics.copyfromscreen'
   tactic: collection
-  technique:
-    attack_id: T1113
-    name: Screen Capture
-  platforms:
-    windows:
-      psh:
-        command: |-
-          Add-Type -AssemblyName System.Windows.Forms
-          $screen = [Windows.Forms.SystemInformation]::VirtualScreen
-          $bitmap = New-Object Drawing.Bitmap $screen.Width, $screen.Height
-          $graphic = [Drawing.Graphics]::FromImage($bitmap)
-          $graphic.CopyFromScreen($screen.Left, $screen.Top, 0, 0, $bitmap.Size)
-          $bitmap.Save("$env:TEMP\T1113.png")
-        cleanup: |-
-          Remove-Item $env:TEMP\T1113.png -ErrorAction Ignore
+  technique_id: T1113
+  technique_name: Screen Capture
+  executors:
+  - cleanup:
+    - Remove-Item $env:TEMP\T1113.png -ErrorAction Ignore
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: Add-Type -AssemblyName System.Windows.Forms; $screen = [Windows.Forms.SystemInformation]::VirtualScreen; $bitmap = New-Object Drawing.Bitmap $screen.Width, $screen.Height; $graphic = [Drawing.Graphics]::FromImage($bitmap); $graphic.CopyFromScreen($screen.Left, $screen.Top, 0, 0, $bitmap.Size); $bitmap.Save("$env:TEMP\T1113.png")
+  id: 0f1e88d4-e5eb-511e-bab0-8738a5c7f3aa

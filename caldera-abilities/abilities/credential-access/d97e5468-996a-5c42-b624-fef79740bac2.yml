@@ -1,14 +1,17 @@
-- id: d97e5468-996a-5c42-b624-fef79740bac2
+- requirements: []
   name: Soumaia ART Tests - Search for Passwords in Powershell History
   description: 'Find passwords in the powershell history files
 
     Searching for following strings: "password", "-p", "key", "pwd", "pass" (requires elevation)'
   tactic: credential-access
-  technique:
-    attack_id: T1552
-    name: Unsecured Credentials
-  platforms:
-    windows:
-      psh:
-        command: |-
-          ls -R C:\Users\*\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt | Select-String "password", "-p", "key", "pwd", "pass"
+  technique_id: T1552
+  technique_name: Unsecured Credentials
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: ls -R C:\Users\*\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt | Select-String "password", "-p", "key", "pwd", "pass"
+  id: d97e5468-996a-5c42-b624-fef79740bac2

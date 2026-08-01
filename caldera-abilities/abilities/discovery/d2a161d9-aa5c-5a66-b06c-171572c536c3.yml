@@ -1,12 +1,15 @@
-- id: d2a161d9-aa5c-5a66-b06c-171572c536c3
+- requirements: []
   name: Soumaia ART Tests - Examine domain password policy - Windows
   description: Lists the domain password policy to console on Windows.
   tactic: discovery
-  technique:
-    attack_id: T1201
-    name: Password Policy Discovery
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          net accounts /domain
+  technique_id: T1201
+  technique_name: Password Policy Discovery
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: net accounts /domain
+  id: d2a161d9-aa5c-5a66-b06c-171572c536c3

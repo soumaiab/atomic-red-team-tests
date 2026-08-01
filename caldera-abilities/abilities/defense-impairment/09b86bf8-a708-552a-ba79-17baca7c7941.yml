@@ -1,18 +1,18 @@
-- id: 09b86bf8-a708-552a-ba79-17baca7c7941
+- requirements: []
   name: Soumaia ART Tests - Enable Local and Remote Symbolic Links via fsutil
   description: 'Use fsutil to enable both ‘remote to local’ and ‘remote to remote’ symbolic links. This allows access to files from local shortcuts with local or remote paths.
 
     [reference](https://symantec-enterprise-blogs.security.com/threat-intelligence/noberus-blackcat-alphv-rust-ransomware/) (requires elevation)'
   tactic: defense-impairment
-  technique:
-    attack_id: T1222
-    name: File and Directory Permissions Modification
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          fsutil behavior set SymlinkEvaluation R2L:1
-          fsutil behavior set SymlinkEvaluation R2R:1
-        cleanup: |-
-          fsutil behavior set SymlinkEvaluation R2L:0
-          fsutil behavior set SymlinkEvaluation R2R:0
+  technique_id: T1222
+  technique_name: File and Directory Permissions Modification
+  executors:
+  - cleanup:
+    - fsutil behavior set SymlinkEvaluation R2L:0 & fsutil behavior set SymlinkEvaluation R2R:0
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: fsutil behavior set SymlinkEvaluation R2L:1 & fsutil behavior set SymlinkEvaluation R2R:1
+  id: 09b86bf8-a708-552a-ba79-17baca7c7941

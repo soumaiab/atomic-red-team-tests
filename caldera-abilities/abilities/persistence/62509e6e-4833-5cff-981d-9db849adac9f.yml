@@ -1,16 +1,18 @@
-- id: 62509e6e-4833-5cff-981d-9db849adac9f
+- requirements: []
   name: Soumaia ART Tests - Javascript in registry
   description: 'Upon execution, a javascript block will be placed in the registry for persistence.
 
     Additionally, open Registry Editor to view the modified entry in HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings.'
   tactic: persistence
-  technique:
-    attack_id: T1112
-    name: Modify Registry
-  platforms:
-    windows:
-      psh:
-        command: |-
-          New-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings" -Name T1112 -Value "<script>"
-        cleanup: |-
-          Remove-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings" -Name T1112 -ErrorAction Ignore
+  technique_id: T1112
+  technique_name: Modify Registry
+  executors:
+  - cleanup:
+    - Remove-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings" -Name T1112 -ErrorAction Ignore
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: New-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings" -Name T1112 -Value "<script>"
+  id: 62509e6e-4833-5cff-981d-9db849adac9f

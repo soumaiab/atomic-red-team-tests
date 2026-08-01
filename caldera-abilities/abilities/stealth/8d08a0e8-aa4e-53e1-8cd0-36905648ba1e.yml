@@ -1,14 +1,17 @@
-- id: 8d08a0e8-aa4e-53e1-8cd0-36905648ba1e
+- requirements: []
   name: Soumaia ART Tests - Clears Recycle bin via rd
   description: 'An adversary clears the recycle bin in the system partition using rd to remove traces of deleted files.
 
     [Reference](https://thedfirreport.com/2024/08/12/threat-actors-toolkit-leveraging-sliver-poshc2-batch-scripts/) (requires elevation)'
   tactic: stealth
-  technique:
-    attack_id: T1070.004
-    name: 'Indicator Removal on Host: File Deletion'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          rd /s /q %systemdrive%\$RECYCLE.BIN
+  technique_id: T1070.004
+  technique_name: 'Indicator Removal on Host: File Deletion'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: rd /s /q %systemdrive%\$RECYCLE.BIN
+  id: 8d08a0e8-aa4e-53e1-8cd0-36905648ba1e

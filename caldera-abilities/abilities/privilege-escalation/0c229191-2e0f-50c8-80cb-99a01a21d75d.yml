@@ -1,20 +1,16 @@
-- id: 0c229191-2e0f-50c8-80cb-99a01a21d75d
+- requirements: []
   name: Soumaia ART Tests - HKCU - Policy Settings Explorer Run Key
   description: "This test will create a new value under HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run to launch calc.exe on boot. \n*Requires reboot (requires elevation)"
   tactic: privilege-escalation
-  technique:
-    attack_id: T1547.001
-    name: 'Boot or Logon Autostart Execution: Registry Run Keys / Startup Folder'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          if (!(Test-Path -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer")){
-            New-Item -ItemType Key -Path  "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer"
-          }
-          if (!(Test-Path -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run")){
-            New-Item -ItemType Key -Path  "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run"
-          }
-          Set-ItemProperty -Path  "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run" -Name "atomictest" -Value "C:\Windows\System32\calc.exe"
-        cleanup: |-
-          Remove-ItemProperty -Path  "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run" -Name "atomictest"
+  technique_id: T1547.001
+  technique_name: 'Boot or Logon Autostart Execution: Registry Run Keys / Startup Folder'
+  executors:
+  - cleanup:
+    - Remove-ItemProperty -Path  "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run" -Name "atomictest"
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: if (!(Test-Path -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer")){ New-Item -ItemType Key -Path  "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" }; if (!(Test-Path -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run")){ New-Item -ItemType Key -Path  "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run" }; Set-ItemProperty -Path  "HKCU:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run" -Name "atomictest" -Value "C:\Windows\System32\calc.exe"
+  id: 0c229191-2e0f-50c8-80cb-99a01a21d75d

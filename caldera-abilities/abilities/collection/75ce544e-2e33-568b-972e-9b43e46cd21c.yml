@@ -1,13 +1,15 @@
-- id: 75ce544e-2e33-568b-972e-9b43e46cd21c
+- requirements: []
   name: Soumaia ART Tests - Execute Commands from Clipboard using PowerShell
   description: Utilize PowerShell to echo a command to clipboard and execute it
   tactic: collection
-  technique:
-    attack_id: T1115
-    name: Clipboard Data
-  platforms:
-    windows:
-      psh:
-        command: |-
-          echo Get-Process | clip
-          Get-Clipboard | iex
+  technique_id: T1115
+  technique_name: Clipboard Data
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: echo Get-Process | clip; Get-Clipboard | iex
+  id: 75ce544e-2e33-568b-972e-9b43e46cd21c

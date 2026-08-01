@@ -1,18 +1,17 @@
-- id: 41077914-7b6d-5c2a-8adb-f26f431b5546
+- requirements: []
   name: Soumaia ART Tests - Create Volume Shadow Copy remotely with WMI
   description: 'This test is intended to be run from a remote workstation with domain admin context.
 
     The Active Directory database NTDS.dit may be dumped by copying it from a Volume Shadow Copy. (requires elevation)'
   tactic: credential-access
-  technique:
-    attack_id: T1003.003
-    name: 'OS Credential Dumping: NTDS'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          cmd /c "wmic /node:""localhost"" shadowcopy list brief"
-          if not "%ERRORLEVEL%"=="0" (
-              cmd /c "echo Sorry, can't connect to target host, check: network, firewall or permissions (must be admin on target)"
-          )
-          wmic /node:"localhost" shadowcopy call create Volume=C:\
+  technique_id: T1003.003
+  technique_name: 'OS Credential Dumping: NTDS'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: 'cmd /c "wmic /node:""localhost"" shadowcopy list brief" & if not "%ERRORLEVEL%"=="0" ( cmd /c "echo Sorry, can''t connect to target host, check: network, firewall or permissions (must be admin on target)" ) & wmic /node:"localhost" shadowcopy call create Volume=C:\'
+  id: 41077914-7b6d-5c2a-8adb-f26f431b5546

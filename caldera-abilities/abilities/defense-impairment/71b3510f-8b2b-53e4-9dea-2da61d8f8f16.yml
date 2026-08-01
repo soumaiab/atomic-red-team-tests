@@ -1,18 +1,17 @@
-- id: 71b3510f-8b2b-53e4-9dea-2da61d8f8f16
+- requirements: []
   name: Soumaia ART Tests - attrib - Remove read-only attribute
   description: 'Removes the read-only attribute from a file or folder using the attrib.exe command. Upon execution, no output will be displayed.
 
     Open the file in File Explorer > Right Click - Prperties and observe that the Read Only checkbox is empty.'
   tactic: defense-impairment
-  technique:
-    attack_id: T1222.001
-    name: 'File and Directory Permissions Modification: Windows File and Directory Permissions Modification'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          cmd /c "IF EXIST %temp%\T1222.001_attrib ( EXIT 0 ) ELSE ( EXIT 1 )"
-          if not "%ERRORLEVEL%"=="0" (
-              cmd /c "mkdir %temp%\T1222.001_attrib & echo T1222.001_attrib1 >> %temp%\T1222.001_attrib\T1222.001_attrib1.txt & echo T1222.001_attrib2 >> %temp%\T1222.001_attrib\T1222.001_attrib2.txt & attrib.exe +r %temp%\T1222.001_attrib\T1222.001_attrib1.txt & attrib.exe +r %temp%\T1222.001_attrib\T1222.001_attrib2.txt"
-          )
-          attrib.exe -r %temp%\T1222.001_attrib\*.* /s
+  technique_id: T1222.001
+  technique_name: 'File and Directory Permissions Modification: Windows File and Directory Permissions Modification'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: cmd /c "IF EXIST %temp%\T1222.001_attrib ( EXIT 0 ) ELSE ( EXIT 1 )" & if not "%ERRORLEVEL%"=="0" ( cmd /c "mkdir %temp%\T1222.001_attrib & echo T1222.001_attrib1 >> %temp%\T1222.001_attrib\T1222.001_attrib1.txt & echo T1222.001_attrib2 >> %temp%\T1222.001_attrib\T1222.001_attrib2.txt & attrib.exe +r %temp%\T1222.001_attrib\T1222.001_attrib1.txt & attrib.exe +r %temp%\T1222.001_attrib\T1222.001_attrib2.txt" ) & attrib.exe -r %temp%\T1222.001_attrib\*.* /s
+  id: 71b3510f-8b2b-53e4-9dea-2da61d8f8f16

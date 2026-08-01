@@ -1,4 +1,4 @@
-- id: 007b4e83-b691-5b80-b733-4b305e4b75de
+- requirements: []
   name: Soumaia ART Tests - Indicator Manipulation using FSUtil
   description: 'Finds a file by user name (if Disk Quotas are enabled), queries allocated ranges for a file, sets a file''s short name, sets a file''s valid data length, sets zero data for a file, or creates a new file. Upon execution, no output
 
@@ -6,12 +6,15 @@
 
     - https://tria.ge/230601-x8x6bsgb24/behavioral2'
   tactic: stealth
-  technique:
-    attack_id: T1070
-    name: Indicator Removal on Host
-  platforms:
-    windows:
-      psh:
-        command: "if (-not (Test-Path \"$env:TEMP\\ART-ExternalPayloads\\T1070-2.txt\")) { New-Item \"$env:TEMP\\ART-ExternalPayloads\\T1070-2.txt\" -Force } \necho \"1234567890\" > \"$env:TEMP\\ART-ExternalPayloads\\T1070-2.txt\"\nfsutil  file setZeroData offset=0 length=10 \"$env:TEMP\\ART-ExternalPayloads\\T1070-2.txt\""
-        cleanup: |-
-          rm "$env:TEMP\ART-ExternalPayloads\T1070-2.txt"
+  technique_id: T1070
+  technique_name: Indicator Removal on Host
+  executors:
+  - cleanup:
+    - rm "$env:TEMP\ART-ExternalPayloads\T1070-2.txt"
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: if (-not (Test-Path "$env:TEMP\ART-ExternalPayloads\T1070-2.txt")) { New-Item "$env:TEMP\ART-ExternalPayloads\T1070-2.txt" -Force }; echo "1234567890" > "$env:TEMP\ART-ExternalPayloads\T1070-2.txt"; fsutil  file setZeroData offset=0 length=10 "$env:TEMP\ART-ExternalPayloads\T1070-2.txt"
+  id: 007b4e83-b691-5b80-b733-4b305e4b75de

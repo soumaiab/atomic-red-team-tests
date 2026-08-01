@@ -1,4 +1,4 @@
-- id: fd77f1c6-70e8-5f29-9849-f43f03b313f1
+- requirements: []
   name: Soumaia ART Tests - Windows - Delete Volume Shadow Copies via WMI with PowerShell
   description: 'Deletes Windows Volume Shadow Copies with PowerShell code and Get-WMIObject.
 
@@ -8,11 +8,14 @@
 
     there may be no output displayed. (requires elevation)'
   tactic: impact
-  technique:
-    attack_id: T1490
-    name: Inhibit System Recovery
-  platforms:
-    windows:
-      psh:
-        command: |-
-          Get-WmiObject Win32_Shadowcopy | ForEach-Object {$_.Delete();}
+  technique_id: T1490
+  technique_name: Inhibit System Recovery
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: Get-WmiObject Win32_Shadowcopy | ForEach-Object {$_.Delete();}
+  id: fd77f1c6-70e8-5f29-9849-f43f03b313f1

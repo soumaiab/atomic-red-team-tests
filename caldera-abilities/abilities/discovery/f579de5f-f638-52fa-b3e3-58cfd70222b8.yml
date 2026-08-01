@@ -1,14 +1,17 @@
-- id: f579de5f-f638-52fa-b3e3-58cfd70222b8
+- requirements: []
   name: Soumaia ART Tests - DNS Server Discovery Using nslookup
   description: 'Identify System domain dns controller on an endpoint using nslookup ldap query. This tool is being abused by qakbot malware to gather information on the domain
 
     controller of the targeted or compromised host. reference https://securelist.com/qakbot-technical-analysis/103931/'
   tactic: discovery
-  technique:
-    attack_id: T1016
-    name: System Network Configuration Discovery
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          nslookup -querytype=ALL -timeout=12 _ldap._tcp.dc._msdcs.%USERDNSDOMAIN%
+  technique_id: T1016
+  technique_name: System Network Configuration Discovery
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: nslookup -querytype=ALL -timeout=12 _ldap._tcp.dc._msdcs.%USERDNSDOMAIN%
+  id: f579de5f-f638-52fa-b3e3-58cfd70222b8

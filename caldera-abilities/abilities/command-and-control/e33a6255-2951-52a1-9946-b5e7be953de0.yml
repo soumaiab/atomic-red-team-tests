@@ -1,12 +1,15 @@
-- id: e33a6255-2951-52a1-9946-b5e7be953de0
+- requirements: []
   name: Soumaia ART Tests - File Download via PowerShell
   description: Use PowerShell to download and write an arbitrary file from the internet. Example is from the 2021 Threat Detection Report by Red Canary.
   tactic: command-and-control
-  technique:
-    attack_id: T1105
-    name: Ingress Tool Transfer
-  platforms:
-    windows:
-      psh:
-        command: |-
-          (New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/redcanaryco/atomic-red-team/4042cb3433bce024e304500dcfe3c5590571573a/LICENSE.txt') | Out-File LICENSE.txt; Invoke-Item LICENSE.txt
+  technique_id: T1105
+  technique_name: Ingress Tool Transfer
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: (New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/redcanaryco/atomic-red-team/4042cb3433bce024e304500dcfe3c5590571573a/LICENSE.txt') | Out-File LICENSE.txt; Invoke-Item LICENSE.txt
+  id: e33a6255-2951-52a1-9946-b5e7be953de0

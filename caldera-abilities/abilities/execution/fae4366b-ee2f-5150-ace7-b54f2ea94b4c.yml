@@ -1,14 +1,16 @@
-- id: fae4366b-ee2f-5150-ace7-b54f2ea94b4c
+- requirements: []
   name: Soumaia ART Tests - Execute PowerShell script via Word DDE
   description: When the word document opens it will prompt the user to click ok on a dialogue box, then attempt to run PowerShell with DDEAUTO to download and execute a powershell script
   tactic: execution
-  technique:
-    attack_id: T1559.002
-    name: 'Inter-Process Communication: Dynamic Data Exchange'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          start "$.\DDE_Document.docx"
-        payloads:
-        - DDE_Document.docx
+  technique_id: T1559.002
+  technique_name: 'Inter-Process Communication: Dynamic Data Exchange'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads:
+    - DDE_Document.docx
+    parsers: []
+    command: start "$.\DDE_Document.docx"
+  id: fae4366b-ee2f-5150-ace7-b54f2ea94b4c

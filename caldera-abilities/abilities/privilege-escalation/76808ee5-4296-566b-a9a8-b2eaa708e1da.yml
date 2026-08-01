@@ -1,4 +1,4 @@
-- id: 76808ee5-4296-566b-a9a8-b2eaa708e1da
+- requirements: []
   name: Soumaia ART Tests - WMI Invoke-CimMethod Start Process
   description: 'The following Atomic will create a New-CimSession on a remote endpoint and start a process usnig Invoke-CimMethod.
 
@@ -8,33 +8,14 @@
 
     A successful execution will stdout that the process started. On the remote endpoint, wmiprvse.exe will spawn the given process. (requires elevation)'
   tactic: privilege-escalation
-  technique:
-    attack_id: T1546
-    name: Event Triggered Execution
-  platforms:
-    windows:
-      psh:
-        command: |-
-          # Set the remote computer name and credentials
-           $RemoteComputer = "localhost"
-           $PWord = ConvertTo-SecureString -String "P@ssword1" -AsPlainText -Force
-           $Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList "Administrator", $Pword
-
-           # Create a CIM session
-           $CimSession = New-CimSession -ComputerName $RemoteComputer -Credential $Credential
-
-           # Define the process you want to start
-           $ProcessToStart = "calc.exe"
-
-           # Invoke the Create method on the Win32_Process class to start the process
-           $Result = Invoke-CimMethod -CimSession $CimSession -ClassName Win32_Process -MethodName Create -Arguments @{CommandLine = $ProcessToStart}
-
-           # Check the result
-           if ($Result.ReturnValue -eq 0) {
-               Write-Host "Process started successfully with Process ID: $($Result.ProcessId)"
-           } else {
-               Write-Host "Failed to start the process. Error code: $($Result.ReturnValue)"
-           }
-
-           # Clean up the CIM session
-           Remove-CimSession -CimSession $CimSession
+  technique_id: T1546
+  technique_name: Event Triggered Execution
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: '$RemoteComputer = "localhost"; $PWord = ConvertTo-SecureString -String "P@ssword1" -AsPlainText -Force; $Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList "Administrator", $Pword; $CimSession = New-CimSession -ComputerName $RemoteComputer -Credential $Credential; $ProcessToStart = "calc.exe"; $Result = Invoke-CimMethod -CimSession $CimSession -ClassName Win32_Process -MethodName Create -Arguments @{CommandLine = $ProcessToStart}; if ($Result.ReturnValue -eq 0) { Write-Host "Process started successfully with Process ID: $($Result.ProcessId)" } else { Write-Host "Failed to start the process. Error code: $($Result.ReturnValue)" }; Remove-CimSession -CimSession $CimSession'
+  id: 76808ee5-4296-566b-a9a8-b2eaa708e1da

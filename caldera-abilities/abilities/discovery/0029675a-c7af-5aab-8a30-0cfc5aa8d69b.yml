@@ -1,14 +1,17 @@
-- id: 0029675a-c7af-5aab-8a30-0cfc5aa8d69b
+- requirements: []
   name: Soumaia ART Tests - System Network Connections Discovery with PowerShell
   description: 'Get a listing of network connections.
 
     Upon successful execution, powershell.exe will execute `get-NetTCPConnection`. Results will output via stdout.'
   tactic: discovery
-  technique:
-    attack_id: T1049
-    name: System Network Connections Discovery
-  platforms:
-    windows:
-      psh:
-        command: |-
-          Get-NetTCPConnection
+  technique_id: T1049
+  technique_name: System Network Connections Discovery
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: Get-NetTCPConnection
+  id: 0029675a-c7af-5aab-8a30-0cfc5aa8d69b

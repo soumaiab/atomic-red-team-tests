@@ -1,4 +1,4 @@
-- id: a0726f7d-58e7-54b3-bb45-6dcf2e35dcc9
+- requirements: []
   name: Soumaia ART Tests - Install IIS Module using PowerShell Cmdlet New-WebGlobalModule
   description: 'The following Atomic will utilize PowerShell Cmdlet New-WebGlobalModule to install a new IIS Module. IIS must be installed.
 
@@ -10,17 +10,15 @@
 
     [IIS Modules](https://www.microsoft.com/en-us/security/blog/2022/12/12/iis-modules-the-evolution-of-web-shells-and-how-to-detect-them/)'
   tactic: persistence
-  technique:
-    attack_id: T1505.004
-    name: IIS Components
-  platforms:
-    windows:
-      psh:
-        command: |-
-          powershell -NoProfile -EncodedCommand JABzAGUAcgB2AGkAYwBlACAAPQAgAGcAZQB0AC0AcwBlAHIAdgBpAGMAZQAgAHcAMwBzAHYAYwAgAC0ARQByAHIAbwByAEEAYwB0AGkAbwBuACAAUwBpAGwAZQBuAHQAbAB5AEMAbwBuAHQAaQBuAHUAZQAKAGkAZgAoACQAcwBlAHIAdgBpAGMAZQApAHsAIABXAHIAaQB0AGUALQBIAG8AcwB0ACAAIgBJAEkAUwAgAGkAbgBzAHQAYQBsAGwAZQBkACAAbwBuACAAJABlAG4AdgA6AGMAbwBtAHAAdQB0AGUAcgBuAGEAbQBlACIAIAB9ACAAZQBsAHMAZQAgAHsAIABXAHIAaQB0AGUALQBIAG8AcwB0ACAAIgBJAEkAUwAgAGkAcwAgAG4AbwB0ACAAaQBuAHMAdABhAGwAbABlAGQAIABvAG4AIAAkAGUAbgB2ADoAYwBvAG0AcAB1AHQAZQByAG4AYQBtAGUAIgAgAH0AIAAKAA==
-          if ($LASTEXITCODE -ne 0) {
-              powershell -NoProfile -EncodedCommand SQBuAHMAdABhAGwAbAAgAEkASQBTACAAdABvACAAYwBvAG4AdABpAG4AdQBlAC4ACgA=
-          }
-          New-WebGlobalModule -Name DefaultDocumentModule_Atomic -Image %windir%\system32\inetsrv\defdoc.dll
-        cleanup: |-
-          Remove-WebGlobalModule -Name DefaultDocumentModule_Atomic
+  technique_id: T1505.004
+  technique_name: IIS Components
+  executors:
+  - cleanup:
+    - Remove-WebGlobalModule -Name DefaultDocumentModule_Atomic
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand JABzAGUAcgB2AGkAYwBlACAAPQAgAGcAZQB0AC0AcwBlAHIAdgBpAGMAZQAgAHcAMwBzAHYAYwAgAC0ARQByAHIAbwByAEEAYwB0AGkAbwBuACAAUwBpAGwAZQBuAHQAbAB5AEMAbwBuAHQAaQBuAHUAZQAKAGkAZgAoACQAcwBlAHIAdgBpAGMAZQApAHsAIABXAHIAaQB0AGUALQBIAG8AcwB0ACAAIgBJAEkAUwAgAGkAbgBzAHQAYQBsAGwAZQBkACAAbwBuACAAJABlAG4AdgA6AGMAbwBtAHAAdQB0AGUAcgBuAGEAbQBlACIAIAB9ACAAZQBsAHMAZQAgAHsAIABXAHIAaQB0AGUALQBIAG8AcwB0ACAAIgBJAEkAUwAgAGkAcwAgAG4AbwB0ACAAaQBuAHMAdABhAGwAbABlAGQAIABvAG4AIAAkAGUAbgB2ADoAYwBvAG0AcAB1AHQAZQByAG4AYQBtAGUAIgAgAH0AIAAKAA==; if ($LASTEXITCODE -ne 0) { powershell -NoProfile -EncodedCommand SQBuAHMAdABhAGwAbAAgAEkASQBTACAAdABvACAAYwBvAG4AdABpAG4AdQBlAC4ACgA= }; New-WebGlobalModule -Name DefaultDocumentModule_Atomic -Image %windir%\system32\inetsrv\defdoc.dll
+  id: a0726f7d-58e7-54b3-bb45-6dcf2e35dcc9

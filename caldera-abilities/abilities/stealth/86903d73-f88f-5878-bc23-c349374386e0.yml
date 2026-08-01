@@ -1,4 +1,4 @@
-- id: 86903d73-f88f-5878-bc23-c349374386e0
+- requirements: []
   name: Soumaia ART Tests - Lolbin Gpscript startup option
   description: 'Executes startup scripts configured in Group Policy
 
@@ -6,11 +6,14 @@
 
     https://oddvar.moe/2018/04/27/gpscript-exe-another-lolbin-to-the-list/'
   tactic: stealth
-  technique:
-    attack_id: T1218
-    name: Signed Binary Proxy Execution
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          Gpscript /startup
+  technique_id: T1218
+  technique_name: Signed Binary Proxy Execution
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: Gpscript /startup
+  id: 86903d73-f88f-5878-bc23-c349374386e0

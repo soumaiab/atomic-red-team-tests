@@ -1,19 +1,18 @@
-- id: 6beedaf6-4969-5fe5-b72f-462bbb483b6b
+- requirements: []
   name: Soumaia ART Tests - Execute base64-encoded PowerShell
   description: 'Creates base64-encoded PowerShell code and executes it. This is used by numerous adversaries and malicious tools.
 
 
     Upon successful execution, powershell will execute an encoded command and stdout default is "Write-Host "Hey, Atomic!"'
   tactic: stealth
-  technique:
-    attack_id: T1027
-    name: Obfuscated Files or Information
-  platforms:
-    windows:
-      psh:
-        command: |-
-          $OriginalCommand = 'Write-Host "Hey, Atomic!"'
-          $Bytes = [System.Text.Encoding]::Unicode.GetBytes($OriginalCommand)
-          $EncodedCommand =[Convert]::ToBase64String($Bytes)
-          $EncodedCommand
-          powershell.exe -EncodedCommand $EncodedCommand
+  technique_id: T1027
+  technique_name: Obfuscated Files or Information
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: $OriginalCommand = 'Write-Host "Hey, Atomic!"'; $Bytes = [System.Text.Encoding]::Unicode.GetBytes($OriginalCommand); $EncodedCommand =[Convert]::ToBase64String($Bytes); $EncodedCommand; powershell.exe -EncodedCommand $EncodedCommand
+  id: 6beedaf6-4969-5fe5-b72f-462bbb483b6b

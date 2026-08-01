@@ -1,12 +1,15 @@
-- id: 6ed4abc7-cc83-5b38-a628-b12b46190e60
+- requirements: []
   name: Soumaia ART Tests - Shutdown System - Windows
   description: This test shuts down a Windows system. (requires elevation)
   tactic: impact
-  technique:
-    attack_id: T1529
-    name: System Shutdown/Reboot
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          shutdown /s /t 1
+  technique_id: T1529
+  technique_name: System Shutdown/Reboot
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: shutdown /s /t 1
+  id: 6ed4abc7-cc83-5b38-a628-b12b46190e60

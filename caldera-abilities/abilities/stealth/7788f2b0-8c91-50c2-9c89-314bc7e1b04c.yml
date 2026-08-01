@@ -1,4 +1,4 @@
-- id: 7788f2b0-8c91-50c2-9c89-314bc7e1b04c
+- requirements: []
   name: Soumaia ART Tests - Invoke-ATHRemoteFXvGPUDisablementCommand base test
   description: 'RemoteFXvGPUDisablement.exe is an abusable, signed PowerShell host executable that was introduced in Windows 10 and Server 2019 (OS Build 17763.1339).
 
@@ -14,15 +14,14 @@
 
     Reference: https://github.com/redcanaryco/AtomicTestHarnesses/blob/master/TestHarnesses/T1218_SignedBinaryProxyExecution/InvokeRemoteFXvGPUDisablementCommand.ps1'
   tactic: stealth
-  technique:
-    attack_id: T1218
-    name: Signed Binary Proxy Execution
-  platforms:
-    windows:
-      psh:
-        command: |-
-          powershell -NoProfile -EncodedCommand JABSAGUAcQB1AGkAcgBlAGQATQBvAGQAdQBsAGUAIAA9ACAARwBlAHQALQBNAG8AZAB1AGwAZQAgAC0ATgBhAG0AZQAgAEEAdABvAG0AaQBjAFQAZQBzAHQASABhAHIAbgBlAHMAcwBlAHMAIAAtAEwAaQBzAHQAQQB2AGEAaQBsAGEAYgBsAGUACgBpAGYAIAAoAC0AbgBvAHQAIAAkAFIAZQBxAHUAaQByAGUAZABNAG8AZAB1AGwAZQApACAAewBlAHgAaQB0ACAAMQB9AAoAaQBmACAAKAAtAG4AbwB0ACAAJABSAGUAcQB1AGkAcgBlAGQATQBvAGQAdQBsAGUALgBFAHgAcABvAHIAdABlAGQAQwBvAG0AbQBhAG4AZABzAFsAJwBJAG4AdgBvAGsAZQAtAEEAVABIAFIAZQBtAG8AdABlAEYAWAB2AEcAUABVAEQAaQBzAGEAYgBsAGUAbQBlAG4AdABDAG8AbQBtAGEAbgBkACcAXQApACAAewBlAHgAaQB0ACAAMQB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADAAfQA=
-          if ($LASTEXITCODE -ne 0) {
-              powershell -NoProfile -EncodedCommand SQBuAHMAdABhAGwAbAAtAE0AbwBkAHUAbABlACAALQBOAGEAbQBlACAAQQB0AG8AbQBpAGMAVABlAHMAdABIAGEAcgBuAGUAcwBzAGUAcwAgAC0AUwBjAG8AcABlACAAQwB1AHIAcgBlAG4AdABVAHMAZQByACAALQBGAG8AcgBjAGUACgA=
-          }
-          Invoke-ATHRemoteFXvGPUDisablementCommand -ModuleName foo -ModulePath $PWD
+  technique_id: T1218
+  technique_name: Signed Binary Proxy Execution
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand JABSAGUAcQB1AGkAcgBlAGQATQBvAGQAdQBsAGUAIAA9ACAARwBlAHQALQBNAG8AZAB1AGwAZQAgAC0ATgBhAG0AZQAgAEEAdABvAG0AaQBjAFQAZQBzAHQASABhAHIAbgBlAHMAcwBlAHMAIAAtAEwAaQBzAHQAQQB2AGEAaQBsAGEAYgBsAGUACgBpAGYAIAAoAC0AbgBvAHQAIAAkAFIAZQBxAHUAaQByAGUAZABNAG8AZAB1AGwAZQApACAAewBlAHgAaQB0ACAAMQB9AAoAaQBmACAAKAAtAG4AbwB0ACAAJABSAGUAcQB1AGkAcgBlAGQATQBvAGQAdQBsAGUALgBFAHgAcABvAHIAdABlAGQAQwBvAG0AbQBhAG4AZABzAFsAJwBJAG4AdgBvAGsAZQAtAEEAVABIAFIAZQBtAG8AdABlAEYAWAB2AEcAUABVAEQAaQBzAGEAYgBsAGUAbQBlAG4AdABDAG8AbQBtAGEAbgBkACcAXQApACAAewBlAHgAaQB0ACAAMQB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADAAfQA=; if ($LASTEXITCODE -ne 0) { powershell -NoProfile -EncodedCommand SQBuAHMAdABhAGwAbAAtAE0AbwBkAHUAbABlACAALQBOAGEAbQBlACAAQQB0AG8AbQBpAGMAVABlAHMAdABIAGEAcgBuAGUAcwBzAGUAcwAgAC0AUwBjAG8AcABlACAAQwB1AHIAcgBlAG4AdABVAHMAZQByACAALQBGAG8AcgBjAGUACgA= }; Invoke-ATHRemoteFXvGPUDisablementCommand -ModuleName foo -ModulePath $PWD
+  id: 7788f2b0-8c91-50c2-9c89-314bc7e1b04c

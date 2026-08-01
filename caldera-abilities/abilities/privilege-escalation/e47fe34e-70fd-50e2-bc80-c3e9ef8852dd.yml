@@ -1,12 +1,15 @@
-- id: e47fe34e-70fd-50e2-bc80-c3e9ef8852dd
+- requirements: []
   name: Soumaia ART Tests - Add a driver
   description: Install a driver via pnputil.exe lolbin
   tactic: privilege-escalation
-  technique:
-    attack_id: T1547
-    name: Boot or Logon Autostart Execution
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          pnputil.exe /add-driver "C:\Windows\INF\usbstor.inf"
+  technique_id: T1547
+  technique_name: Boot or Logon Autostart Execution
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: pnputil.exe /add-driver "C:\Windows\INF\usbstor.inf"
+  id: e47fe34e-70fd-50e2-bc80-c3e9ef8852dd

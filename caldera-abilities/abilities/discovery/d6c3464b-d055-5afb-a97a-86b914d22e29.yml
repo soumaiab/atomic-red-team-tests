@@ -1,15 +1,18 @@
-- id: d6c3464b-d055-5afb-a97a-86b914d22e29
+- requirements: []
   name: Soumaia ART Tests - Remote System Discovery - nltest
   description: 'Identify domain controllers for specified domain.
 
 
     Upon successful execution, cmd.exe will execute nltest.exe against a target domain to retrieve a list of domain controllers. Output will be via stdout.'
   tactic: discovery
-  technique:
-    attack_id: T1018
-    name: Remote System Discovery
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          nltest.exe /dclist:%userdnsdomain%
+  technique_id: T1018
+  technique_name: Remote System Discovery
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: nltest.exe /dclist:%userdnsdomain%
+  id: d6c3464b-d055-5afb-a97a-86b914d22e29

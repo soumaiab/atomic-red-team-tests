@@ -1,14 +1,17 @@
-- id: f405f3fb-0298-557b-8af3-640425b5c9df
+- requirements: []
   name: Soumaia ART Tests - Enumeration for PuTTY Credentials in Registry
   description: 'Queries to enumerate for PuTTY credentials in the Registry. PuTTY must be installed for this test to work. If any registry
 
     entries are found, they will be displayed.'
   tactic: credential-access
-  technique:
-    attack_id: T1552.002
-    name: 'Unsecured Credentials: Credentials in Registry'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          reg query HKCU\Software\SimonTatham\PuTTY\Sessions /t REG_SZ /s
+  technique_id: T1552.002
+  technique_name: 'Unsecured Credentials: Credentials in Registry'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: reg query HKCU\Software\SimonTatham\PuTTY\Sessions /t REG_SZ /s
+  id: f405f3fb-0298-557b-8af3-640425b5c9df

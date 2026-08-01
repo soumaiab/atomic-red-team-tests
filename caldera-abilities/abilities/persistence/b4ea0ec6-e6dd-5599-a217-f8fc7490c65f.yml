@@ -1,14 +1,16 @@
-- id: b4ea0ec6-e6dd-5599-a217-f8fc7490c65f
+- requirements: []
   name: Soumaia ART Tests - Create a new account similar to ANONYMOUS LOGON
   description: Create a new account similar to ANONYMOUS LOGON in a command prompt.
   tactic: persistence
-  technique:
-    attack_id: T1136.002
-    name: 'Create Account: Domain Account'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          net user "ANONYMOUS  LOGON" "T1136_pass123!" /add /domain
-        cleanup: |-
-          net user "ANONYMOUS  LOGON" >nul 2>&1 /del /domain
+  technique_id: T1136.002
+  technique_name: 'Create Account: Domain Account'
+  executors:
+  - cleanup:
+    - net user "ANONYMOUS LOGON" >nul 2>&1 /del /domain
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: net user "ANONYMOUS LOGON" "T1136_pass123!" /add /domain
+  id: b4ea0ec6-e6dd-5599-a217-f8fc7490c65f

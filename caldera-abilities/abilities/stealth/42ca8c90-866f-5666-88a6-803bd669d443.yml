@@ -1,17 +1,16 @@
-- id: 42ca8c90-866f-5666-88a6-803bd669d443
+- requirements: []
   name: Soumaia ART Tests - Invisible Unicode in Environment Variables
   description: "Sets an environment variable that includes a Zero-Width Non-Joiner (U+200C). \nThis emulates techniques used to hide configuration data or persistence paths from administrators performing manual audits."
   tactic: stealth
-  technique:
-    attack_id: T1027.018
-    name: 'Obfuscated Files or Information: Invisible Unicode'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          $varName = "PATH" + [char]0x200C
-          [Environment]::SetEnvironmentVariable($varName, "C:\Users\Public\Malicious", "User")
-          Write-Host "Hidden environment variable '$varName' set."
-        cleanup: |-
-          $varName = "PATH" + [char]0x200C
-          [Environment]::SetEnvironmentVariable($varName, $null, "User")
+  technique_id: T1027.018
+  technique_name: 'Obfuscated Files or Information: Invisible Unicode'
+  executors:
+  - cleanup:
+    - $varName = "PATH" + [char]0x200C; [Environment]::SetEnvironmentVariable($varName, $null, "User")
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: $varName = "PATH" + [char]0x200C; [Environment]::SetEnvironmentVariable($varName, "C:\Users\Public\Malicious", "User"); Write-Host "Hidden environment variable '$varName' set."
+  id: 42ca8c90-866f-5666-88a6-803bd669d443

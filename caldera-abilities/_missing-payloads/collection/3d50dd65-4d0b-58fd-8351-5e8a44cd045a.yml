@@ -1,18 +1,19 @@
-- id: 3d50dd65-4d0b-58fd-8351-5e8a44cd045a
+- requirements: []
   name: Soumaia ART Tests - Zip a Folder with PowerShell for Staging in Temp
   description: 'Use living off the land tools to zip a file and stage it in the Windows temporary folder for later exfiltration. Upon execution, Verify that a zipped folder named Folder_to_zip.zip
 
     was placed in the temp directory.'
   tactic: collection
-  technique:
-    attack_id: T1074.001
-    name: 'Data Staged: Local Data Staging'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          Compress-Archive -Path ".\Folder_to_zip" -DestinationPath $env:TEMP\Folder_to_zip.zip -Force
-        cleanup: |-
-          Remove-Item -Path $env:TEMP\Folder_to_zip.zip -ErrorAction Ignore
-        payloads:
-        - Folder_to_zip
+  technique_id: T1074.001
+  technique_name: 'Data Staged: Local Data Staging'
+  executors:
+  - cleanup:
+    - Remove-Item -Path $env:TEMP\Folder_to_zip.zip -ErrorAction Ignore
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads:
+    - Folder_to_zip
+    parsers: []
+    command: Compress-Archive -Path ".\Folder_to_zip" -DestinationPath $env:TEMP\Folder_to_zip.zip -Force
+  id: 3d50dd65-4d0b-58fd-8351-5e8a44cd045a

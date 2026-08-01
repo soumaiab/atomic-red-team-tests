@@ -1,19 +1,16 @@
-- id: 8c6b9a14-1209-56ce-a0f0-f95864833c92
+- requirements: []
   name: 'Soumaia ART Tests - HKLM - Modify default System Shell - Winlogon Shell KEY Value '
   description: "This test change the default value of HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Shell from \"explorer.exe\" to the full path of \"C:\\Windows\\explorer.exe\" \nto log a change to the key's default value without breaking boot sequence. \nAn atacker will alternatively replace this with a custom shell. (requires elevation)"
   tactic: privilege-escalation
-  technique:
-    attack_id: T1547.001
-    name: 'Boot or Logon Autostart Execution: Registry Run Keys / Startup Folder'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          $oldvalue = $(Get-ItemPropertyValue -Path  "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name "Shell");
-          Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name "Shell-backup" -Value "$oldvalue";
-          $newvalue = $oldvalue + ", C:\Windows\explorer.exe";
-          Set-ItemProperty -Path  "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name "Shell" -Value "$newvalue"
-        cleanup: |-
-          $oldvalue = $(Get-ItemPropertyValue -Path  "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name 'Shell-backup');
-          Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name "Shell" -Value "$oldvalue";
-          Remove-ItemProperty -Path  "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name 'Shell-backup'
+  technique_id: T1547.001
+  technique_name: 'Boot or Logon Autostart Execution: Registry Run Keys / Startup Folder'
+  executors:
+  - cleanup:
+    - $oldvalue = $(Get-ItemPropertyValue -Path  "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name 'Shell-backup'); Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name "Shell" -Value "$oldvalue"; Remove-ItemProperty -Path  "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name 'Shell-backup'
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: $oldvalue = $(Get-ItemPropertyValue -Path  "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name "Shell"); Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name "Shell-backup" -Value "$oldvalue"; $newvalue = $oldvalue + ", C:\Windows\explorer.exe"; Set-ItemProperty -Path  "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name "Shell" -Value "$newvalue"
+  id: 8c6b9a14-1209-56ce-a0f0-f95864833c92

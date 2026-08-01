@@ -1,22 +1,15 @@
-- id: 8a2250f0-23e4-5386-928d-bc9a0724c05c
+- requirements: []
   name: Soumaia ART Tests - Remove Account From Domain Admin Group
   description: This test will remove an account from the domain admins group
   tactic: impact
-  technique:
-    attack_id: T1531
-    name: Account Access Removal
-  platforms:
-    windows:
-      psh:
-        command: |-
-          powershell -NoProfile -EncodedCommand aQBmACgARwBlAHQALQBNAG8AZAB1AGwAZQAgAC0ATABpAHMAdABBAHYAYQBpAGwAYQBiAGwAZQAgAC0ATgBhAG0AZQAgAEEAYwB0AGkAdgBlAEQAaQByAGUAYwB0AG8AcgB5ACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
-          if ($LASTEXITCODE -ne 0) {
-              powershell -NoProfile -EncodedCommand QQBkAGQALQBXAGkAbgBkAG8AdwBzAEMAYQBwAGEAYgBpAGwAaQB0AHkAIAAtAE8AbgBsAGkAbgBlACAALQBOAGEAbQBlACAAIgBSAHMAYQB0AC4AQQBjAHQAaQB2AGUARABpAHIAZQBjAHQAbwByAHkALgBEAFMALQBMAEQAUwAuAFQAbwBvAGwAcwB+AH4AfgB+ADAALgAwAC4AMQAuADAAIgAKAA==
-          }
-          $PWord = ConvertTo-SecureString -String password -AsPlainText -Force
-          $Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList domain\super_user, $PWord
-          if((Get-ADUser remove_user -Properties memberof).memberof -like "CN=Domain Admins*"){
-            Remove-ADGroupMember -Identity "Domain Admins" -Members remove_user -Credential $Credential -Confirm:$False
-          } else{
-              write-host "Error - Make sure remove_user is in the domain admins group" -foregroundcolor Red
-          }
+  technique_id: T1531
+  technique_name: Account Access Removal
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand aQBmACgARwBlAHQALQBNAG8AZAB1AGwAZQAgAC0ATABpAHMAdABBAHYAYQBpAGwAYQBiAGwAZQAgAC0ATgBhAG0AZQAgAEEAYwB0AGkAdgBlAEQAaQByAGUAYwB0AG8AcgB5ACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA; if ($LASTEXITCODE -ne 0) { powershell -NoProfile -EncodedCommand QQBkAGQALQBXAGkAbgBkAG8AdwBzAEMAYQBwAGEAYgBpAGwAaQB0AHkAIAAtAE8AbgBsAGkAbgBlACAALQBOAGEAbQBlACAAIgBSAHMAYQB0AC4AQQBjAHQAaQB2AGUARABpAHIAZQBjAHQAbwByAHkALgBEAFMALQBMAEQAUwAuAFQAbwBvAGwAcwB+AH4AfgB+ADAALgAwAC4AMQAuADAAIgAKAA== }; $PWord = ConvertTo-SecureString -String password -AsPlainText -Force; $Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList domain\super_user, $PWord; if((Get-ADUser remove_user -Properties memberof).memberof -like "CN=Domain Admins*"){ Remove-ADGroupMember -Identity "Domain Admins" -Members remove_user -Credential $Credential -Confirm:$False } else{ write-host "Error - Make sure remove_user is in the domain admins group" -foregroundcolor Red }
+  id: 8a2250f0-23e4-5386-928d-bc9a0724c05c

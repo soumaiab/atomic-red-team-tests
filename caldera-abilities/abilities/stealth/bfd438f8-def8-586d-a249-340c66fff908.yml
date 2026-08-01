@@ -1,12 +1,15 @@
-- id: bfd438f8-def8-586d-a249-340c66fff908
+- requirements: []
   name: Soumaia ART Tests - Launches an executable using Rundll32 and pcwutl.dll
   description: Executes the LaunchApplication function in pcwutl.dll to proxy execution of an executable.
   tactic: stealth
-  technique:
-    attack_id: T1218.011
-    name: 'Signed Binary Proxy Execution: Rundll32'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          rundll32.exe pcwutl.dll,LaunchApplication %windir%\System32\notepad.exe
+  technique_id: T1218.011
+  technique_name: 'Signed Binary Proxy Execution: Rundll32'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: rundll32.exe pcwutl.dll,LaunchApplication %windir%\System32\notepad.exe
+  id: bfd438f8-def8-586d-a249-340c66fff908

@@ -1,4 +1,4 @@
-- id: f369ef6a-fdc0-50fc-9c2f-5c96bb269603
+- requirements: []
   name: Soumaia ART Tests - PowerShell Lateral Movement using MMC20
   description: 'Powershell lateral movement using the mmc20 application com object.
 
@@ -11,11 +11,14 @@
 
     Upon successful execution, cmd will spawn calc.exe on a remote computer.'
   tactic: lateral-movement
-  technique:
-    attack_id: T1021.003
-    name: 'Remote Services: Distributed Component Object Model'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          [activator]::CreateInstance([type]::GetTypeFromProgID("MMC20.application","localhost")).Document.ActiveView.ExecuteShellCommand("c:\windows\system32\calc.exe", $null, $null, "7")
+  technique_id: T1021.003
+  technique_name: 'Remote Services: Distributed Component Object Model'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: '[activator]::CreateInstance([type]::GetTypeFromProgID("MMC20.application","localhost")).Document.ActiveView.ExecuteShellCommand("c:\windows\system32\calc.exe", $null, $null, "7")'
+  id: f369ef6a-fdc0-50fc-9c2f-5c96bb269603

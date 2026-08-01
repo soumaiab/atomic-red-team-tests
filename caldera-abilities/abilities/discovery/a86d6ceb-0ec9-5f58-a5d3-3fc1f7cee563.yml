@@ -1,4 +1,4 @@
-- id: a86d6ceb-0ec9-5f58-a5d3-3fc1f7cee563
+- requirements: []
   name: Soumaia ART Tests - Enumerate Active Directory Groups with Get-AdGroup
   description: 'The following Atomic test will utilize Get-AdGroup to enumerate groups within Active Directory.
 
@@ -6,11 +6,14 @@
 
     Reference: https://docs.microsoft.com/en-us/powershell/module/activedirectory/get-adgroup?view=windowsserver2022-ps'
   tactic: discovery
-  technique:
-    attack_id: T1069.002
-    name: 'Permission Groups Discovery: Domain Groups'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          Get-AdGroup -Filter *
+  technique_id: T1069.002
+  technique_name: 'Permission Groups Discovery: Domain Groups'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: Get-AdGroup -Filter *
+  id: a86d6ceb-0ec9-5f58-a5d3-3fc1f7cee563

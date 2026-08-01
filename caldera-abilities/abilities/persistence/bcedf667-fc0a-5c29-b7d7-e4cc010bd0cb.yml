@@ -1,4 +1,4 @@
-- id: bcedf667-fc0a-5c29-b7d7-e4cc010bd0cb
+- requirements: []
   name: Soumaia ART Tests - Activate Windows NoRun Group Policy Feature
   description: 'Modify the registry of the currently logged in user using reg.exe via cmd console to Remove Run menu from Start Menu Group Policy.
 
@@ -6,13 +6,15 @@
 
     See how Trojan abuses this technique- https://www.sophos.com/de-de/threat-center/threat-analyses/viruses-and-spyware/Troj~Krotten-N/detailed-analysis (requires elevation)'
   tactic: persistence
-  technique:
-    attack_id: T1112
-    name: Modify Registry
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v NoRun /t REG_DWORD /d 1 /f
-        cleanup: |-
-          reg delete "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v NoRun /f
+  technique_id: T1112
+  technique_name: Modify Registry
+  executors:
+  - cleanup:
+    - reg delete "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v NoRun /f
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v NoRun /t REG_DWORD /d 1 /f
+  id: bcedf667-fc0a-5c29-b7d7-e4cc010bd0cb

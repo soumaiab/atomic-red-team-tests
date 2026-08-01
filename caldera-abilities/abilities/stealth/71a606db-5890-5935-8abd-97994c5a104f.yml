@@ -1,4 +1,4 @@
-- id: 71a606db-5890-5935-8abd-97994c5a104f
+- requirements: []
   name: Soumaia ART Tests - Phantom Dll Hijacking - ualapi.dll
   description: 'Re-starting the Print Spooler service leads to C:\Windows\System32\ualapi.dll being loaded
 
@@ -9,17 +9,15 @@
 
     Print Spooler service is also configured to auto start. Reboot of system is required (requires elevation)'
   tactic: stealth
-  technique:
-    attack_id: T1574.001
-    name: 'Hijack Execution Flow: DLL'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          copy %windir%\System32\amsi.dll %APPDATA%\amsi.dll
-          ren %APPDATA%\amsi.dll ualapi.dll
-          copy %APPDATA%\ualapi.dll %windir%\System32\ualapi.dll
-          sc config Spooler start=auto
-        cleanup: |-
-          del %windir%\System32\ualapi.dll
-          del %APPDATA%\ualapi.dll
+  technique_id: T1574.001
+  technique_name: 'Hijack Execution Flow: DLL'
+  executors:
+  - cleanup:
+    - del %windir%\System32\ualapi.dll & del %APPDATA%\ualapi.dll
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: copy %windir%\System32\amsi.dll %APPDATA%\amsi.dll & ren %APPDATA%\amsi.dll ualapi.dll & copy %APPDATA%\ualapi.dll %windir%\System32\ualapi.dll & sc config Spooler start=auto
+  id: 71a606db-5890-5935-8abd-97994c5a104f

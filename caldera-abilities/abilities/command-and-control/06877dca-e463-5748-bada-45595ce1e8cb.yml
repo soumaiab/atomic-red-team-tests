@@ -1,4 +1,4 @@
-- id: 06877dca-e463-5748-bada-45595ce1e8cb
+- requirements: []
   name: Soumaia ART Tests - DNS Regular Beaconing
   description: 'This test simulates an infected host beaconing via DNS queries to a command and control server at regular intervals over time.
 
@@ -6,12 +6,14 @@
 
     A custom domain and sub-domain will need to be passed as input parameters for this test to work. Upon execution, DNS information about the domain will be displayed for each callout.'
   tactic: command-and-control
-  technique:
-    attack_id: T1071.004
-    name: 'Application Layer Protocol: DNS'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          Set-Location "PathToAtomicsFolder"
-          .\T1071.004\src\T1071-dns-beacon.ps1 -Domain 127.0.0.1.nip.io -Subdomain atomicredteam -QueryType TXT -C2Interval 30 -C2Jitter 20 -RunTime 30
+  technique_id: T1071.004
+  technique_name: 'Application Layer Protocol: DNS'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: Set-Location "PathToAtomicsFolder"; .\T1071.004\src\T1071-dns-beacon.ps1 -Domain 127.0.0.1.nip.io -Subdomain atomicredteam -QueryType TXT -C2Interval 30 -C2Jitter 20 -RunTime 30
+  id: 06877dca-e463-5748-bada-45595ce1e8cb

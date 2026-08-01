@@ -1,12 +1,15 @@
-- id: 0257c711-be13-556f-8bb2-a06171de342e
+- requirements: []
   name: Soumaia ART Tests - Suspicious LAPS Attributes Query with Get-ADComputer all properties and SearchScope
   description: This test executes LDAP query using powershell command Get-ADComputer with SearchScope as subtree and lists all the properties including Microsoft LAPS attributes ms-mcs-AdmPwd and ms-mcs-AdmPwdExpirationTime
   tactic: discovery
-  technique:
-    attack_id: T1087.002
-    name: 'Account Discovery: Domain Account'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          Get-adcomputer -SearchScope subtree -filter "name -like '*'" -Properties *
+  technique_id: T1087.002
+  technique_name: 'Account Discovery: Domain Account'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: Get-adcomputer -SearchScope subtree -filter "name -like '*'" -Properties *
+  id: 0257c711-be13-556f-8bb2-a06171de342e

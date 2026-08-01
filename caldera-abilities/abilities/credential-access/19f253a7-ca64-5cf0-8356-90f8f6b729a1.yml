@@ -1,13 +1,15 @@
-- id: 19f253a7-ca64-5cf0-8356-90f8f6b729a1
+- requirements: []
   name: Soumaia ART Tests - Extracting passwords with findstr
   description: Extracting Credentials from Files. Upon execution, the contents of files that contain the word "password" will be displayed.
   tactic: credential-access
-  technique:
-    attack_id: T1552.001
-    name: 'Unsecured Credentials: Credentials In Files'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          findstr /si pass *.xml *.doc *.txt *.xls
-          ls -R | select-string -ErrorAction SilentlyContinue -Pattern password
+  technique_id: T1552.001
+  technique_name: 'Unsecured Credentials: Credentials In Files'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: findstr /si pass *.xml *.doc *.txt *.xls; ls -R | select-string -ErrorAction SilentlyContinue -Pattern password
+  id: 19f253a7-ca64-5cf0-8356-90f8f6b729a1

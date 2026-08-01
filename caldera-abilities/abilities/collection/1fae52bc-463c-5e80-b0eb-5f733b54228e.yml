@@ -1,25 +1,18 @@
-- id: 1fae52bc-463c-5e80-b0eb-5f733b54228e
+- requirements: []
   name: Soumaia ART Tests - Copy a sensitive File over Administrative share with copy
   description: 'Copy from sensitive File from the c$ of another LAN computer with copy cmd
 
     https://twitter.com/SBousseaden/status/1211636381086339073 (requires elevation)'
   tactic: collection
-  technique:
-    attack_id: T1039
-    name: Data from Network Shared Drive
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAXABcADEAMgA3AC4AMAAuADAALgAxAFwAQwAkACIAKQAgAHsAZQB4AGkAdAAgADAAfQAgAGUAbABzAGUAIAB7AGUAeABpAHQAIAAxAH0ACgA=
-          if not "%ERRORLEVEL%"=="0" (
-              powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgACcAUABsAGUAYQBzAGUAIABFAG4AYQBiAGwAZQAgACIAQwAkACIAIABzAGgAYQByAGUAIABvAG4AIAAxADIANwAuADAALgAwAC4AMQAnAAoA
-          )
-          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAXABcADEAMgA3AC4AMAAuADAALgAxAFwAQwAkAFwAVwBpAG4AZABvAHcAcwBcAHQAZQBtAHAAXABFAGEAcwB0AGUAcgBfAEIAdQBuAG4AeQAuAHAAYQBzAHMAdwBvAHIAZAAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
-          if not "%ERRORLEVEL%"=="0" (
-              powershell -NoProfile -EncodedCommand TwB1AHQALQBGAGkAbABlACAALQBGAGkAbABlAFAAYQB0AGgAIAAiAFwAXAAxADIANwAuADAALgAwAC4AMQBcAEMAJABcAFcAaQBuAGQAbwB3AHMAXAB0AGUAbQBwAFwARQBhAHMAdABlAHIAXwBCAHUAbgBuAHkALgBwAGEAcwBzAHcAbwByAGQAIgAKAA==
-          )
-          copy \\127.0.0.1\C$\Windows\temp\Easter_Bunny.password %TEMP%\Easter_egg.password
-        cleanup: |-
-          del \\127.0.0.1\C$\Windows\temp\Easter_Bunny.password
-          del %TEMP%\Easter_egg.password
+  technique_id: T1039
+  technique_name: Data from Network Shared Drive
+  executors:
+  - cleanup:
+    - del \\127.0.0.1\C$\Windows\temp\Easter_Bunny.password & del %TEMP%\Easter_egg.password
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAXABcADEAMgA3AC4AMAAuADAALgAxAFwAQwAkACIAKQAgAHsAZQB4AGkAdAAgADAAfQAgAGUAbABzAGUAIAB7AGUAeABpAHQAIAAxAH0ACgA= & if not "%ERRORLEVEL%"=="0" ( powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgACcAUABsAGUAYQBzAGUAIABFAG4AYQBiAGwAZQAgACIAQwAkACIAIABzAGgAYQByAGUAIABvAG4AIAAxADIANwAuADAALgAwAC4AMQAnAAoA ) & powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAXABcADEAMgA3AC4AMAAuADAALgAxAFwAQwAkAFwAVwBpAG4AZABvAHcAcwBcAHQAZQBtAHAAXABFAGEAcwB0AGUAcgBfAEIAdQBuAG4AeQAuAHAAYQBzAHMAdwBvAHIAZAAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA & if not "%ERRORLEVEL%"=="0" ( powershell -NoProfile -EncodedCommand TwB1AHQALQBGAGkAbABlACAALQBGAGkAbABlAFAAYQB0AGgAIAAiAFwAXAAxADIANwAuADAALgAwAC4AMQBcAEMAJABcAFcAaQBuAGQAbwB3AHMAXAB0AGUAbQBwAFwARQBhAHMAdABlAHIAXwBCAHUAbgBuAHkALgBwAGEAcwBzAHcAbwByAGQAIgAKAA== ) & copy \\127.0.0.1\C$\Windows\temp\Easter_Bunny.password %TEMP%\Easter_egg.password
+  id: 1fae52bc-463c-5e80-b0eb-5f733b54228e

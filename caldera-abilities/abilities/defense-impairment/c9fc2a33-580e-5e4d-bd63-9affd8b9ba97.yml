@@ -1,14 +1,16 @@
-- id: c9fc2a33-580e-5e4d-bd63-9affd8b9ba97
+- requirements: []
   name: Soumaia ART Tests - Disable Event Logging with wevtutil
   description: "Wevtutil can be used to disable logs. \nNOTE: RansomEXX ransomware uses this to disable Security logs post-encryption."
   tactic: defense-impairment
-  technique:
-    attack_id: T1685.001
-    name: 'Disable or Modify Tools: Disable or Modify Windows Event Log'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          wevtutil sl "Microsoft-Windows-IKE/Operational" /e:false
-        cleanup: |-
-          wevtutil sl "Microsoft-Windows-IKE/Operational" /e:true
+  technique_id: T1685.001
+  technique_name: 'Disable or Modify Tools: Disable or Modify Windows Event Log'
+  executors:
+  - cleanup:
+    - wevtutil sl "Microsoft-Windows-IKE/Operational" /e:true
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: wevtutil sl "Microsoft-Windows-IKE/Operational" /e:false
+  id: c9fc2a33-580e-5e4d-bd63-9affd8b9ba97

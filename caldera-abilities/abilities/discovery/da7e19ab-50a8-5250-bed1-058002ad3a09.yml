@@ -1,12 +1,15 @@
-- id: da7e19ab-50a8-5250-bed1-058002ad3a09
+- requirements: []
   name: Soumaia ART Tests - Get-Service Execution
   description: Executes the Get-Service cmdlet to gather objects representing all services on the local system.
   tactic: discovery
-  technique:
-    attack_id: T1007
-    name: System Service Discovery
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          powershell.exe Get-Service
+  technique_id: T1007
+  technique_name: System Service Discovery
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: powershell.exe Get-Service
+  id: da7e19ab-50a8-5250-bed1-058002ad3a09

@@ -1,16 +1,18 @@
-- id: 64346b34-3b9a-58f4-9bb7-0aba1465d44a
+- requirements: []
   name: Soumaia ART Tests - Allowing custom application to execute during new RDP logon session
   description: 'When a users logs in to a computer via RDP,Windows will search for the key in HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\Wds\rdpwd registry
 
     By default, rdpclip is the value stored. An attacker with administrator privileges can alter the value stored to allow for the custom application to execute during RDP login session.The test will allow running cal rather rdpclip when a user logs in via RDP (requires elevation)'
   tactic: privilege-escalation
-  technique:
-    attack_id: T1547.001
-    name: 'Boot or Logon Autostart Execution: Registry Run Keys / Startup Folder'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          reg add "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\Wds\rdpwd" /f /v StartupPrograms /t REG_SZ /d "calc"
-        cleanup: |-
-          reg add "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\Wds\rdpwd" /f /v StartupPrograms /t REG_SZ /d "rdpclip"
+  technique_id: T1547.001
+  technique_name: 'Boot or Logon Autostart Execution: Registry Run Keys / Startup Folder'
+  executors:
+  - cleanup:
+    - reg add "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\Wds\rdpwd" /f /v StartupPrograms /t REG_SZ /d "rdpclip"
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: reg add "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\Wds\rdpwd" /f /v StartupPrograms /t REG_SZ /d "calc"
+  id: 64346b34-3b9a-58f4-9bb7-0aba1465d44a

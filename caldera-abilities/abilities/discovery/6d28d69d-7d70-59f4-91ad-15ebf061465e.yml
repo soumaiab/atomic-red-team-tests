@@ -1,15 +1,17 @@
-- id: 6d28d69d-7d70-59f4-91ad-15ebf061465e
+- requirements: []
   name: Soumaia ART Tests - Basic Permission Groups Discovery Windows (Local)
   description: 'Basic Permission Groups Discovery for Windows. This test will display some errors if run on a computer not connected to a domain. Upon execution, domain
 
     information will be displayed.'
   tactic: discovery
-  technique:
-    attack_id: T1069.001
-    name: 'Permission Groups Discovery: Local Groups'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          net localgroup
-          net localgroup "Administrators"
+  technique_id: T1069.001
+  technique_name: 'Permission Groups Discovery: Local Groups'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: net localgroup & net localgroup "Administrators"
+  id: 6d28d69d-7d70-59f4-91ad-15ebf061465e

@@ -1,16 +1,18 @@
-- id: 76eb3452-ad03-52c8-8001-b585700e26bb
+- requirements: []
   name: Soumaia ART Tests - Indicator Removal using FSUtil
   description: 'Manages the update sequence number (USN) change journal, which provides a persistent log of all changes made to files on the volume. Upon execution, no output
 
     will be displayed. More information about fsutil can be found at https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/fsutil-usn (requires elevation)'
   tactic: stealth
-  technique:
-    attack_id: T1070
-    name: Indicator Removal on Host
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          fsutil usn deletejournal /D C:
-        cleanup: |-
-          fsutil usn createjournal m=1000 a=100 c:
+  technique_id: T1070
+  technique_name: Indicator Removal on Host
+  executors:
+  - cleanup:
+    - 'fsutil usn createjournal m=1000 a=100 c:'
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: 'fsutil usn deletejournal /D C:'
+  id: 76eb3452-ad03-52c8-8001-b585700e26bb

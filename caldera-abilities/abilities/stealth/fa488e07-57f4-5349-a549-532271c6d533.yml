@@ -1,17 +1,16 @@
-- id: fa488e07-57f4-5349-a549-532271c6d533
+- requirements: []
   name: Soumaia ART Tests - Obfuscated PowerShell Command via Character Array
   description: "Spawns a child PowerShell process using character array obfuscation. \nBoth the PowerShell binary name and executed command are constructed \nfrom ASCII values at runtime to evade string-based detection."
   tactic: stealth
-  technique:
-    attack_id: T1027
-    name: Obfuscated Files or Information
-  platforms:
-    windows:
-      psh:
-        command: |-
-          $ps = [char[]](112,111,119,101,114,115,104,101,108,108)
-          $cmd = [char[]](83,116,97,114,116,45,80,114,111,99,101,115,115,32,99,97,108,99,46,101,120,101)
-          & (-join $ps) "-Command" (-join $cmd)
-        cleanup: |-
-          taskkill /f /im calculator.exe >nul 2>nul
-          taskkill /f /im CalculatorApp.exe >nul 2>nul
+  technique_id: T1027
+  technique_name: Obfuscated Files or Information
+  executors:
+  - cleanup:
+    - taskkill /f /im calculator.exe >nul 2>nul; taskkill /f /im CalculatorApp.exe >nul 2>nul
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: $ps = [char[]](112,111,119,101,114,115,104,101,108,108); $cmd = [char[]](83,116,97,114,116,45,80,114,111,99,101,115,115,32,99,97,108,99,46,101,120,101); & (-join $ps) "-Command" (-join $cmd)
+  id: fa488e07-57f4-5349-a549-532271c6d533

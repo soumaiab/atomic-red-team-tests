@@ -1,14 +1,17 @@
-- id: 3cea50e3-8737-53ab-b73c-75473609b970
+- requirements: []
   name: 'Soumaia ART Tests - operating system discovery '
   description: 'operating system discovery using get-ciminstance
 
     https://petri.com/getting-operating-system-information-powershell/'
   tactic: discovery
-  technique:
-    attack_id: T1082
-    name: System Information Discovery
-  platforms:
-    windows:
-      psh:
-        command: |-
-          Get-CimInstance Win32_OperatingSystem | Select-Object Caption, Version, ServicePackMajorVersion, OSArchitecture, CSName, WindowsDirectory | Out-null
+  technique_id: T1082
+  technique_name: System Information Discovery
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: Get-CimInstance Win32_OperatingSystem | Select-Object Caption, Version, ServicePackMajorVersion, OSArchitecture, CSName, WindowsDirectory | Out-null
+  id: 3cea50e3-8737-53ab-b73c-75473609b970

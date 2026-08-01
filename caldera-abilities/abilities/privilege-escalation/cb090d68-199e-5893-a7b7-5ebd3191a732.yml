@@ -1,4 +1,4 @@
-- id: cb090d68-199e-5893-a7b7-5ebd3191a732
+- requirements: []
   name: Soumaia ART Tests - Suspicious bat file run from startup Folder
   description: 'bat files can be placed in and executed from the startup folder to maintain persistance
 
@@ -7,19 +7,16 @@
 
     folder and will also run when the computer is restarted and the user logs in. (requires elevation)'
   tactic: privilege-escalation
-  technique:
-    attack_id: T1547.001
-    name: 'Boot or Logon Autostart Execution: Registry Run Keys / Startup Folder'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          Copy-Item "$.\batstartup.bat" "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup\batstartup.bat"
-          Copy-Item "$.\batstartup.bat" "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\batstartup.bat"
-          Start-Process "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup\batstartup.bat"
-          Start-Process "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\batstartup.bat"
-        cleanup: |-
-          Remove-Item "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup\batstartup.bat" -ErrorAction Ignore
-          Remove-Item "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\batstartup.bat" -ErrorAction Ignore
-        payloads:
-        - batstartup.bat
+  technique_id: T1547.001
+  technique_name: 'Boot or Logon Autostart Execution: Registry Run Keys / Startup Folder'
+  executors:
+  - cleanup:
+    - Remove-Item "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup\batstartup.bat" -ErrorAction Ignore; Remove-Item "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\batstartup.bat" -ErrorAction Ignore
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads:
+    - batstartup.bat
+    parsers: []
+    command: Copy-Item "$.\batstartup.bat" "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup\batstartup.bat"; Copy-Item "$.\batstartup.bat" "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\batstartup.bat"; Start-Process "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup\batstartup.bat"; Start-Process "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\batstartup.bat"
+  id: cb090d68-199e-5893-a7b7-5ebd3191a732

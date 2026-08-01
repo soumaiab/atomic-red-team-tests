@@ -1,18 +1,19 @@
-- id: f3f8f0d2-cb3c-5adc-901d-d7b5f48559a7
+- requirements: []
   name: Soumaia ART Tests - Masquerading - powershell.exe running as taskhostw.exe
   description: 'Copies powershell.exe, renames it, and launches it to masquerade as an instance of taskhostw.exe.
 
 
     Upon successful execution, powershell.exe is renamed as taskhostw.exe and executed from non-standard path.'
   tactic: stealth
-  technique:
-    attack_id: T1036.003
-    name: 'Masquerading: Rename System Utilities'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          copy %windir%\System32\windowspowershell\v1.0\powershell.exe %APPDATA%\taskhostw.exe /Y
-          cmd.exe /K %APPDATA%\taskhostw.exe
-        cleanup: |-
-          del /Q /F %APPDATA%\taskhostw.exe >nul 2>&1
+  technique_id: T1036.003
+  technique_name: 'Masquerading: Rename System Utilities'
+  executors:
+  - cleanup:
+    - del /Q /F %APPDATA%\taskhostw.exe >nul 2>&1
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: copy %windir%\System32\windowspowershell\v1.0\powershell.exe %APPDATA%\taskhostw.exe /Y & cmd.exe /K %APPDATA%\taskhostw.exe
+  id: f3f8f0d2-cb3c-5adc-901d-d7b5f48559a7

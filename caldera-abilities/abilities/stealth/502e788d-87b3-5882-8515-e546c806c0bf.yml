@@ -1,12 +1,15 @@
-- id: 502e788d-87b3-5882-8515-e546c806c0bf
+- requirements: []
   name: Soumaia ART Tests - Remove Network Share
   description: Removes a Network Share utilizing the command_prompt
   tactic: stealth
-  technique:
-    attack_id: T1070.005
-    name: 'Indicator Removal on Host: Network Share Connection Removal'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          net share \\test\share /delete
+  technique_id: T1070.005
+  technique_name: 'Indicator Removal on Host: Network Share Connection Removal'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: net share \\test\share /delete
+  id: 502e788d-87b3-5882-8515-e546c806c0bf

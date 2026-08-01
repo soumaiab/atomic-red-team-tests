@@ -1,18 +1,17 @@
-- id: 8beee322-0693-5a78-8de3-55bcf2bb9f23
+- requirements: []
   name: Soumaia ART Tests - Delete an entire folder - Windows cmd
   description: 'Recursively delete a folder in the temporary directory using cmd.exe.
 
     Upon execution, no output will be displayed. Use File Explorer to verify the folder was deleted.'
   tactic: stealth
-  technique:
-    attack_id: T1070.004
-    name: 'Indicator Removal on Host: File Deletion'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          cmd /c "IF EXIST ""%temp%\deleteme_T1551.004"" ( EXIT 0 ) ELSE ( EXIT 1 )"
-          if not "%ERRORLEVEL%"=="0" (
-              cmd /c "mkdir %temp%\deleteme_T1551.004"
-          )
-          rmdir /s /q %temp%\deleteme_T1551.004
+  technique_id: T1070.004
+  technique_name: 'Indicator Removal on Host: File Deletion'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: cmd /c "IF EXIST ""%temp%\deleteme_T1551.004"" ( EXIT 0 ) ELSE ( EXIT 1 )" & if not "%ERRORLEVEL%"=="0" ( cmd /c "mkdir %temp%\deleteme_T1551.004" ) & rmdir /s /q %temp%\deleteme_T1551.004
+  id: 8beee322-0693-5a78-8de3-55bcf2bb9f23

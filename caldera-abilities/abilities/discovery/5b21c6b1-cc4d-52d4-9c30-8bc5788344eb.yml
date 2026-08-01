@@ -1,12 +1,15 @@
-- id: 5b21c6b1-cc4d-52d4-9c30-8bc5788344eb
+- requirements: []
   name: Soumaia ART Tests - Suspicious LAPS Attributes Query with Get-ADComputer ms-Mcs-AdmPwd property
   description: This test executes LDAP query using powershell command Get-ADComputer and lists Microsoft LAPS attributes ms-mcs-AdmPwd and ms-mcs-AdmPwdExpirationTime
   tactic: discovery
-  technique:
-    attack_id: T1087.002
-    name: 'Account Discovery: Domain Account'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          Get-ADComputer $env:computername -Properties ms-Mcs-AdmPwd, ms-Mcs-AdmPwdExpirationTime
+  technique_id: T1087.002
+  technique_name: 'Account Discovery: Domain Account'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: Get-ADComputer $env:computername -Properties ms-Mcs-AdmPwd, ms-Mcs-AdmPwdExpirationTime
+  id: 5b21c6b1-cc4d-52d4-9c30-8bc5788344eb

@@ -1,17 +1,18 @@
-- id: ea001a1c-5ef2-58c5-9be0-204d7d78adb0
+- requirements: []
   name: Soumaia ART Tests - Automated Collection PowerShell
   description: 'Automated Collection. Upon execution, check the users temp directory (%temp%) for the folder T1119_powershell_collection
 
     to see what was collected.'
   tactic: collection
-  technique:
-    attack_id: T1119
-    name: Automated Collection
-  platforms:
-    windows:
-      psh:
-        command: |-
-          New-Item -Path $env:TEMP\T1119_powershell_collection -ItemType Directory -Force | Out-Null
-          Get-ChildItem -Recurse -Include *.doc | % {Copy-Item $_.FullName -destination $env:TEMP\T1119_powershell_collection}
-        cleanup: |-
-          Remove-Item $env:TEMP\T1119_powershell_collection -Force -ErrorAction Ignore | Out-Null
+  technique_id: T1119
+  technique_name: Automated Collection
+  executors:
+  - cleanup:
+    - Remove-Item $env:TEMP\T1119_powershell_collection -Force -ErrorAction Ignore | Out-Null
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: New-Item -Path $env:TEMP\T1119_powershell_collection -ItemType Directory -Force | Out-Null; Get-ChildItem -Recurse -Include *.doc | % {Copy-Item $_.FullName -destination $env:TEMP\T1119_powershell_collection}
+  id: ea001a1c-5ef2-58c5-9be0-204d7d78adb0

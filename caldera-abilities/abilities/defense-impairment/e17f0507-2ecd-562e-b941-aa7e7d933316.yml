@@ -1,4 +1,4 @@
-- id: e17f0507-2ecd-562e-b941-aa7e7d933316
+- requirements: []
   name: Soumaia ART Tests - Disable Windows IIS HTTP Logging via PowerShell
   description: 'Disables HTTP logging on a Windows IIS web server as seen by Threat Group 3390 (Bronze Union).
 
@@ -7,15 +7,15 @@
 
     Use the cleanup commands to restore some default auditpol settings (your original settings will be lost)'
   tactic: defense-impairment
-  technique:
-    attack_id: T1685.001
-    name: 'Disable or Modify Tools: Disable or Modify Windows Event Log'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          set-WebConfigurationProperty -PSPath "IIS:\Sites\Default Web Site\" -filter "system.webServer/httpLogging" -name dontLog -value $true
-        cleanup: |-
-          if(Test-Path "C:\Windows\System32\inetsrv\appcmd.exe"){
-            C:\Windows\System32\inetsrv\appcmd.exe set config "Default Web Site" /section:httplogging /dontLog:false *>$null
-          }
+  technique_id: T1685.001
+  technique_name: 'Disable or Modify Tools: Disable or Modify Windows Event Log'
+  executors:
+  - cleanup:
+    - if(Test-Path "C:\Windows\System32\inetsrv\appcmd.exe"){ C:\Windows\System32\inetsrv\appcmd.exe set config "Default Web Site" /section:httplogging /dontLog:false *>$null }
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: set-WebConfigurationProperty -PSPath "IIS:\Sites\Default Web Site\" -filter "system.webServer/httpLogging" -name dontLog -value $true
+  id: e17f0507-2ecd-562e-b941-aa7e7d933316

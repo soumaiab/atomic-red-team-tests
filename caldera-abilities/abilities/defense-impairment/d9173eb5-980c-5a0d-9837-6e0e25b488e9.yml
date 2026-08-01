@@ -1,18 +1,17 @@
-- id: d9173eb5-980c-5a0d-9837-6e0e25b488e9
+- requirements: []
   name: Soumaia ART Tests - Allow Executable Through Firewall Located in Non-Standard Location
   description: This test will attempt to allow an executable through the system firewall located in the Users directory (requires elevation)
   tactic: defense-impairment
-  technique:
-    attack_id: T1686
-    name: Disable or Modify System Firewall
-  platforms:
-    windows:
-      psh:
-        command: |-
-          Copy-Item ".\AtomicTest.exe" -Destination "C:\Users\$env:UserName" -Force
-          netsh advfirewall firewall add rule name="Atomic Test" dir=in action=allow program="C:\Users\$env:UserName\AtomicTest.exe" enable=yes
-        cleanup: |-
-          netsh advfirewall firewall delete rule name="Atomic Test" | Out-Null
-          Remove-Item C:\Users\$env:UserName\AtomicTest.exe -ErrorAction Ignore
-        payloads:
-        - AtomicTest.exe
+  technique_id: T1686
+  technique_name: Disable or Modify System Firewall
+  executors:
+  - cleanup:
+    - netsh advfirewall firewall delete rule name="Atomic Test" | Out-Null; Remove-Item C:\Users\$env:UserName\AtomicTest.exe -ErrorAction Ignore
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads:
+    - AtomicTest.exe
+    parsers: []
+    command: Copy-Item ".\AtomicTest.exe" -Destination "C:\Users\$env:UserName" -Force; netsh advfirewall firewall add rule name="Atomic Test" dir=in action=allow program="C:\Users\$env:UserName\AtomicTest.exe" enable=yes
+  id: d9173eb5-980c-5a0d-9837-6e0e25b488e9

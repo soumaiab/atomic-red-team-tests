@@ -1,20 +1,18 @@
-- id: ecddda92-5b59-5b75-bb4e-8ddee55753eb
+- requirements: []
   name: Soumaia ART Tests - NetWire RAT Registry Key Creation
   description: 'NetWire continues to create its home key (HKCU\SOFTWARE\NetWire) as well as adding it into the auto-run group in the victim’s registry.
 
     See how NetWire malware - https://app.any.run/tasks/41ecdbde-4997-4301-a350-0270448b4c8f/'
   tactic: persistence
-  technique:
-    attack_id: T1112
-    name: Modify Registry
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Run /v NetWire /t REG_SZ  /d "C:\Users\admin\AppData\Roaming\Install\Host.exe" /f
-          reg add HKCU\SOFTWARE\NetWire /v HostId /t REG_SZ /d HostId-kai6Ci /f
-          reg add HKCU\SOFTWARE\NetWire /v "Install Date" /t REG_SZ /d "2021-08-30 07:17:27" /f
-        cleanup: |-
-          reg delete HKCU\Software\Microsoft\Windows\CurrentVersion\Run /v NetWire /f >nul 2>&1
-          reg delete HKCU\SOFTWARE\NetWire /va /f >nul 2>&1
-          reg delete HKCU\SOFTWARE\NetWire /f >nul 2>&1
+  technique_id: T1112
+  technique_name: Modify Registry
+  executors:
+  - cleanup:
+    - reg delete HKCU\Software\Microsoft\Windows\CurrentVersion\Run /v NetWire /f >nul 2>&1 & reg delete HKCU\SOFTWARE\NetWire /va /f >nul 2>&1 & reg delete HKCU\SOFTWARE\NetWire /f >nul 2>&1
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Run /v NetWire /t REG_SZ  /d "C:\Users\admin\AppData\Roaming\Install\Host.exe" /f & reg add HKCU\SOFTWARE\NetWire /v HostId /t REG_SZ /d HostId-kai6Ci /f & reg add HKCU\SOFTWARE\NetWire /v "Install Date" /t REG_SZ /d "2021-08-30 07:17:27" /f
+  id: ecddda92-5b59-5b75-bb4e-8ddee55753eb

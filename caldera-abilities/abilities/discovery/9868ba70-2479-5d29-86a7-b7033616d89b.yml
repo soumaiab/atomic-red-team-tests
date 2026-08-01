@@ -1,12 +1,15 @@
-- id: 9868ba70-2479-5d29-86a7-b7033616d89b
+- requirements: []
   name: Soumaia ART Tests - Get Windows Defender exclusion settings using WMIC
   description: "In this test, a WMIC command is used to probe the local Windows system for the configuration of Windows Defender's exclusions. This command targets the MSFT_MpPreference \nclass within the Windows Management Instrumentation (WMI) namespace, allowing the retrieval of critical settings such as disabled real-time monitoring and specified \nexclusion paths, file extensions, and processes. Attackers might use this approach to understand what is excluded from antivirus scans, enabling further exploitation. (requires elevation)"
   tactic: discovery
-  technique:
-    attack_id: T1518.001
-    name: 'Software Discovery: Security Software Discovery'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          wmic /Node:localhost /Namespace:\\root\Microsoft\Windows\Defender Path MSFT_MpPreference Get /format:list | findstr /i /C:"DisableRealtimeMonitoring" /C:"ExclusionPath" /C:"ExclusionExtension" /C:"ExclusionProcess"
+  technique_id: T1518.001
+  technique_name: 'Software Discovery: Security Software Discovery'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: wmic /Node:localhost /Namespace:\\root\Microsoft\Windows\Defender Path MSFT_MpPreference Get /format:list | findstr /i /C:"DisableRealtimeMonitoring" /C:"ExclusionPath" /C:"ExclusionExtension" /C:"ExclusionProcess"
+  id: 9868ba70-2479-5d29-86a7-b7033616d89b

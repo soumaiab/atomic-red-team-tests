@@ -1,20 +1,18 @@
-- id: 4a3d4843-72f7-52b1-931a-ad44856a9e1e
+- requirements: []
   name: Soumaia ART Tests - Remove the Zone.Identifier alternate data stream
   description: 'Remove the Zone.Identifier alternate data stream which identifies the file as downloaded from the internet.
 
     Removing this allows more freedom in executing scripts in PowerShell and avoids opening files in protected view.'
   tactic: defense-impairment
-  technique:
-    attack_id: T1553.005
-    name: 'Subvert Trust Controls: Mark-of-the-Web Bypass'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACQAZQBuAHYAOgB0AG0AcABcAFIAZQBhAGQATQBlAC4AbQBkACkAIAB7ACAARQBYAEkAVAAgADAAIAB9ACAAZQBsAHMAZQAgAHsAIABFAFgASQBUACAAMQAgAH0ACgA=
-          if ($LASTEXITCODE -ne 0) {
-              powershell -NoProfile -EncodedCommand SQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAaAB0AHQAcABzADoALwAvAHIAYQB3AC4AZwBpAHQAaAB1AGIAdQBzAGUAcgBjAG8AbgB0AGUAbgB0AC4AYwBvAG0ALwByAGUAZABjAGEAbgBhAHIAeQBjAG8ALwBhAHQAbwBtAGkAYwAtAHIAZQBkAC0AdABlAGEAbQAvAG0AYQBzAHQAZQByAC8AUgBFAEEARABNAEUALgBtAGQAIAAtAE8AdQB0AEYAaQBsAGUAIAAkAGUAbgB2ADoAdABtAHAAXABSAGUAYQBkAE0AZQAuAG0AZAAKAFMAZQB0AC0AQwBvAG4AdABlAG4AdAAgAC0AUABhAHQAaAAgACQAZQBuAHYAOgB0AG0AcABcAFIAZQBhAGQATQBlAC4AbQBkACAALQBTAHQAcgBlAGEAbQAgAFoAbwBuAGUALgBJAGQAZQBuAHQAaQBmAGkAZQByACAALQBWAGEAbAB1AGUAIAAnAFsAWgBvAG4AZQBUAHIAYQBuAHMAZgBlAHIAXQAnACwAJwBaAG8AbgBlAEkAZAA9ADMAJwAKAA==
-          }
-          Unblock-File -Path $env:tmp\ReadMe.md
-        cleanup: |-
-          Set-Content -Path $env:tmp\ReadMe.md -Stream Zone.Identifier -Value '[ZoneTransfer]','ZoneId=3'
+  technique_id: T1553.005
+  technique_name: 'Subvert Trust Controls: Mark-of-the-Web Bypass'
+  executors:
+  - cleanup:
+    - Set-Content -Path $env:tmp\ReadMe.md -Stream Zone.Identifier -Value '[ZoneTransfer]','ZoneId=3'
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACQAZQBuAHYAOgB0AG0AcABcAFIAZQBhAGQATQBlAC4AbQBkACkAIAB7ACAARQBYAEkAVAAgADAAIAB9ACAAZQBsAHMAZQAgAHsAIABFAFgASQBUACAAMQAgAH0ACgA=; if ($LASTEXITCODE -ne 0) { powershell -NoProfile -EncodedCommand SQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAaAB0AHQAcABzADoALwAvAHIAYQB3AC4AZwBpAHQAaAB1AGIAdQBzAGUAcgBjAG8AbgB0AGUAbgB0AC4AYwBvAG0ALwByAGUAZABjAGEAbgBhAHIAeQBjAG8ALwBhAHQAbwBtAGkAYwAtAHIAZQBkAC0AdABlAGEAbQAvAG0AYQBzAHQAZQByAC8AUgBFAEEARABNAEUALgBtAGQAIAAtAE8AdQB0AEYAaQBsAGUAIAAkAGUAbgB2ADoAdABtAHAAXABSAGUAYQBkAE0AZQAuAG0AZAAKAFMAZQB0AC0AQwBvAG4AdABlAG4AdAAgAC0AUABhAHQAaAAgACQAZQBuAHYAOgB0AG0AcABcAFIAZQBhAGQATQBlAC4AbQBkACAALQBTAHQAcgBlAGEAbQAgAFoAbwBuAGUALgBJAGQAZQBuAHQAaQBmAGkAZQByACAALQBWAGEAbAB1AGUAIAAnAFsAWgBvAG4AZQBUAHIAYQBuAHMAZgBlAHIAXQAnACwAJwBaAG8AbgBlAEkAZAA9ADMAJwAKAA== }; Unblock-File -Path $env:tmp\ReadMe.md
+  id: 4a3d4843-72f7-52b1-931a-ad44856a9e1e

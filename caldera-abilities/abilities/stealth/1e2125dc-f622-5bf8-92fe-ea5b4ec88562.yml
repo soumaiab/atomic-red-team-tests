@@ -1,14 +1,17 @@
-- id: 1e2125dc-f622-5bf8-92fe-ea5b4ec88562
+- requirements: []
   name: Soumaia ART Tests - SyncAppvPublishingServer Signed Script PowerShell Command Execution
   description: 'Executes the signed SyncAppvPublishingServer script with options to execute an arbitrary PowerShell command.
 
     Upon execution, calc.exe will be launched.'
   tactic: stealth
-  technique:
-    attack_id: T1216
-    name: Signed Script Proxy Execution
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          C:\windows\system32\SyncAppvPublishingServer.vbs "\n;Start-Process calc"
+  technique_id: T1216
+  technique_name: Signed Script Proxy Execution
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: C:\windows\system32\SyncAppvPublishingServer.vbs "\n;Start-Process calc"
+  id: 1e2125dc-f622-5bf8-92fe-ea5b4ec88562

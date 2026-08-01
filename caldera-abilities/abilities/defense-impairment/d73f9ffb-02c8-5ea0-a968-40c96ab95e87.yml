@@ -1,4 +1,4 @@
-- id: d73f9ffb-02c8-5ea0-a968-40c96ab95e87
+- requirements: []
   name: Soumaia ART Tests - Remove Windows Defender Definition Files
   description: 'Removing definition files would cause ATP to not fire for AntiMalware. Check MpCmdRun.exe man page for info on all arguments.
 
@@ -9,11 +9,14 @@
 
     https://unit42.paloaltonetworks.com/unit42-gorgon-group-slithering-nation-state-cybercrime/ (requires elevation)'
   tactic: defense-impairment
-  technique:
-    attack_id: T1685
-    name: Disable or Modify Tools
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          "C:\Program Files\Windows Defender\MpCmdRun.exe" -RemoveDefinitions -All
+  technique_id: T1685
+  technique_name: Disable or Modify Tools
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: '"C:\Program Files\Windows Defender\MpCmdRun.exe" -RemoveDefinitions -All'
+  id: d73f9ffb-02c8-5ea0-a968-40c96ab95e87

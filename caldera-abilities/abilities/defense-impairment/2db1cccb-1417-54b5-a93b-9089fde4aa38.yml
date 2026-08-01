@@ -1,14 +1,16 @@
-- id: 2db1cccb-1417-54b5-a93b-9089fde4aa38
+- requirements: []
   name: Soumaia ART Tests - Safe Mode Boot
   description: Allows adversaries to abuse safe mode to disable endpoint defenses that may not start with limited boot (requires elevation)
   tactic: defense-impairment
-  technique:
-    attack_id: T1688
-    name: Safe Mode Boot
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          bcdedit /set safeboot network
-        cleanup: |-
-          bcdedit /deletevalue {current} safeboot
+  technique_id: T1688
+  technique_name: Safe Mode Boot
+  executors:
+  - cleanup:
+    - bcdedit /deletevalue {current} safeboot
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: bcdedit /set safeboot network
+  id: 2db1cccb-1417-54b5-a93b-9089fde4aa38

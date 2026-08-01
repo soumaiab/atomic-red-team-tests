@@ -1,14 +1,16 @@
-- id: c31e4c12-6469-5044-b91d-d9f6c1fd2ddb
+- requirements: []
   name: Soumaia ART Tests - Hidden Window-Conhost Execution
   description: "Launch conhost.exe in \"headless\" mode, it means that no visible window will pop up on the victim's machine. \nThis could be a sign of \"conhost\" usage as a LOLBIN or potential process injection activity.\nconhost.exe can be used as proxy the execution of arbitrary commands (requires elevation)"
   tactic: stealth
-  technique:
-    attack_id: T1564.003
-    name: 'Hide Artifacts: Hidden Window'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          conhost.exe --headless calc.exe
-        cleanup: |-
-          Stop-Process -Name calc*
+  technique_id: T1564.003
+  technique_name: 'Hide Artifacts: Hidden Window'
+  executors:
+  - cleanup:
+    - Stop-Process -Name calc*
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: conhost.exe --headless calc.exe
+  id: c31e4c12-6469-5044-b91d-d9f6c1fd2ddb

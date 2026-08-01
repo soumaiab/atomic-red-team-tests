@@ -1,17 +1,16 @@
-- id: df0fee4a-012b-5389-97d1-c35c7affc5c6
+- requirements: []
   name: Soumaia ART Tests - Create local account with admin privileges
   description: After execution the new account will be active and added to the Administrators group (requires elevation)
   tactic: stealth
-  technique:
-    attack_id: T1078.003
-    name: 'Valid Accounts: Local Accounts'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          net user art-test /add
-          net user art-test -4RTisCool!-321
-          net localgroup administrators art-test /add
-        cleanup: |-
-          net localgroup administrators art-test /delete >nul 2>&1
-          net user art-test /delete >nul 2>&1
+  technique_id: T1078.003
+  technique_name: 'Valid Accounts: Local Accounts'
+  executors:
+  - cleanup:
+    - net localgroup administrators art-test /delete >nul 2>&1 & net user art-test /delete >nul 2>&1
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: net user art-test /add & net user art-test -4RTisCool!-321 & net localgroup administrators art-test /add
+  id: df0fee4a-012b-5389-97d1-c35c7affc5c6

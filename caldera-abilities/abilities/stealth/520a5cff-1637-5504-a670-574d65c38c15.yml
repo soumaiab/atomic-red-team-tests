@@ -1,4 +1,4 @@
-- id: 520a5cff-1637-5504-a670-574d65c38c15
+- requirements: []
   name: Soumaia ART Tests - UEFI Persistence via Wpbbin.exe File Creation
   description: 'Creates Wpbbin.exe in %systemroot%. This technique can be used for UEFI-based pre-OS boot persistence mechanisms.
 
@@ -8,11 +8,15 @@
 
     - https://github.com/tandasat/WPBT-Builder (requires elevation)'
   tactic: stealth
-  technique:
-    attack_id: T1542.001
-    name: 'Pre-OS Boot: System Firmware'
-  platforms:
-    windows:
-      psh:
-        command: "echo \"Creating %systemroot%\\wpbbin.exe\"      \nNew-Item -ItemType File -Path \"$env:SystemRoot\\System32\\wpbbin.exe\""
-        cleanup: "echo \"Removing %systemroot%\\wpbbin.exe\" \nRemove-Item -Path \"$env:SystemRoot\\System32\\wpbbin.exe\""
+  technique_id: T1542.001
+  technique_name: 'Pre-OS Boot: System Firmware'
+  executors:
+  - cleanup:
+    - echo "Removing %systemroot%\wpbbin.exe"; Remove-Item -Path "$env:SystemRoot\System32\wpbbin.exe"
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: echo "Creating %systemroot%\wpbbin.exe"; New-Item -ItemType File -Path "$env:SystemRoot\System32\wpbbin.exe"
+  id: 520a5cff-1637-5504-a670-574d65c38c15

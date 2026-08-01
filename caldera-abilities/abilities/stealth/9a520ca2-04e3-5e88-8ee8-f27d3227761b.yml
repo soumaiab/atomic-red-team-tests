@@ -1,12 +1,15 @@
-- id: 9a520ca2-04e3-5e88-8ee8-f27d3227761b
+- requirements: []
   name: Soumaia ART Tests - Clear Powershell History by Deleting History File
   description: Clears Powershell history
   tactic: stealth
-  technique:
-    attack_id: T1070.003
-    name: 'Indicator Removal on Host: Clear Command History'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          Remove-Item (Get-PSReadlineOption).HistorySavePath
+  technique_id: T1070.003
+  technique_name: 'Indicator Removal on Host: Clear Command History'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: Remove-Item (Get-PSReadlineOption).HistorySavePath
+  id: 9a520ca2-04e3-5e88-8ee8-f27d3227761b

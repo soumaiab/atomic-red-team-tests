@@ -1,14 +1,16 @@
-- id: c34d35a0-c3b4-5e1d-b9a6-d268de624bbd
+- requirements: []
   name: Soumaia ART Tests - Tamper Win Defender Protection
   description: "Tamper Win Defender Protection. RedLine Stealer is executing another component file to modify this win defender feature in registry. \nTake note that this modification might not be enough to disable this feature but can be a good indicator of malicious process that \ntries to tamper this Win Defender feature settings. (requires elevation)"
   tactic: persistence
-  technique:
-    attack_id: T1112
-    name: Modify Registry
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          reg add "HKLM\SOFTWARE\Microsoft\Windows Defender\Features" /v "TamperProtection" /t REG_DWORD /d 0 /f
-        cleanup: |-
-          reg add "HKLM\SOFTWARE\Microsoft\Windows Defender\Features" /v "TamperProtection" /t REG_DWORD /d 5 /f
+  technique_id: T1112
+  technique_name: Modify Registry
+  executors:
+  - cleanup:
+    - reg add "HKLM\SOFTWARE\Microsoft\Windows Defender\Features" /v "TamperProtection" /t REG_DWORD /d 5 /f
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: reg add "HKLM\SOFTWARE\Microsoft\Windows Defender\Features" /v "TamperProtection" /t REG_DWORD /d 0 /f
+  id: c34d35a0-c3b4-5e1d-b9a6-d268de624bbd

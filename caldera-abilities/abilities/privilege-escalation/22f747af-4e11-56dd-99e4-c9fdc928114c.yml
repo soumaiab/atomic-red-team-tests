@@ -1,16 +1,16 @@
-- id: 22f747af-4e11-56dd-99e4-c9fdc928114c
+- requirements: []
   name: Soumaia ART Tests - Scheduled Task Executing Base64 Encoded Commands From Registry
   description: "A Base64 Encoded command will be stored in the registry (ping 127.0.0.1) and then a scheduled task will be created.\nThe scheduled task will launch powershell to decode and run the command in the registry daily.\nThis is a persistence mechanism recently seen in use by Qakbot.  \n\n[Additiona Information](https://thedfirreport.com/2022/02/07/qbot-likes-to-move-it-move-it/)"
   tactic: privilege-escalation
-  technique:
-    attack_id: T1053.005
-    name: 'Scheduled Task/Job: Scheduled Task'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          reg add HKCU\SOFTWARE\ATOMIC-T1053.005 /v test /t REG_SZ /d cGluZyAxMjcuMC4wLjE= /f
-          schtasks.exe /Create /F /TN "ATOMIC-T1053.005" /TR "cmd /c start /min \"\" powershell.exe -Command IEX([System.Text.Encoding]::ASCII.GetString([System.Convert]::FromBase64String((Get-ItemProperty -Path HKCU:\\SOFTWARE\\ATOMIC-T1053.005).test)))" /sc daily /st 07:45
-        cleanup: |-
-          schtasks /delete /tn "ATOMIC-T1053.005" /F >nul 2>&1
-          reg delete HKCU\SOFTWARE\ATOMIC-T1053.005 /F >nul 2>&1
+  technique_id: T1053.005
+  technique_name: 'Scheduled Task/Job: Scheduled Task'
+  executors:
+  - cleanup:
+    - schtasks /delete /tn "ATOMIC-T1053.005" /F >nul 2>&1 & reg delete HKCU\SOFTWARE\ATOMIC-T1053.005 /F >nul 2>&1
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: reg add HKCU\SOFTWARE\ATOMIC-T1053.005 /v test /t REG_SZ /d cGluZyAxMjcuMC4wLjE= /f & schtasks.exe /Create /F /TN "ATOMIC-T1053.005" /TR "cmd /c start /min \"\" powershell.exe -Command IEX([System.Text.Encoding]::ASCII.GetString([System.Convert]::FromBase64String((Get-ItemProperty -Path HKCU:\\SOFTWARE\\ATOMIC-T1053.005).test)))" /sc daily /st 07:45
+  id: 22f747af-4e11-56dd-99e4-c9fdc928114c

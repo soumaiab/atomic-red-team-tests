@@ -1,4 +1,4 @@
-- id: 3f141b7c-80c4-5359-9acb-41eac569b39c
+- requirements: []
   name: Soumaia ART Tests - Indirect Command Execution - forfiles.exe
   description: 'forfiles.exe may invoke the execution of programs and commands from a Command-Line Interface.
 
@@ -8,11 +8,14 @@
 
     Upon execution calc.exe will be opened.'
   tactic: stealth
-  technique:
-    attack_id: T1202
-    name: Indirect Command Execution
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          forfiles /p c:\windows\system32 /m notepad.exe /c calc.exe
+  technique_id: T1202
+  technique_name: Indirect Command Execution
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: forfiles /p c:\windows\system32 /m notepad.exe /c calc.exe
+  id: 3f141b7c-80c4-5359-9acb-41eac569b39c

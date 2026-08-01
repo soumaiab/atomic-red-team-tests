@@ -1,14 +1,16 @@
-- id: 0d471b09-bc22-5275-9b46-4cd7bbf6e781
+- requirements: []
   name: Soumaia ART Tests - Blackbit - Disable Windows Firewall using netsh firewall
   description: An adversary tries to modify the windows firewall configuration using the deprecated netsh firewall command (command still works). (requires elevation)
   tactic: defense-impairment
-  technique:
-    attack_id: T1686
-    name: Disable or Modify System Firewall
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          netsh firewall set opmode mode=disable
-        cleanup: |-
-          netsh firewall set opmode mode=enable >nul 2>&1
+  technique_id: T1686
+  technique_name: Disable or Modify System Firewall
+  executors:
+  - cleanup:
+    - netsh firewall set opmode mode=enable >nul 2>&1
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: netsh firewall set opmode mode=disable
+  id: 0d471b09-bc22-5275-9b46-4cd7bbf6e781

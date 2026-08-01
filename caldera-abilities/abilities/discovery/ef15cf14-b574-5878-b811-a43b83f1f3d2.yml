@@ -1,13 +1,15 @@
-- id: ef15cf14-b574-5878-b811-a43b83f1f3d2
+- requirements: []
   name: Soumaia ART Tests - System Information Discovery
   description: Identify System Info. Upon execution, system info and time info will be displayed.
   tactic: discovery
-  technique:
-    attack_id: T1082
-    name: System Information Discovery
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          systeminfo
-          reg query HKLM\SYSTEM\CurrentControlSet\Services\Disk\Enum
+  technique_id: T1082
+  technique_name: System Information Discovery
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: systeminfo & reg query HKLM\SYSTEM\CurrentControlSet\Services\Disk\Enum
+  id: ef15cf14-b574-5878-b811-a43b83f1f3d2

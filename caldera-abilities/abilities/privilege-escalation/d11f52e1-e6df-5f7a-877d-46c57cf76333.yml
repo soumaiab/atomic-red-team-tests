@@ -1,16 +1,18 @@
-- id: d11f52e1-e6df-5f7a-877d-46c57cf76333
+- requirements: []
   name: Soumaia ART Tests - Disable UAC using reg.exe
   description: 'Disable User Account Conrol (UAC) using the builtin tool reg.exe by changing its registry key
 
     HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\EnableLUA from 1 to 0 (requires elevation)'
   tactic: privilege-escalation
-  technique:
-    attack_id: T1548.002
-    name: 'Abuse Elevation Control Mechanism: Bypass User Account Control'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          reg.exe ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f
-        cleanup: |-
-          reg.exe ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
+  technique_id: T1548.002
+  technique_name: 'Abuse Elevation Control Mechanism: Bypass User Account Control'
+  executors:
+  - cleanup:
+    - reg.exe ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 1 /f
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: reg.exe ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f
+  id: d11f52e1-e6df-5f7a-877d-46c57cf76333

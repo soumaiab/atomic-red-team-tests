@@ -1,19 +1,18 @@
-- id: 182cd349-8591-58ef-aa21-ee49ca5c879d
+- requirements: []
   name: Soumaia ART Tests - Store file in Alternate Data Stream (ADS)
   description: 'Storing files in Alternate Data Stream (ADS) similar to Astaroth malware.
 
     Upon execution, cmd will run and attempt to launch desktop.ini. No windows remain open after the test'
   tactic: stealth
-  technique:
-    attack_id: T1564.004
-    name: 'Hide Artifacts: NTFS File Attributes'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          if (!(Test-Path C:\Users\Public\Libraries\yanki -PathType Container)) {
-              New-Item -ItemType Directory -Force -Path C:\Users\Public\Libraries\yanki
-              }
-          Start-Process -FilePath "$env:comspec" -ArgumentList "/c,type,c:\windows\system32\cmd.exe,>,`"C:\Users\Public\Libraries\yanki\desktop.ini:desktop.ini`""
-        cleanup: |-
-          Remove-Item "C:\Users\Public\Libraries\yanki\desktop.ini" -Force -ErrorAction Ignore
+  technique_id: T1564.004
+  technique_name: 'Hide Artifacts: NTFS File Attributes'
+  executors:
+  - cleanup:
+    - Remove-Item "C:\Users\Public\Libraries\yanki\desktop.ini" -Force -ErrorAction Ignore
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: if (!(Test-Path C:\Users\Public\Libraries\yanki -PathType Container)) { New-Item -ItemType Directory -Force -Path C:\Users\Public\Libraries\yanki }; Start-Process -FilePath "$env:comspec" -ArgumentList "/c,type,c:\windows\system32\cmd.exe,>,`"C:\Users\Public\Libraries\yanki\desktop.ini:desktop.ini`""
+  id: 182cd349-8591-58ef-aa21-ee49ca5c879d

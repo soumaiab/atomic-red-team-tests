@@ -1,12 +1,15 @@
-- id: 9ca378e2-2792-5c2f-a980-2f52f1345bfc
+- requirements: []
   name: Soumaia ART Tests - List Internet Explorer Bookmarks using the command prompt
   description: This test will list the bookmarks for Internet Explorer that are found in the Favorites folder
   tactic: discovery
-  technique:
-    attack_id: T1217
-    name: Browser Bookmark Discovery
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          dir /s /b %USERPROFILE%\Favorites
+  technique_id: T1217
+  technique_name: Browser Bookmark Discovery
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: dir /s /b %USERPROFILE%\Favorites
+  id: 9ca378e2-2792-5c2f-a980-2f52f1345bfc

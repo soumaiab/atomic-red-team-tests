@@ -1,16 +1,16 @@
-- id: e83345a5-83a2-58aa-9100-030bd1303e14
+- requirements: []
   name: Soumaia ART Tests - Utilize Clipboard to store or execute commands from
   description: Add data to clipboard to copy off or execute commands from.
   tactic: collection
-  technique:
-    attack_id: T1115
-    name: Clipboard Data
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          dir | clip
-          echo "T1115" > %temp%\T1115.txt
-          clip < %temp%\T1115.txt
-        cleanup: |-
-          del %temp%\T1115.txt >nul 2>&1
+  technique_id: T1115
+  technique_name: Clipboard Data
+  executors:
+  - cleanup:
+    - del %temp%\T1115.txt >nul 2>&1
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: dir | clip & echo "T1115" > %temp%\T1115.txt & clip < %temp%\T1115.txt
+  id: e83345a5-83a2-58aa-9100-030bd1303e14

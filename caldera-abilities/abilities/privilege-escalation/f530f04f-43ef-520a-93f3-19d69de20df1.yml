@@ -1,17 +1,16 @@
-- id: f530f04f-43ef-520a-93f3-19d69de20df1
+- requirements: []
   name: Soumaia ART Tests - HKLM - Policy Settings Explorer Run Key
   description: "This test will create a HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run key value to launch calc.exe on boot. \n*Requires reboot (requires elevation)"
   tactic: privilege-escalation
-  technique:
-    attack_id: T1547.001
-    name: 'Boot or Logon Autostart Execution: Registry Run Keys / Startup Folder'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          if (!(Test-Path -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run")){
-            New-Item -ItemType Key -Path  "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run"
-          }
-          Set-ItemProperty -Path  "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run" -Name "atomictest" -Value "C:\Windows\System32\calc.exe"
-        cleanup: |-
-          Remove-ItemProperty -Path  "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run" -Name "atomictest"
+  technique_id: T1547.001
+  technique_name: 'Boot or Logon Autostart Execution: Registry Run Keys / Startup Folder'
+  executors:
+  - cleanup:
+    - Remove-ItemProperty -Path  "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run" -Name "atomictest"
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: if (!(Test-Path -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run")){ New-Item -ItemType Key -Path  "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run" }; Set-ItemProperty -Path  "HKLM:\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run" -Name "atomictest" -Value "C:\Windows\System32\calc.exe"
+  id: f530f04f-43ef-520a-93f3-19d69de20df1

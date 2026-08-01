@@ -1,20 +1,15 @@
-- id: a639f6c7-1bbe-51e4-a755-2928531d0ea8
+- requirements: []
   name: Soumaia ART Tests - Enumerate all accounts via PowerShell (Local)
   description: Enumerate all accounts via PowerShell. Upon execution, lots of user account and group information will be displayed.
   tactic: discovery
-  technique:
-    attack_id: T1087.001
-    name: 'Account Discovery: Local Account'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          net user
-          get-localuser
-          get-localgroupmember -group Users
-          cmdkey.exe /list
-          ls C:/Users
-          get-childitem C:\Users\
-          dir C:\Users\
-          get-localgroup
-          net localgroup
+  technique_id: T1087.001
+  technique_name: 'Account Discovery: Local Account'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: net user; get-localuser; get-localgroupmember -group Users; cmdkey.exe /list; ls C:/Users; get-childitem C:\Users\; dir C:\Users\; get-localgroup; net localgroup
+  id: a639f6c7-1bbe-51e4-a755-2928531d0ea8

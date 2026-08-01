@@ -1,18 +1,18 @@
-- id: 549dbbb7-5812-55b1-8603-660812aff528
+- requirements: []
   name: Soumaia ART Tests - Windows Internal pktmon capture
   description: 'Will start a packet capture and store log file as t1040.etl.
 
     https://lolbas-project.github.io/lolbas/Binaries/Pktmon/ (requires elevation)'
   tactic: credential-access
-  technique:
-    attack_id: T1040
-    name: Network Sniffing
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          pktmon.exe start --etw  -f %TEMP%\t1040.etl
-          TIMEOUT /T 5 >nul 2>&1
-          pktmon.exe stop
-        cleanup: |-
-          del %TEMP%\t1040.etl
+  technique_id: T1040
+  technique_name: Network Sniffing
+  executors:
+  - cleanup:
+    - del %TEMP%\t1040.etl
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: pktmon.exe start --etw  -f %TEMP%\t1040.etl & TIMEOUT /T 5 >nul 2>&1 & pktmon.exe stop
+  id: 549dbbb7-5812-55b1-8603-660812aff528

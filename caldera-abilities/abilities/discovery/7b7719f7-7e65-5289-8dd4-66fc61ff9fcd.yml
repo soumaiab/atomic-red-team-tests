@@ -1,17 +1,16 @@
-- id: 7b7719f7-7e65-5289-8dd4-66fc61ff9fcd
+- requirements: []
   name: Soumaia ART Tests - Wevtutil - Discover NTLM Users Remote
   description: "This test discovers users who have authenticated against a Domain Controller via NTLM. \nThis is done remotely via wmic and captures the event code 4776 from the domain controller and stores the ouput in C:\\temp. [Reference](https://www.reliaquest.com/blog/socgholish-fakeupdates/)"
   tactic: discovery
-  technique:
-    attack_id: T1087.002
-    name: 'Account Discovery: Domain Account'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          $target = $env:LOGONSERVER
-          $target = $target.Trim("\\")
-          $IpAddress = [System.Net.Dns]::GetHostAddresses($target) | select IPAddressToString -ExpandProperty IPAddressToString
-          wmic.exe /node:$IpAddress process call create 'wevtutil epl Security C:\\ntlmusers.evtx /q:\"Event[System[(EventID=4776)]]"'
-        cleanup: |-
-          Remove-Item -Path \\$IpAddress\c$\ntlmusers.evtx
+  technique_id: T1087.002
+  technique_name: 'Account Discovery: Domain Account'
+  executors:
+  - cleanup:
+    - Remove-Item -Path \\$IpAddress\c$\ntlmusers.evtx
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: $target = $env:LOGONSERVER; $target = $target.Trim("\\"); $IpAddress = [System.Net.Dns]::GetHostAddresses($target) | select IPAddressToString -ExpandProperty IPAddressToString; wmic.exe /node:$IpAddress process call create 'wevtutil epl Security C:\\ntlmusers.evtx /q:\"Event[System[(EventID=4776)]]"'
+  id: 7b7719f7-7e65-5289-8dd4-66fc61ff9fcd

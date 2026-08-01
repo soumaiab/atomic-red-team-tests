@@ -1,20 +1,18 @@
-- id: fbd9820d-d909-52cb-a704-1b5b288e6bb6
+- requirements: []
   name: Soumaia ART Tests - Create Windows Hidden File with Attrib
   description: 'Creates a file and marks it as hidden using the attrib.exe utility.Upon execution, open File Epxplorer and enable View > Hidden Items. Then, open Properties > Details on the file
 
     and observe that the Attributes are "SH" for System and Hidden. (requires elevation)'
   tactic: stealth
-  technique:
-    attack_id: T1564.001
-    name: 'Hide Artifacts: Hidden Files and Directories'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          cmd /c "IF EXIST %temp%\T1564.001.txt ( EXIT 0 ) ELSE ( EXIT 1 )"
-          if not "%ERRORLEVEL%"=="0" (
-              cmd /c "echo system_Attrib_T1564.001 >> %temp%\T1564.001.txt"
-          )
-          attrib.exe +h %temp%\T1564.001.txt
-        cleanup: |-
-          del /A:H %temp%\T1564.001.txt >nul 2>&1
+  technique_id: T1564.001
+  technique_name: 'Hide Artifacts: Hidden Files and Directories'
+  executors:
+  - cleanup:
+    - del /A:H %temp%\T1564.001.txt >nul 2>&1
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: cmd /c "IF EXIST %temp%\T1564.001.txt ( EXIT 0 ) ELSE ( EXIT 1 )" & if not "%ERRORLEVEL%"=="0" ( cmd /c "echo system_Attrib_T1564.001 >> %temp%\T1564.001.txt" ) & attrib.exe +h %temp%\T1564.001.txt
+  id: fbd9820d-d909-52cb-a704-1b5b288e6bb6

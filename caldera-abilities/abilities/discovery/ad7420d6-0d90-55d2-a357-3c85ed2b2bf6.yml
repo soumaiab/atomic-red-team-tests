@@ -1,19 +1,18 @@
-- id: ad7420d6-0d90-55d2-a357-3c85ed2b2bf6
+- requirements: []
   name: Soumaia ART Tests - System Network Configuration Discovery on Windows
   description: 'Identify network configuration information
 
 
     Upon successful execution, cmd.exe will spawn multiple commands to list network configuration settings. Output will be via stdout.'
   tactic: discovery
-  technique:
-    attack_id: T1016
-    name: System Network Configuration Discovery
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          ipconfig /all
-          netsh interface show interface
-          arp -a
-          nbtstat -n
-          net config
+  technique_id: T1016
+  technique_name: System Network Configuration Discovery
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: ipconfig /all & netsh interface show interface & arp -a & nbtstat -n & net config
+  id: ad7420d6-0d90-55d2-a357-3c85ed2b2bf6

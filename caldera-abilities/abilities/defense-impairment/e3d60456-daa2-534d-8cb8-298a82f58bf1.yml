@@ -1,4 +1,4 @@
-- id: e3d60456-daa2-534d-8cb8-298a82f58bf1
+- requirements: []
   name: Soumaia ART Tests - Windows Disable LSA Protection
   description: 'The following Atomic adds a registry entry to disable LSA Protection.
 
@@ -13,13 +13,15 @@
 
     https://thedfirreport.com/2022/03/21/phosphorus-automates-initial-access-using-proxyshell/ (requires elevation)'
   tactic: defense-impairment
-  technique:
-    attack_id: T1685
-    name: Disable or Modify Tools
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          reg add HKLM\SYSTEM\CurrentControlSet\Control\LSA /v RunAsPPL /t REG_DWORD /d 0 /f
-        cleanup: |-
-          reg delete HKLM\SYSTEM\CurrentControlSet\Control\LSA /v RunAsPPL /f >nul 2>&1
+  technique_id: T1685
+  technique_name: Disable or Modify Tools
+  executors:
+  - cleanup:
+    - reg delete HKLM\SYSTEM\CurrentControlSet\Control\LSA /v RunAsPPL /f >nul 2>&1
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: reg add HKLM\SYSTEM\CurrentControlSet\Control\LSA /v RunAsPPL /t REG_DWORD /d 0 /f
+  id: e3d60456-daa2-534d-8cb8-298a82f58bf1

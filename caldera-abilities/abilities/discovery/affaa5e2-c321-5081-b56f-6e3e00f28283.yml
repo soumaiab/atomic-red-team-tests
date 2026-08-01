@@ -1,17 +1,18 @@
-- id: affaa5e2-c321-5081-b56f-6e3e00f28283
+- requirements: []
   name: Soumaia ART Tests - System Service Discovery
   description: 'Identify system services.
 
 
     Upon successful execution, cmd.exe will execute service commands with expected result to stdout. (requires elevation)'
   tactic: discovery
-  technique:
-    attack_id: T1007
-    name: System Service Discovery
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          tasklist.exe /svc
-          sc query
-          sc query state= all
+  technique_id: T1007
+  technique_name: System Service Discovery
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: tasklist.exe /svc & sc query & sc query state= all
+  id: affaa5e2-c321-5081-b56f-6e3e00f28283

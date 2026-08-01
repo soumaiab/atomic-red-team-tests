@@ -1,17 +1,19 @@
-- id: 472cf47a-73c3-56bd-9389-fd717ab9301e
+- requirements: []
   name: Soumaia ART Tests - Change Default File Association
   description: 'Change Default File Association From cmd.exe of hta to notepad.
 
 
     Upon successful execution, cmd.exe will change the file association of .hta to notepad.exe. (requires elevation)'
   tactic: privilege-escalation
-  technique:
-    attack_id: T1546.001
-    name: 'Event Triggered Execution: Change Default File Association'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          assoc .hta=txtfile
-        cleanup: |-
-          assoc  .hta=htafile
+  technique_id: T1546.001
+  technique_name: 'Event Triggered Execution: Change Default File Association'
+  executors:
+  - cleanup:
+    - assoc  .hta=htafile
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: assoc .hta=txtfile
+  id: 472cf47a-73c3-56bd-9389-fd717ab9301e

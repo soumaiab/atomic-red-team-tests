@@ -1,19 +1,18 @@
-- id: a3706cbe-945b-533a-8e19-bf73e7b19878
+- requirements: []
   name: Soumaia ART Tests - Logon Scripts
   description: 'Adds a registry value to run batch script created in the %temp% directory. Upon execution, there will be a new environment variable in the HKCU\Environment key
 
     that can be viewed in the Registry Editor.'
   tactic: privilege-escalation
-  technique:
-    attack_id: T1037.001
-    name: 'Boot or Logon Initialization Scripts: Logon Script (Windows)'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          echo "echo Art "Logon Script" atomic test was successful. >> %USERPROFILE%\desktop\T1037.001-log.txt" > %temp%\art.bat
-          REG.exe ADD HKCU\Environment /v UserInitMprLogonScript /t REG_SZ /d "%temp%\art.bat" /f
-        cleanup: |-
-          REG.exe DELETE HKCU\Environment /v UserInitMprLogonScript /f >nul 2>&1
-          del %temp%\art.bat >nul 2>&1
-          del "%USERPROFILE%\desktop\T1037.001-log.txt" >nul 2>&1
+  technique_id: T1037.001
+  technique_name: 'Boot or Logon Initialization Scripts: Logon Script (Windows)'
+  executors:
+  - cleanup:
+    - REG.exe DELETE HKCU\Environment /v UserInitMprLogonScript /f >nul 2>&1 & del %temp%\art.bat >nul 2>&1 & del "%USERPROFILE%\desktop\T1037.001-log.txt" >nul 2>&1
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: echo "echo Art "Logon Script" atomic test was successful. >> %USERPROFILE%\desktop\T1037.001-log.txt" > %temp%\art.bat & REG.exe ADD HKCU\Environment /v UserInitMprLogonScript /t REG_SZ /d "%temp%\art.bat" /f
+  id: a3706cbe-945b-533a-8e19-bf73e7b19878

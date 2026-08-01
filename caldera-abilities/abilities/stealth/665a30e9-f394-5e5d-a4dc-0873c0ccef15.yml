@@ -1,4 +1,4 @@
-- id: 665a30e9-f394-5e5d-a4dc-0873c0ccef15
+- requirements: []
   name: Soumaia ART Tests - Process Injection with Go using CreateThread WinAPI (Natively)
   description: 'This program executes shellcode in the current process using the following steps
 
@@ -18,15 +18,16 @@
 
     - PoC Credit: (https://github.com/Ne0nd0g/go-shellcode#createthreadnative)'
   tactic: stealth
-  technique:
-    attack_id: T1055
-    name: Process Injection
-  platforms:
-    windows:
-      psh:
-        command: |-
-          $.\CreateThreadNative.exe -debug
-        cleanup: |-
-          Stop-Process -Name CalculatorApp -ErrorAction SilentlyContinue
-        payloads:
-        - CreateThreadNative.exe
+  technique_id: T1055
+  technique_name: Process Injection
+  executors:
+  - cleanup:
+    - Stop-Process -Name CalculatorApp -ErrorAction SilentlyContinue
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads:
+    - CreateThreadNative.exe
+    parsers: []
+    command: $.\CreateThreadNative.exe -debug
+  id: 665a30e9-f394-5e5d-a4dc-0873c0ccef15

@@ -1,4 +1,4 @@
-- id: 571726e4-33c6-58e0-baae-c841d1ac56a7
+- requirements: []
   name: Soumaia ART Tests - cacls - Grant permission to specified user or group recursively
   description: 'Modifies the filesystem permissions of the specified folder and contents to allow the specified user or group Full Control. If "Access is denied"
 
@@ -6,15 +6,14 @@
 
     will be displayed.'
   tactic: defense-impairment
-  technique:
-    attack_id: T1222.001
-    name: 'File and Directory Permissions Modification: Windows File and Directory Permissions Modification'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          cmd /c "IF EXIST %temp%\T1222.001_cacls ( EXIT 0 ) ELSE ( EXIT 1 )"
-          if not "%ERRORLEVEL%"=="0" (
-              cmd /c "mkdir %temp%\T1222.001_cacls & echo T1222.001_cacls1 >> %temp%\T1222.001_cacls\T1222.001_cacls1.txt & echo T1222.001_cacls2 >> %temp%\T1222.001_cacls\T1222.001_cacls2.txt"
-          )
-          icacls.exe %temp%\T1222.001_cacls /grant Everyone:F
+  technique_id: T1222.001
+  technique_name: 'File and Directory Permissions Modification: Windows File and Directory Permissions Modification'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: cmd /c "IF EXIST %temp%\T1222.001_cacls ( EXIT 0 ) ELSE ( EXIT 1 )" & if not "%ERRORLEVEL%"=="0" ( cmd /c "mkdir %temp%\T1222.001_cacls & echo T1222.001_cacls1 >> %temp%\T1222.001_cacls\T1222.001_cacls1.txt & echo T1222.001_cacls2 >> %temp%\T1222.001_cacls\T1222.001_cacls2.txt" ) & icacls.exe %temp%\T1222.001_cacls /grant Everyone:F
+  id: 571726e4-33c6-58e0-baae-c841d1ac56a7

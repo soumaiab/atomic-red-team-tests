@@ -1,15 +1,16 @@
-- id: 63962c83-df1a-540c-b76a-87898ba72938
+- requirements: []
   name: Soumaia ART Tests - OSTap Payload Download
   description: Uses cscript //E:jscript to download a file
   tactic: execution
-  technique:
-    attack_id: T1204.002
-    name: 'User Execution: Malicious File'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          echo var url = "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt", fso = WScript.CreateObject('Scripting.FileSystemObject'), request, stream; request = WScript.CreateObject('MSXML2.ServerXMLHTTP'); request.open('GET', url, false); request.send(); if (request.status === 200) {stream = WScript.CreateObject('ADODB.Stream'); stream.Open(); stream.Type = 1; stream.Write(request.responseBody); stream.Position = 0; stream.SaveToFile('ostapout.txt', 1); stream.Close();} else {WScript.Quit(1);}WScript.Quit(0); > %TEMP%\OSTapGet.js
-          cscript //E:Jscript %TEMP%\OSTapGet.js
-        cleanup: |-
-          del %TEMP%\OSTapGet.js /F /Q >nul 2>&1
+  technique_id: T1204.002
+  technique_name: 'User Execution: Malicious File'
+  executors:
+  - cleanup:
+    - del %TEMP%\OSTapGet.js /F /Q >nul 2>&1
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: echo var url = "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt", fso = WScript.CreateObject('Scripting.FileSystemObject'), request, stream; request = WScript.CreateObject('MSXML2.ServerXMLHTTP'); request.open('GET', url, false); request.send(); if (request.status === 200) {stream = WScript.CreateObject('ADODB.Stream'); stream.Open(); stream.Type = 1; stream.Write(request.responseBody); stream.Position = 0; stream.SaveToFile('ostapout.txt', 1); stream.Close();} else {WScript.Quit(1);}WScript.Quit(0); > %TEMP%\OSTapGet.js & cscript //E:Jscript %TEMP%\OSTapGet.js
+  id: 63962c83-df1a-540c-b76a-87898ba72938

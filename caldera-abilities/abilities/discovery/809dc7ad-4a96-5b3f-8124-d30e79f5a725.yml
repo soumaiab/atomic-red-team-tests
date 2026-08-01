@@ -1,12 +1,15 @@
-- id: 809dc7ad-4a96-5b3f-8124-d30e79f5a725
+- requirements: []
   name: Soumaia ART Tests - Check internet connection using ping Windows
   description: Check internet connection using ping on Windows. The default target of the ping is 8.8.8.8 (Google Public DNS).
   tactic: discovery
-  technique:
-    attack_id: T1016.001
-    name: 'System Network Configuration Discovery: Internet Connection Discovery'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          ping -n 4 8.8.8.8
+  technique_id: T1016.001
+  technique_name: 'System Network Configuration Discovery: Internet Connection Discovery'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: ping -n 4 8.8.8.8
+  id: 809dc7ad-4a96-5b3f-8124-d30e79f5a725

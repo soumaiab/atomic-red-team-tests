@@ -1,4 +1,4 @@
-- id: e8208990-6b1d-566c-a340-acf13a4afbd4
+- requirements: []
   name: Soumaia ART Tests - Rundll32 execute command via FileProtocolHandler
   description: 'Test execution of a command using rundll32.exe and the FileProtocolHandler technique.
 
@@ -6,11 +6,14 @@
 
     This technique is documented by Levan Abesadze - https://medium.com/@Wolverineisstillalive/system-binary-proxy-execution-rundll32-bypass-method-790871e1f2b7'
   tactic: stealth
-  technique:
-    attack_id: T1218.011
-    name: 'Signed Binary Proxy Execution: Rundll32'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          rundll32.exe url.dll,FileProtocolHandler calc.exe
+  technique_id: T1218.011
+  technique_name: 'Signed Binary Proxy Execution: Rundll32'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: rundll32.exe url.dll,FileProtocolHandler calc.exe
+  id: e8208990-6b1d-566c-a340-acf13a4afbd4

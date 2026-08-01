@@ -1,13 +1,15 @@
-- id: d69c3501-78ba-5d62-9371-29ae69ae244e
+- requirements: []
   name: Soumaia ART Tests - Reg query for AlwaysInstallElevated status
   description: The reg query commands allows to check the status of the AlwaysInstallElevated registry key for both the user and the machine. If both queries return a value of 0x1, then AlwaysInstallElevated is enabled for both user and machine thus allowing a regular user to install a Microsoft Windows Installer package with system level privileges. This can be abused by an attacker to escalate privileges in the host to SYSTEM level. (requires elevation)
   tactic: discovery
-  technique:
-    attack_id: T1012
-    name: Query Registry
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          reg query HKCU\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated
-          reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated
+  technique_id: T1012
+  technique_name: Query Registry
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: reg query HKCU\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated & reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated
+  id: d69c3501-78ba-5d62-9371-29ae69ae244e

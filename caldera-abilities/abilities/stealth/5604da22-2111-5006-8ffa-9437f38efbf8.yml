@@ -1,4 +1,4 @@
-- id: 5604da22-2111-5006-8ffa-9437f38efbf8
+- requirements: []
   name: Soumaia ART Tests - Indirect Command Execution - conhost.exe
   description: 'conhost.exe refers to a host process for the console window. It provide an interface between command prompt and Windows explorer.
 
@@ -6,11 +6,14 @@
 
     [Reference] (http://www.hexacorn.com/blog/2020/05/25/how-to-con-your-host/)'
   tactic: stealth
-  technique:
-    attack_id: T1202
-    name: Indirect Command Execution
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          conhost.exe "notepad.exe"
+  technique_id: T1202
+  technique_name: Indirect Command Execution
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: conhost.exe "notepad.exe"
+  id: 5604da22-2111-5006-8ffa-9437f38efbf8

@@ -1,14 +1,17 @@
-- id: 13045bdb-21af-5aef-82c0-26d406ec9f64
+- requirements: []
   name: Soumaia ART Tests - Remote System Discovery - net group Domain Controller
   description: 'Identify remote systems with net.exe querying the Active Directory Domain Controller.
 
     Upon successful execution, cmd.exe will execute cmd.exe against Active Directory to list the "Domain Controller" in the domain. Output will be via stdout.'
   tactic: discovery
-  technique:
-    attack_id: T1018
-    name: Remote System Discovery
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          net group /domain "Domain controllers"
+  technique_id: T1018
+  technique_name: Remote System Discovery
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: net group /domain "Domain controllers"
+  id: 13045bdb-21af-5aef-82c0-26d406ec9f64

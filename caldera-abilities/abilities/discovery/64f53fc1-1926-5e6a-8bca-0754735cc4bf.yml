@@ -1,12 +1,15 @@
-- id: 64f53fc1-1926-5e6a-8bca-0754735cc4bf
+- requirements: []
   name: Soumaia ART Tests - Check internet connection using Test-NetConnection in PowerShell (ICMP-Ping)
   description: Check internet connection using PowerShell's Test-NetConnection cmdlet and the ICMP/Ping protocol. The default target is 8.8.8.8 (Google Public DNS).
   tactic: discovery
-  technique:
-    attack_id: T1016.001
-    name: 'System Network Configuration Discovery: Internet Connection Discovery'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          Test-NetConnection -ComputerName 8.8.8.8
+  technique_id: T1016.001
+  technique_name: 'System Network Configuration Discovery: Internet Connection Discovery'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: Test-NetConnection -ComputerName 8.8.8.8
+  id: 64f53fc1-1926-5e6a-8bca-0754735cc4bf

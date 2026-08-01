@@ -1,4 +1,4 @@
-- id: 975c4086-54fb-5265-a5af-0c7dab1f7677
+- requirements: []
   name: Soumaia ART Tests - Disable NLA for RDP via Command Prompt
   description: 'Disables network-level authentication (NLA) for RDP by changing a registry key via Command Prompt
 
@@ -6,13 +6,15 @@
 
     See also: https://github.com/EmpireProject/Empire/blob/master/lib/modules/powershell/management/enable_rdp.py'
   tactic: lateral-movement
-  technique:
-    attack_id: T1021.001
-    name: 'Remote Services: Remote Desktop Protocol'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" /v UserAuthentication /d 0 /t REG_DWORD /f
-        cleanup: |-
-          reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" /v UserAuthentication /d 1 /t REG_DWORD -f >nul 2>&1
+  technique_id: T1021.001
+  technique_name: 'Remote Services: Remote Desktop Protocol'
+  executors:
+  - cleanup:
+    - reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" /v UserAuthentication /d 1 /t REG_DWORD -f >nul 2>&1
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" /v UserAuthentication /d 0 /t REG_DWORD /f
+  id: 975c4086-54fb-5265-a5af-0c7dab1f7677

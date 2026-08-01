@@ -1,12 +1,15 @@
-- id: 3d40cf83-e8e6-58f8-9992-380b89afab5a
+- requirements: []
   name: Soumaia ART Tests - Inspect SystemStartOptions Value in Registry
   description: The objective of this test is to query the SystemStartOptions key under HKLM\SYSTEM\CurrentControlSet\Control in the Windows registry. This action could be used to uncover specific details about how the system is configured to start, potentially aiding in understanding boot parameters or identifying security-related settings. key is.
   tactic: discovery
-  technique:
-    attack_id: T1012
-    name: Query Registry
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          reg.exe query HKLM\SYSTEM\CurrentControlSet\Control /v SystemStartOptions
+  technique_id: T1012
+  technique_name: Query Registry
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: reg.exe query HKLM\SYSTEM\CurrentControlSet\Control /v SystemStartOptions
+  id: 3d40cf83-e8e6-58f8-9992-380b89afab5a

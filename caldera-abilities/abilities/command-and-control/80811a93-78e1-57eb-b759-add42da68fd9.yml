@@ -1,14 +1,17 @@
-- id: 80811a93-78e1-57eb-b759-add42da68fd9
+- requirements: []
   name: Soumaia ART Tests - Windows - BITSAdmin BITS Download
   description: 'This test uses BITSAdmin.exe to schedule a BITS job for the download of a file.
 
     This technique is used by Qbot malware to download payloads.'
   tactic: command-and-control
-  technique:
-    attack_id: T1105
-    name: Ingress Tool Transfer
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          C:\Windows\System32\bitsadmin.exe /transfer qcxjb7 /Priority HIGH https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt %temp%\Atomic-license.txt
+  technique_id: T1105
+  technique_name: Ingress Tool Transfer
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: C:\Windows\System32\bitsadmin.exe /transfer qcxjb7 /Priority HIGH https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt %temp%\Atomic-license.txt
+  id: 80811a93-78e1-57eb-b759-add42da68fd9

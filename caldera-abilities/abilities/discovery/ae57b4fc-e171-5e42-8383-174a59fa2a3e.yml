@@ -1,12 +1,15 @@
-- id: ae57b4fc-e171-5e42-8383-174a59fa2a3e
+- requirements: []
   name: Soumaia ART Tests - Enumerate Stored Wi-Fi Profiles And Passwords via netsh
   description: Upon successful execution, information about previously connected Wi-Fi networks will be displayed with their corresponding key (if present).
   tactic: discovery
-  technique:
-    attack_id: T1016.002
-    name: 'System Network Configuration Discovery: Wi-Fi Discovery'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          netsh wlan show profile * key=clear
+  technique_id: T1016.002
+  technique_name: 'System Network Configuration Discovery: Wi-Fi Discovery'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: netsh wlan show profile * key=clear
+  id: ae57b4fc-e171-5e42-8383-174a59fa2a3e

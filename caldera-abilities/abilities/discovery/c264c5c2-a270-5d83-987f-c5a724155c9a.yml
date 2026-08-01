@@ -1,16 +1,18 @@
-- id: c264c5c2-a270-5d83-987f-c5a724155c9a
+- requirements: []
   name: Soumaia ART Tests - Remote System Discovery - net
   description: 'Identify remote systems with net.exe.
 
 
     Upon successful execution, cmd.exe will execute `net.exe view` and display results of local systems on the network that have file and print sharing enabled.'
   tactic: discovery
-  technique:
-    attack_id: T1018
-    name: Remote System Discovery
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          net view /domain
-          net view
+  technique_id: T1018
+  technique_name: Remote System Discovery
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: net view /domain & net view
+  id: c264c5c2-a270-5d83-987f-c5a724155c9a

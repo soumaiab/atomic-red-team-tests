@@ -1,14 +1,16 @@
-- id: 66844476-9891-5686-a8df-1a684963f619
+- requirements: []
   name: Soumaia ART Tests - Modify UseTPM Registry entry
   description: Use Trusted Platform Module (TPM) for Bitlocker tool (requires elevation)
   tactic: persistence
-  technique:
-    attack_id: T1112
-    name: Modify Registry
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          reg add "HKLM\SOFTWARE\Policies\Microsoft\FVE" /v UseTPM /t REG_DWORD /d 2 /f
-        cleanup: |-
-          reg delete ""HKLM\SOFTWARE\Policies\Microsoft\FVE"" /v UseTPM /f
+  technique_id: T1112
+  technique_name: Modify Registry
+  executors:
+  - cleanup:
+    - reg delete ""HKLM\SOFTWARE\Policies\Microsoft\FVE"" /v UseTPM /f
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: reg add "HKLM\SOFTWARE\Policies\Microsoft\FVE" /v UseTPM /t REG_DWORD /d 2 /f
+  id: 66844476-9891-5686-a8df-1a684963f619

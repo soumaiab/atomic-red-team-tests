@@ -1,4 +1,4 @@
-- id: 33eee29f-3e1d-5356-adc8-dd36c6b63216
+- requirements: []
   name: Soumaia ART Tests - Access Saved Credentials via VaultCmd
   description: 'List credentials currently stored in Windows Credential Manager via the native Windows utility vaultcmd.exe
 
@@ -8,11 +8,14 @@
 
     https://medium.com/threatpunter/detecting-adversary-tradecraft-with-image-load-event-logging-and-eql-8de93338c16'
   tactic: credential-access
-  technique:
-    attack_id: T1555.004
-    name: 'Credentials from Password Stores: Windows Credential Manager'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          vaultcmd /listcreds:"Windows Credentials"
+  technique_id: T1555.004
+  technique_name: 'Credentials from Password Stores: Windows Credential Manager'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: vaultcmd /listcreds:"Windows Credentials"
+  id: 33eee29f-3e1d-5356-adc8-dd36c6b63216

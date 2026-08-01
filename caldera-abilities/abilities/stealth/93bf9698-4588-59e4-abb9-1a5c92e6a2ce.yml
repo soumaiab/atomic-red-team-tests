@@ -1,17 +1,18 @@
-- id: 93bf9698-4588-59e4-abb9-1a5c92e6a2ce
+- requirements: []
   name: Soumaia ART Tests - Create ADS command prompt
   description: 'Create an Alternate Data Stream with the command prompt. Write access is required. Upon execution, run "dir /a-d /s /r | find ":$DATA"" in the %temp%
 
     folder to view that the alternate data stream exists. To view the data in the alternate data stream, run "notepad T1564.004_has_ads.txt:adstest.txt"'
   tactic: stealth
-  technique:
-    attack_id: T1564.004
-    name: 'Hide Artifacts: NTFS File Attributes'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          echo cmd /c echo "Shell code execution."> %temp%\T1564.004_has_ads_cmd.txt:adstest.txt
-          for /f "usebackq delims=?" %i in (%temp%\T1564.004_has_ads_cmd.txt:adstest.txt) do %i
-        cleanup: |-
-          del %temp%\T1564.004_has_ads_cmd.txt >nul 2>&1
+  technique_id: T1564.004
+  technique_name: 'Hide Artifacts: NTFS File Attributes'
+  executors:
+  - cleanup:
+    - del %temp%\T1564.004_has_ads_cmd.txt >nul 2>&1
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: echo cmd /c echo "Shell code execution."> %temp%\T1564.004_has_ads_cmd.txt:adstest.txt & for /f "usebackq delims=?" %i in (%temp%\T1564.004_has_ads_cmd.txt:adstest.txt) do %i
+  id: 93bf9698-4588-59e4-abb9-1a5c92e6a2ce

@@ -1,13 +1,15 @@
-- id: 8a183416-a4cd-5092-b8ee-fd61bf937dbb
+- requirements: []
   name: Soumaia ART Tests - Delete User - Windows
   description: Deletes a user account to prevent access. Upon execution, run the command "net user" to verify that the new "AtomicUser" account was deleted. (requires elevation)
   tactic: impact
-  technique:
-    attack_id: T1531
-    name: Account Access Removal
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          net user AtomicUser User2DeletePW! /add
-          net.exe user AtomicUser /delete
+  technique_id: T1531
+  technique_name: Account Access Removal
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: net user AtomicUser User2DeletePW! /add & net.exe user AtomicUser /delete
+  id: 8a183416-a4cd-5092-b8ee-fd61bf937dbb

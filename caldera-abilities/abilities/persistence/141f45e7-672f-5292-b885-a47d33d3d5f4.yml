@@ -1,18 +1,16 @@
-- id: 141f45e7-672f-5292-b885-a47d33d3d5f4
+- requirements: []
   name: Soumaia ART Tests - BlackByte Ransomware Registry Changes - Powershell
   description: "This task recreates the steps taken by BlackByte ransomware before it worms to other machines via Powershell.  See \"Preparing to Worm\" section: https://redcanary.com/blog/blackbyte-ransomware/\nThe steps are as follows:\n<ol>\n    <li>1. Elevate Local Privilege by disabling UAC Remote Restrictions</li>\n    <li>2. Enable OS to share network connections between different privilege levels</li>\n    <li>3. Enable long path values for file paths, names, and namespaces to ensure encryption of all file names and paths</li>\n</ol>\nThe registry keys and their respective values will be created upon successful execution. (requires elevation)"
   tactic: persistence
-  technique:
-    attack_id: T1112
-    name: Modify Registry
-  platforms:
-    windows:
-      psh:
-        command: |-
-          New-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name LocalAccountTokenFilterPolicy -PropertyType DWord -Value 1 -Force
-          New-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name EnableLinkedConnections -PropertyType DWord -Value 1 -Force
-          New-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" -Name LongPathsEnabled -PropertyType DWord -Value 1 -Force
-        cleanup: |-
-          Remove-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name LocalAccountTokenFilterPolicy -Force -ErrorAction Ignore
-          Remove-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name EnableLinkedConnections -Force -ErrorAction Ignore
-          Remove-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" -Name LongPathsEnabled -Force -ErrorAction Ignore
+  technique_id: T1112
+  technique_name: Modify Registry
+  executors:
+  - cleanup:
+    - Remove-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name LocalAccountTokenFilterPolicy -Force -ErrorAction Ignore; Remove-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name EnableLinkedConnections -Force -ErrorAction Ignore; Remove-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" -Name LongPathsEnabled -Force -ErrorAction Ignore
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: New-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name LocalAccountTokenFilterPolicy -PropertyType DWord -Value 1 -Force; New-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" -Name EnableLinkedConnections -PropertyType DWord -Value 1 -Force; New-ItemProperty "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem" -Name LongPathsEnabled -PropertyType DWord -Value 1 -Force
+  id: 141f45e7-672f-5292-b885-a47d33d3d5f4

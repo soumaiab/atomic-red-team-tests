@@ -1,12 +1,15 @@
-- id: 58a129fd-a4c3-5e80-beb2-2b17b154cdaf
+- requirements: []
   name: Soumaia ART Tests - Discover System Language with dism.exe
   description: The Windows utility DISM (Deployment Image Servicing and Management) can be used to display information about international settings and languages on the currently installed Windows image using an elevated terminal. (requires elevation)
   tactic: discovery
-  technique:
-    attack_id: T1614.001
-    name: 'System Location Discovery: System Language Discovery'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          dism.exe /online /Get-Intl
+  technique_id: T1614.001
+  technique_name: 'System Location Discovery: System Language Discovery'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: dism.exe /online /Get-Intl
+  id: 58a129fd-a4c3-5e80-beb2-2b17b154cdaf

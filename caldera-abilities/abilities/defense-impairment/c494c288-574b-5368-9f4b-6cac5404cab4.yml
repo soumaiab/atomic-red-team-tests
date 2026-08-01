@@ -1,4 +1,4 @@
-- id: c494c288-574b-5368-9f4b-6cac5404cab4
+- requirements: []
   name: Soumaia ART Tests - LockBit Black - Disable the ETW Provider of Windows Defender -cmd
   description: 'An adversary can disable the ETW Provider of Windows Defender,
 
@@ -6,13 +6,15 @@
 
     https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-075a (requires elevation)'
   tactic: defense-impairment
-  technique:
-    attack_id: T1685
-    name: Disable or Modify Tools
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          reg add "HKLM\Software\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-Windows Defender/Operational" /v Enabled /t REG_DWORD /d 0 /f
-        cleanup: |-
-          reg delete "HKLM\Software\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-Windows Defender/Operational" /v Enabled /f >nul 2>&1
+  technique_id: T1685
+  technique_name: Disable or Modify Tools
+  executors:
+  - cleanup:
+    - reg delete "HKLM\Software\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-Windows Defender/Operational" /v Enabled /f >nul 2>&1
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: reg add "HKLM\Software\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-Windows Defender/Operational" /v Enabled /t REG_DWORD /d 0 /f
+  id: c494c288-574b-5368-9f4b-6cac5404cab4

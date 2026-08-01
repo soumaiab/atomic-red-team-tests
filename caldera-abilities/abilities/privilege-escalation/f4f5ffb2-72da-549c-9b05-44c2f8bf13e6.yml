@@ -1,12 +1,15 @@
-- id: f4f5ffb2-72da-549c-9b05-44c2f8bf13e6
+- requirements: []
   name: Soumaia ART Tests - Driver Installation Using pnputil.exe
   description: 'pnputil.exe is a native command-line utility in Windows to install drivers, this can be abused by to install malicious drivers. Ref: https://lolbas-project.github.io/lolbas/Binaries/Pnputil/'
   tactic: privilege-escalation
-  technique:
-    attack_id: T1547
-    name: Boot or Logon Autostart Execution
-  platforms:
-    windows:
-      psh:
-        command: |-
-          pnputil.exe -i -a C:\Windows\INF\acpipmi.inf
+  technique_id: T1547
+  technique_name: Boot or Logon Autostart Execution
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: pnputil.exe -i -a C:\Windows\INF\acpipmi.inf
+  id: f4f5ffb2-72da-549c-9b05-44c2f8bf13e6

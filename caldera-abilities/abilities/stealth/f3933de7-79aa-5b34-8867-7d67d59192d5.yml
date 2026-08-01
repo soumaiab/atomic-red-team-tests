@@ -1,4 +1,4 @@
-- id: f3933de7-79aa-5b34-8867-7d67d59192d5
+- requirements: []
   name: Soumaia ART Tests - LOLBAS CustomShellHost to Spawn Process
   description: 'This test simulates an adversary copying `customshellhost.exe` and `calc.exe` from `C:\windows\system32\` to `C:\temp\`, renaming `calc.exe` to `explorer.exe`.
 
@@ -10,19 +10,15 @@
 
     [BishopFox](https://bishopfox.com/blog/edr-bypass-with-lolbins) (requires elevation)'
   tactic: stealth
-  technique:
-    attack_id: T1218
-    name: Signed Binary Proxy Execution
-  platforms:
-    windows:
-      psh:
-        command: |-
-          if (-not (Test-Path C:\test)) {
-          New-Item -Path C:\test -ItemType Directory
-          } else {
-          Write-Host "Directory C:\test already exists." }
-          Copy-Item -Path "C:\windows\system32\customshellhost.exe" -Destination "C:\test\customshellhost.exe" -Force
-          Copy-Item -Path "C:\windows\system32\calc.exe" -Destination "C:\test\explorer.exe" -Force
-          C:\test\customshellhost.exe
-        cleanup: |-
-          Remove-Item -Path C:\test -Recurse -Force
+  technique_id: T1218
+  technique_name: Signed Binary Proxy Execution
+  executors:
+  - cleanup:
+    - Remove-Item -Path C:\test -Recurse -Force
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: if (-not (Test-Path C:\test)) { New-Item -Path C:\test -ItemType Directory } else { Write-Host "Directory C:\test already exists." }; Copy-Item -Path "C:\windows\system32\customshellhost.exe" -Destination "C:\test\customshellhost.exe" -Force; Copy-Item -Path "C:\windows\system32\calc.exe" -Destination "C:\test\explorer.exe" -Force; C:\test\customshellhost.exe
+  id: f3933de7-79aa-5b34-8867-7d67d59192d5

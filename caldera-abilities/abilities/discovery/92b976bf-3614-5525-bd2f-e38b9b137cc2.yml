@@ -1,12 +1,15 @@
-- id: 92b976bf-3614-5525-bd2f-e38b9b137cc2
+- requirements: []
   name: Soumaia ART Tests - Check Software Inventory Logging (SIL) status via Registry
   description: "Microsoft's Software Inventory Logging (SIL) collects information about software installed per host basis. Adversary can use such logs to passively \ncheck for existence of software of interest to them. Status of SIL can be checked via registry.\n[Reference](https://blog.talosintelligence.com/chinese-hacking-group-apt41-compromised-taiwanese-government-affiliated-research-institute-with-shadowpad-and-cobaltstrike-2/) (requires elevation)"
   tactic: discovery
-  technique:
-    attack_id: T1012
-    name: Query Registry
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          reg.exe query hklm\software\microsoft\windows\softwareinventorylogging /v collectionstate /reg:64
+  technique_id: T1012
+  technique_name: Query Registry
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: reg.exe query hklm\software\microsoft\windows\softwareinventorylogging /v collectionstate /reg:64
+  id: 92b976bf-3614-5525-bd2f-e38b9b137cc2

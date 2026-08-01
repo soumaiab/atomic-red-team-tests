@@ -1,12 +1,15 @@
-- id: 5e3f6103-ae99-5c1c-82c3-3bcad465d3de
+- requirements: []
   name: Soumaia ART Tests - Map admin share
   description: Connecting To Remote Shares
   tactic: lateral-movement
-  technique:
-    attack_id: T1021.002
-    name: 'Remote Services: SMB/Windows Admin Shares'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          cmd.exe /c "net use \\Target\C$ P@ssw0rd1 /u:DOMAIN\Administrator"
+  technique_id: T1021.002
+  technique_name: 'Remote Services: SMB/Windows Admin Shares'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: cmd.exe /c "net use \\Target\C$ P@ssw0rd1 /u:DOMAIN\Administrator"
+  id: 5e3f6103-ae99-5c1c-82c3-3bcad465d3de

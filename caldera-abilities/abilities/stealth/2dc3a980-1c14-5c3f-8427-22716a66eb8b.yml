@@ -1,4 +1,4 @@
-- id: 2dc3a980-1c14-5c3f-8427-22716a66eb8b
+- requirements: []
   name: Soumaia ART Tests - Headless Browser Accessing Mockbin
   description: 'The following Atomic Red Team test leverages the Chrome headless browser to access a mockbin site. Create your own Mockbin.org site and replace the BIN in the inputs.
 
@@ -6,13 +6,15 @@
 
     Reference: https://cert.gov.ua/article/5702579'
   tactic: stealth
-  technique:
-    attack_id: T1564.003
-    name: 'Hide Artifacts: Hidden Window'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          start "" chrome --headless --disable-gpu https://mockbin.org/bin/f6b9a876-a826-4ac0-83b8-639d6ad516ec
-        cleanup: |-
-          taskkill /im chrome /f
+  technique_id: T1564.003
+  technique_name: 'Hide Artifacts: Hidden Window'
+  executors:
+  - cleanup:
+    - taskkill /im chrome /f
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: start "" chrome --headless --disable-gpu https://mockbin.org/bin/f6b9a876-a826-4ac0-83b8-639d6ad516ec
+  id: 2dc3a980-1c14-5c3f-8427-22716a66eb8b

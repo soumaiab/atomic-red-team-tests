@@ -1,14 +1,17 @@
-- id: c7760569-b422-55e7-bf31-aded2b10711d
+- requirements: []
   name: Soumaia ART Tests - Discover OS Build Number via Registry
   description: 'Identify the Operating System Build Number via registry with the reg.exe command.
 
     Upon execution, the OS Build Number will be displayed.'
   tactic: discovery
-  technique:
-    attack_id: T1082
-    name: System Information Discovery
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v CurrentBuildNumber
+  technique_id: T1082
+  technique_name: System Information Discovery
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v CurrentBuildNumber
+  id: c7760569-b422-55e7-bf31-aded2b10711d

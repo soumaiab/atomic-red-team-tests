@@ -1,14 +1,16 @@
-- id: edb04a8d-0170-5dbf-980f-3b717f7700c5
+- requirements: []
   name: Soumaia ART Tests - certutil download (urlcache)
   description: Use certutil -urlcache argument to download a file from the web. Note - /urlcache also works!
   tactic: command-and-control
-  technique:
-    attack_id: T1105
-    name: Ingress Tool Transfer
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          cmd /c certutil -urlcache -split -f https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt Atomic-license.txt
-        cleanup: |-
-          del Atomic-license.txt >nul 2>&1
+  technique_id: T1105
+  technique_name: Ingress Tool Transfer
+  executors:
+  - cleanup:
+    - del Atomic-license.txt >nul 2>&1
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: cmd /c certutil -urlcache -split -f https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt Atomic-license.txt
+  id: edb04a8d-0170-5dbf-980f-3b717f7700c5

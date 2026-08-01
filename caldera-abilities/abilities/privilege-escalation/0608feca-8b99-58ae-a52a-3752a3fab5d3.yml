@@ -1,17 +1,19 @@
-- id: 0608feca-8b99-58ae-a52a-3752a3fab5d3
+- requirements: []
   name: Soumaia ART Tests - Winlogon Shell Key Persistence - PowerShell
   description: 'PowerShell code to set Winlogon shell key to execute a binary at logon along with explorer.exe.
 
 
     Upon successful execution, PowerShell will modify a registry value to execute cmd.exe upon logon/logoff.'
   tactic: privilege-escalation
-  technique:
-    attack_id: T1547.004
-    name: 'Boot or Logon Autostart Execution: Winlogon Helper DLL'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          Set-ItemProperty "HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\" "Shell" "explorer.exe, C:\Windows\System32\cmd.exe" -Force
-        cleanup: |-
-          Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\" -Name "Shell" -Force -ErrorAction Ignore
+  technique_id: T1547.004
+  technique_name: 'Boot or Logon Autostart Execution: Winlogon Helper DLL'
+  executors:
+  - cleanup:
+    - Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\" -Name "Shell" -Force -ErrorAction Ignore
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: Set-ItemProperty "HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\" "Shell" "explorer.exe, C:\Windows\System32\cmd.exe" -Force
+  id: 0608feca-8b99-58ae-a52a-3752a3fab5d3

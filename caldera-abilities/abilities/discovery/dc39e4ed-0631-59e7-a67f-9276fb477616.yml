@@ -1,4 +1,4 @@
-- id: dc39e4ed-0631-59e7-a67f-9276fb477616
+- requirements: []
   name: Soumaia ART Tests - Enumerate Active Directory Computers with ADSISearcher
   description: 'The following Atomic test will utilize ADSISearcher to enumerate computers within Active Directory.
 
@@ -6,11 +6,14 @@
 
     Reference: https://devblogs.microsoft.com/scripting/use-the-powershell-adsisearcher-type-accelerator-to-search-active-directory/'
   tactic: discovery
-  technique:
-    attack_id: T1018
-    name: Remote System Discovery
-  platforms:
-    windows:
-      psh:
-        command: |-
-          ([adsisearcher]"objectcategory=computer").FindAll(); ([adsisearcher]"objectcategory=computer").FindOne()
+  technique_id: T1018
+  technique_name: Remote System Discovery
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: ([adsisearcher]"objectcategory=computer").FindAll(); ([adsisearcher]"objectcategory=computer").FindOne()
+  id: dc39e4ed-0631-59e7-a67f-9276fb477616

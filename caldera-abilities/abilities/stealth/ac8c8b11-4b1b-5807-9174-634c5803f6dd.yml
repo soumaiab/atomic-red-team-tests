@@ -1,4 +1,4 @@
-- id: ac8c8b11-4b1b-5807-9174-634c5803f6dd
+- requirements: []
   name: Soumaia ART Tests - Malicious process Masquerading as LSM.exe
   description: 'Detect LSM running from an incorrect directory and an incorrect service account
 
@@ -7,15 +7,15 @@
 
     Upon successful execution, cmd.exe will be renamed as lsm.exe and executed from non-standard path. (requires elevation)'
   tactic: stealth
-  technique:
-    attack_id: T1036.003
-    name: 'Masquerading: Rename System Utilities'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          copy C:\Windows\System32\cmd.exe C:\lsm.exe
-          C:\lsm.exe /c echo T1036.003 > C:\T1036.003.txt
-        cleanup: |-
-          del C:\T1036.003.txt >nul 2>&1
-          del C:\lsm.exe >nul 2>&1
+  technique_id: T1036.003
+  technique_name: 'Masquerading: Rename System Utilities'
+  executors:
+  - cleanup:
+    - del C:\T1036.003.txt >nul 2>&1 & del C:\lsm.exe >nul 2>&1
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: copy C:\Windows\System32\cmd.exe C:\lsm.exe & C:\lsm.exe /c echo T1036.003 > C:\T1036.003.txt
+  id: ac8c8b11-4b1b-5807-9174-634c5803f6dd

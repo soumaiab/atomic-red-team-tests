@@ -1,14 +1,16 @@
-- id: 6f8ce293-2a9f-5f71-a07f-0e880eaf6a9c
+- requirements: []
   name: Soumaia ART Tests - Create an "Administrator " user (with a space on the end)
   description: Creating a user with a username containing with a space on the end (requires elevation)
   tactic: stealth
-  technique:
-    attack_id: T1564
-    name: Hide Artifacts
-  platforms:
-    windows:
-      psh:
-        command: |-
-          New-LocalUser -Name "Administrator " -NoPassword
-        cleanup: |-
-          Remove-LocalUser -Name "Administrator " 2>&1 | out-null
+  technique_id: T1564
+  technique_name: Hide Artifacts
+  executors:
+  - cleanup:
+    - Remove-LocalUser -Name "Administrator " 2>&1 | out-null
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: New-LocalUser -Name "Administrator " -NoPassword
+  id: 6f8ce293-2a9f-5f71-a07f-0e880eaf6a9c

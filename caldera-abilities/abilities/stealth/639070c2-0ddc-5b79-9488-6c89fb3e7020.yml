@@ -1,18 +1,17 @@
-- id: 639070c2-0ddc-5b79-9488-6c89fb3e7020
+- requirements: []
   name: Soumaia ART Tests - Delete a single file - Windows cmd
   description: 'Delete a single file from the temporary directory using cmd.exe.
 
     Upon execution, no output will be displayed. Use File Explorer to verify the file was deleted.'
   tactic: stealth
-  technique:
-    attack_id: T1070.004
-    name: 'Indicator Removal on Host: File Deletion'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          cmd /c "IF EXIST ""%temp%\deleteme_T1551.004"" ( EXIT 0 ) ELSE ( EXIT 1 )"
-          if not "%ERRORLEVEL%"=="0" (
-              cmd /c "echo deleteme_T1551.004 >> %temp%\deleteme_T1551.004"
-          )
-          del /f %temp%\deleteme_T1551.004
+  technique_id: T1070.004
+  technique_name: 'Indicator Removal on Host: File Deletion'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: cmd /c "IF EXIST ""%temp%\deleteme_T1551.004"" ( EXIT 0 ) ELSE ( EXIT 1 )" & if not "%ERRORLEVEL%"=="0" ( cmd /c "echo deleteme_T1551.004 >> %temp%\deleteme_T1551.004" ) & del /f %temp%\deleteme_T1551.004
+  id: 639070c2-0ddc-5b79-9488-6c89fb3e7020

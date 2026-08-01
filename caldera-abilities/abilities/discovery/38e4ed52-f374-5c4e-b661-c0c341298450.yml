@@ -1,14 +1,16 @@
-- id: 38e4ed52-f374-5c4e-b661-c0c341298450
+- requirements: []
   name: Soumaia ART Tests - GetCurrent User with PowerShell Script
   description: Use the PowerShell "GetCurrent" method of the WindowsIdentity .NET class to identify the logged user.
   tactic: discovery
-  technique:
-    attack_id: T1033
-    name: System Owner/User Discovery
-  platforms:
-    windows:
-      psh:
-        command: |-
-          [System.Security.Principal.WindowsIdentity]::GetCurrent() | Out-File -FilePath .\CurrentUserObject.txt
-        cleanup: |-
-          Remove-Item -Path .\CurrentUserObject.txt -Force
+  technique_id: T1033
+  technique_name: System Owner/User Discovery
+  executors:
+  - cleanup:
+    - Remove-Item -Path .\CurrentUserObject.txt -Force
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: '[System.Security.Principal.WindowsIdentity]::GetCurrent() | Out-File -FilePath .\CurrentUserObject.txt'
+  id: 38e4ed52-f374-5c4e-b661-c0c341298450

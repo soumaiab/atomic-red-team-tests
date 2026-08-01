@@ -1,4 +1,4 @@
-- id: f4280379-7b54-5cf7-a457-dbdb60b85fdc
+- requirements: []
   name: Soumaia ART Tests - Security Software Discovery
   description: 'Methods to identify Security Software on an endpoint
 
@@ -7,10 +7,14 @@
 
     and specific security software.'
   tactic: discovery
-  technique:
-    attack_id: T1518.001
-    name: 'Software Discovery: Security Software Discovery'
-  platforms:
-    windows:
-      cmd:
-        command: "netsh.exe advfirewall  show allprofiles \nnetsh.exe advfirewall firewall dump\nnetsh.exe advfirewall show currentprofile\nnetsh.exe advfirewall firewall show rule name=all\nnetsh.exe firewall show state\nnetsh.exe firewall show config\nsc query windefend\npowershell.exe /c \"Get-Process | Where-Object { $_.ProcessName -eq 'Sysmon' }\"\npowershell.exe /c \"Get-Service | where-object {$_.DisplayName -like '*sysm*'}\"\npowershell.exe /c \"Get-CimInstance Win32_Service -Filter 'Description = ''System Monitor service'''\"\ntasklist.exe\ntasklist.exe | findstr /i virus\ntasklist.exe | findstr /i cb\ntasklist.exe | findstr /i defender\ntasklist.exe | findstr /i cylance\ntasklist.exe | findstr /i mc\ntasklist.exe | findstr /i \"virus cb defender cylance mc\""
+  technique_id: T1518.001
+  technique_name: 'Software Discovery: Security Software Discovery'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: netsh.exe advfirewall  show allprofiles & netsh.exe advfirewall firewall dump & netsh.exe advfirewall show currentprofile & netsh.exe advfirewall firewall show rule name=all & netsh.exe firewall show state & netsh.exe firewall show config & sc query windefend & powershell.exe /c "Get-Process | Where-Object { $_.ProcessName -eq 'Sysmon' }" & powershell.exe /c "Get-Service | where-object {$_.DisplayName -like '*sysm*'}" & powershell.exe /c "Get-CimInstance Win32_Service -Filter 'Description = ''System Monitor service'''" & tasklist.exe & tasklist.exe | findstr /i virus & tasklist.exe | findstr /i cb & tasklist.exe | findstr /i defender & tasklist.exe | findstr /i cylance & tasklist.exe | findstr /i mc & tasklist.exe | findstr /i "virus cb defender cylance mc"
+  id: f4280379-7b54-5cf7-a457-dbdb60b85fdc

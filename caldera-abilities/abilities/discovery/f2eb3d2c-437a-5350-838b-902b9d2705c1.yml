@@ -1,4 +1,4 @@
-- id: f2eb3d2c-437a-5350-838b-902b9d2705c1
+- requirements: []
   name: Soumaia ART Tests - Enumerate Active Directory Computers with Get-AdComputer
   description: 'The following Atomic test will utilize Get-AdComputer to enumerate Computers within Active Directory.
 
@@ -6,11 +6,14 @@
 
     Reference: https://github.com/MicrosoftDocs/windows-powershell-docs/blob/main/docset/winserver2022-ps/activedirectory/Get-ADComputer.md'
   tactic: discovery
-  technique:
-    attack_id: T1018
-    name: Remote System Discovery
-  platforms:
-    windows:
-      psh:
-        command: |-
-          Get-AdComputer -Filter *
+  technique_id: T1018
+  technique_name: Remote System Discovery
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: Get-AdComputer -Filter *
+  id: f2eb3d2c-437a-5350-838b-902b9d2705c1

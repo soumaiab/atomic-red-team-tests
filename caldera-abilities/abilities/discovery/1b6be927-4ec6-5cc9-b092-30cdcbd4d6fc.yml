@@ -1,4 +1,4 @@
-- id: 1b6be927-4ec6-5cc9-b092-30cdcbd4d6fc
+- requirements: []
   name: Soumaia ART Tests - System Network Connections Discovery
   description: 'Get a listing of network connections.
 
@@ -7,13 +7,14 @@
 
     elevated privileges; on standard user accounts this command may not return results. Results will output via stdout.'
   tactic: discovery
-  technique:
-    attack_id: T1049
-    name: System Network Connections Discovery
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          netstat -ano
-          net use
-          net sessions 2>nul
+  technique_id: T1049
+  technique_name: System Network Connections Discovery
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: netstat -ano & net use & net sessions 2>nul
+  id: 1b6be927-4ec6-5cc9-b092-30cdcbd4d6fc

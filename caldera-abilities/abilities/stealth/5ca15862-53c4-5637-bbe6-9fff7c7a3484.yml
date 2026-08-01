@@ -1,4 +1,4 @@
-- id: 5ca15862-53c4-5637-bbe6-9fff7c7a3484
+- requirements: []
   name: Soumaia ART Tests - Lolbin Jsc.exe compile javascript to exe
   description: 'Use jsc.exe to compile javascript code stored in scriptfile.js and output scriptfile.exe.
 
@@ -6,21 +6,16 @@
 
     https://www.phpied.com/make-your-javascript-a-windows-exe/'
   tactic: stealth
-  technique:
-    attack_id: T1127
-    name: Trusted Developer Utilities Proxy Execution
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAGgAZQBsAGwAbwAuAGoAcwAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
-          if not "%ERRORLEVEL%"=="0" (
-              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABoAGUAbABsAG8ALgBqAHMAIgApACAALQBFAHIAcgBvAHIAQQBjAHQAaQBvAG4AIABpAGcAbgBvAHIAZQAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgBJAG4AdgBvAGsAZQAtAFcAZQBiAFIAZQBxAHUAZQBzAHQAIAAiAGgAdAB0AHAAcwA6AC8ALwBnAGkAdABoAHUAYgAuAGMAbwBtAC8AcgBlAGQAYwBhAG4AYQByAHkAYwBvAC8AYQB0AG8AbQBpAGMALQByAGUAZAAtAHQAZQBhAG0ALwByAGEAdwAvAG0AYQBzAHQAZQByAC8AYQB0AG8AbQBpAGMAcwAvAFQAMQAxADIANwAvAHMAcgBjAC8AaABlAGwAbABvAC4AagBzACIAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXABoAGUAbABsAG8ALgBqAHMAIgAKAA==
-          )
-          copy ".\hello.js" %TEMP%\hello.js
-          C:\Windows\Microsoft.NET\Framework\v4.0.30319\jsc.exe %TEMP%\hello.js
-        cleanup: |-
-          del %TEMP%\hello.js
-          del %TEMP%\hello.exe
-        payloads:
-        - hello.js
+  technique_id: T1127
+  technique_name: Trusted Developer Utilities Proxy Execution
+  executors:
+  - cleanup:
+    - del %TEMP%\hello.js & del %TEMP%\hello.exe
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads:
+    - hello.js
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAGgAZQBsAGwAbwAuAGoAcwAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA & if not "%ERRORLEVEL%"=="0" ( powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABoAGUAbABsAG8ALgBqAHMAIgApACAALQBFAHIAcgBvAHIAQQBjAHQAaQBvAG4AIABpAGcAbgBvAHIAZQAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgBJAG4AdgBvAGsAZQAtAFcAZQBiAFIAZQBxAHUAZQBzAHQAIAAiAGgAdAB0AHAAcwA6AC8ALwBnAGkAdABoAHUAYgAuAGMAbwBtAC8AcgBlAGQAYwBhAG4AYQByAHkAYwBvAC8AYQB0AG8AbQBpAGMALQByAGUAZAAtAHQAZQBhAG0ALwByAGEAdwAvAG0AYQBzAHQAZQByAC8AYQB0AG8AbQBpAGMAcwAvAFQAMQAxADIANwAvAHMAcgBjAC8AaABlAGwAbABvAC4AagBzACIAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXABoAGUAbABsAG8ALgBqAHMAIgAKAA== ) & copy ".\hello.js" %TEMP%\hello.js & C:\Windows\Microsoft.NET\Framework\v4.0.30319\jsc.exe %TEMP%\hello.js
+  id: 5ca15862-53c4-5637-bbe6-9fff7c7a3484

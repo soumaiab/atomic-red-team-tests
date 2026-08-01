@@ -1,13 +1,15 @@
-- id: 0586038e-62cf-53e8-aa34-3d1fc60fc84b
+- requirements: []
   name: Soumaia ART Tests - Add Network Share
   description: Add a Network Share utilizing the command_prompt
   tactic: stealth
-  technique:
-    attack_id: T1070.005
-    name: 'Indicator Removal on Host: Network Share Connection Removal'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          net use c: \\test\share
-          net share test=\\test\share /REMARK:"test share" /CACHE:No
+  technique_id: T1070.005
+  technique_name: 'Indicator Removal on Host: Network Share Connection Removal'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: 'net use c: \\test\share & net share test=\\test\share /REMARK:"test share" /CACHE:No'
+  id: 0586038e-62cf-53e8-aa34-3d1fc60fc84b

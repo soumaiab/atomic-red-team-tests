@@ -1,18 +1,19 @@
-- id: f27bfd36-ccf4-5f18-9da5-6de41486ec71
+- requirements: []
   name: Soumaia ART Tests - Masquerading as Windows LSASS process
   description: 'Copies cmd.exe, renames it, and launches it to masquerade as an instance of lsass.exe.
 
 
     Upon execution, cmd will be launched by powershell. If using Invoke-AtomicTest, The test will hang until the 120 second timeout cancels the session'
   tactic: stealth
-  technique:
-    attack_id: T1036.003
-    name: 'Masquerading: Rename System Utilities'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          copy %SystemRoot%\System32\cmd.exe %SystemRoot%\Temp\lsass.exe
-          %SystemRoot%\Temp\lsass.exe /B
-        cleanup: |-
-          del /Q /F %SystemRoot%\Temp\lsass.exe >nul 2>&1
+  technique_id: T1036.003
+  technique_name: 'Masquerading: Rename System Utilities'
+  executors:
+  - cleanup:
+    - del /Q /F %SystemRoot%\Temp\lsass.exe >nul 2>&1
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: copy %SystemRoot%\System32\cmd.exe %SystemRoot%\Temp\lsass.exe & %SystemRoot%\Temp\lsass.exe /B
+  id: f27bfd36-ccf4-5f18-9da5-6de41486ec71

@@ -1,13 +1,17 @@
-- id: a66dc6f2-ea6f-5281-88f7-e8ab33b5f4dc
+- requirements: []
   name: Soumaia ART Tests - Query Registry with Powershell cmdlets
   description: 'Query Windows Registry with Powershell cmdlets, i.e., Get-Item and Get-ChildItem. The results from above can also be achieved with Get-Item and Get-ChildItem.
 
     Unlike using "reg query" which then executes reg.exe, using cmdlets won''t generate new processes, which may evade detection systems monitoring process generation. (requires elevation)'
   tactic: discovery
-  technique:
-    attack_id: T1012
-    name: Query Registry
-  platforms:
-    windows:
-      psh:
-        command: "Get-Item -Path \"HKLM:SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Windows\"\nGet-ChildItem -Path \"HKLM:SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\\" | findstr Windows\nGet-Item -Path \"HKLM:Software\\Microsoft\\Windows\\CurrentVersion\\RunServicesOnce\"\nGet-Item -Path \"HKCU:Software\\Microsoft\\Windows\\CurrentVersion\\RunServicesOnce\"\nGet-Item -Path \"HKLM:Software\\Microsoft\\Windows\\CurrentVersion\\RunServices\"\nGet-Item -Path \"HKCU:Software\\Microsoft\\Windows\\CurrentVersion\\RunServices\"\nGet-Item -Path \"HKLM:SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Notify\"\nGet-Item -Path \"HKLM:Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Userinit\"\nGet-Item -Path \"HKCU:Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\\\Shell\"\nGet-Item -Path \"HKLM:Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\\\Shell\"\nGet-Item -Path \"HKLM:SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\ShellServiceObjectDelayLoad\"\nGet-Item -Path \"HKLM:Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce\"\nGet-Item -Path \"HKLM:Software\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\"\nGet-Item -Path \"HKLM:Software\\Microsoft\\Windows\\CurrentVersion\\Run\"\nGet-Item -Path \"HKCU:Software\\Microsoft\\Windows\\CurrentVersion\\Run\"\nGet-Item -Path \"HKCU:Software\\Microsoft\\Windows\\CurrentVersion\\RunOnce\"\nGet-Item -Path \"HKLM:Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\"\nGet-Item -Path \"HKCU:Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run\"\nGet-ChildItem -Path \"HKLM:system\\currentcontrolset\\services\" \nGet-Item -Path \"HKLM:Software\\Microsoft\\Windows\\CurrentVersion\\Run\"\nGet-Item -Path \"HKLM:SYSTEM\\CurrentControlSet\\Control\\SafeBoot\"\nGet-ChildItem -Path \"HKLM:SOFTWARE\\Microsoft\\Active Setup\\Installed Components\"\nGet-ChildItem -Path \"HKLM:SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Group Policy\\Scripts\\Startup\""
+  technique_id: T1012
+  technique_name: Query Registry
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: Get-Item -Path "HKLM:SOFTWARE\Microsoft\Windows NT\CurrentVersion\Windows"; Get-ChildItem -Path "HKLM:SOFTWARE\Microsoft\Windows NT\CurrentVersion\" | findstr Windows; Get-Item -Path "HKLM:Software\Microsoft\Windows\CurrentVersion\RunServicesOnce"; Get-Item -Path "HKCU:Software\Microsoft\Windows\CurrentVersion\RunServicesOnce"; Get-Item -Path "HKLM:Software\Microsoft\Windows\CurrentVersion\RunServices"; Get-Item -Path "HKCU:Software\Microsoft\Windows\CurrentVersion\RunServices"; Get-Item -Path "HKLM:SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify"; Get-Item -Path "HKLM:Software\Microsoft\Windows NT\CurrentVersion\Winlogon\Userinit"; Get-Item -Path "HKCU:Software\Microsoft\Windows NT\CurrentVersion\Winlogon\\Shell"; Get-Item -Path "HKLM:Software\Microsoft\Windows NT\CurrentVersion\Winlogon\\Shell"; Get-Item -Path "HKLM:SOFTWARE\Microsoft\Windows\CurrentVersion\ShellServiceObjectDelayLoad"; Get-Item -Path "HKLM:Software\Microsoft\Windows\CurrentVersion\RunOnce"; Get-Item -Path "HKLM:Software\Microsoft\Windows\CurrentVersion\RunOnceEx"; Get-Item -Path "HKLM:Software\Microsoft\Windows\CurrentVersion\Run"; Get-Item -Path "HKCU:Software\Microsoft\Windows\CurrentVersion\Run"; Get-Item -Path "HKCU:Software\Microsoft\Windows\CurrentVersion\RunOnce"; Get-Item -Path "HKLM:Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run"; Get-Item -Path "HKCU:Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run"; Get-ChildItem -Path "HKLM:system\currentcontrolset\services"; Get-Item -Path "HKLM:Software\Microsoft\Windows\CurrentVersion\Run"; Get-Item -Path "HKLM:SYSTEM\CurrentControlSet\Control\SafeBoot"; Get-ChildItem -Path "HKLM:SOFTWARE\Microsoft\Active Setup\Installed Components"; Get-ChildItem -Path "HKLM:SOFTWARE\Microsoft\Windows\CurrentVersion\Group Policy\Scripts\Startup"
+  id: a66dc6f2-ea6f-5281-88f7-e8ab33b5f4dc

@@ -1,4 +1,4 @@
-- id: ad534744-0860-5e16-b1e6-ae1b6f1cbbbd
+- requirements: []
   name: Soumaia ART Tests - Remote Process Injection with Go using CreateRemoteThread WinAPI (Natively)
   description: 'Leverages the Windows CreateRemoteThread function from Kernel32.dll to execute shellcode in a remote process.
 
@@ -21,17 +21,16 @@
 
     - PoC Credit: (https://github.com/Ne0nd0g/go-shellcode#createremotethreadnative)'
   tactic: stealth
-  technique:
-    attack_id: T1055
-    name: Process Injection
-  platforms:
-    windows:
-      psh:
-        command: |-
-          $process = Start-Process C:\Windows\System32\werfault.exe -passthru
-          $.\CreateRemoteThreadNative.exe -pid $process.Id -debug
-        cleanup: |-
-          Stop-Process -Name CalculatorApp -ErrorAction SilentlyContinue
-          Stop-Process -Name werfault -ErrorAction SilentlyContinue
-        payloads:
-        - CreateRemoteThreadNative.exe
+  technique_id: T1055
+  technique_name: Process Injection
+  executors:
+  - cleanup:
+    - Stop-Process -Name CalculatorApp -ErrorAction SilentlyContinue; Stop-Process -Name werfault -ErrorAction SilentlyContinue
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads:
+    - CreateRemoteThreadNative.exe
+    parsers: []
+    command: $process = Start-Process C:\Windows\System32\werfault.exe -passthru; $.\CreateRemoteThreadNative.exe -pid $process.Id -debug
+  id: ad534744-0860-5e16-b1e6-ae1b6f1cbbbd

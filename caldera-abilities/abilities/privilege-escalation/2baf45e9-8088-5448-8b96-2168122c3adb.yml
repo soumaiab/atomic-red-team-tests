@@ -1,4 +1,4 @@
-- id: 2baf45e9-8088-5448-8b96-2168122c3adb
+- requirements: []
   name: Soumaia ART Tests - At.exe Scheduled task
   description: 'Executes cmd.exe
 
@@ -7,11 +7,14 @@
 
     Upon successful execution, cmd.exe will spawn at.exe and create a scheduled task that will spawn cmd at a specific time.'
   tactic: privilege-escalation
-  technique:
-    attack_id: T1053.002
-    name: 'Scheduled Task/Job: At'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          at 13:20 /interactive cmd
+  technique_id: T1053.002
+  technique_name: 'Scheduled Task/Job: At'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: at 13:20 /interactive cmd
+  id: 2baf45e9-8088-5448-8b96-2168122c3adb

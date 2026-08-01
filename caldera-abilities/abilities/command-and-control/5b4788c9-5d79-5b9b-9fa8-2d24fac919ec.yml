@@ -1,17 +1,18 @@
-- id: 5b4788c9-5d79-5b9b-9fa8-2d24fac919ec
+- requirements: []
   name: Soumaia ART Tests - Lolbas replace.exe use to copy UNC file
   description: 'Copy UNC file to destination
 
     Reference: https://lolbas-project.github.io/lolbas/Binaries/Replace/'
   tactic: command-and-control
-  technique:
-    attack_id: T1105
-    name: Ingress Tool Transfer
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          del %TEMP%\redcanary.cab >nul 2>&1
-          C:\Windows\System32\replace.exe \\127.0.0.1\c$\AtomicRedTeam\atomics\T1105\src\redcanary.cab %TEMP% /A
-        cleanup: |-
-          del %TEMP%\redcanary.cab >nul 2>&1
+  technique_id: T1105
+  technique_name: Ingress Tool Transfer
+  executors:
+  - cleanup:
+    - del %TEMP%\redcanary.cab >nul 2>&1
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: del %TEMP%\redcanary.cab >nul 2>&1 & C:\Windows\System32\replace.exe \\127.0.0.1\c$\AtomicRedTeam\atomics\T1105\src\redcanary.cab %TEMP% /A
+  id: 5b4788c9-5d79-5b9b-9fa8-2d24fac919ec

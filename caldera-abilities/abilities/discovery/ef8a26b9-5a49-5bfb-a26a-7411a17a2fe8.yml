@@ -1,14 +1,17 @@
-- id: ef8a26b9-5a49-5bfb-a26a-7411a17a2fe8
+- requirements: []
   name: Soumaia ART Tests - List Mozilla Firefox bookmarks on Windows with command prompt
   description: 'Searches for Mozilla Firefox bookmarks file (on Windows distributions) that contains bookmarks in a SQLITE database.
 
     Upon execution, paths that contain bookmark files will be displayed.'
   tactic: discovery
-  technique:
-    attack_id: T1217
-    name: Browser Bookmark Discovery
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          where /R C:\Users\ places.sqlite
+  technique_id: T1217
+  technique_name: Browser Bookmark Discovery
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: where /R C:\Users\ places.sqlite
+  id: ef8a26b9-5a49-5bfb-a26a-7411a17a2fe8

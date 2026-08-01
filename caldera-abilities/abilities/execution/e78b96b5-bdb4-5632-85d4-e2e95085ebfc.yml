@@ -1,20 +1,18 @@
-- id: e78b96b5-bdb4-5632-85d4-e2e95085ebfc
+- requirements: []
   name: Soumaia ART Tests - Create a Process using obfuscated Win32_Process
   description: 'This test tries to mask process creation by creating a new class that inherits from Win32_Process. Indirect call of suspicious method such as Win32_Process::Create can break detection logic.
 
     [Cybereason blog post No Win32_ProcessNeeded](https://www.cybereason.com/blog/wmi-lateral-movement-win32) (requires elevation)'
   tactic: execution
-  technique:
-    attack_id: T1047
-    name: Windows Management Instrumentation
-  platforms:
-    windows:
-      psh:
-        command: |-
-          $Class = New-Object Management.ManagementClass(New-Object Management.ManagementPath("Win32_Process"))
-          $NewClass = $Class.Derive("Win32_Atomic")
-          $NewClass.Put()
-          Invoke-WmiMethod -Path Win32_Atomic -Name create -ArgumentList notepad.exe
-        cleanup: |-
-          $CleanupClass = New-Object Management.ManagementClass(New-Object Management.ManagementPath("Win32_Atomic"))
-          try { $CleanupClass.Delete() } catch {}
+  technique_id: T1047
+  technique_name: Windows Management Instrumentation
+  executors:
+  - cleanup:
+    - $CleanupClass = New-Object Management.ManagementClass(New-Object Management.ManagementPath("Win32_Atomic")); try { $CleanupClass.Delete() } catch {}
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: $Class = New-Object Management.ManagementClass(New-Object Management.ManagementPath("Win32_Process")); $NewClass = $Class.Derive("Win32_Atomic"); $NewClass.Put(); Invoke-WmiMethod -Path Win32_Atomic -Name create -ArgumentList notepad.exe
+  id: e78b96b5-bdb4-5632-85d4-e2e95085ebfc

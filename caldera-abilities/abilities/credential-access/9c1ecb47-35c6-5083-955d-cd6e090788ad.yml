@@ -1,14 +1,15 @@
-- id: 9c1ecb47-35c6-5083-955d-cd6e090788ad
+- requirements: []
   name: Soumaia ART Tests - List Credential Files via PowerShell
   description: Via PowerShell,list files where credentials are stored in Windows Credential Manager (requires elevation)
   tactic: credential-access
-  technique:
-    attack_id: T1552.001
-    name: 'Unsecured Credentials: Credentials In Files'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          $usernameinfo = (Get-ChildItem Env:USERNAME).Value
-          Get-ChildItem -Hidden C:\Users\$usernameinfo\AppData\Roaming\Microsoft\Credentials\
-          Get-ChildItem -Hidden C:\Users\$usernameinfo\AppData\Local\Microsoft\Credentials\
+  technique_id: T1552.001
+  technique_name: 'Unsecured Credentials: Credentials In Files'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: $usernameinfo = (Get-ChildItem Env:USERNAME).Value; Get-ChildItem -Hidden C:\Users\$usernameinfo\AppData\Roaming\Microsoft\Credentials\; Get-ChildItem -Hidden C:\Users\$usernameinfo\AppData\Local\Microsoft\Credentials\
+  id: 9c1ecb47-35c6-5083-955d-cd6e090788ad

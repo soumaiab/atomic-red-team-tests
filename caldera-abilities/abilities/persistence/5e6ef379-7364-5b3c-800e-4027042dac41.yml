@@ -1,4 +1,4 @@
-- id: 5e6ef379-7364-5b3c-800e-4027042dac41
+- requirements: []
   name: Soumaia ART Tests - Install IIS Module using AppCmd.exe
   description: 'The following Atomic will utilize AppCmd.exe to install a new IIS Module. IIS must be installed.
 
@@ -10,17 +10,15 @@
 
     [IIS Modules](https://www.microsoft.com/en-us/security/blog/2022/12/12/iis-modules-the-evolution-of-web-shells-and-how-to-detect-them/)'
   tactic: persistence
-  technique:
-    attack_id: T1505.004
-    name: IIS Components
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          powershell -NoProfile -EncodedCommand JABzAGUAcgB2AGkAYwBlACAAPQAgAGcAZQB0AC0AcwBlAHIAdgBpAGMAZQAgAHcAMwBzAHYAYwAgAC0ARQByAHIAbwByAEEAYwB0AGkAbwBuACAAUwBpAGwAZQBuAHQAbAB5AEMAbwBuAHQAaQBuAHUAZQAKAGkAZgAoACQAcwBlAHIAdgBpAGMAZQApAHsAIABXAHIAaQB0AGUALQBIAG8AcwB0ACAAIgBJAEkAUwAgAGkAbgBzAHQAYQBsAGwAZQBkACAAbwBuACAAJABlAG4AdgA6AGMAbwBtAHAAdQB0AGUAcgBuAGEAbQBlACIAIAB9ACAAZQBsAHMAZQAgAHsAIABXAHIAaQB0AGUALQBIAG8AcwB0ACAAIgBJAEkAUwAgAGkAcwAgAG4AbwB0ACAAaQBuAHMAdABhAGwAbABlAGQAIABvAG4AIAAkAGUAbgB2ADoAYwBvAG0AcAB1AHQAZQByAG4AYQBtAGUAIgAgAH0AIAAKAA==
-          if not "%ERRORLEVEL%"=="0" (
-              powershell -NoProfile -EncodedCommand SQBuAHMAdABhAGwAbAAgAEkASQBTACAAdABvACAAYwBvAG4AdABpAG4AdQBlAC4ACgA=
-          )
-          %windir%\system32\inetsrv\appcmd.exe install module /name:DefaultDocumentModule_Atomic /image:%windir%\system32\inetsrv\defdoc.dll
-        cleanup: |-
-          %windir%\system32\inetsrv\appcmd.exe uninstall module DefaultDocumentModule_Atomic
+  technique_id: T1505.004
+  technique_name: IIS Components
+  executors:
+  - cleanup:
+    - '%windir%\system32\inetsrv\appcmd.exe uninstall module DefaultDocumentModule_Atomic'
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand JABzAGUAcgB2AGkAYwBlACAAPQAgAGcAZQB0AC0AcwBlAHIAdgBpAGMAZQAgAHcAMwBzAHYAYwAgAC0ARQByAHIAbwByAEEAYwB0AGkAbwBuACAAUwBpAGwAZQBuAHQAbAB5AEMAbwBuAHQAaQBuAHUAZQAKAGkAZgAoACQAcwBlAHIAdgBpAGMAZQApAHsAIABXAHIAaQB0AGUALQBIAG8AcwB0ACAAIgBJAEkAUwAgAGkAbgBzAHQAYQBsAGwAZQBkACAAbwBuACAAJABlAG4AdgA6AGMAbwBtAHAAdQB0AGUAcgBuAGEAbQBlACIAIAB9ACAAZQBsAHMAZQAgAHsAIABXAHIAaQB0AGUALQBIAG8AcwB0ACAAIgBJAEkAUwAgAGkAcwAgAG4AbwB0ACAAaQBuAHMAdABhAGwAbABlAGQAIABvAG4AIAAkAGUAbgB2ADoAYwBvAG0AcAB1AHQAZQByAG4AYQBtAGUAIgAgAH0AIAAKAA== & if not "%ERRORLEVEL%"=="0" ( powershell -NoProfile -EncodedCommand SQBuAHMAdABhAGwAbAAgAEkASQBTACAAdABvACAAYwBvAG4AdABpAG4AdQBlAC4ACgA= ) & %windir%\system32\inetsrv\appcmd.exe install module /name:DefaultDocumentModule_Atomic /image:%windir%\system32\inetsrv\defdoc.dll
+  id: 5e6ef379-7364-5b3c-800e-4027042dac41

@@ -1,12 +1,15 @@
-- id: 16846a73-8f9b-52c4-8ea2-e0f11a91e6f8
+- requirements: []
   name: Soumaia ART Tests - Wmic Group Discovery
   description: Utilizing wmic.exe to enumerate groups on the local system. Upon execution, information will be displayed of local groups on system.
   tactic: discovery
-  technique:
-    attack_id: T1069.001
-    name: 'Permission Groups Discovery: Local Groups'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          wmic group get name
+  technique_id: T1069.001
+  technique_name: 'Permission Groups Discovery: Local Groups'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: wmic group get name
+  id: 16846a73-8f9b-52c4-8ea2-e0f11a91e6f8

@@ -1,4 +1,4 @@
-- id: 593d919f-7b30-5ee9-b586-0026511d9284
+- requirements: []
   name: Soumaia ART Tests - Cached Credential Dump via Cmdkey
   description: 'List credentials currently stored on the host via the built-in Windows utility cmdkey.exe
 
@@ -10,11 +10,14 @@
 
     https://www.peew.pw/blog/2017/11/26/exploring-cmdkey-an-edge-case-for-privilege-escalation'
   tactic: credential-access
-  technique:
-    attack_id: T1003.005
-    name: 'OS Credential Dumping: Cached Domain Credentials'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          cmdkey /list
+  technique_id: T1003.005
+  technique_name: 'OS Credential Dumping: Cached Domain Credentials'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: cmdkey /list
+  id: 593d919f-7b30-5ee9-b586-0026511d9284

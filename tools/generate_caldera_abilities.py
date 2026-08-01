@@ -29,20 +29,15 @@ ABILITY_ID_NAMESPACE = uuid.UUID("f6a1b2c3-7d4e-4a1a-9c3b-2e5d6f7a8b9c")
 NAME_PREFIX = "Soumaia ART Tests - "
 
 EXECUTOR_TO_SHELL = {"powershell": "psh", "command_prompt": "cmd"}
+DEFAULT_TIMEOUT = 60
 
 PLACEHOLDER_RE = re.compile(r"#\{([A-Za-z0-9_]+)\}")
 PATH_TO_ATOMICS_RE = re.compile(r"PathToAtomicsFolder[\\/]([^\s\"'`)]+)")
 
-
-class LiteralStr(str):
-    """Marker so the YAML dumper emits this string with block '|' style."""
-
-
-def _literal_str_representer(dumper: yaml.Dumper, data: str):
-    return dumper.represent_scalar("tag:yaml.org,2002:str", str(data), style="|")
-
-
-yaml.add_representer(LiteralStr, _literal_str_representer, Dumper=yaml.SafeDumper)
+# Keywords that must stay adjacent to the previous statement's closing '}' with only
+# whitespace between them (PowerShell's try/catch/finally and if/elseif/else grammar
+# doesn't allow a ';' statement-separator there, only a 'soft' newline/whitespace break).
+PS_CONTINUATION_KEYWORDS = ("}", "catch", "finally", "else")
 
 
 class Report:
@@ -199,6 +194,59 @@ def substitute_args(text: str, resolved_args: dict, missing: list) -> str:
     return PLACEHOLDER_RE.sub(repl, text)
 
 
+def strip_ps_line_comment(line: str) -> str:
+    """Drop a trailing '# ...' PowerShell comment, tracking quotes so a '#' inside a
+    string literal (e.g. a URL fragment) isn't mistaken for a comment marker."""
+    in_single = False
+    in_double = False
+    for i, c in enumerate(line):
+        if c == "'" and not in_double:
+            in_single = not in_single
+        elif c == '"' and not in_single:
+            in_double = not in_double
+        elif c == "#" and not in_single and not in_double:
+            return line[:i].rstrip()
+    return line.rstrip()
+
+
+def flatten_psh(script: str) -> str:
+    """Collapse a multi-line PowerShell script into one logical line (';'-joined),
+    dropping comment lines and respecting try/catch/if/else adjacency rules."""
+    lines = []
+    for raw in script.splitlines():
+        stripped = strip_ps_line_comment(raw.strip())
+        if stripped:
+            lines.append(stripped)
+    if not lines:
+        return ""
+    parts = [lines[0]]
+    for i in range(1, len(lines)):
+        prev, cur = lines[i - 1], lines[i]
+        if prev.endswith(("{", ";")) or cur.lower().startswith(PS_CONTINUATION_KEYWORDS):
+            parts.append(" " + cur)
+        else:
+            parts.append("; " + cur)
+    return "".join(parts)
+
+
+def flatten_cmd(script: str) -> str:
+    """Collapse a multi-line batch script into one logical line ('&'-joined), dropping
+    comment lines (REM / ::)."""
+    lines = []
+    for raw in script.splitlines():
+        s = raw.strip()
+        if not s or s.startswith("::") or s.lower() == "rem" or s.lower().startswith("rem "):
+            continue
+        lines.append(s)
+    return " & ".join(lines)
+
+
+def flatten_script(script: str, shell: str) -> str:
+    if not script:
+        return ""
+    return flatten_psh(script) if shell == "psh" else flatten_cmd(script)
+
+
 def encode_ps_command(script: str) -> str:
     return base64.b64encode(script.encode("utf-16-le")).decode("ascii")
 
@@ -208,9 +256,7 @@ def shell_invocation(script: str, shell: str) -> str:
     so its `exit 0/1` only signals pass/fail instead of killing the ability's own process."""
     if shell == "psh":
         return f"powershell -NoProfile -EncodedCommand {encode_ps_command(script)}"
-    lines = [ln for ln in script.splitlines() if ln.strip()]
-    joined = " & ".join(lines)
-    escaped = joined.replace('"', '""')
+    escaped = flatten_cmd(script).replace('"', '""')
     return f'cmd /c "{escaped}"'
 
 
@@ -218,8 +264,8 @@ def dependency_block(prereq: str, get_prereq: str, dep_shell: str, main_shell: s
     prereq_inv = shell_invocation(prereq, dep_shell)
     get_inv = shell_invocation(get_prereq, dep_shell)
     if main_shell == "psh":
-        return f"{prereq_inv}\nif ($LASTEXITCODE -ne 0) {{\n    {get_inv}\n}}"
-    return f'{prereq_inv}\nif not "%ERRORLEVEL%"=="0" (\n    {get_inv}\n)'
+        return f"{prereq_inv}; if ($LASTEXITCODE -ne 0) {{ {get_inv} }}"
+    return f'{prereq_inv} & if not "%ERRORLEVEL%"=="0" ( {get_inv} )'
 
 
 def process_test(
@@ -231,6 +277,7 @@ def process_test(
     copied_payloads: dict,
     report: Report,
     dry_run: bool,
+    timeout: int,
 ):
     report.total_seen += 1
     guid = test.get("auto_generated_guid")
@@ -268,7 +315,10 @@ def process_test(
         resolved = {}
         for arg_name, spec in input_arguments.items():
             if isinstance(spec, dict) and spec.get("default") is not None:
-                resolved[arg_name] = resolve_pta(str(spec["default"]), ctx_shell)
+                value = resolve_pta(str(spec["default"]), ctx_shell)
+                # Argument values get substituted inline into an already-flattened
+                # single-line command, so any embedded newline in a default has to go.
+                resolved[arg_name] = " ".join(value.split())
             else:
                 no_default_args.append(arg_name)
         return resolved
@@ -289,9 +339,11 @@ def process_test(
         t = resolve_pta(text, ctx_shell)
         return substitute_args(t, args_map, missing_arg_refs)
 
-    main_command = resolve(executor.get("command", ""), shell, resolved_args_main).strip()
+    main_command = flatten_script(resolve(executor.get("command", ""), shell, resolved_args_main), shell)
     cleanup_raw = executor.get("cleanup_command")
-    cleanup_resolved = resolve(cleanup_raw, shell, resolved_args_main).strip() if cleanup_raw else None
+    cleanup_resolved = (
+        flatten_script(resolve(cleanup_raw, shell, resolved_args_main), shell) if cleanup_raw else None
+    )
 
     preamble_blocks = []
     for dep in dependencies:
@@ -301,7 +353,8 @@ def process_test(
     if dep_shell == "cmd":
         report.cmd_dependency_notes.append((tech_id, guid))
 
-    full_command = "\n".join(preamble_blocks + [main_command]) if preamble_blocks else main_command
+    joiner = "; " if shell == "psh" else " & "
+    full_command = joiner.join(preamble_blocks + [main_command]) if preamble_blocks else main_command
 
     if no_default_args or missing_arg_refs:
         report.manual_input.append((tech_id, guid, name, sorted(set(no_default_args) | set(missing_arg_refs))))
@@ -313,27 +366,25 @@ def process_test(
     new_id = str(uuid.uuid5(ABILITY_ID_NAMESPACE, f"{name}:{guid}"))
 
     ability = {
-        "id": new_id,
+        "requirements": [],
         "name": f"{NAME_PREFIX}{name}",
         "description": description,
         "tactic": tactic or "",
-        "technique": {
-            "attack_id": tech_id,
-            "name": display_name,
-        },
-        "platforms": {
-            "windows": {
-                shell: {
-                    "command": LiteralStr(full_command),
-                }
+        "technique_id": tech_id,
+        "technique_name": display_name,
+        "executors": [
+            {
+                "cleanup": [cleanup_resolved] if cleanup_resolved else [],
+                "timeout": timeout,
+                "platform": "windows",
+                "name": shell,
+                "payloads": sorted(payload_names),
+                "parsers": [],
+                "command": full_command,
             }
-        },
+        ],
+        "id": new_id,
     }
-    shell_block = ability["platforms"]["windows"][shell]
-    if cleanup_resolved:
-        shell_block["cleanup"] = LiteralStr(cleanup_resolved)
-    if payload_names:
-        shell_block["payloads"] = sorted(payload_names)
 
     if unmapped:
         report.unmapped.append((tech_id, guid, name))
@@ -361,7 +412,7 @@ def write_ability(ability: dict, unmapped: bool, has_missing_payload: bool, out_
         sort_keys=False,
         default_flow_style=False,
         allow_unicode=True,
-        width=4096,
+        width=1_000_000,  # never wrap long single-line commands (e.g. base64 blobs) across lines
     )
 
     if dry_run:
@@ -378,6 +429,9 @@ def main():
     parser.add_argument("--technique", help="Restrict to a single technique folder, e.g. T1059.001")
     parser.add_argument("--dry-run", action="store_true", help="Parse + resolve + print, don't write files")
     parser.add_argument("--out-dir", default=str(REPO_ROOT / "caldera-abilities"), help="Output directory")
+    parser.add_argument(
+        "--timeout", type=int, default=DEFAULT_TIMEOUT, help=f"Executor timeout in seconds (default {DEFAULT_TIMEOUT})"
+    )
     args = parser.parse_args()
 
     out_dir = Path(args.out_dir).resolve()
@@ -412,7 +466,8 @@ def main():
 
         for test in doc["atomic_tests"]:
             result = process_test(
-                test, tech_id, display_name, tactic_manifest, payloads_dir, copied_payloads, report, args.dry_run
+                test, tech_id, display_name, tactic_manifest, payloads_dir, copied_payloads, report, args.dry_run,
+                args.timeout,
             )
             if result is None:
                 continue

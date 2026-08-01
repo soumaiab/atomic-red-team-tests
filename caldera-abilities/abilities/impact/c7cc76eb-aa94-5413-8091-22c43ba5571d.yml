@@ -1,14 +1,16 @@
-- id: c7cc76eb-aa94-5413-8091-22c43ba5571d
+- requirements: []
   name: Soumaia ART Tests - Windows - Disable the SR scheduled task
   description: Use schtasks.exe to disable the System Restore (SR) scheduled task (requires elevation)
   tactic: impact
-  technique:
-    attack_id: T1490
-    name: Inhibit System Recovery
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          schtasks.exe /Change /TN "\Microsoft\Windows\SystemRestore\SR" /disable
-        cleanup: |-
-          schtasks.exe /Change /TN "\Microsoft\Windows\SystemRestore\SR" /enable >nul 2>&1
+  technique_id: T1490
+  technique_name: Inhibit System Recovery
+  executors:
+  - cleanup:
+    - schtasks.exe /Change /TN "\Microsoft\Windows\SystemRestore\SR" /enable >nul 2>&1
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: schtasks.exe /Change /TN "\Microsoft\Windows\SystemRestore\SR" /disable
+  id: c7cc76eb-aa94-5413-8091-22c43ba5571d

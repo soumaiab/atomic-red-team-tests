@@ -1,4 +1,4 @@
-- id: df8b185a-852c-566d-8f85-dadd65629254
+- requirements: []
   name: Soumaia ART Tests - Security Software Discovery - powershell
   description: 'Methods to identify Security Software on an endpoint
 
@@ -11,17 +11,14 @@
 
     if you know the name of those processes.'
   tactic: discovery
-  technique:
-    attack_id: T1518.001
-    name: 'Software Discovery: Security Software Discovery'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          get-process | ?{$_.Description -like "*virus*"}
-          get-process | ?{$_.Description -like "*carbonblack*"}
-          get-process | ?{$_.Description -like "*defender*"}
-          get-process | ?{$_.Description -like "*cylance*"}
-          get-process | ?{$_.Description -like "*mc*"}
-          get-process | ?{$_.ProcessName -like "*mc*"}
-          get-process | Where-Object { $_.ProcessName -eq "Sysmon" }
+  technique_id: T1518.001
+  technique_name: 'Software Discovery: Security Software Discovery'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: get-process | ?{$_.Description -like "*virus*"}; get-process | ?{$_.Description -like "*carbonblack*"}; get-process | ?{$_.Description -like "*defender*"}; get-process | ?{$_.Description -like "*cylance*"}; get-process | ?{$_.Description -like "*mc*"}; get-process | ?{$_.ProcessName -like "*mc*"}; get-process | Where-Object { $_.ProcessName -eq "Sysmon" }
+  id: df8b185a-852c-566d-8f85-dadd65629254

@@ -1,4 +1,4 @@
-- id: b77eb1dd-590e-5735-b9de-a002ad776db9
+- requirements: []
   name: Soumaia ART Tests - Delete System Logs Using Clear-EventLog
   description: 'Clear event logs using built-in PowerShell commands.
 
@@ -6,13 +6,14 @@
 
     Upon execution, open the Security.evtx logs at C:\Windows\System32\winevt\Logs and verify that it is now empty or has very few logs in it. (requires elevation)'
   tactic: defense-impairment
-  technique:
-    attack_id: T1685.005
-    name: 'Disable or Modify Tools: Clear Windows Event Logs'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          $logs = Get-EventLog -List | ForEach-Object {$_.Log}
-          $logs | ForEach-Object {Clear-EventLog -LogName $_ }
-          Get-EventLog -list
+  technique_id: T1685.005
+  technique_name: 'Disable or Modify Tools: Clear Windows Event Logs'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: $logs = Get-EventLog -List | ForEach-Object {$_.Log}; $logs | ForEach-Object {Clear-EventLog -LogName $_ }; Get-EventLog -list
+  id: b77eb1dd-590e-5735-b9de-a002ad776db9

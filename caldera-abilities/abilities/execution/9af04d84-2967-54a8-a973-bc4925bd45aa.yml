@@ -1,4 +1,4 @@
-- id: 9af04d84-2967-54a8-a973-bc4925bd45aa
+- requirements: []
   name: Soumaia ART Tests - Run Shellcode via Syscall in Go
   description: 'Runs shellcode in the current running process via a syscall.
 
@@ -16,15 +16,16 @@
 
     - PoC Credit: (https://github.com/Ne0nd0g/go-shellcode#syscall)'
   tactic: execution
-  technique:
-    attack_id: T1106
-    name: Native API
-  platforms:
-    windows:
-      psh:
-        command: |-
-          $.\syscall.exe -debug
-        cleanup: |-
-          Stop-Process -Name CalculatorApp -ErrorAction SilentlyContinue
-        payloads:
-        - syscall.exe
+  technique_id: T1106
+  technique_name: Native API
+  executors:
+  - cleanup:
+    - Stop-Process -Name CalculatorApp -ErrorAction SilentlyContinue
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads:
+    - syscall.exe
+    parsers: []
+    command: $.\syscall.exe -debug
+  id: 9af04d84-2967-54a8-a973-bc4925bd45aa

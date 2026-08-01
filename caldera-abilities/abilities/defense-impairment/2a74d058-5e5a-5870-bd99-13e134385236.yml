@@ -1,14 +1,16 @@
-- id: 2a74d058-5e5a-5870-bd99-13e134385236
+- requirements: []
   name: Soumaia ART Tests - Disable .NET Event Tracing for Windows Via Environment Variable HKCU Registry - PowerShell
   description: Disables ETW for the .NET Framework by setting the COMPlus_ETWEnabled environment variable to 0 in the HKCU registry using PowerShell. In order for changes to take effect a logout might be required.
   tactic: defense-impairment
-  technique:
-    attack_id: T1685
-    name: Disable or Modify Tools
-  platforms:
-    windows:
-      psh:
-        command: |-
-          New-ItemProperty -Path HKCU:\Environment -Name COMPlus_ETWEnabled -Value 0 -PropertyType "String" -Force
-        cleanup: |-
-          Remove-ItemProperty -Path HKCU:\Environment -Name COMPlus_ETWEnabled
+  technique_id: T1685
+  technique_name: Disable or Modify Tools
+  executors:
+  - cleanup:
+    - Remove-ItemProperty -Path HKCU:\Environment -Name COMPlus_ETWEnabled
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: New-ItemProperty -Path HKCU:\Environment -Name COMPlus_ETWEnabled -Value 0 -PropertyType "String" -Force
+  id: 2a74d058-5e5a-5870-bd99-13e134385236

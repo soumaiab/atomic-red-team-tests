@@ -1,20 +1,17 @@
-- id: e346a9b2-b19f-592e-95f7-3de38459b25f
+- requirements: []
   name: Soumaia ART Tests - using device audio capture commandlet
   description: 'Uses AudioDeviceCmdlets to set the default recording device and simulate audio capture.
 
     Module repo: [AudioDeviceCmdlets](https://github.com/frgnca/AudioDeviceCmdlets)'
   tactic: collection
-  technique:
-    attack_id: T1123
-    name: Audio Capture
-  platforms:
-    windows:
-      psh:
-        command: |-
-          powershell -NoProfile -EncodedCommand aQBmACAAKABHAGUAdAAtAE0AbwBkAHUAbABlACAALQBMAGkAcwB0AEEAdgBhAGkAbABhAGIAbABlACAALQBOAGEAbQBlACAAQQB1AGQAaQBvAEQAZQB2AGkAYwBlAEMAbQBkAGwAZQB0AHMAKQAgAHsAIABlAHgAaQB0ACAAMAAgAH0AIABlAGwAcwBlACAAewAgAGUAeABpAHQAIAAxACAAfQAgAAoA
-          if ($LASTEXITCODE -ne 0) {
-              powershell -NoProfile -EncodedCommand SQBuAHMAdABhAGwAbAAgAHcAaQB0AGgAOgAgAEkAbgBzAHQAYQBsAGwALQBNAG8AZAB1AGwAZQAgAC0ATgBhAG0AZQAgAEEAdQBkAGkAbwBEAGUAdgBpAGMAZQBDAG0AZABsAGUAdABzACAALQBGAG8AcgBjAGUAIgAgAAoA
-          }
-          $mic = Get-AudioDevice -Recording
-          Set-AudioDevice -ID $mic.ID
-          Start-Sleep -Seconds 5
+  technique_id: T1123
+  technique_name: Audio Capture
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand aQBmACAAKABHAGUAdAAtAE0AbwBkAHUAbABlACAALQBMAGkAcwB0AEEAdgBhAGkAbABhAGIAbABlACAALQBOAGEAbQBlACAAQQB1AGQAaQBvAEQAZQB2AGkAYwBlAEMAbQBkAGwAZQB0AHMAKQAgAHsAIABlAHgAaQB0ACAAMAAgAH0AIABlAGwAcwBlACAAewAgAGUAeABpAHQAIAAxACAAfQAgAAoA; if ($LASTEXITCODE -ne 0) { powershell -NoProfile -EncodedCommand SQBuAHMAdABhAGwAbAAgAHcAaQB0AGgAOgAgAEkAbgBzAHQAYQBsAGwALQBNAG8AZAB1AGwAZQAgAC0ATgBhAG0AZQAgAEEAdQBkAGkAbwBEAGUAdgBpAGMAZQBDAG0AZABsAGUAdABzACAALQBGAG8AcgBjAGUAIgAgAAoA }; $mic = Get-AudioDevice -Recording; Set-AudioDevice -ID $mic.ID; Start-Sleep -Seconds 5
+  id: e346a9b2-b19f-592e-95f7-3de38459b25f

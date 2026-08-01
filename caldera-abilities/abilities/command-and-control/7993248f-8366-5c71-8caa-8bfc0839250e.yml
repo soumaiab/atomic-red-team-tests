@@ -1,14 +1,17 @@
-- id: 7993248f-8366-5c71-8caa-8bfc0839250e
+- requirements: []
   name: Soumaia ART Tests - Testing usage of uncommonly used port with PowerShell
   description: 'Testing uncommonly used port utilizing PowerShell. APT33 has been known to attempt telnet over port 8081. Upon execution, details about the successful
 
     port check will be displayed.'
   tactic: command-and-control
-  technique:
-    attack_id: T1571
-    name: Non-Standard Port
-  platforms:
-    windows:
-      psh:
-        command: |-
-          Test-NetConnection -ComputerName google.com -port 8081
+  technique_id: T1571
+  technique_name: Non-Standard Port
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: Test-NetConnection -ComputerName google.com -port 8081
+  id: 7993248f-8366-5c71-8caa-8bfc0839250e

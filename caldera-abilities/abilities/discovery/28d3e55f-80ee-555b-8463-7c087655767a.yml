@@ -1,20 +1,16 @@
-- id: 28d3e55f-80ee-555b-8463-7c087655767a
+- requirements: []
   name: Soumaia ART Tests - File and Directory Discovery (cmd.exe)
   description: Find or discover files on the file system.  Upon successful execution, this test will output the results of all the data discovery commands to a specified file.
   tactic: discovery
-  technique:
-    attack_id: T1083
-    name: File and Directory Discovery
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          dir /s c:\ >> %temp%\T1083Test1.txt
-          dir /s "c:\Documents and Settings" >> %temp%\T1083Test1.txt
-          dir /s "c:\Program Files\" >> %temp%\T1083Test1.txt
-          dir "%systemdrive%\Users\*.*" >> %temp%\T1083Test1.txt
-          dir "%userprofile%\AppData\Roaming\Microsoft\Windows\Recent\*.*" >> %temp%\T1083Test1.txt
-          dir "%userprofile%\Desktop\*.*" >> %temp%\T1083Test1.txt
-          tree /F >> %temp%\T1083Test1.txt
-        cleanup: |-
-          del %temp%\T1083Test1.txt
+  technique_id: T1083
+  technique_name: File and Directory Discovery
+  executors:
+  - cleanup:
+    - del %temp%\T1083Test1.txt
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: dir /s c:\ >> %temp%\T1083Test1.txt & dir /s "c:\Documents and Settings" >> %temp%\T1083Test1.txt & dir /s "c:\Program Files\" >> %temp%\T1083Test1.txt & dir "%systemdrive%\Users\*.*" >> %temp%\T1083Test1.txt & dir "%userprofile%\AppData\Roaming\Microsoft\Windows\Recent\*.*" >> %temp%\T1083Test1.txt & dir "%userprofile%\Desktop\*.*" >> %temp%\T1083Test1.txt & tree /F >> %temp%\T1083Test1.txt
+  id: 28d3e55f-80ee-555b-8463-7c087655767a

@@ -1,18 +1,17 @@
-- id: c4e801cf-88f5-548c-b11b-67263d8bacb9
+- requirements: []
   name: Soumaia ART Tests - Enumerate all accounts on Windows (Local)
   description: 'Enumerate all accounts
 
     Upon execution, multiple enumeration commands will be run and their output displayed in the PowerShell session'
   tactic: discovery
-  technique:
-    attack_id: T1087.001
-    name: 'Account Discovery: Local Account'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          net user
-          dir c:\Users\
-          cmdkey.exe /list
-          net localgroup "Users"
-          net localgroup
+  technique_id: T1087.001
+  technique_name: 'Account Discovery: Local Account'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: net user & dir c:\Users\ & cmdkey.exe /list & net localgroup "Users" & net localgroup
+  id: c4e801cf-88f5-548c-b11b-67263d8bacb9

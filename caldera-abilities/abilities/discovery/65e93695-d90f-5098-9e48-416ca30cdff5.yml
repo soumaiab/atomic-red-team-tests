@@ -1,15 +1,18 @@
-- id: 65e93695-d90f-5098-9e48-416ca30cdff5
+- requirements: []
   name: Soumaia ART Tests - Process Discovery - tasklist
   description: 'Utilize tasklist to identify processes.
 
 
     Upon successful execution, cmd.exe will execute tasklist.exe to list processes. Output will be via stdout.'
   tactic: discovery
-  technique:
-    attack_id: T1057
-    name: Process Discovery
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          tasklist
+  technique_id: T1057
+  technique_name: Process Discovery
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: tasklist
+  id: 65e93695-d90f-5098-9e48-416ca30cdff5

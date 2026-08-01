@@ -1,12 +1,15 @@
-- id: 495f4e77-5e23-5085-be82-2c3b4ff4254f
+- requirements: []
   name: Soumaia ART Tests - Suspicious Execution via Windows Command Shell
   description: Command line executed via suspicious invocation. Example is from the 2021 Threat Detection Report by Red Canary.
   tactic: execution
-  technique:
-    attack_id: T1059.003
-    name: 'Command and Scripting Interpreter: Windows Command Shell'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          %LOCALAPPDATA:~-3,1%md /c echo Hello, from CMD! > hello.txt & type hello.txt
+  technique_id: T1059.003
+  technique_name: 'Command and Scripting Interpreter: Windows Command Shell'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: '%LOCALAPPDATA:~-3,1%md /c echo Hello, from CMD! > hello.txt & type hello.txt'
+  id: 495f4e77-5e23-5085-be82-2c3b4ff4254f

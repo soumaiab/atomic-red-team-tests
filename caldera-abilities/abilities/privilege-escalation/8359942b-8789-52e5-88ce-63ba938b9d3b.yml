@@ -1,4 +1,4 @@
-- id: 8359942b-8789-52e5-88ce-63ba938b9d3b
+- requirements: []
   name: Soumaia ART Tests - Modify Fax service to run PowerShell
   description: 'This test will temporarily modify the service Fax by changing the binPath to PowerShell
 
@@ -6,14 +6,15 @@
 
     Upon successful execution, cmd will modify the binpath for `Fax` to spawn powershell. Powershell will then spawn. (requires elevation)'
   tactic: privilege-escalation
-  technique:
-    attack_id: T1543.003
-    name: 'Create or Modify System Process: Windows Service'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          sc config Fax binPath= "C:\windows\system32\WindowsPowerShell\v1.0\powershell.exe -noexit -c \"write-host 'T1543.003 Test'\""
-          sc start Fax
-        cleanup: |-
-          sc config Fax binPath= "C:\WINDOWS\system32\fxssvc.exe" >nul 2>&1
+  technique_id: T1543.003
+  technique_name: 'Create or Modify System Process: Windows Service'
+  executors:
+  - cleanup:
+    - sc config Fax binPath= "C:\WINDOWS\system32\fxssvc.exe" >nul 2>&1
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: sc config Fax binPath= "C:\windows\system32\WindowsPowerShell\v1.0\powershell.exe -noexit -c \"write-host 'T1543.003 Test'\"" & sc start Fax
+  id: 8359942b-8789-52e5-88ce-63ba938b9d3b

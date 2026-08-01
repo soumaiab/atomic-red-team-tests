@@ -1,12 +1,15 @@
-- id: ab55a7bc-1470-5498-bffc-711514be6ac7
+- requirements: []
   name: Soumaia ART Tests - Overwrite deleted data on C drive
   description: "RansomEXX malware removes all deleted files using windows built-in cipher.exe to prevent forensic recover.\nThis process is very slow and test execution may timeout. \nhttps://www.cybereason.com/blog/cybereason-vs.-ransomexx-ransomware\nhttps://support.microsoft.com/en-us/topic/cipher-exe-security-tool-for-the-encrypting-file-system-56c85edd-85cf-ac07-f2f7-ca2d35dab7e4"
   tactic: impact
-  technique:
-    attack_id: T1485
-    name: Data Destruction
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          cipher.exe /w:C:
+  technique_id: T1485
+  technique_name: Data Destruction
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: 'cipher.exe /w:C:'
+  id: ab55a7bc-1470-5498-bffc-711514be6ac7

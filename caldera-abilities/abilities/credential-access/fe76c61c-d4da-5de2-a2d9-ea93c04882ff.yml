@@ -1,13 +1,15 @@
-- id: fe76c61c-d4da-5de2-a2d9-ea93c04882ff
+- requirements: []
   name: Soumaia ART Tests - List Credential Files via Command Prompt
   description: Via Command Prompt,list files where credentials are stored in Windows Credential Manager (requires elevation)
   tactic: credential-access
-  technique:
-    attack_id: T1552.001
-    name: 'Unsecured Credentials: Credentials In Files'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          dir /a:h C:\Users\%USERNAME%\AppData\Local\Microsoft\Credentials\
-          dir /a:h C:\Users\%USERNAME%\AppData\Roaming\Microsoft\Credentials\
+  technique_id: T1552.001
+  technique_name: 'Unsecured Credentials: Credentials In Files'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: dir /a:h C:\Users\%USERNAME%\AppData\Local\Microsoft\Credentials\ & dir /a:h C:\Users\%USERNAME%\AppData\Roaming\Microsoft\Credentials\
+  id: fe76c61c-d4da-5de2-a2d9-ea93c04882ff

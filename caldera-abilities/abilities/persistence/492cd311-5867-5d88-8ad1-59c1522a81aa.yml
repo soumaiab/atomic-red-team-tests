@@ -1,4 +1,4 @@
-- id: 492cd311-5867-5d88-8ad1-59c1522a81aa
+- requirements: []
   name: Soumaia ART Tests - Outlook Rule - Create Rule with Obfuscated Blank Name (MAPI Evasion)
   description: 'Creates an Outlook rule with a zero-width space as its display name,
 
@@ -26,75 +26,15 @@
 
     ART executor''s quote-wrapping from mangling the zero-width space bytes.'
   tactic: persistence
-  technique:
-    attack_id: T1137.005
-    name: 'Office Application Startup: Outlook Rules'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          powershell -NoProfile -EncodedCommand JABjAGwAcwBpAGQAIAA9ACAAKABHAGUAdAAtAEkAdABlAG0AUAByAG8AcABlAHIAdAB5ACAAIgBSAEUARwBJAFMAVABSAFkAOgA6AEgASwBFAFkAXwBDAEwAQQBTAFMARQBTAF8AUgBPAE8AVABcAE8AdQB0AGwAbwBvAGsALgBBAHAAcABsAGkAYwBhAHQAaQBvAG4AXABDAEwAUwBJAEQAIgAgAC0ARQByAHIAbwByAEEAYwB0AGkAbwBuACAAUwBpAGwAZQBuAHQAbAB5AEMAbwBuAHQAaQBuAHUAZQApAC4AJwAoAEQAZQBmAGEAdQBsAHQAKQAnAAoAaQBmACAAKAAkAGMAbABzAGkAZAApACAAewAgAGUAeABpAHQAIAAwACAAfQAgAGUAbABzAGUAIAB7ACAAZQB4AGkAdAAgADEAIAB9AAoA
-          if ($LASTEXITCODE -ne 0) {
-              powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgACIAWwAtAF0AIABDAGwAYQBzAHMAaQBjACAATwB1AHQAbABvAG8AawAgAGkAcwAgAG4AbwB0ACAAaQBuAHMAdABhAGwAbABlAGQAIABvAHIAIABDAE8ATQAgAGkAcwAgAG4AbwB0ACAAcgBlAGcAaQBzAHQAZQByAGUAZAAuACIACgBXAHIAaQB0AGUALQBIAG8AcwB0ACAAIgAgACAAIAAgAEkAbgBzAHQAYQBsAGwAIABNAGkAYwByAG8AcwBvAGYAdAAgADMANgA1ACAAQQBwAHAAcwAgAHcAaQB0AGgAIABDAGwAYQBzAHMAaQBjACAATwB1AHQAbABvAG8AawAgAGIAZQBmAG8AcgBlACAAcgB1AG4AbgBpAG4AZwAgAHQAaABpAHMAIAB0AGUAcwB0AC4AIgAKAFcAcgBpAHQAZQAtAEgAbwBzAHQAIAAiACAAIAAgACAATgBvAHQAZQA6ACAAVABoAGUAIABuAGUAdwAgAE8AdQB0AGwAbwBvAGsAIABmAG8AcgAgAFcAaQBuAGQAbwB3AHMAIABkAG8AZQBzACAATgBPAFQAIABzAHUAcABwAG8AcgB0ACAAQwBPAE0AIABhAHUAdABvAG0AYQB0AGkAbwBuAC4AIgAKAGUAeABpAHQAIAAxAAoA
-          }
-          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAQwA6AFwAVwBpAG4AZABvAHcAcwBcAE0AZQBkAGkAYQBcAG4AbwB0AGkAZgB5AC4AdwBhAHYAIgApACAAewAgAGUAeABpAHQAIAAwACAAfQAgAGUAbABzAGUAIAB7ACAAZQB4AGkAdAAgADEAIAB9AAoA
-          if ($LASTEXITCODE -ne 0) {
-              powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgACIAWwAtAF0AIABTAG8AdQBuAGQAIABmAGkAbABlACAAbgBvAHQAIABmAG8AdQBuAGQAIABhAHQAIABDADoAXABXAGkAbgBkAG8AdwBzAFwATQBlAGQAaQBhAFwAbgBvAHQAaQBmAHkALgB3AGEAdgAiAAoAVwByAGkAdABlAC0ASABvAHMAdAAgACIAIAAgACAAIABTAHAAZQBjAGkAZgB5ACAAYQAgAHYAYQBsAGkAZAAgAC4AdwBhAHYAIABmAGkAbABlACAAcABhAHQAaAAgAGkAbgAgAHQAaABlACAAcwBvAHUAbgBkAF8AZgBpAGwAZQBfAHAAYQB0AGgAIABpAG4AcAB1AHQAIABhAHIAZwB1AG0AZQBuAHQALgAiAAoAZQB4AGkAdAAgADEACgA=
-          }
-          $isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]"Administrator")
-          if ($isAdmin) {
-              Write-Host "[-] This test must be run from a non-elevated PowerShell session."
-              Write-Host "    Outlook COM fails with 0x80080005 when run as Administrator."
-              exit 1
-          }
-          $tmpScript = "$env:TEMP\T1137005_hidden_rule_create.ps1"
-          $lines = @(
-              '$hiddenName = [System.Text.Encoding]::Unicode.GetString([byte[]](0x0B, 0x20))',
-              '$outlook   = New-Object -ComObject Outlook.Application',
-              '$namespace = $outlook.GetNamespace("MAPI")',
-              '$rules     = $namespace.DefaultStore.GetRules()',
-              '$rule      = $rules.Create($hiddenName, 0)',
-              '$cond = $rule.Conditions.Subject',
-              '$cond.Enabled = $true',
-              '$cond.Text    = @("atomic-rt-hidden")',
-              '$action          = $rule.Actions.PlaySound',
-              '$action.Enabled  = $true',
-              '$action.FilePath = "C:\Windows\Media\notify.wav"',
-              '$rule.Enabled = $true',
-              '$rules.Save()',
-              'Write-Host "[+] Hidden rule created with zero-width space name."',
-              'Write-Host "[*] Open Outlook via File -> Manage Rules and Alerts - rule name will appear blank."',
-              'Write-Host "[*] Verify rule exists via PowerShell COM enumeration (Test 4) or Get-InboxRule in Exchange."'
-          )
-          $lines -join "`n" | Set-Content -Path $tmpScript -Encoding UTF8
-          powershell.exe -NoProfile -ExecutionPolicy Bypass -File $tmpScript
-          Remove-Item $tmpScript -ErrorAction SilentlyContinue
-        cleanup: |-
-          $isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]"Administrator")
-          if ($isAdmin) {
-              Write-Host "[-] Cleanup must be run from a non-elevated PowerShell session. Skipping."
-              exit 1
-          }
-          $tmpScript = "$env:TEMP\T1137005_hidden_rule_cleanup.ps1"
-          $lines = @(
-              '$hiddenName = [System.Text.Encoding]::Unicode.GetString([byte[]](0x0B, 0x20))',
-              '$outlook    = New-Object -ComObject Outlook.Application',
-              '$namespace  = $outlook.GetNamespace("MAPI")',
-              '$rules      = $namespace.DefaultStore.GetRules()',
-              '$removed    = $false',
-              'for ($i = $rules.Count; $i -ge 1; $i--) {',
-              '    if ($rules.Item($i).Name -eq $hiddenName) {',
-              '        $rules.Remove($rules.Item($i).Name)',
-              '        $removed = $true',
-              '    }',
-              '}',
-              'if ($removed) {',
-              '    $rules.Save()',
-              '    Write-Host "[+] Hidden rule(s) removed."',
-              '} else {',
-              '    Write-Host "[-] Hidden rule not found - may have already been removed."',
-              '}'
-          )
-          $lines -join "`n" | Set-Content -Path $tmpScript -Encoding UTF8
-          powershell.exe -NoProfile -ExecutionPolicy Bypass -File $tmpScript
-          Remove-Item $tmpScript -ErrorAction SilentlyContinue
+  technique_id: T1137.005
+  technique_name: 'Office Application Startup: Outlook Rules'
+  executors:
+  - cleanup:
+    - $isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]"Administrator"); if ($isAdmin) { Write-Host "[-] Cleanup must be run from a non-elevated PowerShell session. Skipping."; exit 1 }; $tmpScript = "$env:TEMP\T1137005_hidden_rule_cleanup.ps1"; $lines = @(; '$hiddenName = [System.Text.Encoding]::Unicode.GetString([byte[]](0x0B, 0x20))',; '$outlook    = New-Object -ComObject Outlook.Application',; '$namespace  = $outlook.GetNamespace("MAPI")',; '$rules      = $namespace.DefaultStore.GetRules()',; '$removed    = $false',; 'for ($i = $rules.Count; $i -ge 1; $i--) {',; '    if ($rules.Item($i).Name -eq $hiddenName) {',; '        $rules.Remove($rules.Item($i).Name)',; '        $removed = $true',; '    }',; '}',; 'if ($removed) {',; '    $rules.Save()',; '    Write-Host "[+] Hidden rule(s) removed."',; '} else {',; '    Write-Host "[-] Hidden rule not found - may have already been removed."',; '}'; ); $lines -join "`n" | Set-Content -Path $tmpScript -Encoding UTF8; powershell.exe -NoProfile -ExecutionPolicy Bypass -File $tmpScript; Remove-Item $tmpScript -ErrorAction SilentlyContinue
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand JABjAGwAcwBpAGQAIAA9ACAAKABHAGUAdAAtAEkAdABlAG0AUAByAG8AcABlAHIAdAB5ACAAIgBSAEUARwBJAFMAVABSAFkAOgA6AEgASwBFAFkAXwBDAEwAQQBTAFMARQBTAF8AUgBPAE8AVABcAE8AdQB0AGwAbwBvAGsALgBBAHAAcABsAGkAYwBhAHQAaQBvAG4AXABDAEwAUwBJAEQAIgAgAC0ARQByAHIAbwByAEEAYwB0AGkAbwBuACAAUwBpAGwAZQBuAHQAbAB5AEMAbwBuAHQAaQBuAHUAZQApAC4AJwAoAEQAZQBmAGEAdQBsAHQAKQAnAAoAaQBmACAAKAAkAGMAbABzAGkAZAApACAAewAgAGUAeABpAHQAIAAwACAAfQAgAGUAbABzAGUAIAB7ACAAZQB4AGkAdAAgADEAIAB9AAoA; if ($LASTEXITCODE -ne 0) { powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgACIAWwAtAF0AIABDAGwAYQBzAHMAaQBjACAATwB1AHQAbABvAG8AawAgAGkAcwAgAG4AbwB0ACAAaQBuAHMAdABhAGwAbABlAGQAIABvAHIAIABDAE8ATQAgAGkAcwAgAG4AbwB0ACAAcgBlAGcAaQBzAHQAZQByAGUAZAAuACIACgBXAHIAaQB0AGUALQBIAG8AcwB0ACAAIgAgACAAIAAgAEkAbgBzAHQAYQBsAGwAIABNAGkAYwByAG8AcwBvAGYAdAAgADMANgA1ACAAQQBwAHAAcwAgAHcAaQB0AGgAIABDAGwAYQBzAHMAaQBjACAATwB1AHQAbABvAG8AawAgAGIAZQBmAG8AcgBlACAAcgB1AG4AbgBpAG4AZwAgAHQAaABpAHMAIAB0AGUAcwB0AC4AIgAKAFcAcgBpAHQAZQAtAEgAbwBzAHQAIAAiACAAIAAgACAATgBvAHQAZQA6ACAAVABoAGUAIABuAGUAdwAgAE8AdQB0AGwAbwBvAGsAIABmAG8AcgAgAFcAaQBuAGQAbwB3AHMAIABkAG8AZQBzACAATgBPAFQAIABzAHUAcABwAG8AcgB0ACAAQwBPAE0AIABhAHUAdABvAG0AYQB0AGkAbwBuAC4AIgAKAGUAeABpAHQAIAAxAAoA }; powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAQwA6AFwAVwBpAG4AZABvAHcAcwBcAE0AZQBkAGkAYQBcAG4AbwB0AGkAZgB5AC4AdwBhAHYAIgApACAAewAgAGUAeABpAHQAIAAwACAAfQAgAGUAbABzAGUAIAB7ACAAZQB4AGkAdAAgADEAIAB9AAoA; if ($LASTEXITCODE -ne 0) { powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgACIAWwAtAF0AIABTAG8AdQBuAGQAIABmAGkAbABlACAAbgBvAHQAIABmAG8AdQBuAGQAIABhAHQAIABDADoAXABXAGkAbgBkAG8AdwBzAFwATQBlAGQAaQBhAFwAbgBvAHQAaQBmAHkALgB3AGEAdgAiAAoAVwByAGkAdABlAC0ASABvAHMAdAAgACIAIAAgACAAIABTAHAAZQBjAGkAZgB5ACAAYQAgAHYAYQBsAGkAZAAgAC4AdwBhAHYAIABmAGkAbABlACAAcABhAHQAaAAgAGkAbgAgAHQAaABlACAAcwBvAHUAbgBkAF8AZgBpAGwAZQBfAHAAYQB0AGgAIABpAG4AcAB1AHQAIABhAHIAZwB1AG0AZQBuAHQALgAiAAoAZQB4AGkAdAAgADEACgA= }; $isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]"Administrator"); if ($isAdmin) { Write-Host "[-] This test must be run from a non-elevated PowerShell session."; Write-Host "    Outlook COM fails with 0x80080005 when run as Administrator."; exit 1 }; $tmpScript = "$env:TEMP\T1137005_hidden_rule_create.ps1"; $lines = @(; '$hiddenName = [System.Text.Encoding]::Unicode.GetString([byte[]](0x0B, 0x20))',; '$outlook   = New-Object -ComObject Outlook.Application',; '$namespace = $outlook.GetNamespace("MAPI")',; '$rules     = $namespace.DefaultStore.GetRules()',; '$rule      = $rules.Create($hiddenName, 0)',; '$cond = $rule.Conditions.Subject',; '$cond.Enabled = $true',; '$cond.Text    = @("atomic-rt-hidden")',; '$action          = $rule.Actions.PlaySound',; '$action.Enabled  = $true',; '$action.FilePath = "C:\Windows\Media\notify.wav"',; '$rule.Enabled = $true',; '$rules.Save()',; 'Write-Host "[+] Hidden rule created with zero-width space name."',; 'Write-Host "[*] Open Outlook via File -> Manage Rules and Alerts - rule name will appear blank."',; 'Write-Host "[*] Verify rule exists via PowerShell COM enumeration (Test 4) or Get-InboxRule in Exchange."'; ); $lines -join "`n" | Set-Content -Path $tmpScript -Encoding UTF8; powershell.exe -NoProfile -ExecutionPolicy Bypass -File $tmpScript; Remove-Item $tmpScript -ErrorAction SilentlyContinue
+  id: 492cd311-5867-5d88-8ad1-59c1522a81aa

@@ -1,12 +1,15 @@
-- id: 5eb21ab2-bbd2-5a2f-b043-f53baad0e743
+- requirements: []
   name: Soumaia ART Tests - Map Admin Share PowerShell
   description: Map Admin share utilizing PowerShell
   tactic: lateral-movement
-  technique:
-    attack_id: T1021.002
-    name: 'Remote Services: SMB/Windows Admin Shares'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          New-PSDrive -name g -psprovider filesystem -root \\Target\C$
+  technique_id: T1021.002
+  technique_name: 'Remote Services: SMB/Windows Admin Shares'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: New-PSDrive -name g -psprovider filesystem -root \\Target\C$
+  id: 5eb21ab2-bbd2-5a2f-b043-f53baad0e743

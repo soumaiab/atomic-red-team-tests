@@ -1,4 +1,4 @@
-- id: 28ec2849-f76c-5aed-91f7-385d2c169e44
+- requirements: []
   name: Soumaia ART Tests - Mshta executes VBScript to execute malicious command
   description: 'Run a local VB script to run local user enumeration powershell command.
 
@@ -6,13 +6,15 @@
 
     Upon execution, a new PowerShell windows will be opened that displays user information.'
   tactic: stealth
-  technique:
-    attack_id: T1218.005
-    name: 'Signed Binary Proxy Execution: Mshta'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          mshta vbscript:Execute("CreateObject(""Wscript.Shell"").Run ""powershell -noexit -file .\powershell.ps1"":close")
-        payloads:
-        - powershell.ps1
+  technique_id: T1218.005
+  technique_name: 'Signed Binary Proxy Execution: Mshta'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads:
+    - powershell.ps1
+    parsers: []
+    command: mshta vbscript:Execute("CreateObject(""Wscript.Shell"").Run ""powershell -noexit -file .\powershell.ps1"":close")
+  id: 28ec2849-f76c-5aed-91f7-385d2c169e44

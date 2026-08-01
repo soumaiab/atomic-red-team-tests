@@ -1,4 +1,4 @@
-- id: 78f25291-c21d-5e25-85e9-f6eeb6de9aeb
+- requirements: []
   name: Soumaia ART Tests - Registry key creation and/or modification events for SDB
   description: 'Create registry keys in locations where fin7 typically places SDB patches. Upon execution, output will be displayed describing
 
@@ -7,15 +7,15 @@
 
     https://www.fireeye.com/blog/threat-research/2017/05/fin7-shim-databases-persistence.html (requires elevation)'
   tactic: privilege-escalation
-  technique:
-    attack_id: T1546.011
-    name: 'Event Triggered Execution: Application Shimming'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          New-ItemProperty -Path HKLM:"\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Custom" -Name "AtomicRedTeamT1546.011" -Value "AtomicRedTeamT1546.011"
-          New-ItemProperty -Path HKLM:"\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\InstalledSDB" -Name "AtomicRedTeamT1546.011" -Value "AtomicRedTeamT1546.011"
-        cleanup: |-
-          Remove-ItemProperty -Path HKLM:"\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Custom" -Name "AtomicRedTeamT1546.011" -ErrorAction Ignore
-          Remove-ItemProperty -Path HKLM:"\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\InstalledSDB" -Name "AtomicRedTeamT1546.011" -ErrorAction Ignore
+  technique_id: T1546.011
+  technique_name: 'Event Triggered Execution: Application Shimming'
+  executors:
+  - cleanup:
+    - Remove-ItemProperty -Path HKLM:"\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Custom" -Name "AtomicRedTeamT1546.011" -ErrorAction Ignore; Remove-ItemProperty -Path HKLM:"\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\InstalledSDB" -Name "AtomicRedTeamT1546.011" -ErrorAction Ignore
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: New-ItemProperty -Path HKLM:"\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Custom" -Name "AtomicRedTeamT1546.011" -Value "AtomicRedTeamT1546.011"; New-ItemProperty -Path HKLM:"\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\InstalledSDB" -Name "AtomicRedTeamT1546.011" -Value "AtomicRedTeamT1546.011"
+  id: 78f25291-c21d-5e25-85e9-f6eeb6de9aeb

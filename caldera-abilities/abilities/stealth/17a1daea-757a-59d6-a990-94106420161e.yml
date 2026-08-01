@@ -1,14 +1,16 @@
-- id: 17a1daea-757a-59d6-a990-94106420161e
+- requirements: []
   name: Soumaia ART Tests - Prevent Powershell History Logging
   description: Prevents Powershell history
   tactic: stealth
-  technique:
-    attack_id: T1070.003
-    name: 'Indicator Removal on Host: Clear Command History'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          Set-PSReadlineOption -HistorySaveStyle SaveNothing
-        cleanup: |-
-          Set-PSReadLineOption -HistorySaveStyle SaveIncrementally
+  technique_id: T1070.003
+  technique_name: 'Indicator Removal on Host: Clear Command History'
+  executors:
+  - cleanup:
+    - Set-PSReadLineOption -HistorySaveStyle SaveIncrementally
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: Set-PSReadlineOption -HistorySaveStyle SaveNothing
+  id: 17a1daea-757a-59d6-a990-94106420161e

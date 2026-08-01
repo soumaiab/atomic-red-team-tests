@@ -1,14 +1,17 @@
-- id: 64a409d8-06ac-5334-a5a2-32062c00cf95
+- requirements: []
   name: Soumaia ART Tests - Hidden Window
   description: 'Launch PowerShell with the "-WindowStyle Hidden" argument to conceal PowerShell windows by setting the WindowStyle parameter to hidden.
 
     Upon execution a hidden PowerShell window will launch calc.exe'
   tactic: stealth
-  technique:
-    attack_id: T1564.003
-    name: 'Hide Artifacts: Hidden Window'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          Start-Process powershell.exe -WindowStyle hidden calc.exe
+  technique_id: T1564.003
+  technique_name: 'Hide Artifacts: Hidden Window'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: Start-Process powershell.exe -WindowStyle hidden calc.exe
+  id: 64a409d8-06ac-5334-a5a2-32062c00cf95

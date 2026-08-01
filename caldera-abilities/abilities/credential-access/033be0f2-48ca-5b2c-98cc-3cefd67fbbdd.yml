@@ -1,15 +1,17 @@
-- id: 033be0f2-48ca-5b2c-98cc-3cefd67fbbdd
+- requirements: []
   name: Soumaia ART Tests - Access unattend.xml
   description: 'Attempts to access unattend.xml, where credentials are commonly stored, within the Panther directory where installation logs are stored.
 
     If these files exist, their contents will be displayed. They are used to store credentials/answers during the unattended windows install process. (requires elevation)'
   tactic: credential-access
-  technique:
-    attack_id: T1552.001
-    name: 'Unsecured Credentials: Credentials In Files'
-  platforms:
-    windows:
-      cmd:
-        command: |-
-          type C:\Windows\Panther\unattend.xml
-          type C:\Windows\Panther\Unattend\unattend.xml
+  technique_id: T1552.001
+  technique_name: 'Unsecured Credentials: Credentials In Files'
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: windows
+    name: cmd
+    payloads: []
+    parsers: []
+    command: type C:\Windows\Panther\unattend.xml & type C:\Windows\Panther\Unattend\unattend.xml
+  id: 033be0f2-48ca-5b2c-98cc-3cefd67fbbdd

@@ -1,17 +1,16 @@
-- id: 1c053803-ff07-58ea-9aff-6793493cc20e
+- requirements: []
   name: Soumaia ART Tests - Extract chrome Browsing History
   description: This test will extract browsing history of the chrome user (requires elevation)
   tactic: discovery
-  technique:
-    attack_id: T1217
-    name: Browser Bookmark Discovery
-  platforms:
-    windows:
-      psh:
-        command: |-
-          $Username = (whoami).Split('\')[1]
-          $URL_Regex = '(htt(p|s))://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)*?'
-          $History = Get-Content -Path "$Env:systemdrive\Users\$UserName\AppData\Local\Google\Chrome\User Data\Default\History" | Select-String -AllMatches $URL_Regex | ForEach-Object { $_.Matches.Value } | Sort -Unique
-          $History | Out-File -FilePath "$Env:USERPROFILE\Downloads\chromebrowsinghistory.txt"
-        cleanup: |-
-          Remove-Item -Path "$Env:USERPROFILE\Downloads\chromebrowsinghistory.txt"
+  technique_id: T1217
+  technique_name: Browser Bookmark Discovery
+  executors:
+  - cleanup:
+    - Remove-Item -Path "$Env:USERPROFILE\Downloads\chromebrowsinghistory.txt"
+    timeout: 60
+    platform: windows
+    name: psh
+    payloads: []
+    parsers: []
+    command: $Username = (whoami).Split('\')[1]; $URL_Regex = '(htt(p|s))://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)*?'; $History = Get-Content -Path "$Env:systemdrive\Users\$UserName\AppData\Local\Google\Chrome\User Data\Default\History" | Select-String -AllMatches $URL_Regex | ForEach-Object { $_.Matches.Value } | Sort -Unique; $History | Out-File -FilePath "$Env:USERPROFILE\Downloads\chromebrowsinghistory.txt"
+  id: 1c053803-ff07-58ea-9aff-6793493cc20e
