@@ -1,0 +1,12 @@
+- id: 8497ee44-37df-5ff2-abf5-69e529102e7f
+  name: Soumaia ART Tests - Enumerate credentials from Windows Credential Manager using vaultcmd.exe [Web Credentials]
+  description: This module will enumerate credentials stored in Web Credentials vault of Windows Credential Manager using builtin utility vaultcmd.exe
+  tactic: credential-access
+  technique:
+    attack_id: T1555
+    name: Credentials from Password Stores
+  platforms:
+    windows:
+      psh:
+        command: |-
+          vaultcmd /listcreds:"Web Credentials" /all

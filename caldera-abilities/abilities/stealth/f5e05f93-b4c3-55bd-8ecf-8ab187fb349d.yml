@@ -1,0 +1,18 @@
+- id: f5e05f93-b4c3-55bd-8ecf-8ab187fb349d
+  name: Soumaia ART Tests - Dynamic C# Compile
+  description: "When C# is compiled dynamically, a .cmdline file will be created as a part of the process. \nCertain processes are not typically observed compiling C# code, but can do so without touching disk. This can be used to unpack a payload for execution.\nThe exe file that will be executed is named as T1027.004_DynamicCompile.exe is contained in the 'bin' folder of this atomic, and the source code to the file is in the 'src' folder.\nUpon execution, the exe will print 'T1027.004 Dynamic Compile'."
+  tactic: stealth
+  technique:
+    attack_id: T1027.004
+    name: 'Obfuscated Files or Information: Compile After Delivery'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAFQAMQAwADIANwAuADAAMAA0AF8ARAB5AG4AYQBtAGkAYwBDAG8AbQBwAGkAbABlAC4AZQB4AGUAIgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand SQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAaAB0AHQAcABzADoALwAvAGcAaQB0AGgAdQBiAC4AYwBvAG0ALwByAGUAZABjAGEAbgBhAHIAeQBjAG8ALwBhAHQAbwBtAGkAYwAtAHIAZQBkAC0AdABlAGEAbQAvAHIAYQB3AC8AbQBhAHMAdABlAHIALwBhAHQAbwBtAGkAYwBzAC8AVAAxADAAMgA3AC4AMAAwADQALwBiAGkAbgAvAFQAMQAwADIANwAuADAAMAA0AF8ARAB5AG4AYQBtAGkAYwBDAG8AbQBwAGkAbABlAC4AZQB4AGUAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXABUADEAMAAyADcALgAwADAANABfAEQAeQBuAGEAbQBpAGMAQwBvAG0AcABpAGwAZQAuAGUAeABlACIACgA=
+          }
+          Invoke-Expression ".\T1027.004_DynamicCompile.exe"
+        payloads:
+        - T1027.004_DynamicCompile.exe

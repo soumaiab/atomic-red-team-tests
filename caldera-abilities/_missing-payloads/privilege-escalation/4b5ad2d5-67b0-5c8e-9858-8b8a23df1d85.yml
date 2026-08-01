@@ -1,0 +1,18 @@
+- id: 4b5ad2d5-67b0-5c8e-9858-8b8a23df1d85
+  name: Soumaia ART Tests - Modify BootExecute Value
+  description: "This test modifies the BootExecute registry value to \"autocheck autoche *\", which can be used to simulate an adversary's attempt to tamper with the system's boot process. \nReference - https://www.welivesecurity.com/wp-content/uploads/2018/09/ESET-LoJax.pdf\nNOTE that by not saving the correct value, you may inhibit your system from booting properly. Only run on a test system. There is a reg export before running the Atomic. (requires elevation)"
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1547.001
+    name: 'Boot or Logon Autostart Execution: Registry Run Keys / Startup Folder'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          if (!(Test-Path "$.\SessionManagerBackup.reg")) { reg.exe export "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager" "$.\SessionManagerBackup.reg" /y }
+          Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager" -Name "BootExecute" -Value "autocheck autoche *" -Type MultiString
+        cleanup: |-
+          reg.exe import "$.\SessionManagerBackup.reg"
+          Remove-Item -Path "$.\SessionManagerBackup.reg" -Force
+        payloads:
+        - SessionManagerBackup.reg

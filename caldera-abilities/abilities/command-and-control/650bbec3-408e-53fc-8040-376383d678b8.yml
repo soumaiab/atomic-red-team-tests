@@ -1,0 +1,14 @@
+- id: 650bbec3-408e-53fc-8040-376383d678b8
+  name: Soumaia ART Tests - iwr or Invoke Web-Request download
+  description: 'Use ''iwr'' or "Invoke-WebRequest" -URI argument to download a file from the web. Note: without -URI also works in some versions. (requires elevation)'
+  tactic: command-and-control
+  technique:
+    attack_id: T1105
+    name: Ingress Tool Transfer
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell.exe iwr -URI https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt -Outfile %temp%\Atomic-license.txt
+        cleanup: |-
+          del %temp%\Atomic-license.txt >nul 2>&1

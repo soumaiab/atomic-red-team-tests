@@ -1,0 +1,14 @@
+- id: df230c11-03e9-599d-a0c9-459f28c93c20
+  name: Soumaia ART Tests - Create a Hidden User Called "$"
+  description: Creating a user with a username containing "$" (requires elevation)
+  tactic: stealth
+  technique:
+    attack_id: T1564
+    name: Hide Artifacts
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          net user $ ATOMIC123! /add /active:yes
+        cleanup: |-
+          net user $ /DELETE 2>&1

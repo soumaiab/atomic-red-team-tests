@@ -1,0 +1,12 @@
+- id: c74a57fa-357b-53b7-9f24-c22109d4dccf
+  name: Soumaia ART Tests - Password Change on Directory Service Restore Mode (DSRM) Account
+  description: Change the password on the Directory Service Restore Mode (DSRM) account using ntdsutil by syncing to existing account (requires elevation)
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1098
+    name: Account Manipulation
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          ntdsutil "set dsrm password" "sync from domain account %username%" "q" "q"

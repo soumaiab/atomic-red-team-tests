@@ -1,0 +1,14 @@
+- id: f9a4314d-7d1e-5dcd-9331-f6a04923e9f3
+  name: Soumaia ART Tests - Disable Win Defender Notification
+  description: Disable Win Defender Notification. Redline is using this to disable this win defender feature. (requires elevation)
+  tactic: persistence
+  technique:
+    attack_id: T1112
+    name: Modify Registry
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Notifications" /v "DisableNotifications" /t REG_DWORD /d 1 /f
+        cleanup: |-
+          reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Notifications" /v "DisableNotifications" /t REG_DWORD /d 0 /f

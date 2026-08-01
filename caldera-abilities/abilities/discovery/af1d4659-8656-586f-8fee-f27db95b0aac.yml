@@ -1,0 +1,12 @@
+- id: af1d4659-8656-586f-8fee-f27db95b0aac
+  name: Soumaia ART Tests - Get Printer Device List via PowerShell Command
+  description: "This test uses PowerShell to list printers on a Windows system, demonstrating a discovery technique attackers might use to \ngather details on connected devices. Using Get-Printer, they can view information on all available printers, identifying \npotential devices for further targeting."
+  tactic: discovery
+  technique:
+    attack_id: T1120
+    name: Peripheral Device Discovery
+  platforms:
+    windows:
+      psh:
+        command: |-
+          Get-Printer

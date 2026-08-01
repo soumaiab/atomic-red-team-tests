@@ -20,8 +20,11 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 ATOMICS_ROOT = REPO_ROOT / "atomic-red-team" / "atomics"
 WINDOWS_INDEX_CSV = ATOMICS_ROOT / "Indexes" / "Indexes-CSV" / "windows-index.csv"
 
-# Fixed namespace so regenerating the abilities produces the same new IDs each
-# run (re-importing into Caldera updates existing abilities instead of duplicating them).
+# Fixed namespace so regenerating the abilities produces the same new IDs each run
+# (re-importing into Caldera updates existing abilities instead of duplicating them).
+# IDs are derived from name+original-ART-guid rather than the ART guid alone, so they
+# don't collide with any pre-existing Caldera ability (e.g. Stockpile's own ART-derived
+# abilities, which commonly reuse ART's raw guid as their own ability id).
 ABILITY_ID_NAMESPACE = uuid.UUID("f6a1b2c3-7d4e-4a1a-9c3b-2e5d6f7a8b9c")
 NAME_PREFIX = "Soumaia ART Tests - "
 
@@ -307,7 +310,7 @@ def process_test(
     if executor.get("elevation_required"):
         description = f"{description} (requires elevation)"
 
-    new_id = str(uuid.uuid5(ABILITY_ID_NAMESPACE, guid))
+    new_id = str(uuid.uuid5(ABILITY_ID_NAMESPACE, f"{name}:{guid}"))
 
     ability = {
         "id": new_id,

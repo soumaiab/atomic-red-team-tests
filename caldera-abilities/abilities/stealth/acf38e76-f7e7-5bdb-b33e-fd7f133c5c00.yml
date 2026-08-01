@@ -1,0 +1,20 @@
+- id: acf38e76-f7e7-5bdb-b33e-fd7f133c5c00
+  name: Soumaia ART Tests - Create Windows System File with Attrib
+  description: 'Creates a file and marks it as a system file using the attrib.exe utility. Upon execution, open the file in file explorer then open Properties > Details
+
+    and observe that the Attributes are "SA" for System and Archive. (requires elevation)'
+  tactic: stealth
+  technique:
+    attack_id: T1564.001
+    name: 'Hide Artifacts: Hidden Files and Directories'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          cmd /c "IF EXIST %temp%\T1564.001.txt ( EXIT 0 ) ELSE ( EXIT 1 )"
+          if not "%ERRORLEVEL%"=="0" (
+              cmd /c "echo system_Attrib_T1564.001 >> %temp%\T1564.001.txt"
+          )
+          attrib.exe +s %temp%\T1564.001.txt
+        cleanup: |-
+          del /A:S %temp%\T1564.001.txt >nul 2>&1

@@ -1,0 +1,14 @@
+- id: c2fcd556-e347-5067-9cfc-5b44a4d182f6
+  name: Soumaia ART Tests - Disabling ShowUI Settings of Windows Error Reporting (WER)
+  description: "A modification registry to disable ShowUI settings of Windows Error Report. This registry setting can influence the behavior of error reporting dialogs or prompt box. \nThis technique was seen in DarkGate malware as part of its installation."
+  tactic: persistence
+  technique:
+    attack_id: T1112
+    name: Modify Registry
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          reg add "HKCU\Software\Microsoft\Windows\Windows Error Reporting" /v DontShowUI /t REG_DWORD /d 1 /f
+        cleanup: |-
+          reg add "HKCU\Software\Microsoft\Windows\Windows Error Reporting" /v DontShowUI /t REG_DWORD /d 0 /f

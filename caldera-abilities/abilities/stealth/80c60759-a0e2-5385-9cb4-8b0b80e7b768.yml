@@ -1,0 +1,19 @@
+- id: 80c60759-a0e2-5385-9cb4-8b0b80e7b768
+  name: Soumaia ART Tests - Process Hollowing in Go using CreateProcessW WinAPI
+  description: 'Creates a process in a suspended state, executes shellcode to spawn calc.exe in a child process, and then resumes the original process.
+
+    - PoC Credit: (https://github.com/Ne0nd0g/go-shellcode#createprocess)'
+  tactic: stealth
+  technique:
+    attack_id: T1055.012
+    name: 'Process Injection: Process Hollowing'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          $.\CreateProcess.exe -program "C:\Windows\System32\werfault.exe" -debug
+        cleanup: |-
+          Stop-Process -Name CalculatorApp -ErrorAction SilentlyContinue
+          Stop-Process -Name "werfault" -ErrorAction SilentlyContinue
+        payloads:
+        - CreateProcess.exe

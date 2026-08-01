@@ -1,0 +1,15 @@
+- id: e76ec04c-ff8f-5bd8-b737-a41d198f6f88
+  name: Soumaia ART Tests - Security Software Discovery - Sysmon Service
+  description: 'Discovery of an installed Sysinternals Sysmon service using driver altitude (even if the name is changed).
+
+
+    when sucessfully executed, the test is going to display sysmon driver instance if it is installed. (requires elevation)'
+  tactic: discovery
+  technique:
+    attack_id: T1518.001
+    name: 'Software Discovery: Security Software Discovery'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          fltmc.exe | findstr.exe 385201

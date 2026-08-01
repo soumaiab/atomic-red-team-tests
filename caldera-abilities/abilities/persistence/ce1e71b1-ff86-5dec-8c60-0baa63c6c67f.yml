@@ -1,0 +1,14 @@
+- id: ce1e71b1-ff86-5dec-8c60-0baa63c6c67f
+  name: Soumaia ART Tests - Modify UsePartialEncryptionKey Registry entry
+  description: Allow startup key with TPM for Bitlocker tool (requires elevation)
+  tactic: persistence
+  technique:
+    attack_id: T1112
+    name: Modify Registry
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          reg add "HKLM\SOFTWARE\Policies\Microsoft\FVE" /v UsePartialEncryptionKey /t REG_DWORD /d 2 /f
+        cleanup: |-
+          reg delete "HKLM\SOFTWARE\Policies\Microsoft\FVE" /v UsePartialEncryptionKey /f

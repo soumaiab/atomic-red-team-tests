@@ -1,0 +1,14 @@
+- id: 242924a5-ee65-5e64-a090-794765387b62
+  name: Soumaia ART Tests - Mimic Ransomware - Enable Multiple User Sessions
+  description: "This test emulates Mimic ransomware's ability to enable multiple user sessions by modifying the AllowMultipleTSSessions value within the Winlogon registry key. \nSee [Mimic Ransomware Overview] (https://www.trendmicro.com/en_us/research/23/a/new-mimic-ransomware-abuses-everything-apis-for-its-encryption-p.html) (requires elevation)"
+  tactic: persistence
+  technique:
+    attack_id: T1112
+    name: Modify Registry
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          reg add HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Winlogon /t REG_DWORD /v AllowMultipleTSSessions /d 1 /f
+        cleanup: |-
+          reg delete HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Winlogon /v AllowMultipleTSSessions /f >nul 2>&1

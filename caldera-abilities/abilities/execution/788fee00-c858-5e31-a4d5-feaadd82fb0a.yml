@@ -1,0 +1,16 @@
+- id: 788fee00-c858-5e31-a4d5-feaadd82fb0a
+  name: Soumaia ART Tests - ATHPowerShellCommandLineParameter -Command parameter variations with encoded arguments
+  description: Executes powershell.exe with variations of the -Command parameter with encoded arguments supplied
+  tactic: execution
+  technique:
+    attack_id: T1059.001
+    name: 'Command and Scripting Interpreter: PowerShell'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand JABSAGUAcQB1AGkAcgBlAGQATQBvAGQAdQBsAGUAIAA9ACAARwBlAHQALQBNAG8AZAB1AGwAZQAgAC0ATgBhAG0AZQAgAEEAdABvAG0AaQBjAFQAZQBzAHQASABhAHIAbgBlAHMAcwBlAHMAIAAtAEwAaQBzAHQAQQB2AGEAaQBsAGEAYgBsAGUACgBpAGYAIAAoAC0AbgBvAHQAIAAkAFIAZQBxAHUAaQByAGUAZABNAG8AZAB1AGwAZQApACAAewBlAHgAaQB0ACAAMQB9AAoAaQBmACAAKAAtAG4AbwB0ACAAJABSAGUAcQB1AGkAcgBlAGQATQBvAGQAdQBsAGUALgBFAHgAcABvAHIAdABlAGQAQwBvAG0AbQBhAG4AZABzAFsAJwBPAHUAdAAtAEEAVABIAFAAbwB3AGUAcgBTAGgAZQBsAGwAQwBvAG0AbQBhAG4AZABMAGkAbgBlAFAAYQByAGEAbQBlAHQAZQByACcAXQApACAAewBlAHgAaQB0ACAAMQB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADAAfQA=
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand SQBuAHMAdABhAGwAbAAtAE0AbwBkAHUAbABlACAALQBOAGEAbQBlACAAQQB0AG8AbQBpAGMAVABlAHMAdABIAGEAcgBuAGUAcwBzAGUAcwAgAC0AUwBjAG8AcABlACAAQwB1AHIAcgBlAG4AdABVAHMAZQByACAALQBGAG8AcgBjAGUACgA=
+          }
+          Out-ATHPowerShellCommandLineParameter -CommandLineSwitchType Hyphen -CommandParamVariation C -UseEncodedArguments -EncodedArgumentsParamVariation EA -Execute -ErrorAction Stop

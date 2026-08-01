@@ -1,0 +1,26 @@
+- id: bbb05e22-6dca-5ef1-8396-d58a5f14fe23
+  name: Soumaia ART Tests - Install MS Exchange Transport Agent Persistence
+  description: 'Install a Microsoft Exchange Transport Agent for persistence. This requires execution from an Exchange Client Access Server and the creation of a DLL with specific exports. Seen in use by Turla.
+
+    More details- https://docs.microsoft.com/en-us/exchange/transport-agents-exchange-2013-help (requires elevation)'
+  tactic: persistence
+  technique:
+    attack_id: T1505.002
+    name: 'Server Software Component: Transport Agent'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand RwBlAHQALQBUAHIAYQBuAHMAcABvAHIAdABBAGcAZQBuAHQAIAAtAFQAcgBhAG4AcwBwAG8AcgB0AFMAZQByAHYAaQBjAGUAIABGAHIAbwBuAHQARQBuAGQACgA=
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand QQBkAGQALQBQAFMAUwBuAGEAcABpAG4AIABNAGkAYwByAG8AcwBvAGYAdAAuAEUAeABjAGgAYQBuAGcAZQAuAE0AYQBuAGEAZwBlAG0AZQBuAHQALgBQAG8AdwBlAHIAUwBoAGUAbABsAC4AUwBuAGEAcABJAG4ACgA=
+          }
+          Install-TransportAgent -Name Security Interop Agent -TransportAgentFactory Microsoft.Exchange.Security.Interop.SecurityInteropAgentFactory -AssemblyPath c:\program files\microsoft\Exchange Server\v15\bin\Microsoft.Exchange.Security.Interop.dll
+          Enable-TransportAgent Security Interop Agent
+          Get-TransportAgent | Format-List Name,Enabled
+        cleanup: |-
+          if(Get-Command "Get-TransportAgent" -ErrorAction Ignore){
+            Disable-TransportAgent Security Interop Agent
+            Uninstall-TransportAgent Security Interop Agent
+            Get-TransportAgent
+          }

@@ -1,0 +1,19 @@
+- id: 4fc2d98f-ed1b-5251-92b0-5d17ed3ee133
+  name: Soumaia ART Tests - secedit used to create a Run key in the HKLM Hive
+  description: 'secedit allows to manipulate the HKLM hive of the Windows registry. This test creates a Run key with the keyname calc having calc.exe as the value in the HKLM hive.
+
+    [Reference](https://blueteamops.medium.com/secedit-and-i-know-it-595056dee53d) (requires elevation)'
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1547.001
+    name: 'Boot or Logon Autostart Execution: Registry Run Keys / Startup Folder'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          secedit /import /db mytemplate.db /cfg "$.\regtemplate.ini"
+          secedit /configure /db mytemplate.db
+        cleanup: |-
+          REG DELETE "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /V "calc" /f >nul 2>&1
+        payloads:
+        - regtemplate.ini

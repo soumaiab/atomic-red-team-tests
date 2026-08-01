@@ -1,0 +1,16 @@
+- id: 44e9f5ae-0cbb-59c8-aaf6-f65953e3c9ea
+  name: Soumaia ART Tests - Copy and Modify Mailbox Data on Windows
+  description: Copies and modifies mail data on Windows (requires elevation)
+  tactic: stealth
+  technique:
+    attack_id: T1070.008
+    name: 'Email Collection: Mailbox Manipulation'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          New-Item -Path "C:\Users\$env:USERNAME\AppData\Local\Comms\Unistore\data\copy" -ItemType Directory -ErrorAction Ignore
+          Get-ChildItem -Path "C:\Users\$env:USERNAME\AppData\Local\Comms\Unistore\data" -Exclude copy | ForEach-Object { Copy-Item -Path $_.FullName -Destination "C:\Users\$env:USERNAME\AppData\Local\Comms\Unistore\data\copy" -Recurse -Force -ErrorAction Ignore }
+          Get-ChildItem -Path "C:\Users\$env:USERNAME\AppData\Local\Comms\Unistore\data\copy" -File | ForEach-Object { Add-Content -Path $_.FullName -Value "Modification for Atomic Red Test" -ErrorAction Ignore }
+        cleanup: |-
+          Remove-Item -Path "C:\Users\$env:USERNAME\AppData\Local\Comms\Unistore\data\copy" -Recurse -Force -ErrorAction Ignore

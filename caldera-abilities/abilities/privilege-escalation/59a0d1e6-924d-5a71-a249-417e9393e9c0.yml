@@ -1,0 +1,16 @@
+- id: 59a0d1e6-924d-5a71-a249-417e9393e9c0
+  name: Soumaia ART Tests - Scheduled task Remote
+  description: 'Create a task on a remote system.
+
+    Upon successful execution, cmd.exe will create a scheduled task to spawn cmd.exe at 20:10 on a remote endpoint. (requires elevation)'
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1053.005
+    name: 'Scheduled Task/Job: Scheduled Task'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          SCHTASKS /Create /S localhost /RU DOMAIN\user /RP At0micStrong /TN "Atomic task" /TR "C:\windows\system32\cmd.exe" /SC daily /ST 20:10
+        cleanup: |-
+          SCHTASKS /Delete /S localhost /U DOMAIN\user /P At0micStrong /TN "Atomic task" /F >nul 2>&1

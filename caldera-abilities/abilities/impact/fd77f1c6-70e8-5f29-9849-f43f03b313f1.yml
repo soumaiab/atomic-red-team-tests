@@ -1,0 +1,18 @@
+- id: fd77f1c6-70e8-5f29-9849-f43f03b313f1
+  name: Soumaia ART Tests - Windows - Delete Volume Shadow Copies via WMI with PowerShell
+  description: 'Deletes Windows Volume Shadow Copies with PowerShell code and Get-WMIObject.
+
+    This technique is used by numerous ransomware families such as Sodinokibi/REvil.
+
+    Executes Get-WMIObject. Shadow copies can only be created on Windows server or Windows 8, so upon execution
+
+    there may be no output displayed. (requires elevation)'
+  tactic: impact
+  technique:
+    attack_id: T1490
+    name: Inhibit System Recovery
+  platforms:
+    windows:
+      psh:
+        command: |-
+          Get-WmiObject Win32_Shadowcopy | ForEach-Object {$_.Delete();}

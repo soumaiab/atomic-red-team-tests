@@ -1,0 +1,18 @@
+- id: 3b84df40-d52f-5782-bea2-a32e120e603b
+  name: Soumaia ART Tests - Scheduled Task Startup Script
+  description: 'Run an exe on user logon or system startup.  Upon execution, success messages will be displayed for the two scheduled tasks. To view
+
+    the tasks, open the Task Scheduler and look in the Active Tasks pane. (requires elevation)'
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1053.005
+    name: 'Scheduled Task/Job: Scheduled Task'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          schtasks /create /tn "T1053_005_OnLogon" /sc onlogon /tr "cmd.exe /c calc.exe"
+          schtasks /create /tn "T1053_005_OnStartup" /sc onstart /ru system /tr "cmd.exe /c calc.exe"
+        cleanup: |-
+          schtasks /delete /tn "T1053_005_OnLogon" /f >nul 2>&1
+          schtasks /delete /tn "T1053_005_OnStartup" /f >nul 2>&1

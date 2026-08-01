@@ -1,0 +1,14 @@
+- id: cc55d243-e6fb-5583-a209-7b5ee2181166
+  name: Soumaia ART Tests - Discover OS Product Name via Registry
+  description: 'Identify the Operating System Product Name via registry with the reg.exe command.
+
+    Upon execution, the OS Product Name will be displayed.'
+  tactic: discovery
+  technique:
+    attack_id: T1082
+    name: System Information Discovery
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v ProductName

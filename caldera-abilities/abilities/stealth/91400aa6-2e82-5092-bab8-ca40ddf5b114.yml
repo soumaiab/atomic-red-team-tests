@@ -1,0 +1,18 @@
+- id: 91400aa6-2e82-5092-bab8-ca40ddf5b114
+  name: Soumaia ART Tests - Windows - Modify file last access timestamp with PowerShell
+  description: 'Modifies the last access timestamp of a specified file. This technique was seen in use by the Stitch RAT.
+
+    To verify execution, use File Explorer to view the Properties of the file and observe that the Accessed time is the year 1970.'
+  tactic: stealth
+  technique:
+    attack_id: T1070.006
+    name: 'Indicator Removal on Host: Timestomp'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABUADEANQA1ADEALgAwADAANgBfAHQAaQBtAGUAcwB0AG8AbQBwAC4AdAB4AHQAIgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBQAGEAdABoACAAIgAkAGUAbgB2ADoAVABFAE0AUABcAEEAUgBUAC0ARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwBcAFQAMQA1ADUAMQAuADAAMAA2AF8AdABpAG0AZQBzAHQAbwBtAHAALgB0AHgAdAAiACAALQBGAG8AcgBjAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoAUwBlAHQALQBDAG8AbgB0AGUAbgB0ACAAIgAkAGUAbgB2ADoAVABFAE0AUABcAEEAUgBUAC0ARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwBcAFQAMQA1ADUAMQAuADAAMAA2AF8AdABpAG0AZQBzAHQAbwBtAHAALgB0AHgAdAAiACAALQBWAGEAbAB1AGUAIAAiAFQAMQA1ADUAMQAuADAAMAA2ACAAVABpAG0AZQBzAHQAbwBtAHAAIgAgAC0ARgBvAHIAYwBlACAAfAAgAE8AdQB0AC0ATgB1AGwAbAAKAA==
+          }
+          Get-ChildItem "$env:TEMP\ART-ExternalPayloads\T1551.006_timestomp.txt" | % { $_.LastAccessTime = "01/01/1970 00:00:00" }

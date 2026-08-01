@@ -1,0 +1,14 @@
+- id: 0fefd068-78ad-5a84-a50b-c27b442448a7
+  name: Soumaia ART Tests - Disable .NET Event Tracing for Windows Via Registry (cmd)
+  description: Disables ETW for the .NET Framework using the reg.exe utility to update the Windows registry (requires elevation)
+  tactic: defense-impairment
+  technique:
+    attack_id: T1685
+    name: Disable or Modify Tools
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          REG ADD HKLM\Software\Microsoft\.NETFramework /v ETWEnabled /t REG_DWORD /d 0
+        cleanup: |-
+          REG DELETE HKLM\Software\Microsoft\.NETFramework /v ETWEnabled /f > nul 2>&1

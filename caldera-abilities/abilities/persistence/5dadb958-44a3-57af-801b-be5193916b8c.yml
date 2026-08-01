@@ -1,0 +1,16 @@
+- id: 5dadb958-44a3-57af-801b-be5193916b8c
+  name: Soumaia ART Tests - Disable Windows Security Center Notifications
+  description: 'Modify the registry of the currently logged in user using reg.exe via cmd console to disable the windows security center notification.
+
+    See how azorult malware abuses this technique- https://app.any.run/tasks/a6f2ffe2-e6e2-4396-ae2e-04ea0143f2d8/ (requires elevation)'
+  tactic: persistence
+  technique:
+    attack_id: T1112
+    name: Modify Registry
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          reg add HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\ImmersiveShell /v UseActionCenterExperience /t REG_DWORD /d 0 /f
+        cleanup: |-
+          reg delete HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\ImmersiveShell /v UseActionCenterExperience /f >nul 2>&1

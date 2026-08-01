@@ -1,0 +1,16 @@
+- id: 3e2065ec-fcbe-56f1-a209-ea9ba937ebbb
+  name: Soumaia ART Tests - TeamViewer Files Detected Test on Windows
+  description: An adversary may attempt to trick the user into downloading teamviewer and using this to maintain access to the machine. Download of TeamViewer installer will be at the destination location when sucessfully executed. (requires elevation)
+  tactic: command-and-control
+  technique:
+    attack_id: T1219
+    name: Remote Access Software
+  platforms:
+    windows:
+      psh:
+        command: "Invoke-WebRequest -OutFile C:\\Users\\$env:username\\Desktop\\TeamViewer_Setup.exe https://download.teamviewer.com/download/TeamViewer_Setup.exe\n$file1 = \"C:\\Users\\\" + $env:username + \"\\Desktop\\TeamViewer_Setup.exe\"\nStart-Process -Wait $file1 /S; \nStart-Process 'C:\\Program Files (x86)\\TeamViewer\\TeamViewer.exe'"
+        cleanup: |-
+          $file = 'C:\Program Files (x86)\TeamViewer\uninstall.exe'
+          if(Test-Path $file){ Start-Process $file "/S" -ErrorAction Ignore | Out-Null }
+          $file1 = "C:\Users\" + $env:username + "\Desktop\TeamViewer_Setup.exe"
+          Remove-Item $file1 -ErrorAction Ignore | Out-Null

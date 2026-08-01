@@ -1,0 +1,14 @@
+- id: fa689c0c-1436-5fea-b0bb-a25f1eec765a
+  name: Soumaia ART Tests - Code Signing Policy Modification
+  description: Allows adversaries to subvert trust controls by modifying the code signing policy, enabling the execution of unsigned drivers. (requires elevation)
+  tactic: defense-impairment
+  technique:
+    attack_id: T1553.006
+    name: 'Subvert Trust Controls: Code Signing Policy Modification'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          bcdedit /set testsigning on
+        cleanup: |-
+          bcdedit /set testsigning off

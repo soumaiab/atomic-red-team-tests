@@ -1,0 +1,15 @@
+- id: ef153f16-3589-5a6e-8524-660aef074ecf
+  name: Soumaia ART Tests - Enable Windows Remote Management
+  description: 'Powershell Enable WinRM
+
+
+    Upon successful execution, powershell will "Enable-PSRemoting" allowing for remote PS access. (requires elevation)'
+  tactic: lateral-movement
+  technique:
+    attack_id: T1021.006
+    name: 'Remote Services: Windows Remote Management'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          Enable-PSRemoting -Force

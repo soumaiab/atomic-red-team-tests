@@ -1,0 +1,14 @@
+- id: 7917f02c-60c1-5d17-bf7c-9173fd81ebe5
+  name: Soumaia ART Tests - Disable Windows Auto Reboot for current logon user
+  description: Disable Windows Auto Reboot for current logon user. Redline is using this as part of its defense evasion. (requires elevation)
+  tactic: persistence
+  technique:
+    attack_id: T1112
+    name: Modify Registry
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "NoAutoRebootWithLoggedOnUsers" /t REG_DWORD /d 1 /f
+        cleanup: |-
+          reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "NoAutoRebootWithLoggedOnUsers" /t REG_DWORD /d 0 /f

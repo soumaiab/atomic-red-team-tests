@@ -1,0 +1,18 @@
+- id: 520a5cff-1637-5504-a670-574d65c38c15
+  name: Soumaia ART Tests - UEFI Persistence via Wpbbin.exe File Creation
+  description: 'Creates Wpbbin.exe in %systemroot%. This technique can be used for UEFI-based pre-OS boot persistence mechanisms.
+
+    - https://grzegorztworek.medium.com/using-uefi-to-inject-executable-files-into-bitlocker-protected-drives-8ff4ca59c94c
+
+    - http://download.microsoft.com/download/8/a/2/8a2fb72d-9b96-4e2d-a559-4a27cf905a80/windows-platform-binary-table.docx
+
+    - https://github.com/tandasat/WPBT-Builder (requires elevation)'
+  tactic: stealth
+  technique:
+    attack_id: T1542.001
+    name: 'Pre-OS Boot: System Firmware'
+  platforms:
+    windows:
+      psh:
+        command: "echo \"Creating %systemroot%\\wpbbin.exe\"      \nNew-Item -ItemType File -Path \"$env:SystemRoot\\System32\\wpbbin.exe\""
+        cleanup: "echo \"Removing %systemroot%\\wpbbin.exe\" \nRemove-Item -Path \"$env:SystemRoot\\System32\\wpbbin.exe\""

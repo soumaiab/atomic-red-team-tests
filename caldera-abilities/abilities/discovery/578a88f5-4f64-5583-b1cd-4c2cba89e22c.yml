@@ -1,0 +1,12 @@
+- id: 578a88f5-4f64-5583-b1cd-4c2cba89e22c
+  name: Soumaia ART Tests - Check OS version via "ver" command
+  description: Ver command shows information about os version.
+  tactic: discovery
+  technique:
+    attack_id: T1082
+    name: System Information Discovery
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          ver

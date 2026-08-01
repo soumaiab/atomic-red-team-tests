@@ -1,0 +1,13 @@
+- id: 24e503b4-cb9e-5a00-b7ae-e2a66550f8f2
+  name: Soumaia ART Tests - Device Driver Discovery
+  description: "Displays a list of installed device drivers on the local computer and their properties. Threat actors use this command to enumerate the existing drivers on the computer. \nParameters: \n/v /fo list - Displays verbose output in a list format - the /v parameter is not valid for signed drivers\n/si /fo list - Provides information about signed drivers and outputs it in a list format"
+  tactic: discovery
+  technique:
+    attack_id: T1652
+    name: Device Driver Discovery
+  platforms:
+    windows:
+      psh:
+        command: |-
+          driverquery /v /fo list
+          driverquery /si /fo list

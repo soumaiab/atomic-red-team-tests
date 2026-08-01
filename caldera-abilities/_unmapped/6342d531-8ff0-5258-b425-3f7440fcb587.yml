@@ -1,0 +1,17 @@
+- id: 6342d531-8ff0-5258-b425-3f7440fcb587
+  name: Soumaia ART Tests - Web Server Wordlist Scan
+  description: This test will scan a target system with a wordlist of common directories and file paths.
+  tactic: ''
+  technique:
+    attack_id: T1595.003
+    name: 'Active Scanning: Wordlist Scanning'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          Import-Module ".\WebServerScan.ps1"
+          Invoke-WordlistScan -Target "http://localhost" -Wordlist ".\wordlist.txt" -Timeout "5" -OutputFile "$env:TMPDIR/wordlist_scan.txt"
+          Write-Host "Scan complete. Results saved to: $env:TMPDIR/wordlist_scan.txt"
+        payloads:
+        - WebServerScan.ps1
+        - wordlist.txt

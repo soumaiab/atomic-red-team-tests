@@ -1,0 +1,12 @@
+- id: 4d8fb9c0-279f-5a13-9163-ff6aa7fcb318
+  name: Soumaia ART Tests - System Service Discovery - Windows Scheduled Tasks (schtasks)
+  description: Enumerates scheduled tasks on Windows using schtasks.exe.
+  tactic: discovery
+  technique:
+    attack_id: T1007
+    name: System Service Discovery
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          schtasks /query /fo LIST /v

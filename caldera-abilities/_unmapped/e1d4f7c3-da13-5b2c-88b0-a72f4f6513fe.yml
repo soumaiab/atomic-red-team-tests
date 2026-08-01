@@ -1,0 +1,12 @@
+- id: e1d4f7c3-da13-5b2c-88b0-a72f4f6513fe
+  name: Soumaia ART Tests - Enumerate PlugNPlay Camera
+  description: 'Enumerate PlugNPlay Camera using powershell commandlet. this technique was seen in dcrat malware backdoor capabilities where it enumerate the camera info mounted on the compromised host. reference: https://www.mandiant.com/resources/analyzing-dark-crystal-rat-backdoor (requires elevation)'
+  tactic: ''
+  technique:
+    attack_id: T1592.001
+    name: 'Gather Victim Host Information: Hardware'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          Get-CimInstance -Query "SELECT * FROM Win32_PnPEntity WHERE (PNPClass = 'Image' OR PNPClass = 'Camera')"

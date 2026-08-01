@@ -1,0 +1,16 @@
+- id: f4280379-7b54-5cf7-a457-dbdb60b85fdc
+  name: Soumaia ART Tests - Security Software Discovery
+  description: 'Methods to identify Security Software on an endpoint
+
+
+    when sucessfully executed, the test is going to display running processes, firewall configuration on network profiles
+
+    and specific security software.'
+  tactic: discovery
+  technique:
+    attack_id: T1518.001
+    name: 'Software Discovery: Security Software Discovery'
+  platforms:
+    windows:
+      cmd:
+        command: "netsh.exe advfirewall  show allprofiles \nnetsh.exe advfirewall firewall dump\nnetsh.exe advfirewall show currentprofile\nnetsh.exe advfirewall firewall show rule name=all\nnetsh.exe firewall show state\nnetsh.exe firewall show config\nsc query windefend\npowershell.exe /c \"Get-Process | Where-Object { $_.ProcessName -eq 'Sysmon' }\"\npowershell.exe /c \"Get-Service | where-object {$_.DisplayName -like '*sysm*'}\"\npowershell.exe /c \"Get-CimInstance Win32_Service -Filter 'Description = ''System Monitor service'''\"\ntasklist.exe\ntasklist.exe | findstr /i virus\ntasklist.exe | findstr /i cb\ntasklist.exe | findstr /i defender\ntasklist.exe | findstr /i cylance\ntasklist.exe | findstr /i mc\ntasklist.exe | findstr /i \"virus cb defender cylance mc\""

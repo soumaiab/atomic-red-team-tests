@@ -1,0 +1,16 @@
+- id: 9d52a9bd-e392-55ed-838c-c183a5115af9
+  name: Soumaia ART Tests - Extract all accounts in use as SPN using setspn
+  description: "The following test will utilize setspn to extract the Service Principal Names. This behavior is typically used during a kerberos or silver ticket attack. \nA successful execution will output all the SPNs for the related domain."
+  tactic: credential-access
+  technique:
+    attack_id: T1558.003
+    name: 'Steal or Forge Kerberos Tickets: Kerberoasting'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACgAKABHAGUAdAAtAEMASQBNAEkAbgBzAHQAYQBuAGMAZQAgAC0AQwBsAGEAcwBzACAAVwBpAG4AMwAyAF8AQwBvAG0AcAB1AHQAZQByAFMAeQBzAHQAZQBtACkALgBQAGEAcgB0AE8AZgBEAG8AbQBhAGkAbgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgAEoAbwBpAG4AaQBuAGcAIAB0AGgAaQBzACAAYwBvAG0AcAB1AHQAZQByACAAdABvACAAYQAgAGQAbwBtAGEAaQBuACAAbQB1AHMAdAAgAGIAZQAgAGQAbwBuAGUAIABtAGEAbgB1AGEAbABsAHkACgA=
+          )
+          setspn -T %USERDNSDOMAIN% -Q */*

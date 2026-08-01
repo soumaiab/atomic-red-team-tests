@@ -1,0 +1,16 @@
+- id: 57337403-23d2-5742-aeda-21b61351c0c6
+  name: Soumaia ART Tests - Win32_PnPEntity Hardware Inventory
+  description: Perform peripheral device discovery using Get-WMIObject Win32_PnPEntity
+  tactic: discovery
+  technique:
+    attack_id: T1120
+    name: Peripheral Device Discovery
+  platforms:
+    windows:
+      psh:
+        command: |-
+          Get-WMIObject Win32_PnPEntity | Format-Table Name, Description, Manufacturer > $env:TEMP\T1120_collection.txt
+          $Space,$Heading,$Break,$Data = Get-Content $env:TEMP\T1120_collection.txt
+          @($Heading; $Break; $Data |Sort-Object -Unique) | ? {$_.trim() -ne "" } |Set-Content $env:TEMP\T1120_collection.txt
+        cleanup: |-
+          Remove-Item $env:TEMP\T1120_collection.txt -ErrorAction Ignore

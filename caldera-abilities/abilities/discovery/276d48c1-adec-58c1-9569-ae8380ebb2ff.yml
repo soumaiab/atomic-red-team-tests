@@ -1,0 +1,18 @@
+- id: 276d48c1-adec-58c1-9569-ae8380ebb2ff
+  name: Soumaia ART Tests - System Owner/User Discovery Using Command Prompt
+  description: Identify the system owner or current user using native Windows command prompt utilities.
+  tactic: discovery
+  technique:
+    attack_id: T1033
+    name: System Owner/User Discovery
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          set file=$env:temp\user_info_%random%.tmp
+          echo Username: %USERNAME% > %file%
+          echo User Domain: %USERDOMAIN% >> %file%
+          net users >> %file%
+          query user >> %file%
+        cleanup: |-
+          del $env:temp\\user_info_*.tmp

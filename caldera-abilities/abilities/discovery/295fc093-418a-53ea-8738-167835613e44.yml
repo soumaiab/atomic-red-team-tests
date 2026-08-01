@@ -1,0 +1,14 @@
+- id: 295fc093-418a-53ea-8738-167835613e44
+  name: Soumaia ART Tests - Network Share Discovery PowerShell
+  description: 'Network Share Discovery utilizing PowerShell. The computer name variable may need to be modified to point to a different host
+
+    Upon execution, available network shares will be displayed in the powershell session'
+  tactic: discovery
+  technique:
+    attack_id: T1135
+    name: Network Share Discovery
+  platforms:
+    windows:
+      psh:
+        command: |-
+          get-smbshare

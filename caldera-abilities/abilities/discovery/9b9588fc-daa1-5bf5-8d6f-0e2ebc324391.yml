@@ -1,0 +1,12 @@
+- id: 9b9588fc-daa1-5bf5-8d6f-0e2ebc324391
+  name: Soumaia ART Tests - Display volume shadow copies with "vssadmin"
+  description: The command shows all available volume shadow copies, along with their creation time and location. (requires elevation)
+  tactic: discovery
+  technique:
+    attack_id: T1082
+    name: System Information Discovery
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          vssadmin.exe list shadows

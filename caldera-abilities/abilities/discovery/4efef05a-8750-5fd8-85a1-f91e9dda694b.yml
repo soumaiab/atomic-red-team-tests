@@ -1,0 +1,15 @@
+- id: 4efef05a-8750-5fd8-85a1-f91e9dda694b
+  name: Soumaia ART Tests - Security Software Discovery - AV Discovery via WMI
+  description: 'Discovery of installed antivirus products via a WMI query.
+
+
+    when sucessfully executed, the test is going to display installed AV software. (requires elevation)'
+  tactic: discovery
+  technique:
+    attack_id: T1518.001
+    name: 'Software Discovery: Security Software Discovery'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          wmic.exe /Namespace:\\root\SecurityCenter2 Path AntiVirusProduct Get displayName /Format:List

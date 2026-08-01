@@ -1,0 +1,16 @@
+- id: d1c31770-639c-560a-ac9c-f62ec081524d
+  name: Soumaia ART Tests - Tamper with Windows Defender Evade Scanning -Process
+  description: "Malware can exclude specific processes from being scanned and evading detection.\nUpon successful execution, the process(es) should be on the list of excluded processes. \nTo check the exclusion list using poweshell  (Get-MpPreference).ExclusionProcess.\" (requires elevation)"
+  tactic: defense-impairment
+  technique:
+    attack_id: T1685
+    name: Disable or Modify Tools
+  platforms:
+    windows:
+      psh:
+        command: |-
+          $excludedProcess = "outlook.exe"
+          Add-MpPreference -ExclusionProcess $excludedProcess
+        cleanup: |-
+          $excludedProcess = "outlook.exe"
+          Remove-MpPreference -ExclusionProcess  $excludedProcess

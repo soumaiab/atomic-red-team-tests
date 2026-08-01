@@ -1,0 +1,12 @@
+- id: 4b9a9cf6-a570-5d93-8baf-ec384f8e87f0
+  name: Soumaia ART Tests - Discover System Language by Registry Query
+  description: "Identify System language by querying the registry on an endpoint. \n\nUpon successful execution, result in number format can be looked up to correlate the language."
+  tactic: discovery
+  technique:
+    attack_id: T1614.001
+    name: 'System Location Discovery: System Language Discovery'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          reg query HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Nls\Language

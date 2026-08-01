@@ -1,0 +1,12 @@
+- id: 52bc813f-9872-5499-8bd7-3e69e7e26dc1
+  name: Soumaia ART Tests - Enumerate Default Domain Admin Details (Domain)
+  description: This test will enumerate the details of the built-in domain admin account
+  tactic: discovery
+  technique:
+    attack_id: T1087.002
+    name: 'Account Discovery: Domain Account'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          net user administrator /domain

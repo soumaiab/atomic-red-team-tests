@@ -1,0 +1,12 @@
+- id: d74107b2-8251-526a-be96-e83b9d69676b
+  name: Soumaia ART Tests - Examine local password policy - Windows
+  description: Lists the local password policy to console on Windows.
+  tactic: discovery
+  technique:
+    attack_id: T1201
+    name: Password Policy Discovery
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          net accounts

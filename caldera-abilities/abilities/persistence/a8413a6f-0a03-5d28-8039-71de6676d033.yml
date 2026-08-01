@@ -1,0 +1,14 @@
+- id: a8413a6f-0a03-5d28-8039-71de6676d033
+  name: Soumaia ART Tests - Set-Up Proxy Server
+  description: A modification registry to setup proxy server. This technique was seen in DarkGate malware as part of its installation.
+  tactic: persistence
+  technique:
+    attack_id: T1112
+    name: Modify Registry
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyServer /t REG_SZ /d "proxy.atomic-test.com:8080" /f
+        cleanup: |-
+          reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyServer /f

@@ -1,0 +1,18 @@
+- id: 322da6f0-7860-5a7f-906c-fb3dc879dee1
+  name: Soumaia ART Tests - Telnet C2
+  description: An adversary may establish Telnet communication from a compromised endpoint to a command and control (C2) server in order to carry out additional attacks on objectives.
+  tactic: command-and-control
+  technique:
+    attack_id: T1071
+    name: Application Layer Protocol
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand JABjAG8AbgBuAGUAYwB0AGkAbwBuACAAPQAgAFQAZQBzAHQALQBOAGUAdABDAG8AbgBuAGUAYwB0AGkAbwBuACAALQBDAG8AbQBwAHUAdABlAHIATgBhAG0AZQAgADEAMgA3AC4AMAAuADAALgAxACAALQBQAG8AcgB0ACAAMgAzAAoAaQBmACAAKAAkAGMAbwBuAG4AZQBjAHQAaQBvAG4ALgBUAGMAcABUAGUAcwB0AFMAdQBjAGMAZQBlAGQAZQBkACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgACIAUwBlAHQAdQBwACAAQwAyACAAcwBlAHIAdgBlAHIAIABtAGEAbgB1AGEAbABsAHkAIgAKAA==
+          }
+          .\telnet_client.exe 127.0.0.1 --port 23
+        payloads:
+        - telnet_client.exe

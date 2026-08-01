@@ -1,0 +1,17 @@
+- id: 914c1fd6-902d-5858-ac78-9ca0a2ce0a74
+  name: Soumaia ART Tests - Change Startup Folder - HKLM Modify User Shell Folders Common Startup Value
+  description: "This test will modify the HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders -V \"Common Startup\" \nvalue to point to a new startup folder where a payload could be stored to launch at boot.  *successful execution requires system restart (requires elevation)"
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1547.001
+    name: 'Boot or Logon Autostart Execution: Registry Run Keys / Startup Folder'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          New-Item -ItemType Directory -path "$env:TMP\atomictest\"
+          Copy-Item -path "C:\Windows\System32\calc.exe" -destination "$env:TMP\atomictest\"
+          Set-ItemProperty -Path  "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders" -Name "Common Startup" -Value "$env:TMP\atomictest\"
+        cleanup: |-
+          Set-ItemProperty -Path  "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders" -Name "Common Startup" -Value "%ProgramData%\Microsoft\Windows\Start Menu\Programs\Startup"
+          Remove-Item "$env:TMP\atomictest\" -Recurse -Force

@@ -1,0 +1,16 @@
+- id: 9e426242-da19-5c3a-b5f8-f21c59bdaada
+  name: Soumaia ART Tests - Disable Microsoft Defender Firewall
+  description: 'Disables the Microsoft Defender Firewall for the current profile.
+
+    Caution if you access remotely the host where the test runs! Especially with the cleanup command which will re-enable firewall for the current profile...'
+  tactic: defense-impairment
+  technique:
+    attack_id: T1686
+    name: Disable or Modify System Firewall
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          netsh advfirewall set currentprofile state off
+        cleanup: |-
+          netsh advfirewall set currentprofile state on >nul 2>&1

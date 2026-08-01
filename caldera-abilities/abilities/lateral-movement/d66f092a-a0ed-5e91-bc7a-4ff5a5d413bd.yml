@@ -1,0 +1,14 @@
+- id: d66f092a-a0ed-5e91-bc7a-4ff5a5d413bd
+  name: Soumaia ART Tests - Changing RDP Port to Non Standard Port via Powershell
+  description: Changing RDP Port to Non Standard Port via Powershell (requires elevation)
+  tactic: lateral-movement
+  technique:
+    attack_id: T1021.001
+    name: 'Remote Services: Remote Desktop Protocol'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "PortNumber" -Value 4489
+          New-NetFirewallRule -DisplayName 'RDPPORTLatest-TCP-In' -Profile 'Public' -Direction Inbound -Action Allow -Protocol TCP -LocalPort 4489
+        cleanup: "Set-ItemProperty -Path 'HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp' -name \"PortNumber\" -Value 3389\nRemove-NetFirewallRule -DisplayName \"RDPPORTLatest-TCP-In\" -ErrorAction Ignore \nGet-Service TermService | Restart-Service -Force -ErrorAction Ignore"

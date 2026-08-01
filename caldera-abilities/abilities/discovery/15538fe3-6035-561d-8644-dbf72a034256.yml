@@ -1,0 +1,14 @@
+- id: 15538fe3-6035-561d-8644-dbf72a034256
+  name: Soumaia ART Tests - Discover System Time Zone via Registry
+  description: 'Identify the Operating System Time Zone via registry with the reg.exe command.
+
+    Upon execution, the system Time Zone will be shown.'
+  tactic: discovery
+  technique:
+    attack_id: T1124
+    name: System Time Discovery
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          reg query "HKLM\SYSTEM\CurrentControlSet\Control\TimeZoneInformation" /v TimeZoneKeyName

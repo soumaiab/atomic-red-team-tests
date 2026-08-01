@@ -1,0 +1,14 @@
+- id: 1d76bddb-2a2d-59e2-bcca-fe2cd59a061d
+  name: Soumaia ART Tests - RDP Authentication Level Override
+  description: A modification registry to override RDP Authentication Level. This technique was seen in DarkGate malware as part of its installation.
+  tactic: persistence
+  technique:
+    attack_id: T1112
+    name: Modify Registry
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          reg add "HKCU\Software\Microsoft\Terminal Server Client" /v AuthenticationLevelOverride /t REG_DWORD /d 0 /f
+        cleanup: |-
+          reg delete "HKCU\Software\Microsoft\Terminal Server Client" /v AuthenticationLevelOverride

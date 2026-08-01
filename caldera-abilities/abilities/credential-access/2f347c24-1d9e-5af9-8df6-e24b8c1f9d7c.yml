@@ -1,0 +1,19 @@
+- id: 2f347c24-1d9e-5af9-8df6-e24b8c1f9d7c
+  name: Soumaia ART Tests - Windows Internal Packet Capture
+  description: 'Uses the built-in Windows packet capture
+
+    After execution you should find a file named trace.etl and trace.cab in the temp directory (requires elevation)'
+  tactic: credential-access
+  technique:
+    attack_id: T1040
+    name: Network Sniffing
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          netsh trace start capture=yes tracefile=%temp%\trace.etl maxsize=10
+        cleanup: |-
+          netsh trace stop >nul 2>&1
+          TIMEOUT /T 5 >nul 2>&1
+          del %temp%\trace.etl >nul 2>&1
+          del %temp%\trace.cab >nul 2>&1

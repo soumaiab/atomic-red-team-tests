@@ -1,0 +1,18 @@
+- id: e48d035d-568d-5b67-b4e0-fd8bedf22309
+  name: Soumaia ART Tests - Regsvr32 Registering Non DLL
+  description: Replicating observed Gozi maldoc behavior registering a dll with an altered extension
+  tactic: stealth
+  technique:
+    attack_id: T1218.010
+    name: 'Signed Binary Proxy Execution: Regsvr32'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          cmd /c "if exist %temp%\shell32.jpg ( exit 0 ) else ( exit 1 )"
+          if not "%ERRORLEVEL%"=="0" (
+              cmd /c "copy ""C:\Windows\System32\shell32.dll"" ""%temp%\shell32.jpg"""
+          )
+          C:\Windows\system32\regsvr32.exe /s %temp%\shell32.jpg
+        cleanup: |-
+          C:\Windows\system32\regsvr32.exe /U /s %temp%\shell32.jpg

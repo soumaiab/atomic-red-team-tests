@@ -1,0 +1,12 @@
+- id: 89587872-efe9-5c2f-9b54-eaec961d7704
+  name: Soumaia ART Tests - System Information Discovery
+  description: The script gathernetworkinfo.vbs is employed to collect system information such as the operating system, DNS details, firewall configuration, etc. Outputs are stored in c:\Windows\System32\config or c:\Windows\System32\reg. https://www.verboon.info/2011/06/the-gathernetworkinfo-vbs-script/ (requires elevation)
+  tactic: discovery
+  technique:
+    attack_id: T1082
+    name: System Information Discovery
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          wscript.exe C:\Windows\System32\gatherNetworkInfo.vbs

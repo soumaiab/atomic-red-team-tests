@@ -1,0 +1,14 @@
+- id: 8b4761dc-9107-5f61-b0b9-1b9d8e13472b
+  name: Soumaia ART Tests - Disable Windows Remote Desktop Protocol
+  description: Modify the registry of the machine to disable remote desktop protocol. (requires elevation)
+  tactic: persistence
+  technique:
+    attack_id: T1112
+    name: Modify Registry
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          reg add "HKLM\System\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /t REG_DWORD /d 1 /f
+        cleanup: |-
+          reg delete "HKLM\System\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /f

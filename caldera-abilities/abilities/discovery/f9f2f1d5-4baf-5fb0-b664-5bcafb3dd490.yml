@@ -1,0 +1,12 @@
+- id: f9f2f1d5-4baf-5fb0-b664-5bcafb3dd490
+  name: Soumaia ART Tests - Peripheral Device Discovery via fsutil
+  description: Performs pheripheral device discovery utilizing fsutil to list all drives.
+  tactic: discovery
+  technique:
+    attack_id: T1120
+    name: Peripheral Device Discovery
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          fsutil fsinfo drives

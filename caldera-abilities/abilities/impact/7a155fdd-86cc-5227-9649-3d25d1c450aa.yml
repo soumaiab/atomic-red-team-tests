@@ -1,0 +1,12 @@
+- id: 7a155fdd-86cc-5227-9649-3d25d1c450aa
+  name: Soumaia ART Tests - Restart System - Windows
+  description: This test restarts a Windows system. (requires elevation)
+  tactic: impact
+  technique:
+    attack_id: T1529
+    name: System Shutdown/Reboot
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          shutdown /r /t 1

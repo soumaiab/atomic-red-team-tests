@@ -1,0 +1,20 @@
+- id: 5976ea48-4c6a-5862-8165-71117e5905cf
+  name: Soumaia ART Tests - Compress a File for Exfiltration using Makecab
+  description: 'An adversary may compress data using Makecab (in-built Windows binary) that is collected prior to exfiltration.
+
+    [reference](https://unit42.paloaltonetworks.com/exchange-server-credential-harvesting/)'
+  tactic: collection
+  technique:
+    attack_id: T1560.001
+    name: 'Archive Collected Data: Archive via Utility'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          cmd /c "if not exist ""C:\Temp\sam.hiv"" (exit /b 1)"
+          if not "%ERRORLEVEL%"=="0" (
+              cmd /c "fsutil file createnew c:\Temp\sam.hiv 10485760"
+          )
+          makecab.exe C:\Temp\sam.hiv C:\Temp\art.zip
+        cleanup: |-
+          del C:\Temp\art.zip

@@ -1,0 +1,12 @@
+- id: c9a71c08-e5fc-57c1-a2de-1679b56a3efd
+  name: Soumaia ART Tests - Clear PowerShell Session History
+  description: "This technique involves using the Clear-History cmdlet in PowerShell to remove all records of previously executed commands.\nThis action is often performed by attackers to eliminate traces of their activities, making incident detection and forensic \ninvestigation more challenging. By clearing the session history, adversaries aim to obfuscate their operational footprint."
+  tactic: stealth
+  technique:
+    attack_id: T1070.003
+    name: 'Indicator Removal on Host: Clear Command History'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          Clear-History

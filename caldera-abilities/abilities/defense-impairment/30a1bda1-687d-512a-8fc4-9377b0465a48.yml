@@ -1,0 +1,14 @@
+- id: 30a1bda1-687d-512a-8fc4-9377b0465a48
+  name: Soumaia ART Tests - Set a firewall rule using New-NetFirewallRule
+  description: This test will attempt to create a new inbound/outbound firewall rule using the New-NetFirewallRule commandlet. (requires elevation)
+  tactic: defense-impairment
+  technique:
+    attack_id: T1686
+    name: Disable or Modify System Firewall
+  platforms:
+    windows:
+      psh:
+        command: |-
+          New-NetFirewallRule -DisplayName "New rule" -Direction "Inbound" -LocalPort "21" -Protocol "TCP" -Action "allow"
+        cleanup: |-
+          Remove-NetFirewallRule -DisplayName "New rule"

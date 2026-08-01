@@ -1,0 +1,14 @@
+- id: 8d09acb6-ad13-560d-8737-5f0ec46fe5e2
+  name: Soumaia ART Tests - Enabling Remote Desktop Protocol via Remote Registry
+  description: Enabling RDP through remote registry. (requires elevation)
+  tactic: persistence
+  technique:
+    attack_id: T1112
+    name: Modify Registry
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          reg add "hklm\SYSTEM\CurrentControlSet\Control\Terminal Server\Winstations\RDP-Tcp" /v SecurityLayer /t REG_DWORD /d 0 /f
+        cleanup: |-
+          reg add "hklm\SYSTEM\CurrentControlSet\Control\Terminal Server\Winstations\RDP-Tcp" /v SecurityLayer /t REG_DWORD /d 2 /f

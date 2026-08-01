@@ -1,0 +1,18 @@
+- id: af254b20-f323-5cae-9b12-65b8127acfa9
+  name: Soumaia ART Tests - certutil download (verifyctl)
+  description: Use certutil -verifyctl argument to download a file from the web. Note - /verifyctl also works!
+  tactic: command-and-control
+  technique:
+    attack_id: T1105
+    name: Ingress Tool Transfer
+  platforms:
+    windows:
+      psh:
+        command: |-
+          $datePath = "certutil-$(Get-Date -format yyyy_MM_dd)"
+          New-Item -Path $datePath -ItemType Directory
+          Set-Location $datePath
+          certutil -verifyctl -split -f https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt
+          Get-ChildItem | Where-Object {$_.Name -notlike "*.txt"} | Foreach-Object { Move-Item $_.Name -Destination Atomic-license.txt }
+        cleanup: |-
+          Remove-Item "certutil-$(Get-Date -format yyyy_MM_dd)" -Force -Recurse -ErrorAction Ignore

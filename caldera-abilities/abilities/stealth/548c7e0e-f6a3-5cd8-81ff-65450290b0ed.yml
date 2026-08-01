@@ -1,0 +1,18 @@
+- id: 548c7e0e-f6a3-5cd8-81ff-65450290b0ed
+  name: Soumaia ART Tests - MSBuild Bypass Using Inline Tasks (C#)
+  description: Executes the code in a project file using msbuild.exe. The default C# project example file (T1127.001.csproj) will simply print "Hello From a Code Fragment" and "Hello From a Class." to the screen.
+  tactic: stealth
+  technique:
+    attack_id: T1127.001
+    name: 'Trusted Developer Utilities Proxy Execution: MSBuild'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAFQAMQAxADIANwAuADAAMAAxAC4AYwBzAHAAcgBvAGoAIgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABUADEAMQAyADcALgAwADAAMQAuAGMAcwBwAHIAbwBqACIAKQAgAC0ARQByAHIAbwByAEEAYwB0AGkAbwBuACAAaQBnAG4AbwByAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AZwBpAHQAaAB1AGIALgBjAG8AbQAvAHIAZQBkAGMAYQBuAGEAcgB5AGMAbwAvAGEAdABvAG0AaQBjAC0AcgBlAGQALQB0AGUAYQBtAC8AcgBhAHcALwBtAGEAcwB0AGUAcgAvAGEAdABvAG0AaQBjAHMALwBUADEAMQAyADcALgAwADAAMQAvAHMAcgBjAC8AVAAxADEAMgA3AC4AMAAwADEALgBjAHMAcAByAG8AagAiACAALQBPAHUAdABGAGkAbABlACAAIgAuAFwAVAAxADEAMgA3AC4AMAAwADEALgBjAHMAcAByAG8AagAiAAoA
+          )
+          C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe ".\T1127.001.csproj"
+        payloads:
+        - T1127.001.csproj

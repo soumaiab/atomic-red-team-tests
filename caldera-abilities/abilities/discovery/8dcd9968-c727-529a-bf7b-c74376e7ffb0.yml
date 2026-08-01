@@ -1,0 +1,15 @@
+- id: 8dcd9968-c727-529a-bf7b-c74376e7ffb0
+  name: Soumaia ART Tests - Remote System Discovery - net group Domain Computers
+  description: 'Identify remote systems with net.exe querying the Active Directory Domain Computers group.
+
+
+    Upon successful execution, cmd.exe will execute cmd.exe against Active Directory to list the "Domain Computers" group. Output will be via stdout.'
+  tactic: discovery
+  technique:
+    attack_id: T1018
+    name: Remote System Discovery
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          net group "Domain Computers" /domain

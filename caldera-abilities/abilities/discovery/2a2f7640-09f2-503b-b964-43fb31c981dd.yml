@@ -1,0 +1,14 @@
+- id: 2a2f7640-09f2-503b-b964-43fb31c981dd
+  name: Soumaia ART Tests - List Google Chrome / Edge Chromium Bookmarks on Windows with command prompt
+  description: 'Searches for Google Chromes''s and Edge Chromium''s Bookmarks file (on Windows distributions) that contains bookmarks.
+
+    Upon execution, paths that contain bookmark files will be displayed.'
+  tactic: discovery
+  technique:
+    attack_id: T1217
+    name: Browser Bookmark Discovery
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          where /R C:\Users\ Bookmarks

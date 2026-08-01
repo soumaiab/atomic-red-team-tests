@@ -1,0 +1,18 @@
+- id: f50543b0-d426-5235-81b1-37c2d7be8e19
+  name: Soumaia ART Tests - Remote Process Injection with Go using RtlCreateUserThread WinAPI
+  description: "Executes shellcode in a remote process.\n\nSteps taken with this technique\n1. Get a handle to the target process\n2. Allocate memory for the shellcode with VirtualAllocEx setting the page permissions to Read/Write\n3. Use the WriteProcessMemory to copy the shellcode to the allocated memory space in the remote process\n4. Change the memory page permissions to Execute/Read with VirtualProtectEx\n5. Execute the entrypoint of the shellcode in the remote process with RtlCreateUserThread\n6. Close the handle to the remote process\n\n- PoC Credit: (https://github.com/Ne0nd0g/go-shellcode/tree/master#rtlcreateuserthread)\n- References: \n  - https://www.cobaltstrike.com/blog/cobalt-strikes-process-injection-the-details-cobalt-strike"
+  tactic: stealth
+  technique:
+    attack_id: T1055
+    name: Process Injection
+  platforms:
+    windows:
+      psh:
+        command: |-
+          $process = Start-Process C:\Windows\System32\werfault.exe -passthru
+          $.\RtlCreateUserThread.exe -pid $process.Id -debug
+        cleanup: |-
+          Stop-Process -Name CalculatorApp -ErrorAction SilentlyContinue
+          Stop-Process -Name werfault -ErrorAction SilentlyContinue
+        payloads:
+        - RtlCreateUserThread.exe

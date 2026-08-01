@@ -1,0 +1,16 @@
+- id: ddd5f98d-f027-5a2f-92f6-0e14bcdaeb6c
+  name: Soumaia ART Tests - Parent PID Spoofing - Spawn from Current Process
+  description: Spawns a powershell.exe process as a child of the current process.
+  tactic: stealth
+  technique:
+    attack_id: T1134.004
+    name: 'Access Token Manipulation: Parent PID Spoofing'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand JABSAGUAcQB1AGkAcgBlAGQATQBvAGQAdQBsAGUAIAA9ACAARwBlAHQALQBNAG8AZAB1AGwAZQAgAC0ATgBhAG0AZQAgAEEAdABvAG0AaQBjAFQAZQBzAHQASABhAHIAbgBlAHMAcwBlAHMAIAAtAEwAaQBzAHQAQQB2AGEAaQBsAGEAYgBsAGUACgBpAGYAIAAoAC0AbgBvAHQAIAAkAFIAZQBxAHUAaQByAGUAZABNAG8AZAB1AGwAZQApACAAewBlAHgAaQB0ACAAMQB9AAoAaQBmACAAKAAtAG4AbwB0ACAAJABSAGUAcQB1AGkAcgBlAGQATQBvAGQAdQBsAGUALgBFAHgAcABvAHIAdABlAGQAQwBvAG0AbQBhAG4AZABzAFsAJwBTAHQAYQByAHQALQBBAFQASABQAHIAbwBjAGUAcwBzAFUAbgBkAGUAcgBTAHAAZQBjAGkAZgBpAGMAUABhAHIAZQBuAHQAJwBdACkAIAB7AGUAeABpAHQAIAAxAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMAB9AA==
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand SQBuAHMAdABhAGwAbAAtAE0AbwBkAHUAbABlACAALQBOAGEAbQBlACAAQQB0AG8AbQBpAGMAVABlAHMAdABIAGEAcgBuAGUAcwBzAGUAcwAgAC0AUwBjAG8AcABlACAAQwB1AHIAcgBlAG4AdABVAHMAZQByACAALQBGAG8AcgBjAGUACgA=
+          }
+          Start-ATHProcessUnderSpecificParent -FilePath $Env:windir\System32\WindowsPowerShell\v1.0\powershell.exe -CommandLine '-Command Start-Sleep 10' -ParentId $PID

@@ -1,0 +1,22 @@
+- id: c6fe2dc0-f3a8-5a63-800d-5a895a090214
+  name: Soumaia ART Tests - Get-ADUser Enumeration using UserAccountControl flags (AS-REP Roasting)
+  description: 'When successful, accounts that do not require kerberos pre-auth will be returned.
+
+    Reference: https://m0chan.github.io/2019/07/31/How-To-Attack-Kerberos-101.html'
+  tactic: discovery
+  technique:
+    attack_id: T1069.002
+    name: 'Permission Groups Discovery: Domain Groups'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACgAKABHAGUAdAAtAEMASQBNAEkAbgBzAHQAYQBuAGMAZQAgAC0AQwBsAGEAcwBzACAAVwBpAG4AMwAyAF8AQwBvAG0AcAB1AHQAZQByAFMAeQBzAHQAZQBtACkALgBQAGEAcgB0AE8AZgBEAG8AbQBhAGkAbgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgAEoAbwBpAG4AaQBuAGcAIAB0AGgAaQBzACAAYwBvAG0AcAB1AHQAZQByACAAdABvACAAYQAgAGQAbwBtAGEAaQBuACAAbQB1AHMAdAAgAGIAZQAgAGQAbwBuAGUAIABtAGEAbgB1AGEAbABsAHkALgAKAA==
+          }
+          powershell -NoProfile -EncodedCommand aQBmACgARwBlAHQALQBNAG8AZAB1AGwAZQAgAC0ATABpAHMAdABBAHYAYQBpAGwAYQBiAGwAZQAgAC0ATgBhAG0AZQAgAEEAYwB0AGkAdgBlAEQAaQByAGUAYwB0AG8AcgB5ACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand QQBkAGQALQBXAGkAbgBkAG8AdwBzAEMAYQBwAGEAYgBpAGwAaQB0AHkAIAAtAE8AbgBsAGkAbgBlACAALQBOAGEAbQBlACAAIgBSAHMAYQB0AC4AQQBjAHQAaQB2AGUARABpAHIAZQBjAHQAbwByAHkALgBEAFMALQBMAEQAUwAuAFQAbwBvAGwAcwB+AH4AfgB+ADAALgAwAC4AMQAuADAAIgAKAA==
+          }
+          Get-ADUser -Filter 'useraccountcontrol -band 4194304' -Properties useraccountcontrol | Format-Table name

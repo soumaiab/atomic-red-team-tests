@@ -1,0 +1,16 @@
+- id: 802ea596-9ee1-53ee-abe3-2530e76aaa7b
+  name: Soumaia ART Tests - Rundll32 execute VBscript command
+  description: 'Test execution of a command using rundll32.exe and VBscript in a similar manner to the JavaScript test.
+
+    Technique documented by Hexacorn- http://www.hexacorn.com/blog/2019/10/29/rundll32-with-a-vbscript-protocol/
+
+    Upon execution calc.exe will be launched'
+  tactic: stealth
+  technique:
+    attack_id: T1218.011
+    name: 'Signed Binary Proxy Execution: Rundll32'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          rundll32 vbscript:"\..\mshtml,RunHTMLApplication "+String(CreateObject("WScript.Shell").Run("calc.exe"),0)

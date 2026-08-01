@@ -1,0 +1,23 @@
+- id: d4b55391-9b0f-5325-b365-eb4242e14eab
+  name: Soumaia ART Tests - Execute base64-encoded PowerShell from Windows Registry
+  description: 'Stores base64-encoded PowerShell code in the Windows Registry and deobfuscates it for execution. This is used by numerous adversaries and malicious tools.
+
+
+    Upon successful execution, powershell will execute encoded command and read/write from the registry.'
+  tactic: stealth
+  technique:
+    attack_id: T1027
+    name: Obfuscated Files or Information
+  platforms:
+    windows:
+      psh:
+        command: |-
+          $OriginalCommand = 'Write-Host "Hey, Atomic!"'
+          $Bytes = [System.Text.Encoding]::Unicode.GetBytes($OriginalCommand)
+          $EncodedCommand =[Convert]::ToBase64String($Bytes)
+          $EncodedCommand
+
+          Set-ItemProperty -Force -Path HKCU:Software\Microsoft\Windows\CurrentVersion -Name Debug -Value $EncodedCommand
+          powershell.exe -Command "IEX ([Text.Encoding]::UNICODE.GetString([Convert]::FromBase64String((gp HKCU:Software\Microsoft\Windows\CurrentVersion Debug).Debug)))"
+        cleanup: |-
+          Remove-ItemProperty -Force -ErrorAction Ignore -Path HKCU:Software\Microsoft\Windows\CurrentVersion -Name Debug

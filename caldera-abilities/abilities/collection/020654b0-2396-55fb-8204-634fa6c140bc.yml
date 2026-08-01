@@ -1,0 +1,25 @@
+- id: 020654b0-2396-55fb-8204-634fa6c140bc
+  name: Soumaia ART Tests - Copy a sensitive File over Administrative share with Powershell
+  description: 'Copy from sensitive File from the c$ of another LAN computer with powershell
+
+    https://twitter.com/SBousseaden/status/1211636381086339073 (requires elevation)'
+  tactic: collection
+  technique:
+    attack_id: T1039
+    name: Data from Network Shared Drive
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAXABcADEAMgA3AC4AMAAuADAALgAxAFwAQwAkACIAKQAgAHsAZQB4AGkAdAAgADAAfQAgAGUAbABzAGUAIAB7AGUAeABpAHQAIAAxAH0ACgA=
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgACcAUABsAGUAYQBzAGUAIABFAG4AYQBiAGwAZQAgACIAQwAkACIAIABzAGgAYQByAGUAIABvAG4AIAAxADIANwAuADAALgAwAC4AMQAnAAoA
+          }
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAXABcADEAMgA3AC4AMAAuADAALgAxAFwAQwAkAFwAVwBpAG4AZABvAHcAcwBcAHQAZQBtAHAAXABFAGEAcwB0AGUAcgBfAEIAdQBuAG4AeQAuAHAAYQBzAHMAdwBvAHIAZAAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand TwB1AHQALQBGAGkAbABlACAALQBGAGkAbABlAFAAYQB0AGgAIAAiAFwAXAAxADIANwAuADAALgAwAC4AMQBcAEMAJABcAFcAaQBuAGQAbwB3AHMAXAB0AGUAbQBwAFwARQBhAHMAdABlAHIAXwBCAHUAbgBuAHkALgBwAGEAcwBzAHcAbwByAGQAIgAKAA==
+          }
+          copy-item -Path "\\127.0.0.1\C$\Windows\temp\Easter_Bunny.password" -Destination "$Env:TEMP\Easter_egg.password"
+        cleanup: |-
+          Remove-Item -Path "\\127.0.0.1\C$\Windows\temp\Easter_Bunny.password"
+          Remove-Item -Path "$Env:TEMP\Easter_egg.password"

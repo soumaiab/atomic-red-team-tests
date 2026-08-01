@@ -1,0 +1,14 @@
+- id: f9031d1f-f007-5dde-b99b-1dbc8de691c0
+  name: Soumaia ART Tests - LockBit Black - Disable Privacy Settings Experience Using Registry -cmd
+  description: LockBit Black - Disable Privacy Settings Experience Using Registry (requires elevation)
+  tactic: defense-impairment
+  technique:
+    attack_id: T1685
+    name: Disable or Modify Tools
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          reg add "HKCU\Software\Policies\Microsoft\Windows\OOBE" /v DisablePrivacyExperience /t REG_DWORD /d 1 /f
+        cleanup: |-
+          reg delete "HKCU\Software\Policies\Microsoft\Windows\OOBE" /v DisablePrivacyExperience /f >nul 2>&1

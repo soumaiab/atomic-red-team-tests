@@ -1,0 +1,24 @@
+- id: 8aa82a73-6b8e-5d39-97de-6904f997596c
+  name: Soumaia ART Tests - Grant Full Access to folder for Everyone - Ryuk Ransomware Style
+  description: 'Invokes the command line similar to that used by Ryuk Ransomware to grant full access to the entire C:\ drive for Everyone.
+
+    **icacls "C:\*" /grant Everyone:F /T /C /Q**
+
+    However, for this atomic we set the permission on C:\Users\Public so it completes faster and doesn''t irreversibly affect the host.
+
+    You can set your own path variable to "C:\*" if you prefer. (requires elevation)'
+  tactic: defense-impairment
+  technique:
+    attack_id: T1222.001
+    name: 'File and Directory Permissions Modification: Windows File and Directory Permissions Modification'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          cmd /c "IF EXIST %temp%\T1222.001-folder-perms-backup.txt ( EXIT 0 ) ELSE ( EXIT 1 )"
+          if not "%ERRORLEVEL%"=="0" (
+              cmd /c "icacls C:\Users\Public\* /save %temp%\T1222.001-folder-perms-backup.txt /t /q >nul 2>&1"
+          )
+          icacls "C:\Users\Public\*" /grant Everyone:F /T /C /Q
+        cleanup: |-
+          icacls 'C:\Users\Public\*' /restore %temp%\T1222.001-folder-perms-backup.txt /q >nul 2>&1

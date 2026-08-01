@@ -1,0 +1,22 @@
+- id: 953f9be6-2b4f-5c66-914a-b137f4b41760
+  name: Soumaia ART Tests - Powershell Cmdlet Scheduled Task
+  description: 'Create an atomic scheduled task that leverages native powershell cmdlets.
+
+
+    Upon successful execution, powershell.exe will create a scheduled task to spawn cmd.exe at 20:10.'
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1053.005
+    name: 'Scheduled Task/Job: Scheduled Task'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          $Action = New-ScheduledTaskAction -Execute "calc.exe"
+          $Trigger = New-ScheduledTaskTrigger -AtLogon
+          $User = New-ScheduledTaskPrincipal -GroupId "BUILTIN\Administrators" -RunLevel Highest
+          $Set = New-ScheduledTaskSettingsSet
+          $object = New-ScheduledTask -Action $Action -Principal $User -Trigger $Trigger -Settings $Set
+          Register-ScheduledTask AtomicTask -InputObject $object
+        cleanup: |-
+          Unregister-ScheduledTask -TaskName "AtomicTask" -confirm:$false >$null 2>&1

@@ -1,0 +1,14 @@
+- id: 2491f8fc-7e88-533d-9a3b-277fd38f7cc5
+  name: Soumaia ART Tests - Rundll32 execute payload by calling RouteTheCall
+  description: 'Launch an executable payload by calling RouteTheCall. Test execution of a command using rundll32.exe to execute a payload{calc.exe} by calling RouteTheCall. Upon execution, calc.exe will be launched.
+
+    Reference: https://github.com/LOLBAS-Project/LOLBAS/blob/master/yml/OSLibraries/Zipfldr.yml'
+  tactic: stealth
+  technique:
+    attack_id: T1218.011
+    name: 'Signed Binary Proxy Execution: Rundll32'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          rundll32.exe zipfldr.dll,RouteTheCall "'%windir%\System32\calc.exe'"

@@ -1,0 +1,22 @@
+- id: 355e238f-45ff-5507-9f74-a5676dc802c7
+  name: Soumaia ART Tests - Create ADS PowerShell
+  description: 'Create an Alternate Data Stream with PowerShell. Write access is required. To verify execution, run the command "ls -Recurse | %{ gi $_.Fullname -stream *} | where stream -ne '':$Data'' | Select-Object pschildname"
+
+    in the %temp% directory to view all files with hidden data streams. To view the data in the alternate data stream, run "notepad.exe T1564.004_has_ads_powershell.txt:adstest.txt" in the %temp% folder.'
+  tactic: stealth
+  technique:
+    attack_id: T1564.004
+    name: 'Hide Artifacts: NTFS File Attributes'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACQAZQBuAHYAOgBUAEUATQBQAFwAVAAxADUANgA0AC4AMAAwADQAXwBoAGEAcwBfAGEAZABzAF8AcABvAHcAZQByAHMAaABlAGwAbAAuAHQAeAB0ACkAIAB7ACAAZQB4AGkAdAAgADAAIAB9ACAAZQBsAHMAZQAgAHsAIABlAHgAaQB0ACAAMQAgAH0ACgA=
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBQAGEAdABoACAAJABlAG4AdgA6AFQARQBNAFAAXABUADEANQA2ADQALgAwADAANABfAGgAYQBzAF8AYQBkAHMAXwBwAG8AdwBlAHIAcwBoAGUAbABsAC4AdAB4AHQAIAB8ACAATwB1AHQALQBOAHUAbABsAAoA
+          }
+          echo "test" > $env:TEMP\T1564.004_has_ads_powershell.txt | set-content -path test.txt -stream adstest.txt -value "test"
+          set-content -path $env:TEMP\T1564.004_has_ads_powershell.txt -stream adstest.txt -value "test2"
+          set-content -path . -stream adstest.txt -value "test3"
+        cleanup: |-
+          Remove-Item -Path $env:TEMP\T1564.004_has_ads_powershell.txt -ErrorAction Ignore

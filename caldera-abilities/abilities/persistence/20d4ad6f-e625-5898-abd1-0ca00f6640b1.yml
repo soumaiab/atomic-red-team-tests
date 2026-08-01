@@ -1,0 +1,16 @@
+- id: 20d4ad6f-e625-5898-abd1-0ca00f6640b1
+  name: Soumaia ART Tests - Windows Modify Show Compress Color And Info Tip Registry
+  description: "Modify the registry of the currently logged in user using reg.exe via cmd console to show compress color and show tips feature. \nSee how hermeticwiper uses this technique - https://www.splunk.com/en_us/blog/security/detecting-hermeticwiper.html"
+  tactic: persistence
+  technique:
+    attack_id: T1112
+    name: Modify Registry
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          reg  add HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced /v ShowInfoTip /t REG_DWORD /d 0 /f
+          reg  add HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced /v ShowCompColor /t REG_DWORD /d 0 /f
+        cleanup: |-
+          reg delete HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced /v ShowInfoTip /f >nul 2>&1
+          reg delete HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced /v ShowCompColor /f >nul 2>&1

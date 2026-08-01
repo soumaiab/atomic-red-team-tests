@@ -1,0 +1,18 @@
+- id: 7fa7812c-aa24-5d86-bd14-d706f17f118d
+  name: Soumaia ART Tests - Application uninstall using WMIC
+  description: Emulates uninstalling  applications using WMIC.  This method only works if the product was installed with an msi file.  APTs have been seen using this to uninstall security products. (requires elevation)
+  tactic: execution
+  technique:
+    attack_id: T1047
+    name: Windows Management Instrumentation
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKAAoAFQAZQBzAHQALQBQAGEAdABoACAAIgBDADoAXABQAHIAbwBnAHIAYQBtACAARgBpAGwAZQBzAFwAVABpAGcAaAB0AFYATgBDAFwAdAB2AG4AdgBpAGUAdwBlAHIALgBlAHgAZQAiACkALQBPAHIAIAAoAFQAZQBzAHQALQBQAGEAdABoACAAIgBDADoAXABQAHIAbwBnAHIAYQBtACAARgBpAGwAZQBzACAAKAB4ADgANgApAFwAVABpAGcAaAB0AFYATgBDAFwAdAB2AG4AdgBpAGUAdwBlAHIALgBlAHgAZQAiACkAKQAgAHsAZQB4AGkAdAAgADAAfQAgAGUAbABzAGUAIAB7AGUAeABpAHQAIAAxAH0A
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand SQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAJwBoAHQAdABwAHMAOgAvAC8AdwB3AHcALgB0AGkAZwBoAHQAdgBuAGMALgBjAG8AbQAvAGQAbwB3AG4AbABvAGEAZAAvADIALgA4AC4ANgAzAC8AdABpAGcAaAB0AHYAbgBjAC0AMgAuADgALgA2ADMALQBnAHAAbAAtAHMAZQB0AHUAcAAtADYANABiAGkAdAAuAG0AcwBpACcAIAAtAE8AdQB0AEYAaQBsAGUAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzAFwAdABpAGcAaAB0AHYAbgBjAGkAbgBzAHQAYQBsAGwAZQByAC4AbQBzAGkAIgAKAHMAdABhAHIAdAAtAHMAbABlAGUAcAAgAC0AcwAgADEAMAAKAG0AcwBpAGUAeABlAGMAIAAvAGkAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzAFwAdABpAGcAaAB0AHYAbgBjAGkAbgBzAHQAYQBsAGwAZQByAC4AbQBzAGkAIgAgAC8AcQBuACAALwBuAG8AcgBlAHMAdABhAHIAdAAKAHMAdABhAHIAdAAtAHMAbABlAGUAcAAgAC0AcwAgADEANQA=
+          )
+          wmic /node:"127.0.0.1" product where "name like 'Tightvnc%%'" call uninstall
+        cleanup: |-
+          msiexec /i "%TEMP%\ART-ExternalPayloads\tightvncinstaller.msi" /qn /norestart

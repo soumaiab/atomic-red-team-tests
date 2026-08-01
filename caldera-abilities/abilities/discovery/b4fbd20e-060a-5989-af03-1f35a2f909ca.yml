@@ -1,0 +1,15 @@
+- id: b4fbd20e-060a-5989-af03-1f35a2f909ca
+  name: Soumaia ART Tests - Process Discovery - wmic process
+  description: 'Utilize windows management instrumentation to identify processes.
+
+
+    Upon successful execution, WMIC will execute process to list processes. Output will be via stdout.'
+  tactic: discovery
+  technique:
+    attack_id: T1057
+    name: Process Discovery
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          wmic process get /format:list
