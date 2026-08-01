@@ -1,0 +1,12 @@
+- id: c5a1f46c-b51a-5431-9edc-637777b35ca6
+  name: Soumaia ART Tests - Remote Desktop Services Discovery via PowerShell
+  description: Availability of remote desktop services can be checked using get- cmdlet of PowerShell (requires elevation)
+  tactic: discovery
+  technique:
+    attack_id: T1046
+    name: Network Service Discovery
+  platforms:
+    windows:
+      psh:
+        command: |-
+          Get-Service -Name "Remote Desktop Services", "Remote Desktop Configuration"

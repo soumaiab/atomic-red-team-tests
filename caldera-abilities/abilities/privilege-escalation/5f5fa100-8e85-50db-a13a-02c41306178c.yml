@@ -1,0 +1,14 @@
+- id: 5f5fa100-8e85-50db-a13a-02c41306178c
+  name: Soumaia ART Tests - Scheduled task Local
+  description: Upon successful execution, cmd.exe will create a scheduled task to spawn cmd.exe at 20:10.
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1053.005
+    name: 'Scheduled Task/Job: Scheduled Task'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          SCHTASKS /Create /SC ONCE /TN spawn /TR C:\windows\system32\cmd.exe /ST 20:10
+        cleanup: |-
+          SCHTASKS /Delete /TN spawn /F >nul 2>&1

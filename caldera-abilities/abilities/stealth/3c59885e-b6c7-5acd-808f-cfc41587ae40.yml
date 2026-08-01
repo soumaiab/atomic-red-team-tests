@@ -1,0 +1,16 @@
+- id: 3c59885e-b6c7-5acd-808f-cfc41587ae40
+  name: Soumaia ART Tests - Lolbin Gpscript logon option
+  description: 'Executes logon scripts configured in Group Policy.
+
+    https://lolbas-project.github.io/lolbas/Binaries/Gpscript/
+
+    https://oddvar.moe/2018/04/27/gpscript-exe-another-lolbin-to-the-list/'
+  tactic: stealth
+  technique:
+    attack_id: T1218
+    name: Signed Binary Proxy Execution
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          Gpscript /logon

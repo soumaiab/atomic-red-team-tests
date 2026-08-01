@@ -1,0 +1,12 @@
+- id: b0bab0a2-8656-515d-9af8-327bab737702
+  name: Soumaia ART Tests - Mshta used to Execute PowerShell
+  description: Use Mshta to execute arbitrary PowerShell. Example is from the 2021 Threat Detection Report by Red Canary.
+  tactic: stealth
+  technique:
+    attack_id: T1218.005
+    name: 'Signed Binary Proxy Execution: Mshta'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          mshta.exe "about:<hta:application><script language="VBScript">Close(Execute("CreateObject(""Wscript.Shell"").Run%20""powershell.exe%20-nop%20-Command%20Write-Host%20Hello,%20MSHTA!;Start-Sleep%20-Seconds%205"""))</script>'"

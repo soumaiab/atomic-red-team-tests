@@ -1,0 +1,16 @@
+- id: 650da161-155c-5374-90d2-00532d33b4b7
+  name: Soumaia ART Tests - Delete an entire folder - Windows PowerShell
+  description: Recursively delete a folder in the temporary directory using Powershell. Upon execution, no output will be displayed. Use File Explorer to verify the folder was deleted.
+  tactic: stealth
+  technique:
+    attack_id: T1070.004
+    name: 'Indicator Removal on Host: File Deletion'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACQAZQBuAHYAOgBUAEUATQBQAFwAZABlAGwAZQB0AGUAbQBlAF8AZgBvAGwAZABlAHIAXwBUADEANQA1ADEALgAwADAANAApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBQAGEAdABoACAAJABlAG4AdgA6AFQARQBNAFAAXABkAGUAbABlAHQAZQBtAGUAXwBmAG8AbABkAGUAcgBfAFQAMQA1ADUAMQAuADAAMAA0ACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAB8ACAATwB1AHQALQBOAHUAbABsAAoA
+          }
+          Remove-Item -Path $env:TEMP\deleteme_folder_T1551.004 -Recurse

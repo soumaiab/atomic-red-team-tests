@@ -1,0 +1,24 @@
+- id: f553278e-7ace-53b1-99db-d2e9adfd363d
+  name: Soumaia ART Tests - Simulating access to Windows Edge Login Data
+  description: 'Simulates an adversary accessing encrypted credentials from Edge web browser''s login database.
+
+    more info in https://www.forensicfocus.com/articles/chromium-based-microsoft-edge-from-a-forensic-point-of-view/'
+  tactic: credential-access
+  technique:
+    attack_id: T1555.003
+    name: 'Credentials from Password Stores: Credentials from Web Browsers'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAQwA6AFwAUAByAG8AZwByAGEAbQAgAEYAaQBsAGUAcwAgACgAeAA4ADYAKQBcAE0AaQBjAHIAbwBzAG8AZgB0AFwARQBkAGcAZQBcAEEAcABwAGwAaQBjAGEAdABpAG8AbgBcAG0AcwBlAGQAZwBlAC4AZQB4AGUAIgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQA=
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand IgBJAG4AcwB0AGEAbABsAGEAdABpAG8AbgAgAGkAcwAgAG4AbwB0ACAAaQBtAHAAbABlAG0AZQBuAHQAZQBkACAAYQBzACAARQBkAGcAZQAgAGkAcwAgAGEAIABwAGEAcgB0ACAAbwBmACAAdwBpAG4AZABvAHcAcwAiAAoA
+          }
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAJABlAG4AdgA6AEwATwBDAEEATABBAFAAUABEAEEAVABBAFwATQBpAGMAcgBvAHMAbwBmAHQAXABFAGQAZwBlAFwAVQBzAGUAcgAgAEQAYQB0AGEAXABEAGUAZgBhAHUAbAB0ACIAKQAgAHsAZQB4AGkAdAAgADAAfQAgAGUAbABzAGUAIAB7AGUAeABpAHQAIAAxAH0A
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand JABlAGQAZwBlAD0AIgBDADoAXABQAHIAbwBnAHIAYQBtACAARgBpAGwAZQBzACAAKAB4ADgANgApAFwATQBpAGMAcgBvAHMAbwBmAHQAXABFAGQAZwBlAFwAQQBwAHAAbABpAGMAYQB0AGkAbwBuAFwAbQBzAGUAZABnAGUALgBlAHgAZQAiAAoAUwB0AGEAcgB0AC0AUAByAG8AYwBlAHMAcwAgACQAZQBkAGcAZQAgAAoAUwB0AGEAcgB0AC0AUwBsAGUAZQBwACAALQBzACAAMgAwAAoAUwB0AG8AcAAtAFAAcgBvAGMAZQBzAHMAIAAtAE4AYQBtAGUAIABtAHMAZQBkAGcAZQAKAA==
+          }
+          Copy-Item "$env:LOCALAPPDATA\Microsoft\Edge\User Data\Default" -Destination "$env:TEMP\ART-ExternalPayloads\Edge" -Force -Recurse
+        cleanup: |-
+          Remove-Item -Path "$env:TEMP\ART-ExternalPayloads\Edge" -Force -ErrorAction Ignore -Recurse

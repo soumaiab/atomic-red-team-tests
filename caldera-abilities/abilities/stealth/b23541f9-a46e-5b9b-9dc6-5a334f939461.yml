@@ -1,0 +1,24 @@
+- id: b23541f9-a46e-5b9b-9dc6-5a334f939461
+  name: Soumaia ART Tests - Decompile Local CHM File
+  description: 'Uses hh.exe to decompile a local compiled HTML Help file.
+
+    Upon successful execution the chm file will decompile to disk.
+
+    Reference:https://www.ptsecurity.com/ww-en/analytics/pt-esc-threat-intelligence/higaisa-or-winnti-apt-41-backdoors-old-and-new/'
+  tactic: stealth
+  technique:
+    attack_id: T1218.001
+    name: 'Signed Binary Proxy Execution: Compiled HTML File'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAFQAMQAyADEAOAAuADAAMAAxAC4AYwBoAG0AIgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABUADEAMgAxADgALgAwADAAMQAuAGMAaABtACIAKQAgAC0ARQByAHIAbwByAEEAYwB0AGkAbwBuACAAaQBnAG4AbwByAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AZwBpAHQAaAB1AGIALgBjAG8AbQAvAHIAZQBkAGMAYQBuAGEAcgB5AGMAbwAvAGEAdABvAG0AaQBjAC0AcgBlAGQALQB0AGUAYQBtAC8AcgBhAHcALwBtAGEAcwB0AGUAcgAvAGEAdABvAG0AaQBjAHMALwBUADEAMgAxADgALgAwADAAMQAvAHMAcgBjAC8AVAAxADIAMQA4AC4AMAAwADEALgBjAGgAbQAiACAALQBPAHUAdABGAGkAbABlACAAIgAuAFwAVAAxADIAMQA4AC4AMAAwADEALgBjAGgAbQAiAAoA
+          )
+          hh.exe -decompile %temp% ".\T1218.001.chm"
+        cleanup: |-
+          del %temp%\T1218.001.html >nul 2>&1
+        payloads:
+        - T1218.001.chm

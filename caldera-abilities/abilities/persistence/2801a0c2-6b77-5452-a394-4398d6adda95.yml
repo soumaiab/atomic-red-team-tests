@@ -1,0 +1,15 @@
+- id: 2801a0c2-6b77-5452-a394-4398d6adda95
+  name: Soumaia ART Tests - Adding custom paths for application execution
+  description: "As per Microsoft,the entries found under App Paths are used primarily to map an application’s executable file name to that file’s fully qualified path and to pre-pend information to the PATH environment variable on a per-application, per-process basis. \nThe path can be modified to load a custom application of choice. \nPost the registry changes of this test, when someone tries to manually run msedge.exe via StartMenu/Run window , notepad will be launched. (requires elevation)"
+  tactic: persistence
+  technique:
+    attack_id: T1112
+    name: Modify Registry
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\msedge.exe" /t REG_SZ /d C:\Windows\System32\notepad.exe /f
+        cleanup: |-
+          reg delete "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\msedge.exe" /v (Default) /f
+          reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\msedge.exe" /t REG_SZ /d "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" /f

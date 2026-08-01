@@ -1,0 +1,16 @@
+- id: 599340a2-7f01-5b57-8f3a-bfb9e06f258e
+  name: Soumaia ART Tests - Parent PID Spoofing - Spawn from svchost.exe
+  description: Spawnd a process as a child of the first accessible svchost.exe process.
+  tactic: stealth
+  technique:
+    attack_id: T1134.004
+    name: 'Access Token Manipulation: Parent PID Spoofing'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand JABSAGUAcQB1AGkAcgBlAGQATQBvAGQAdQBsAGUAIAA9ACAARwBlAHQALQBNAG8AZAB1AGwAZQAgAC0ATgBhAG0AZQAgAEEAdABvAG0AaQBjAFQAZQBzAHQASABhAHIAbgBlAHMAcwBlAHMAIAAtAEwAaQBzAHQAQQB2AGEAaQBsAGEAYgBsAGUACgBpAGYAIAAoAC0AbgBvAHQAIAAkAFIAZQBxAHUAaQByAGUAZABNAG8AZAB1AGwAZQApACAAewBlAHgAaQB0ACAAMQB9AAoAaQBmACAAKAAtAG4AbwB0ACAAJABSAGUAcQB1AGkAcgBlAGQATQBvAGQAdQBsAGUALgBFAHgAcABvAHIAdABlAGQAQwBvAG0AbQBhAG4AZABzAFsAJwBTAHQAYQByAHQALQBBAFQASABQAHIAbwBjAGUAcwBzAFUAbgBkAGUAcgBTAHAAZQBjAGkAZgBpAGMAUABhAHIAZQBuAHQAJwBdACkAIAB7AGUAeABpAHQAIAAxAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMAB9AA==
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand SQBuAHMAdABhAGwAbAAtAE0AbwBkAHUAbABlACAALQBOAGEAbQBlACAAQQB0AG8AbQBpAGMAVABlAHMAdABIAGEAcgBuAGUAcwBzAGUAcwAgAC0AUwBjAG8AcABlACAAQwB1AHIAcgBlAG4AdABVAHMAZQByACAALQBGAG8AcgBjAGUACgA=
+          }
+          Get-CimInstance -ClassName Win32_Process -Property Name, CommandLine, ProcessId -Filter "Name = 'svchost.exe' AND CommandLine LIKE '%'" | Select-Object -First 1 | Start-ATHProcessUnderSpecificParent -FilePath $Env:windir\System32\WindowsPowerShell\v1.0\powershell.exe -CommandLine '-Command Start-Sleep 10'

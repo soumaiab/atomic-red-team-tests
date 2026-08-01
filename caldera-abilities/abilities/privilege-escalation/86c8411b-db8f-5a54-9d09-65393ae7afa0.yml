@@ -1,0 +1,19 @@
+- id: 86c8411b-db8f-5a54-9d09-65393ae7afa0
+  name: Soumaia ART Tests - Modify HKLM:\System\CurrentControlSet\Control\Lsa\OSConfig Security Support Provider configuration in registry
+  description: Add a value to a Windows registry SSP key, simulating an adversarial modification of those keys. (requires elevation)
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1547.005
+    name: 'Boot or Logon Autostart Execution: Security Support Provider'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          $oldvalue = $(Get-ItemProperty HKLM:\System\CurrentControlSet\Control\Lsa\OSConfig -Name 'Security Packages' | Select-Object -ExpandProperty 'Security Packages');
+          Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Lsa\OSConfig" -Name 'Security Packages old' -Value "$oldvalue";
+          $newvalue = "AtomicTest.dll";
+          Set-ItemProperty HKLM:\SYSTEM\CurrentControlSet\Control\Lsa\OSConfig -Name 'Security Packages' -Value $newvalue
+        cleanup: |-
+          $oldvalue = $(Get-ItemPropertyValue -Path  "HKLM:\System\CurrentControlSet\Control\Lsa\OSConfig" -Name 'Security Packages old' | Select-Object -ExpandProperty 'Security Packages old');
+          Set-ItemProperty -Path HKLM:\System\CurrentControlSet\Control\Lsa\OSConfig -Name 'Security Packages' -Value "$oldvalue";
+          Remove-ItemProperty -Path  "HKLM:\System\CurrentControlSet\Control\Lsa\OSConfig" -Name 'Security Packages old';

@@ -1,0 +1,19 @@
+- id: d3715438-065b-529c-a463-ecc0abd0d59c
+  name: Soumaia ART Tests - Add Executable Shortcut Link to User Startup Folder
+  description: Adds a non-malicious executable shortcut link to the current users startup directory. Test can be verified by going to the users startup directory and checking if the shortcut link exists. (requires elevation)
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1547.001
+    name: 'Boot or Logon Autostart Execution: Registry Run Keys / Startup Folder'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          $Target = "C:\Windows\System32\calc.exe"
+          $ShortcutLocation = "$home\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\calc_exe.lnk"
+          $WScriptShell = New-Object -ComObject WScript.Shell
+          $Create = $WScriptShell.CreateShortcut($ShortcutLocation)
+          $Create.TargetPath = $Target
+          $Create.Save()
+        cleanup: |-
+          Remove-Item "$home\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\calc_exe.lnk" -ErrorAction Ignore

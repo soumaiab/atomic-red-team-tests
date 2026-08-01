@@ -1,0 +1,20 @@
+- id: c3acac2b-8cc9-5aee-9595-dbf5bb26ade6
+  name: Soumaia ART Tests - Active Directory Enumeration with LDIFDE
+  description: 'Output information from Active Directory to a specified file. [Ldifde](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/cc731033(v=ws.11)) is a CLI tool for creating, modifying and deleting directory objects.
+
+    The test is derived from the CISA Report on Voly Typhoon. Reference: https://media.defense.gov/2023/May/24/2003229517/-1/-1/0/CSA_Living_off_the_Land.PDF (requires elevation)'
+  tactic: discovery
+  technique:
+    attack_id: T1069.002
+    name: 'Permission Groups Discovery: Domain Groups'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand VAByAHkAIAB7AAoAIAAgACAAIABJAG0AcABvAHIAdAAtAE0AbwBkAHUAbABlACAAQQBjAHQAaQB2AGUARABpAHIAZQBjAHQAbwByAHkAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAFMAdABvAHAAIAB8ACAATwB1AHQALQBOAHUAbABsAAoAIAAgACAAIABlAHgAaQB0ACAAMAAKAH0ACgBDAGEAdABjAGgAIAB7AAoAIAAgACAAIABlAHgAaQB0ACAAMQAKAH0ACgA=
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand aQBmACgAKABHAGUAdAAtAEMAaQBtAEkAbgBzAHQAYQBuAGMAZQAgAC0AQwBsAGEAcwBzAE4AYQBtAGUAIABXAGkAbgAzADIAXwBPAHAAZQByAGEAdABpAG4AZwBTAHkAcwB0AGUAbQApAC4AUAByAG8AZAB1AGMAdABUAHkAcABlACAALQBlAHEAIAAxACkAIAB7AAoAIAAgAEEAZABkAC0AVwBpAG4AZABvAHcAcwBDAGEAcABhAGIAaQBsAGkAdAB5ACAALQBOAGEAbQBlACAAKABHAGUAdAAtAFcAaQBuAGQAbwB3AHMAQwBhAHAAYQBiAGkAbABpAHQAeQAgAC0ATgBhAG0AZQAgAFIAUwBBAFQALgBBAGMAdABpAHYAZQBEAGkAcgBlAGMAdABvAHIAeQAuAEQAUwAqACAALQBPAG4AbABpAG4AZQApAC4ATgBhAG0AZQAgAC0ATwBuAGwAaQBuAGUACgB9ACAAZQBsAHMAZQAgAHsACgAgACAASQBuAHMAdABhAGwAbAAtAFcAaQBuAGQAbwB3AHMARgBlAGEAdAB1AHIAZQAgAFIAUwBBAFQALQBBAEQALQBQAG8AdwBlAHIAUwBoAGUAbABsAAoAfQAKAA==
+          )
+          ldifde.exe -f C:\Windows\temp\atomic_ldifde.txt -p subtree
+        cleanup: |-
+          del C:\Windows\temp\atomic_ldifde.txt

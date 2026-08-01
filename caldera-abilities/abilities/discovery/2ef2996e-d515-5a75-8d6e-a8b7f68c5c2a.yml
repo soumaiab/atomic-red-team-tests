@@ -1,0 +1,14 @@
+- id: 2ef2996e-d515-5a75-8d6e-a8b7f68c5c2a
+  name: Soumaia ART Tests - Enumerate all accounts via PowerShell (Domain)
+  description: Enumerate all accounts via PowerShell. Upon execution, lots of user account and group information will be displayed.
+  tactic: discovery
+  technique:
+    attack_id: T1087.002
+    name: 'Account Discovery: Domain Account'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          net user /domain
+          get-localgroupmember -group Users
+          get-aduser -filter *

@@ -1,0 +1,16 @@
+- id: 9d5f8fc7-a2ed-5803-80e6-09fc1c62b5e6
+  name: Soumaia ART Tests - Copy and Delete Mailbox Data on Windows
+  description: Copies and deletes mail data on Windows (requires elevation)
+  tactic: stealth
+  technique:
+    attack_id: T1070.008
+    name: 'Email Collection: Mailbox Manipulation'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          New-Item -Path "C:\Users\$env:USERNAME\AppData\Local\Comms\Unistore\data\copy" -ItemType Directory -ErrorAction Ignore
+          Get-ChildItem -Path "C:\Users\$env:USERNAME\AppData\Local\Comms\Unistore\data" -Exclude copy | ForEach-Object { Copy-Item -Path $_.FullName -Destination "C:\Users\$env:USERNAME\AppData\Local\Comms\Unistore\data\copy" -Recurse -Force -ErrorAction Ignore }
+          Remove-Item -Path "C:\Users\$env:USERNAME\AppData\Local\Comms\Unistore\data\copy" -Recurse -Force -ErrorAction Ignore
+        cleanup: |-
+          Remove-Item -Path "C:\Users\$env:USERNAME\AppData\Local\Comms\Unistore\data\copy" -Recurse -Force -ErrorAction Ignore

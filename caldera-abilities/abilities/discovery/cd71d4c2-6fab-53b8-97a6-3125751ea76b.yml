@@ -1,0 +1,22 @@
+- id: cd71d4c2-6fab-53b8-97a6-3125751ea76b
+  name: Soumaia ART Tests - MSFT Get-GPO Cmdlet
+  description: 'The Get-GPO cmdlet gets one Group Policy Object (GPO) or all the GPOs in a domain. Tested on Windows Server 2019 as a domain user with computer joined to domain. Reference: https://docs.microsoft.com/en-us/powershell/module/grouppolicy/get-gpo?view=windowsserver2022-ps (requires elevation)'
+  tactic: discovery
+  technique:
+    attack_id: T1615
+    name: Group Policy Discovery
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACgARwBlAHQALQBXAGkAbgBkAG8AdwBzAEMAYQBwAGEAYgBpAGwAaQB0AHkAIAAtAE8AbgBsAGkAbgBlACAALQBOAGEAbQBlACAAUgBzAGEAdAAuAEEAYwB0AGkAdgBlAEQAaQByAGUAYwB0AG8AcgB5AC4ARABTAC0ATABEAFMALgBUAG8AbwBsAHMAfgB+AH4AfgAwAC4AMAAuADEALgAwACAAfAAgAFcAaABlAHIAZQAtAE8AYgBqAGUAYwB0ACAAewAgACQAXwAuAFMAdABhAHQAZQAgAC0AZQBxACAAJwBJAG4AcwB0AGEAbABsAGUAZAAnACAAfQApAHsAIABlAHgAaQB0ACAAMAAgAH0AIABlAGwAcwBlACAAewAgAGUAeABpAHQAIAAxACAAfQA=
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand QQBkAGQALQBXAGkAbgBkAG8AdwBzAEMAYQBwAGEAYgBpAGwAaQB0AHkAIAAtAG8AbgBsAGkAbgBlACAALQBOAGEAbQBlACAAUgBzAGEAdAAuAEEAYwB0AGkAdgBlAEQAaQByAGUAYwB0AG8AcgB5AC4ARABTAC0ATABEAFMALgBUAG8AbwBsAHMAfgB+AH4AfgAwAC4AMAAuADEALgAwAA==
+          }
+          powershell -NoProfile -EncodedCommand aQBmACgARwBlAHQALQBXAGkAbgBkAG8AdwBzAEMAYQBwAGEAYgBpAGwAaQB0AHkAIAAtAE8AbgBsAGkAbgBlACAALQBOAGEAbQBlACAAUgBzAGEAdAAuAEcAcgBvAHUAcABQAG8AbABpAGMAeQAuAE0AYQBuAGEAZwBlAG0AZQBuAHQALgBUAG8AbwBsAHMAfgB+AH4AfgAwAC4AMAAuADEALgAwACAAfAAgAFcAaABlAHIAZQAtAE8AYgBqAGUAYwB0ACAAewAgACQAXwAuAFMAdABhAHQAZQAgAC0AZQBxACAAJwBJAG4AcwB0AGEAbABsAGUAZAAnACAAfQApAHsAIABlAHgAaQB0ACAAMAAgAH0AIABlAGwAcwBlACAAewAgAGUAeABpAHQAIAAxACAAfQA=
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand QQBkAGQALQBXAGkAbgBkAG8AdwBzAEMAYQBwAGEAYgBpAGwAaQB0AHkAIAAtAG8AbgBsAGkAbgBlACAALQBOAGEAbQBlACAAUgBzAGEAdAAuAEcAcgBvAHUAcABQAG8AbABpAGMAeQAuAE0AYQBuAGEAZwBlAG0AZQBuAHQALgBUAG8AbwBsAHMAfgB+AH4AfgAwAC4AMAAuADEALgAwAA==
+          }
+          Get-GPO -Domain $ENV:userdnsdomain -All >> $env:temp\GPO_Output.txt
+        cleanup: |-
+          del $env:temp\GPO_Output.txt -erroraction silentlycontinue

@@ -1,0 +1,14 @@
+- id: df623f39-52aa-50f4-b033-3110c5798325
+  name: Soumaia ART Tests - Indirect Command Execution - Scriptrunner.exe
+  description: 'The "ScriptRunner.exe" binary can be abused to proxy execution through it and bypass possible whitelisting. Upon test execution, calc.exe should open
+
+    Reference: https://x.com/NickTyrer/status/914234924655312896'
+  tactic: stealth
+  technique:
+    attack_id: T1202
+    name: Indirect Command Execution
+  platforms:
+    windows:
+      psh:
+        command: |-
+          Scriptrunner.exe -appvscript "C:\Windows\System32\calc.exe"

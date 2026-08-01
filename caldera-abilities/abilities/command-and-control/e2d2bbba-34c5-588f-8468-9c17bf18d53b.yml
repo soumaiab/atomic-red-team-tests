@@ -1,0 +1,18 @@
+- id: e2d2bbba-34c5-588f-8468-9c17bf18d53b
+  name: Soumaia ART Tests - portproxy reg key
+  description: 'Adds a registry key to set up a proxy on the endpoint at HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\PortProxy\v4tov4
+
+    Upon execution there will be a new proxy entry in netsh
+
+    netsh interface portproxy show all (requires elevation)'
+  tactic: command-and-control
+  technique:
+    attack_id: T1090.001
+    name: 'Proxy: Internal Proxy'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          netsh interface portproxy add v4tov4 listenport=1337 connectport=1337 connectaddress=127.0.0.1
+        cleanup: |-
+          netsh interface portproxy delete v4tov4 listenport=1337 -ErrorAction Ignore | Out-Null

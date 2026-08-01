@@ -1,0 +1,15 @@
+- id: d422b30e-84a2-54ba-8561-737bbdd35269
+  name: Soumaia ART Tests - List Windows Firewall Rules
+  description: 'Enumerates Windows Firewall Rules using netsh.
+
+
+    Upon successful execution, cmd.exe will spawn netsh.exe to list firewall rules. Output will be via stdout.'
+  tactic: discovery
+  technique:
+    attack_id: T1016
+    name: System Network Configuration Discovery
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          netsh advfirewall firewall show rule name=all

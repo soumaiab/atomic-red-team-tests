@@ -1,0 +1,21 @@
+- id: 343ebba2-fc74-5837-8ac1-8afc34b42afe
+  name: Soumaia ART Tests - Windows Screen Capture (CopyFromScreen)
+  description: 'Take a screen capture of the desktop through a call to the [Graphics.CopyFromScreen] .NET API.
+
+    [Graphics.CopyFromScreen]: https://docs.microsoft.com/en-us/dotnet/api/system.drawing.graphics.copyfromscreen'
+  tactic: collection
+  technique:
+    attack_id: T1113
+    name: Screen Capture
+  platforms:
+    windows:
+      psh:
+        command: |-
+          Add-Type -AssemblyName System.Windows.Forms
+          $screen = [Windows.Forms.SystemInformation]::VirtualScreen
+          $bitmap = New-Object Drawing.Bitmap $screen.Width, $screen.Height
+          $graphic = [Drawing.Graphics]::FromImage($bitmap)
+          $graphic.CopyFromScreen($screen.Left, $screen.Top, 0, 0, $bitmap.Size)
+          $bitmap.Save("$env:TEMP\T1113.png")
+        cleanup: |-
+          Remove-Item $env:TEMP\T1113.png -ErrorAction Ignore

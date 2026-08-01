@@ -1,0 +1,14 @@
+- id: 6ec85700-1934-55d6-a155-697d146b1e6b
+  name: Soumaia ART Tests - Microsoft App Quick Assist Execution
+  description: An adversary may attempt to trick a user into executing Microsoft Quick Assist Microsoft Store app and connect to the user's machine. (requires elevation)
+  tactic: command-and-control
+  technique:
+    attack_id: T1219
+    name: Remote Access Software
+  platforms:
+    windows:
+      psh:
+        command: |-
+          Start-Process "shell:AppsFolder\MicrosoftCorporationII.QuickAssist_8wekyb3d8bbwe!App"
+        cleanup: |-
+          Stop-Process -Name quickassist

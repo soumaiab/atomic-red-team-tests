@@ -1,0 +1,14 @@
+- id: 05e8bd85-8b8a-50a0-a6c9-83874cc7876a
+  name: Soumaia ART Tests - Windows Internal pktmon set filter
+  description: "Select Desired ports for packet capture \nhttps://lolbas-project.github.io/lolbas/Binaries/Pktmon/ (requires elevation)"
+  tactic: credential-access
+  technique:
+    attack_id: T1040
+    name: Network Sniffing
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          pktmon.exe filter add -p 445
+        cleanup: |-
+          pktmon filter remove

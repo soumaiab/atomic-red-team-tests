@@ -1,0 +1,20 @@
+- id: 2b538cb1-feab-59c4-bf40-b7471fd12a86
+  name: Soumaia ART Tests - NTFS Alternate Data Stream Access
+  description: Creates a file with an alternate data stream and simulates executing that hidden code/file. Upon execution, "Stream Data Executed" will be displayed.
+  tactic: execution
+  technique:
+    attack_id: T1059.001
+    name: 'Command and Scripting Interpreter: PowerShell'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACgAKABHAGUAdAAtAFYAbwBsAHUAbQBlACAALQBEAHIAaQB2AGUATABlAHQAdABlAHIAIAAkAGUAbgB2ADoASABPAE0ARQBEAFIASQBWAEUAWwAwAF0AKQAuAEYAaQBsAGUAUwB5AHMAdABlAG0AIAAtAGMAbwBuAHQAYQBpAG4AcwAgACIATgBUAEYAUwAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgAFAAcgBlAHIAZQBxACcAcwAgAGYAbwByACAAdABoAGkAcwAgAHQAZQBzAHQAIABjAGEAbgBuAG8AdAAgAGIAZQAgAG0AZQB0ACAAYQB1AHQAbwBtAGEAdABpAGMAYQBsAGwAeQAKAA==
+          }
+          Add-Content -Path $env:TEMP\NTFS_ADS.txt -Value 'Write-Host "Stream Data Executed"' -Stream 'streamCommand'
+          $streamcommand = Get-Content -Path $env:TEMP\NTFS_ADS.txt -Stream 'streamcommand'
+          Invoke-Expression $streamcommand
+        cleanup: |-
+          Remove-Item $env:TEMP\NTFS_ADS.txt -Force -ErrorAction Ignore

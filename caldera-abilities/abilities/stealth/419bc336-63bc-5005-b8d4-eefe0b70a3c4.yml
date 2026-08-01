@@ -1,0 +1,18 @@
+- id: 419bc336-63bc-5005-b8d4-eefe0b70a3c4
+  name: Soumaia ART Tests - Deobfuscate/Decode Files Or Information
+  description: 'Encode/Decode executable
+
+    Upon execution a file named T1140_calc_decoded.exe will be placed in the temp folder'
+  tactic: stealth
+  technique:
+    attack_id: T1140
+    name: Deobfuscate/Decode Files or Information
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          certutil -encode C:\Windows\System32\calc.exe %temp%\T1140_calc.txt
+          certutil -decode %temp%\T1140_calc.txt %temp%\T1140_calc_decoded.exe
+        cleanup: |-
+          del %temp%\T1140_calc.txt >nul 2>&1
+          del %temp%\T1140_calc_decoded.exe >nul 2>&1

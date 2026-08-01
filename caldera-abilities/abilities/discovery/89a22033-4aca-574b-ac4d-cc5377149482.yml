@@ -1,0 +1,19 @@
+- id: 89a22033-4aca-574b-ac4d-cc5377149482
+  name: Soumaia ART Tests - System Owner/User Discovery
+  description: "Identify System owner or users on an endpoint.\n\nUpon successful execution, cmd.exe will spawn multiple commands against a target host to identify usernames. Output will be via stdout. \nAdditionally, two files will be written to disk - computers.txt and usernames.txt."
+  tactic: discovery
+  technique:
+    attack_id: T1033
+    name: System Owner/User Discovery
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          cmd.exe /C whoami
+          wmic useraccount get /ALL
+          quser /SERVER:"localhost"
+          quser
+          qwinsta.exe /server:localhost
+          qwinsta.exe
+          for /F "tokens=1,2" %i in ('qwinsta /server:localhost ^| findstr "Active Disc"') do @echo %i | find /v "#" | find /v "console" || echo %j > computers.txt
+          @FOR /F %n in (computers.txt) DO @FOR /F "tokens=1,2" %i in ('qwinsta /server:%n ^| findstr "Active Disc"') do @echo %i | find /v "#" | find /v "console" || echo %j > usernames.txt

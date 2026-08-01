@@ -1,0 +1,16 @@
+- id: 7136e670-4dee-5e2e-998d-bf3524b192cc
+  name: Soumaia ART Tests - Tamper with Windows Defender Evade Scanning -Folder
+  description: "Malware can exclude a specific path from being scanned and evading detection. \nUpon successul execution, the file provided should be on the list of excluded path. \nTo check the exclusion list using poweshell (Get-MpPreference).ExclusionPath (requires elevation)"
+  tactic: defense-impairment
+  technique:
+    attack_id: T1685
+    name: Disable or Modify Tools
+  platforms:
+    windows:
+      psh:
+        command: |-
+          $excludedpath= "C:\Temp"
+          Add-MpPreference -ExclusionPath $excludedpath
+        cleanup: |-
+          $excludedpath= "C:\Temp"
+          Remove-MpPreference -ExclusionPath $excludedpath

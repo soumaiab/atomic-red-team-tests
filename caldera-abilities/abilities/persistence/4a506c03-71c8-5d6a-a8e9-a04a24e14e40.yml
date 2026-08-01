@@ -1,0 +1,14 @@
+- id: 4a506c03-71c8-5d6a-a8e9-a04a24e14e40
+  name: Soumaia ART Tests - Modify EnableBDEWithNoTPM Registry entry
+  description: Allow BitLocker without a compatible TPM (requires a password) (requires elevation)
+  tactic: persistence
+  technique:
+    attack_id: T1112
+    name: Modify Registry
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          reg add "HKLM\SOFTWARE\Policies\Microsoft\FVE" /v EnableBDEWithNoTPM /t REG_DWORD /d 1 /f
+        cleanup: |-
+          reg delete ""HKLM\SOFTWARE\Policies\Microsoft\FVE"" /v EnableBDEWithNoTPM /f

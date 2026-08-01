@@ -1,0 +1,17 @@
+- id: 09ea5597-c6ac-561f-ae8d-ee7c8715dbc2
+  name: Soumaia ART Tests - Security Software Discovery - Windows Firewall Enumeration
+  description: 'Enumerates windows firewall to retrieves firewall rules from the target computer.
+
+
+    when sucessfully executed, details of windows firewall is displayed. (requires elevation)'
+  tactic: discovery
+  technique:
+    attack_id: T1518.001
+    name: 'Software Discovery: Security Software Discovery'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          Get-NetFirewallProfile | Format-Table Name, Enabled
+          Get-NetFirewallSetting
+          Get-NetFirewallRule | select DisplayName, Enabled, Description

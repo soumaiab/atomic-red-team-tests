@@ -1,0 +1,15 @@
+- id: f562574c-f553-5861-b6e9-13254210ddbf
+  name: Soumaia ART Tests - Process Discovery - Get-Process
+  description: 'Utilize Get-Process PowerShell cmdlet to identify processes.
+
+
+    Upon successful execution, powershell.exe will execute Get-Process to list processes. Output will be via stdout.'
+  tactic: discovery
+  technique:
+    attack_id: T1057
+    name: Process Discovery
+  platforms:
+    windows:
+      psh:
+        command: |-
+          Get-Process

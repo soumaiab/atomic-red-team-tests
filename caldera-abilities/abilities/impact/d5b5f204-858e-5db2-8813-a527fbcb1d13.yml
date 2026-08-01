@@ -1,0 +1,14 @@
+- id: d5b5f204-858e-5db2-8813-a527fbcb1d13
+  name: Soumaia ART Tests - PureLocker Ransom Note
+  description: "building the IOC (YOUR_FILES.txt) for the PureLocker ransomware \nhttps://www.bleepingcomputer.com/news/security/purelocker-ransomware-can-lock-files-on-windows-linux-and-macos/ (requires elevation)"
+  tactic: impact
+  technique:
+    attack_id: T1486
+    name: Data Encrypted for Impact
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          echo T1486 - Purelocker Ransom Note > %USERPROFILE%\Desktop\YOUR_FILES.txt
+        cleanup: |-
+          del %USERPROFILE%\Desktop\YOUR_FILES.txt >nul 2>&1

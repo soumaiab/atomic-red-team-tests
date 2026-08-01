@@ -1,0 +1,31 @@
+- id: 8860c855-33ce-5a43-baf4-9bde8f19184d
+  name: Soumaia ART Tests - Copy and Compress AppData Folder
+  description: Copies the AppData folder, compresses it, and cleans up temporary files. (requires elevation)
+  tactic: collection
+  technique:
+    attack_id: T1560.001
+    name: 'Archive Collected Data: Archive via Utility'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKAAtAG4AbwB0ACAAKABbAFMAZQBjAHUAcgBpAHQAeQAuAFAAcgBpAG4AYwBpAHAAYQBsAC4AVwBpAG4AZABvAHcAcwBQAHIAaQBuAGMAaQBwAGEAbABdACAAYAAKACAAIAAgACAAWwBTAGUAYwB1AHIAaQB0AHkALgBQAHIAaQBuAGMAaQBwAGEAbAAuAFcAaQBuAGQAbwB3AHMASQBkAGUAbgB0AGkAdAB5AF0AOgA6AEcAZQB0AEMAdQByAHIAZQBuAHQAKAApACkALgBJAHMASQBuAFIAbwBsAGUAKABgAAoAIAAgACAAIABbAFMAZQBjAHUAcgBpAHQAeQAuAFAAcgBpAG4AYwBpAHAAYQBsAC4AVwBpAG4AZABvAHcAcwBCAHUAaQBsAHQASQBuAFIAbwBsAGUAXQA6ADoAQQBkAG0AaQBuAGkAcwB0AHIAYQB0AG8AcgApACkAIAB7ACAAZQB4AGkAdAAgADEAIAB9AAoAaQBmACAAKAAtAG4AbwB0ACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAJABlAG4AdgA6AFUAUwBFAFIAUABSAE8ARgBJAEwARQBcAEEAcABwAEQAYQB0AGEAIgApACkAIAB7ACAAZQB4AGkAdAAgADEAIAB9AAoA
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand UgB1AG4AIABQAG8AdwBlAHIAUwBoAGUAbABsACAAYQBzACAAQQBkAG0AaQBuAGkAcwB0AHIAYQB0AG8AcgAgAGEAbgBkACAAZQBuAHMAdQByAGUAIAAuAE4ARQBUACAAYwBvAG0AcAByAGUAcwBzAGkAbwBuACAAYQBzAHMAZQBtAGIAbABpAGUAcwAgAGEAcgBlACAAYQB2AGEAaQBsAGEAYgBsAGUALgAKAA==
+          }
+          $AppData="$env:USERPROFILE\AppData"
+          $Copy="$env:USERPROFILE\Desktop\AppDataCopy"
+          $Zip="$env:USERPROFILE\Desktop\AppDataBackup.zip"
+
+          if (Test-Path $Copy) { Remove-Item $Copy -Recurse -Force }
+          New-Item -ItemType Directory -Path $Copy | Out-Null
+
+          Get-ChildItem $AppData -Recurse -Force | ForEach-Object {
+            $rel = $_.FullName.Substring($AppData.Length + 1)
+            $dest = Join-Path $Copy $rel
+            if ($_.PSIsContainer) { New-Item -ItemType Directory -Path $dest -Force | Out-Null }
+            else { Copy-Item $_.FullName -Destination $dest -Force -ErrorAction SilentlyContinue }
+          }
+
+          Add-Type -AssemblyName System.IO.Compression.FileSystem
+          [System.IO.Compression.ZipFile]::CreateFromDirectory($Copy, $Zip, [System.IO.Compression.CompressionLevel]::Optimal, $false)

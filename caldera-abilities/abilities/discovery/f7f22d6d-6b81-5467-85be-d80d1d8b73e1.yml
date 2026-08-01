@@ -1,0 +1,12 @@
+- id: f7f22d6d-6b81-5467-85be-d80d1d8b73e1
+  name: Soumaia ART Tests - Suspicious LAPS Attributes Query with adfind all properties
+  description: This test executes LDAP query using adfind command and lists all the attributes including Microsoft LAPS attributes ms-mcs-AdmPwd and ms-mcs-AdmPwdExpirationTime
+  tactic: discovery
+  technique:
+    attack_id: T1087.002
+    name: 'Account Discovery: Domain Account'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          & "$env:TEMP\ART-ExternalPayloads\AdFind.exe" #{optional_args} -h $env:USERDOMAIN -s subtree -f "objectclass=computer" *

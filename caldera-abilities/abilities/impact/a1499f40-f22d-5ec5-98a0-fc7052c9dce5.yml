@@ -1,0 +1,18 @@
+- id: a1499f40-f22d-5ec5-98a0-fc7052c9dce5
+  name: Soumaia ART Tests - Windows - Stop service using net.exe
+  description: 'Stops a specified service using the net.exe command. Upon execution, if the service was running "The Print Spooler service was stopped successfully."
+
+    will be displayed. If the service was not running, "The Print Spooler service is not started." will be displayed and it can be
+
+    started by running the cleanup command. (requires elevation)'
+  tactic: impact
+  technique:
+    attack_id: T1489
+    name: Service Stop
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          net.exe stop spooler
+        cleanup: |-
+          net.exe start spooler >nul 2>&1

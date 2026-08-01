@@ -1,0 +1,19 @@
+- id: db7d41a0-b38b-5da4-9b3e-1843745a6b16
+  name: Soumaia ART Tests - Create Volume Shadow Copy with vssadmin
+  description: 'This test is intended to be run on a domain Controller.
+
+
+    The Active Directory database NTDS.dit may be dumped by copying it from a Volume Shadow Copy. (requires elevation)'
+  tactic: credential-access
+  technique:
+    attack_id: T1003.003
+    name: 'OS Credential Dumping: NTDS'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          cmd /c "reg query HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\ProductOptions  /v ProductType | findstr LanmanNT"
+          if not "%ERRORLEVEL%"=="0" (
+              cmd /c "echo Sorry, Promoting this machine to a Domain Controller must be done manually"
+          )
+          vssadmin.exe create shadow /for=C:

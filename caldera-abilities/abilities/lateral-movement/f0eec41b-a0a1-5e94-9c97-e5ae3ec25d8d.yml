@@ -1,0 +1,14 @@
+- id: f0eec41b-a0a1-5e94-9c97-e5ae3ec25d8d
+  name: Soumaia ART Tests - Execute command writing output to local Admin Share
+  description: 'Executes a command, writing the output to a local Admin Share.
+
+    This technique is used by post-exploitation frameworks. (requires elevation)'
+  tactic: lateral-movement
+  technique:
+    attack_id: T1021.002
+    name: 'Remote Services: SMB/Windows Admin Shares'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          cmd.exe /Q /c hostname 1> \\127.0.0.1\ADMIN$\output.txt 2>&1

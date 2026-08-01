@@ -1,0 +1,20 @@
+- id: d22e6a62-7eb7-57e2-b55a-fd94f7e31285
+  name: Soumaia ART Tests - Enumerate Users Not Requiring Pre Auth (ASRepRoast)
+  description: When successful, accounts that do not require kerberos pre-auth will be returned
+  tactic: discovery
+  technique:
+    attack_id: T1069.002
+    name: 'Permission Groups Discovery: Domain Groups'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACgAKABHAGUAdAAtAEMASQBNAEkAbgBzAHQAYQBuAGMAZQAgAC0AQwBsAGEAcwBzACAAVwBpAG4AMwAyAF8AQwBvAG0AcAB1AHQAZQByAFMAeQBzAHQAZQBtACkALgBQAGEAcgB0AE8AZgBEAG8AbQBhAGkAbgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand VwByAGkAdABlAC0ASABvAHMAdAAgAEoAbwBpAG4AaQBuAGcAIAB0AGgAaQBzACAAYwBvAG0AcAB1AHQAZQByACAAdABvACAAYQAgAGQAbwBtAGEAaQBuACAAbQB1AHMAdAAgAGIAZQAgAGQAbwBuAGUAIABtAGEAbgB1AGEAbABsAHkALgAKAA==
+          }
+          powershell -NoProfile -EncodedCommand aQBmACgARwBlAHQALQBNAG8AZAB1AGwAZQAgAC0ATABpAHMAdABBAHYAYQBpAGwAYQBiAGwAZQAgAC0ATgBhAG0AZQAgAEEAYwB0AGkAdgBlAEQAaQByAGUAYwB0AG8AcgB5ACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand QQBkAGQALQBXAGkAbgBkAG8AdwBzAEMAYQBwAGEAYgBpAGwAaQB0AHkAIAAtAE8AbgBsAGkAbgBlACAALQBOAGEAbQBlACAAIgBSAHMAYQB0AC4AQQBjAHQAaQB2AGUARABpAHIAZQBjAHQAbwByAHkALgBEAFMALQBMAEQAUwAuAFQAbwBvAGwAcwB+AH4AfgB+ADAALgAwAC4AMQAuADAAIgAKAA==
+          }
+          get-aduser -f * -pr DoesNotRequirePreAuth | where {$_.DoesNotRequirePreAuth -eq $TRUE}

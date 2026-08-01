@@ -1,0 +1,14 @@
+- id: 2ed13cb1-f6dc-5a92-85fe-0cc7e543475e
+  name: Soumaia ART Tests - Enable Proxy Settings
+  description: A modification registry to enable proxy settings. This technique was seen in DarkGate malware as part of its installation.
+  tactic: persistence
+  technique:
+    attack_id: T1112
+    name: Modify Registry
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyEnable /t REG_DWORD /d 1 /f
+        cleanup: |-
+          reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyEnable /t REG_DWORD /d 0 /f

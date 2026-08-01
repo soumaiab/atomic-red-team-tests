@@ -1,0 +1,14 @@
+- id: b4804b78-15d4-56b2-a68d-d1d5a7df4f87
+  name: Soumaia ART Tests - Enforce Smart Card Authentication Through Registry
+  description: Enforce Smart Card Authentication Through Registry (requires elevation)
+  tactic: persistence
+  technique:
+    attack_id: T1112
+    name: Modify Registry
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v scforceoption /t REG_DWORD /d 1 /f
+        cleanup: |-
+          reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v scforceoption /f

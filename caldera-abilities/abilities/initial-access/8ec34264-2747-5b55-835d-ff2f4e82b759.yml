@@ -1,0 +1,25 @@
+- id: 8ec34264-2747-5b55-835d-ff2f4e82b759
+  name: Soumaia ART Tests - Octopus Scanner Malware Open Source Supply Chain
+  description: 'This test simulates an adversary Octopus drop the RAT dropper ExplorerSync.db
+
+    [octopus-scanner-malware-open-source-supply-chain](https://securitylab.github.com/research/octopus-scanner-malware-open-source-supply-chain/)
+
+    [the-supreme-backdoor-factory](https://www.dfir.it/blog/2019/02/26/the-supreme-backdoor-factory/)'
+  tactic: initial-access
+  technique:
+    attack_id: T1195
+    name: Supply Chain Compromise
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACQAZQBuAHYAOgBUAEUATQBQAFwARQB4AHAAbABvAHIAZQByAFMAeQBuAGMALgBkAGIAKQAgAHsAZQB4AGkAdAAgADAAfQAgAGUAbABzAGUAIAB7AGUAeABpAHQAIAAxAH0ACgA=
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand TwB1AHQALQBGAGkAbABlACAALQBGAGkAbABlAFAAYQB0AGgAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwARQB4AHAAbABvAHIAZQByAFMAeQBuAGMALgBkAGIAIgAKAA==
+          )
+          copy %temp%\ExplorerSync.db %temp%\..\Microsoft\ExplorerSync.db
+          schtasks /create /tn ExplorerSync /tr "javaw -jar %temp%\..\Microsoft\ExplorerSync.db" /sc MINUTE /f
+        cleanup: |-
+          schtasks /delete /tn ExplorerSync /F 2>null
+          del %temp%\..\Microsoft\ExplorerSync.db 2>null
+          del %temp%\ExplorerSync.db 2>null

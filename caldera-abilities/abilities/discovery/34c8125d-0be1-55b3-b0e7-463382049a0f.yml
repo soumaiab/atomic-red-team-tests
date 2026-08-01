@@ -1,0 +1,22 @@
+- id: 34c8125d-0be1-55b3-b0e7-463382049a0f
+  name: Soumaia ART Tests - Enumerate domain computers within Active Directory using DirectorySearcher
+  description: "This test is a Powershell script that enumerates Active Directory to determine computers that are joined to the domain. \nThis test is designed to mimic how SessionGopher can determine the additional systems within a domain, which has been used before by threat actors to aid in lateral movement. \nReference: [Head Fake: Tackling Disruptive Ransomware Attacks](https://www.mandiant.com/resources/head-fake-tackling-disruptive-ransomware-attacks). \nUpon successful execution, this test will output the names of the computers that reside on the domain to the console window."
+  tactic: discovery
+  technique:
+    attack_id: T1018
+    name: Remote System Discovery
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKAAoAEcAZQB0AC0AVwBtAGkATwBiAGoAZQBjAHQAIAAtAEMAbABhAHMAcwAgAFcAaQBuADMAMgBfAEMAbwBtAHAAdQB0AGUAcgBTAHkAcwB0AGUAbQApAC4AcABhAHIAdABvAGYAZABvAG0AYQBpAG4AIAAtAGUAcQAgACQAdAByAHUAZQApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQA=
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand dwByAGkAdABlAC0AaABvAHMAdAAgACIAVABoAGkAcwAgAFAAQwAgAG0AdQBzAHQAIABiAGUAIABtAGEAbgB1AGEAbABsAHkAIABhAGQAZABlAGQAIAB0AG8AIABhACAAZABvAG0AYQBpAG4ALgAiACAA
+          }
+          $DirectorySearcher = New-Object System.DirectoryServices.DirectorySearcher("(ObjectCategory=Computer)")
+          $DirectorySearcher.PropertiesToLoad.Add("Name")
+          $Computers = $DirectorySearcher.findall()
+          foreach ($Computer in $Computers) {
+            $Computer = $Computer.Properties.name
+            if (!$Computer) { Continue }
+            Write-Host $Computer}

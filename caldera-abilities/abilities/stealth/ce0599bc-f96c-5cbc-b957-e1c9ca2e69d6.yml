@@ -1,0 +1,16 @@
+- id: ce0599bc-f96c-5cbc-b957-e1c9ca2e69d6
+  name: Soumaia ART Tests - Invoke HTML Application - Jscript Engine Simulating Double Click
+  description: Executes an HTA Application using JScript script engine simulating double click.
+  tactic: stealth
+  technique:
+    attack_id: T1218.005
+    name: 'Signed Binary Proxy Execution: Mshta'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand JABSAGUAcQB1AGkAcgBlAGQATQBvAGQAdQBsAGUAIAA9ACAARwBlAHQALQBNAG8AZAB1AGwAZQAgAC0ATgBhAG0AZQAgAEEAdABvAG0AaQBjAFQAZQBzAHQASABhAHIAbgBlAHMAcwBlAHMAIAAtAEwAaQBzAHQAQQB2AGEAaQBsAGEAYgBsAGUACgBpAGYAIAAoAC0AbgBvAHQAIAAkAFIAZQBxAHUAaQByAGUAZABNAG8AZAB1AGwAZQApACAAewBlAHgAaQB0ACAAMQB9AAoAaQBmACAAKAAtAG4AbwB0ACAAJABSAGUAcQB1AGkAcgBlAGQATQBvAGQAdQBsAGUALgBFAHgAcABvAHIAdABlAGQAQwBvAG0AbQBhAG4AZABzAFsAJwBJAG4AdgBvAGsAZQAtAEEAVABIAEgAVABNAEwAQQBwAHAAbABpAGMAYQB0AGkAbwBuACcAXQApACAAewBlAHgAaQB0ACAAMQB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADAAfQA=
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand SQBuAHMAdABhAGwAbAAtAE0AbwBkAHUAbABlACAALQBOAGEAbQBlACAAQQB0AG8AbQBpAGMAVABlAHMAdABIAGEAcgBuAGUAcwBzAGUAcwAgAC0AUwBjAG8AcABlACAAQwB1AHIAcgBlAG4AdABVAHMAZQByACAALQBGAG8AcgBjAGUACgA=
+          }
+          Invoke-ATHHTMLApplication -HTAFilePath Test.hta -ScriptEngine JScript -SimulateUserDoubleClick

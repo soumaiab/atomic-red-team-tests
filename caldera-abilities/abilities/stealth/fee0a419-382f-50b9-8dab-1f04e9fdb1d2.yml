@@ -1,0 +1,16 @@
+- id: fee0a419-382f-50b9-8dab-1f04e9fdb1d2
+  name: Soumaia ART Tests - Dirty Vanity process Injection
+  description: "This test used the Windows undocumented remote-fork API RtlCreateProcessReflection to create a cloned process of the parent process\nwith shellcode written in its memory. The shellcode is executed after being forked to the child process. The technique was first presented at \nBlackHat Europe 2022. Shellcode will open a messsage box and a notepad."
+  tactic: stealth
+  technique:
+    attack_id: T1055
+    name: Process Injection
+  platforms:
+    windows:
+      psh:
+        command: |-
+          Start-Process "$.\redVanity.exe" (Start-Process calc.exe -PassThru).Id
+        cleanup: |-
+          Get-Process -Name calc, CalculatorApp -ErrorAction SilentlyContinue | Stop-Process -Force
+        payloads:
+        - redVanity.exe

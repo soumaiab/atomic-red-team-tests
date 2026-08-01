@@ -1,0 +1,14 @@
+- id: cc6d49de-a10c-5276-a168-7868248702e8
+  name: Soumaia ART Tests - Abusing MyComputer Disk Cleanup Path for Persistence
+  description: Replacing the registry settings with custom executable will end up with the replacement programs being executed at the time OS will decide to kick off the respective activity (requires elevation)
+  tactic: persistence
+  technique:
+    attack_id: T1112
+    name: Modify Registry
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\cleanuppath" /t REG_EXPAND_SZ /d "%systemroot%\system32\notepad.exe" /f
+        cleanup: |-
+          reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\cleanuppath" /t REG_EXPAND_SZ /d "%SystemRoot%\System32\cleanmgr.exe /D %c" /f

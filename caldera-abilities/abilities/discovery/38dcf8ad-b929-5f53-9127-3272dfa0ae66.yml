@@ -1,0 +1,14 @@
+- id: 38dcf8ad-b929-5f53-9127-3272dfa0ae66
+  name: Soumaia ART Tests - Network Share Discovery command prompt
+  description: 'Network Share Discovery utilizing the command prompt. The computer name variable may need to be modified to point to a different host
+
+    Upon execution available network shares will be displayed in the powershell session'
+  tactic: discovery
+  technique:
+    attack_id: T1135
+    name: Network Share Discovery
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          net view \\localhost

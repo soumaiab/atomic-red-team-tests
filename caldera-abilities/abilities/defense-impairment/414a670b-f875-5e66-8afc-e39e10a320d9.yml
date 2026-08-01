@@ -1,0 +1,20 @@
+- id: 414a670b-f875-5e66-8afc-e39e10a320d9
+  name: Soumaia ART Tests - cacls - Grant permission to specified user or group recursively
+  description: 'Modifies the filesystem permissions of the specified folder and contents to allow the specified user or group Full Control. If "Access is denied"
+
+    is displayed it may be because the file or folder doesn''t exit. Run the prereq command to create it. Upon successfull execution, "Successfully processed 3 files"
+
+    will be displayed.'
+  tactic: defense-impairment
+  technique:
+    attack_id: T1222.001
+    name: 'File and Directory Permissions Modification: Windows File and Directory Permissions Modification'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          cmd /c "IF EXIST %temp%\T1222.001_cacls ( EXIT 0 ) ELSE ( EXIT 1 )"
+          if not "%ERRORLEVEL%"=="0" (
+              cmd /c "mkdir %temp%\T1222.001_cacls & echo T1222.001_cacls1 >> %temp%\T1222.001_cacls\T1222.001_cacls1.txt & echo T1222.001_cacls2 >> %temp%\T1222.001_cacls\T1222.001_cacls2.txt"
+          )
+          icacls.exe %temp%\T1222.001_cacls /grant Everyone:F

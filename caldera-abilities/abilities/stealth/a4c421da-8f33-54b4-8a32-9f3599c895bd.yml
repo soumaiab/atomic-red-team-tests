@@ -1,0 +1,18 @@
+- id: a4c421da-8f33-54b4-8a32-9f3599c895bd
+  name: Soumaia ART Tests - Renamed Microsoft.Workflow.Compiler.exe Payload Executions
+  description: Emulates attack with a renamed Microsoft.Workflow.Compiler.exe running a .Net assembly that launches calc.exe
+  tactic: stealth
+  technique:
+    attack_id: T1218
+    name: Signed Binary Proxy Execution
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABzAHYAYwBoAG8AcwB0AC4AZQB4AGUAIgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzACIAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAEkAZwBuAG8AcgBlACAALQBGAG8AcgBjAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoAQwBvAHAAeQAtAEkAdABlAG0AIABDADoAXABXAGkAbgBkAG8AdwBzAFwATQBpAGMAcgBvAHMAbwBmAHQALgBOAEUAVABcAEYAcgBhAG0AZQB3AG8AcgBrADYANABcAHYANAAuADAALgAzADAAMwAxADkAXABtAGkAYwByAG8AcwBvAGYAdAAuAHcAbwByAGsAZgBsAG8AdwAuAGMAbwBtAHAAaQBsAGUAcgAuAGUAeABlACAAIgAkAGUAbgB2ADoAVABFAE0AUABcAEEAUgBUAC0ARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwBcAHMAdgBjAGgAbwBzAHQALgBlAHgAZQAiACAALQBGAG8AcgBjAGUACgA=
+          }
+          &"$env:TEMP\ART-ExternalPayloads\svchost.exe" ".\T1218.xml" output.txt
+        payloads:
+        - T1218.xml

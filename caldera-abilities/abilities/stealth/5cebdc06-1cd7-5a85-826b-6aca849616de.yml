@@ -1,0 +1,18 @@
+- id: 5cebdc06-1cd7-5a85-826b-6aca849616de
+  name: Soumaia ART Tests - Indirect Command Execution - forfiles.exe
+  description: 'forfiles.exe may invoke the execution of programs and commands from a Command-Line Interface.
+
+    [Reference](https://github.com/LOLBAS-Project/LOLBAS/blob/master/yml/OSBinaries/Forfiles.yml)
+
+    "This is basically saying for each occurrence of notepad.exe in c:\windows\system32 run calc.exe"
+
+    Upon execution calc.exe will be opened.'
+  tactic: stealth
+  technique:
+    attack_id: T1202
+    name: Indirect Command Execution
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          forfiles /p c:\windows\system32 /m notepad.exe /c calc.exe

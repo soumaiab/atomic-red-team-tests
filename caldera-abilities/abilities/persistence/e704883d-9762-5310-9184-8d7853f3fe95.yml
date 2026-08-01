@@ -1,0 +1,14 @@
+- id: e704883d-9762-5310-9184-8d7853f3fe95
+  name: Soumaia ART Tests - Event Viewer Registry Modification - Redirection URL
+  description: Modify event viewer registry values to alter the behavior of the online help redirection. Upon opening an event in event viewer and attempting to view the help page for the event, it will open the URL or execute the program defined in the redirection URL registry entry. (requires elevation)
+  tactic: persistence
+  technique:
+    attack_id: T1112
+    name: Modify Registry
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Event Viewer" /v MicrosoftRedirectionURL /t REG_SZ /d "file://C:\windows\system32\notepad.exe" /f
+        cleanup: |-
+          reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Event Viewer" /v MicrosoftRedirectionURL /t REG_SZ /d "http://go.microsoft.com/fwlink/events.asp" /f

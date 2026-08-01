@@ -1,0 +1,25 @@
+- id: 1ee04208-4cab-563b-8d71-ee0af05db2fa
+  name: Soumaia ART Tests - System Service Discovery - Services Registry Enumeration
+  description: 'Enumerates Windows services by reading the Services registry key
+
+    (HKLM\SYSTEM\CurrentControlSet\Services) instead of using Service Control
+
+    Manager APIs or CLI tools such as sc.exe or Get-Service.'
+  tactic: discovery
+  technique:
+    attack_id: T1007
+    name: System Service Discovery
+  platforms:
+    windows:
+      psh:
+        command: |-
+          Get-ChildItem -Path 'HKLM:\SYSTEM\CurrentControlSet\Services' |
+            ForEach-Object {
+              $p = Get-ItemProperty -Path $_.PSPath -ErrorAction SilentlyContinue
+              [PSCustomObject]@{
+                Name        = $_.PSChildName
+                DisplayName = $p.DisplayName
+                ImagePath   = $p.ImagePath
+                StartType   = $p.Start
+              }
+            }

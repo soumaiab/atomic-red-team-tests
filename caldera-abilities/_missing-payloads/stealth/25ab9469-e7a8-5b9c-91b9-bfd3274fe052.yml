@@ -1,0 +1,25 @@
+- id: 25ab9469-e7a8-5b9c-91b9-bfd3274fe052
+  name: Soumaia ART Tests - Expand CAB with expand.exe
+  description: 'Uses expand.exe to extract a file from a CAB created locally. This simulates adversarial use of expand on cabinet archives.
+
+    Upon success, art-expand-source.txt is extracted next to the CAB.'
+  tactic: stealth
+  technique:
+    attack_id: T1140
+    name: Deobfuscate/Decode Files or Information
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          mkdir "%TEMP%\art-expand-out" >nul 2>&1
+          echo hello from atomic red team > ".\art-expand-source.txt"
+          makecab ".\art-expand-source.txt" "%TEMP%\art-expand-test.cab"
+          pushd "%TEMP%\art-expand-out"
+          expand "%TEMP%\art-expand-test.cab" -F:* .
+          popd
+        cleanup: |-
+          del ".\art-expand-source.txt" >nul 2>&1
+          del "%TEMP%\art-expand-test.cab" >nul 2>&1
+          rmdir "%TEMP%\art-expand-out" /s /q >nul 2>&1
+        payloads:
+        - art-expand-source.txt

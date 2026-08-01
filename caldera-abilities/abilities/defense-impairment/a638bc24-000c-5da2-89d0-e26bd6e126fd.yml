@@ -1,0 +1,14 @@
+- id: a638bc24-000c-5da2-89d0-e26bd6e126fd
+  name: Soumaia ART Tests - Disable EventLog-Application ETW Provider Via Registry - Cmd
+  description: This atomic simulates an activity where an attacker disables a specific ETW provider from the EventLog-Application ETW Auto Logger session using the reg.exe utility to update the Windows registry value "Enabled". This would effectivly remove that provider from the session and cause to not emit any logs of that type. The changes would only take effect after a restart. (requires elevation)
+  tactic: defense-impairment
+  technique:
+    attack_id: T1685
+    name: Disable or Modify Tools
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          reg add "HKLM\System\CurrentControlSet\Control\WMI\Autologger\EventLog-Application\{B6D775EF-1436-4FE6-BAD3-9E436319E218}" /v "Enabled" /t REG_DWORD /d "0" /f
+        cleanup: |-
+          reg add "HKLM\System\CurrentControlSet\Control\WMI\Autologger\EventLog-Application\{B6D775EF-1436-4FE6-BAD3-9E436319E218}" /v "Enabled" /t REG_DWORD /d "1" /f

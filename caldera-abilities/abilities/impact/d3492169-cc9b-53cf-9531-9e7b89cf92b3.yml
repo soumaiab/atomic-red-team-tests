@@ -1,0 +1,12 @@
+- id: d3492169-cc9b-53cf-9531-9e7b89cf92b3
+  name: Soumaia ART Tests - Logoff System - Windows
+  description: This test performs a Windows system logoff as seen in [dcrat backdoor capabilities](https://www.mandiant.com/resources/analyzing-dark-crystal-rat-backdoor) (requires elevation)
+  tactic: impact
+  technique:
+    attack_id: T1529
+    name: System Shutdown/Reboot
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          shutdown /l

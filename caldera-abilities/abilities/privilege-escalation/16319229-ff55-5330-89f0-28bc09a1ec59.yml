@@ -1,0 +1,16 @@
+- id: 16319229-ff55-5330-89f0-28bc09a1ec59
+  name: Soumaia ART Tests - Add persistence via Windows Context Menu
+  description: 'This atomic test add persistence taking advantage of the  Windows Context Menu [Hexacorn](https://www.hexacorn.com/blog/2018/07/29/beyond-good-ol-run-key-part-82/)
+
+    User have to right click on the main screen or in the white space of the opened folder (e.g. Size Modify). (requires elevation)'
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1547.001
+    name: 'Boot or Logon Autostart Execution: Registry Run Keys / Startup Folder'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          reg add "HKEY_CLASSES_ROOT\Directory\Background\shell\Size Modify\command" /ve /t REG_SZ /d "C:\Windows\System32\calc.exe" /f
+        cleanup: |-
+          reg delete "HKEY_CLASSES_ROOT\Directory\Background\shell\Size Modify" /f

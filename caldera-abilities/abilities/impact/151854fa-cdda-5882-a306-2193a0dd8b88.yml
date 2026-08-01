@@ -1,0 +1,63 @@
+- id: 151854fa-cdda-5882-a306-2193a0dd8b88
+  name: Soumaia ART Tests - Windows - Display a simulated ransom note via Notepad (non-destructive)
+  description: 'Creates a temporary ransom-note text file and opens it in Notepad to
+
+    simulate ransomware "note display" behavior without making destructive
+
+    changes. SAFE and non-destructive.'
+  tactic: impact
+  technique:
+    attack_id: T1491.001
+    name: 'Defacement: Internal Defacement'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          cmd /c "where notepad"
+          if ($LASTEXITCODE -ne 0) {
+              cmd /c ""
+          }
+          $notePath = Join-Path $env:TEMP "ART-T1491-ransom-note.txt"
+          $pidPath  = Join-Path $env:TEMP "ART-T1491-notepad.pid"
+
+          $Title = "!!! READ_ME_NOW !!!"
+          $Body  = "Your files are SAFE. This is a TEST note for detection validation
+          by bak3n3k0. No data has been encrypted. This simulation exercises
+          detections for:
+            - notepad.exe launched with a ransom-themed text file
+            - creation of a ransom-themed text file in %TEMP%
+          NON-DESTRUCTIVE Atomic Red Team test.
+          "
+
+          $header  = $Title + "`r`n" + ('=' * $Title.Length) + "`r`n`r`n"
+          $content = $header + $Body
+
+          [System.IO.File]::WriteAllText($notePath, $content, [System.Text.Encoding]::UTF8)
+
+          $p = Start-Process notepad.exe -ArgumentList "`"$notePath`"" -PassThru
+          $p.Id | Out-File -FilePath $pidPath -Encoding ascii -Force
+        cleanup: |-
+          try {
+            # 1. Kill all Notepad processes
+            Get-Process notepad -ErrorAction SilentlyContinue |
+              ForEach-Object {
+                Stop-Process -Id $_.Id -Force -ErrorAction SilentlyContinue
+              }
+
+            # 2. Wait briefly for Windows to release file handles
+            Start-Sleep -Seconds 1
+
+            # 3. Force delete ransom note + PID file
+            $notePath = Join-Path $env:TEMP "ART-T1491-ransom-note.txt"
+            $pidPath  = Join-Path $env:TEMP "ART-T1491-notepad.pid"
+
+            if (Test-Path $notePath) {
+              Remove-Item $notePath -Force -ErrorAction Stop
+            }
+            if (Test-Path $pidPath) {
+              Remove-Item $pidPath -Force -ErrorAction Stop
+            }
+          }
+          catch {
+            Write-Warning "Cleanup failed with error: $_"
+          }

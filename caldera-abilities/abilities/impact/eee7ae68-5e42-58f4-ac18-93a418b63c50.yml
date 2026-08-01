@@ -1,0 +1,16 @@
+- id: eee7ae68-5e42-58f4-ac18-93a418b63c50
+  name: Soumaia ART Tests - Windows - Simulate CPU Load with PowerShell
+  description: 'This test simulates high CPU load using PowerShell, commonly seen in resource hijacking.
+
+    Spawns background jobs to stress CPU cores for a specified duration.'
+  tactic: impact
+  technique:
+    attack_id: T1496
+    name: Resource Hijacking
+  platforms:
+    windows:
+      psh:
+        command: |-
+          $end = (Get-Date).AddSeconds(30)
+          1..4 | ForEach-Object { Start-Job { param($t) while((Get-Date) -lt $t) { $i=0; while($i -lt 200000){$i++} } } -ArgumentList $end }
+          Get-Job | Wait-Job | Remove-Job

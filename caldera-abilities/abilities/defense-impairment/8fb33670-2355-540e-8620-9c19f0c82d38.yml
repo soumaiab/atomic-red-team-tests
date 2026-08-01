@@ -1,0 +1,18 @@
+- id: 8fb33670-2355-540e-8620-9c19f0c82d38
+  name: Soumaia ART Tests - Enable Local and Remote Symbolic Links via Powershell
+  description: 'Use Powershell to enable both ‘remote to local’ and ‘remote to remote’ symbolic links. This allows access to files from local shortcuts with local or remote paths.
+
+    [reference](https://symantec-enterprise-blogs.security.com/threat-intelligence/noberus-blackcat-alphv-rust-ransomware/) (requires elevation)'
+  tactic: defense-impairment
+  technique:
+    attack_id: T1222
+    name: File and Directory Permissions Modification
+  platforms:
+    windows:
+      psh:
+        command: |-
+          New-ItemProperty -Path HKLM:\Software\Policies\Microsoft\Windows\Filesystems\NTFS -Name SymlinkRemoteToLocalEvaluation -PropertyType DWORD -Value 1 -Force -ErrorAction Ignore
+          New-ItemProperty -Path HKLM:\Software\Policies\Microsoft\Windows\Filesystems\NTFS -Name SymlinkRemoteToRemoteEvaluation -PropertyType DWORD -Value 1 -Force -ErrorAction Ignore
+        cleanup: |-
+          New-ItemProperty -Path HKLM:\Software\Policies\Microsoft\Windows\Filesystems\NTFS -Name SymlinkRemoteToLocalEvaluation -PropertyType DWORD -Value 0 -Force -ErrorAction Ignore
+          New-ItemProperty -Path HKLM:\Software\Policies\Microsoft\Windows\Filesystems\NTFS -Name SymlinkRemoteToRemoteEvaluation -PropertyType DWORD -Value 0 -Force -ErrorAction Ignore

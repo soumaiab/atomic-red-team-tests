@@ -1,0 +1,25 @@
+- id: 97bfedc7-a78e-5319-997d-6aa6cf88564e
+  name: Soumaia ART Tests - Suspicious bat file run from startup Folder
+  description: 'bat files can be placed in and executed from the startup folder to maintain persistance
+
+
+    Upon execution, cmd will be run and immediately closed. Additionally, the new files can be viewed in the "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup"
+
+    folder and will also run when the computer is restarted and the user logs in. (requires elevation)'
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1547.001
+    name: 'Boot or Logon Autostart Execution: Registry Run Keys / Startup Folder'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          Copy-Item "$.\batstartup.bat" "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup\batstartup.bat"
+          Copy-Item "$.\batstartup.bat" "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\batstartup.bat"
+          Start-Process "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup\batstartup.bat"
+          Start-Process "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\batstartup.bat"
+        cleanup: |-
+          Remove-Item "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup\batstartup.bat" -ErrorAction Ignore
+          Remove-Item "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\batstartup.bat" -ErrorAction Ignore
+        payloads:
+        - batstartup.bat

@@ -1,0 +1,15 @@
+- id: d4c8c0da-bb42-5d8c-9f25-633dd9b837d0
+  name: Soumaia ART Tests - Process Discovery - get-wmiObject
+  description: 'Utilize get-wmiObject PowerShell cmdlet to identify processes.
+
+
+    Upon successful execution, powershell.exe will execute get-wmiObject to list processes. Output will be via stdout.'
+  tactic: discovery
+  technique:
+    attack_id: T1057
+    name: Process Discovery
+  platforms:
+    windows:
+      psh:
+        command: |-
+          get-wmiObject -class Win32_Process

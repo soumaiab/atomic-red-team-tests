@@ -1,0 +1,14 @@
+- id: be60b556-a9b9-5366-8962-4cf7911edc3a
+  name: Soumaia ART Tests - Launch Taskmgr from cmd to View running processes
+  description: 'An adverary may launch taskmgr.exe with the /7 switch via command prompt to view processes running on the system.
+
+    [Reference](https://github.com/trellix-enterprise/ac3-threat-sightings/blob/main/sightings/Sightings_Conti_Ransomware.yml)'
+  tactic: discovery
+  technique:
+    attack_id: T1057
+    name: Process Discovery
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          taskmgr.exe /7

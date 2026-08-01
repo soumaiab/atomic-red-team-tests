@@ -1,0 +1,12 @@
+- id: e0ecc142-3abc-5cec-ae2d-385a3c79cd91
+  name: Soumaia ART Tests - ESXi - Enable SSH via PowerCLI
+  description: An adversary enables the SSH service on a ESXi host to maintain persistent access to the host and to carryout subsequent operations. (requires elevation)
+  tactic: ''
+  technique:
+    attack_id: T1021.004
+    name: 'Remote Services: SSH'
+  platforms:
+    windows:
+      psh:
+        command: "powershell -NoProfile -EncodedCommand JABSAGUAcQB1AGkAcgBlAGQATQBvAGQAdQBsAGUAIAA9ACAARwBlAHQALQBNAG8AZAB1AGwAZQAgAC0ATgBhAG0AZQAgAFYATQB3AGEAcgBlAC4AUABvAHcAZQByAEMATABJACAALQBMAGkAcwB0AEEAdgBhAGkAbABhAGIAbABlAAoAaQBmACAAKAAtAG4AbwB0ACAAJABSAGUAcQB1AGkAcgBlAGQATQBvAGQAdQBsAGUAKQAgAHsAZQB4AGkAdAAgADEAfQAKAA==\nif ($LASTEXITCODE -ne 0) {\n    powershell -NoProfile -EncodedCommand SQBuAHMAdABhAGwAbAAtAE0AbwBkAHUAbABlACAALQBOAGEAbQBlACAAVgBNAHcAYQByAGUALgBQAG8AdwBlAHIAQwBMAEkACgA=\n}\nSet-PowerCLIConfiguration -InvalidCertificateAction Ignore -ParticipateInCEIP:$false -Confirm:$false \nConnect-VIServer -Server atomic.local -User root -Password pass\nGet-VMHostService -VMHost atomic.local | Where-Object {$_.Key -eq \"TSM-SSH\" } | Start-VMHostService -Confirm:$false"
+        cleanup: "Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -ParticipateInCEIP:$false -Confirm:$false \nConnect-VIServer -Server atomic.local -User root -Password pass\nGet-VMHostService -VMHost atomic.local | Where-Object {$_.Key -eq \"TSM-SSH\" } | Stop-VMHostService -Confirm:$false"

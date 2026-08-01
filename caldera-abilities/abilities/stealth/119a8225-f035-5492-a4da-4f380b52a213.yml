@@ -1,0 +1,16 @@
+- id: 119a8225-f035-5492-a4da-4f380b52a213
+  name: Soumaia ART Tests - Detect Virtualization Environment (Windows)
+  description: Windows Management Instrumentation(WMI) objects contains system information which helps to detect virtualization. This command will specifically attempt to get the CurrentTemperature value from this object and will check to see if the attempt results in an error that contains the word supported. This is meant to find the result of Not supported, which is the result if run in a virtual machine
+  tactic: stealth
+  technique:
+    attack_id: T1497.001
+    name: 'Virtualization/Sandbox Evasion: System Checks'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          $error.clear()
+          Get-WmiObject -Query "SELECT * FROM MSAcpi_ThermalZoneTemperature" -ErrorAction SilentlyContinue
+          if($error) {echo "Virtualization Environment detected"}
+        cleanup: |-
+          $error.clear()

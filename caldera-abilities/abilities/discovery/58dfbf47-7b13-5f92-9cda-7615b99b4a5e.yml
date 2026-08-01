@@ -1,0 +1,15 @@
+- id: 58dfbf47-7b13-5f92-9cda-7615b99b4a5e
+  name: Soumaia ART Tests - Enumerate all accounts (Domain)
+  description: 'Enumerate all accounts
+
+    Upon exection, multiple enumeration commands will be run and their output displayed in the PowerShell session'
+  tactic: discovery
+  technique:
+    attack_id: T1087.002
+    name: 'Account Discovery: Domain Account'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          net user /domain
+          net group /domain

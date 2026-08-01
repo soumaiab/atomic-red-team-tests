@@ -1,0 +1,40 @@
+- id: ad4c0e41-e7e1-57dd-98b5-7c3313761679
+  name: Soumaia ART Tests - WMI Invoke-CimMethod Start Process
+  description: 'The following Atomic will create a New-CimSession on a remote endpoint and start a process usnig Invoke-CimMethod.
+
+    This is a novel way to perform lateral movement or to start a remote process.
+
+    This does require WinRM to be enabled. The account performing the run will also need to be elevated.
+
+    A successful execution will stdout that the process started. On the remote endpoint, wmiprvse.exe will spawn the given process. (requires elevation)'
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1546
+    name: Event Triggered Execution
+  platforms:
+    windows:
+      psh:
+        command: |-
+          # Set the remote computer name and credentials
+           $RemoteComputer = "localhost"
+           $PWord = ConvertTo-SecureString -String "P@ssword1" -AsPlainText -Force
+           $Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList "Administrator", $Pword
+
+           # Create a CIM session
+           $CimSession = New-CimSession -ComputerName $RemoteComputer -Credential $Credential
+
+           # Define the process you want to start
+           $ProcessToStart = "calc.exe"
+
+           # Invoke the Create method on the Win32_Process class to start the process
+           $Result = Invoke-CimMethod -CimSession $CimSession -ClassName Win32_Process -MethodName Create -Arguments @{CommandLine = $ProcessToStart}
+
+           # Check the result
+           if ($Result.ReturnValue -eq 0) {
+               Write-Host "Process started successfully with Process ID: $($Result.ProcessId)"
+           } else {
+               Write-Host "Failed to start the process. Error code: $($Result.ReturnValue)"
+           }
+
+           # Clean up the CIM session
+           Remove-CimSession -CimSession $CimSession

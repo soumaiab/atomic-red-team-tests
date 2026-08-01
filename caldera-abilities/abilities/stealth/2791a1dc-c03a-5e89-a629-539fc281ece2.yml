@@ -1,0 +1,13 @@
+- id: 2791a1dc-c03a-5e89-a629-539fc281ece2
+  name: Soumaia ART Tests - Remove Network Share PowerShell
+  description: Removes a Network Share utilizing PowerShell
+  tactic: stealth
+  technique:
+    attack_id: T1070.005
+    name: 'Indicator Removal on Host: Network Share Connection Removal'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          Remove-SmbShare -Name \\test\share
+          Remove-FileShare -Name \\test\share

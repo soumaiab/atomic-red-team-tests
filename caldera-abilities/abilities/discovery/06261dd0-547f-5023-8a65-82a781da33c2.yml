@@ -1,0 +1,12 @@
+- id: 06261dd0-547f-5023-8a65-82a781da33c2
+  name: Soumaia ART Tests - Enumerate Available Drives via gdr
+  description: This test simulates an attacker attempting to list the available drives on the system to gather data about file storage locations.
+  tactic: discovery
+  technique:
+    attack_id: T1082
+    name: System Information Discovery
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell.exe -c "gdr -PSProvider 'FileSystem'"

@@ -1,0 +1,14 @@
+- id: e5df7324-6296-504d-a2f9-655b6ca80265
+  name: Soumaia ART Tests - Use of SecEdit.exe to export the local security policy (including the password policy)
+  description: 'SecEdit.exe can be used to export the current local security policy applied to a host.
+
+    [Reference](https://blueteamops.medium.com/secedit-and-i-know-it-595056dee53d) (requires elevation)'
+  tactic: discovery
+  technique:
+    attack_id: T1201
+    name: Password Policy Discovery
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          secedit.exe /export /areas SECURITYPOLICY /cfg output_mysecpol.txt

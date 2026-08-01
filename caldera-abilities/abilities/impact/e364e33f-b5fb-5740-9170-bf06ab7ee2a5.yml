@@ -1,0 +1,12 @@
+- id: e364e33f-b5fb-5740-9170-bf06ab7ee2a5
+  name: Soumaia ART Tests - Windows - wbadmin Delete systemstatebackup
+  description: Deletes the Windows systemstatebackup using wbadmin.exe. This technique is used by numerous ransomware families. This may only be successful on server platforms that have Windows Backup enabled. (requires elevation)
+  tactic: impact
+  technique:
+    attack_id: T1490
+    name: Inhibit System Recovery
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          wbadmin delete systemstatebackup -keepVersions:0

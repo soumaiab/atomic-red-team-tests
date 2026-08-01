@@ -1,0 +1,506 @@
+# Caldera ability generation report
+
+- Atomic tests scanned: 1817
+- Abilities generated: 1216
+- Unmapped tactic (routed to `_unmapped/`): 7
+- Payload files copied: 168
+- Payload source files missing on disk: 63
+- Abilities with a missing payload (routed to `_missing-payloads/`): 32
+- Tests needing manual input (no default for an argument): 18
+- cmd-shell dependency prereqs (best-effort escaping, recommend review): 26
+
+## Skipped tests by reason
+- not supported on windows: 592
+- unsupported executor: manual: 9
+
+## Unmapped tactic
+- T1021.004 / 8f6c14d1-f13d-4616-b7fc-98cc69fe56ec / ESXi - Enable SSH via PowerCLI
+- T1021.004 / 280812c8-4dae-43e9-a74e-1d08ab997c0e / ESXi - Enable SSH via VIM-CMD
+- T1204.003 / e9795c8d-42aa-4ed4-ad80-551ed793d006 / Malicious Execution from Mounted ISO Image
+- T1547.006 / e5cb5564-cc7b-4050-86e8-f2d9eec1941f / Snake Malware Kernel Driver Comadmin
+- T1547.015 / ec5d76ef-82fe-48da-b931-bdb25a62bc65 / Persistence by modifying Windows Terminal profile
+- T1592.001 / d430bf85-b656-40e7-b238-42db01df0183 / Enumerate PlugNPlay Camera
+- T1595.003 / 89a83c3e-0b39-4c80-99f5-c2aa084098bd / Web Server Wordlist Scan
+
+## Tests needing manual input (placeholder left unresolved)
+- T1016 / 9bb45dd7-c466-4f93-83a1-be30e56033ee / Adfind - Enumerate Active Directory Subnet Objects: optional_args
+- T1018 / a889f5be-2d54-4050-bd05-884578748bb4 / Adfind - Enumerate Active Directory Computer Objects: optional_args
+- T1018 / 5838c31e-a0e2-4b9f-b60a-d79d2cb7995e / Adfind - Enumerate Active Directory Domain Controller Objects: optional_args
+- T1048 / c943d285-ada3-45ca-b3aa-7cd6500c6a48 / DNSExfiltration (doh): encoding
+- T1048.003 / 57799bc2-ad1e-4130-a793-fb0c385130ba / MAZE FTP Upload: password, username
+- T1069.002 / 48ddc687-82af-40b7-8472-ff1e742e8274 / Adfind - Query Active Directory Groups: optional_args
+- T1087.002 / 736b4f53-f400-4c22-855d-1a6b5a551600 / Adfind -Listing password policy: optional_args
+- T1087.002 / b95fd967-4e62-4109-b48d-265edfd28c3a / Adfind - Enumerate Active Directory Admins: optional_args
+- T1087.002 / e1ec8d20-509a-4b9a-b820-06c9b2da8eb7 / Adfind - Enumerate Active Directory User Objects: optional_args
+- T1087.002 / 5e2938fb-f919-47b6-8b29-2f6a1f718e99 / Adfind - Enumerate Active Directory Exchange AD Objects: optional_args
+- T1087.002 / abf00f6c-9983-4d9a-afbc-6b1c6c6448e1 / Suspicious LAPS Attributes Query with adfind all properties: optional_args
+- T1087.002 / 51a98f96-0269-4e09-a10f-e307779a8b05 / Suspicious LAPS Attributes Query with adfind ms-Mcs-AdmPwd: optional_args
+- T1204.002 / 5202ee05-c420-4148-bf5e-fd7f7d24850c / Office Generic Payload Download: c2_domain
+- T1219 / b1b8128b-c5d4-4de9-bf70-e60419274562 / MSP360 Connect Execution: MSP360_Download_Url
+- T1482 / d1c73b96-ab87-4031-bad8-0e1b3b8bf3ec / Adfind - Enumerate Active Directory OUs: optional_args
+- T1482 / 15fe436d-e771-4ff3-b655-2dca9ba52834 / Adfind - Enumerate Active Directory Trusts: optional_args
+- T1550.003 / dbf38128-7ba7-4776-bedf-cc2eed432098 / Mimikatz Kerberos Ticket Attack: ticket
+- T1558.003 / 14625569-6def-4497-99ac-8e7817105b55 / Rubeus kerberoast: flags
+
+## Payload source files missing on disk
+- T1001.002 / c7921449-8b62-4c4d-8a83-d9281ac0190b: T1001.002/bin/T1001.002.jpg
+- T1001.002 / c7921449-8b62-4c4d-8a83-d9281ac0190b: T1001.002/bin/T1001.002.jpg
+- T1001.002 / 04bb8e3d-1670-46ab-a3f1-5cee64da29b6: T1001.002/bin/evil_kitten.jpg
+- T1001.002 / 04bb8e3d-1670-46ab-a3f1-5cee64da29b6: T1001.002/bin/evil_kitten.jpg
+- T1027.006 / 30cbeda4-08d9-42f1-8685-197fad677734: T1027.006/bin/
+- T1055 / 0128e48e-8c1a-433a-a11a-a5387384f1e1: T1055/bin/x64/vuln_dll/
+- T1055.011 / 93ca40d2-336c-446d-bcef-87f14d438018: T1055.011/bin/T1055.011_#{arch}.exe
+- T1055.011 / 93ca40d2-336c-446d-bcef-87f14d438018: T1055.011/bin/payload.exe_#{arch}.bin
+- T1055.011 / 93ca40d2-336c-446d-bcef-87f14d438018: T1055.011/bin/T1055.011_#{arch}.exe
+- T1055.011 / 93ca40d2-336c-446d-bcef-87f14d438018: T1055.011/bin/payload.exe_#{arch}.bin
+- T1074.001 / a57fbe4b-3440-452a-88a7-943531ac872a: T1074.001/bin/Folder_to_zip
+- T1090.003 / 14d55ca0-920e-4b44-8425-37eedd72b173: T1090.003/src/
+- T1105 / 66ee226e-64cb-4dae-80e3-5bf5763e4a51: T1105/bin/
+- T1105 / 66ee226e-64cb-4dae-80e3-5bf5763e4a51: T1105/bin/
+- T1114.001 / 3f1b5096-0139-4736-9b78-19bcb02bb1cb: T1114.001/src
+- T1114.001 / 3f1b5096-0139-4736-9b78-19bcb02bb1cb: T1114.001/src
+- T1134.001 / 7be1bc0f-d8e5-4345-9333-f5f67d742cb9: T1134.001/bin/NSudoLG.exe
+- T1134.001 / 7be1bc0f-d8e5-4345-9333-f5f67d742cb9: T1134.001/bin/NSudoLG.exe
+- T1137.002 / c3e35b58-fe1c-480b-b540-7600fb612563: T1137.002/bin/
+- T1137.006 / 441b1a0f-a771-428a-8af0-e99e4698cda3: T1137.006/bin/Addins/
+- T1137.006 / 9c307886-9fef-41d5-b344-073a0f5b2f5f: T1137.006/bin/Addins/
+- T1137.006 / 95408a99-4fa7-4cd6-a7ef-cb65f86351cf: T1137.006/bin/Addins/
+- T1137.006 / 082141ed-b048-4c86-99c7-2b8da5b5bf48: T1137.006/bin/Addins/
+- T1137.006 / f89e58f9-2b49-423b-ac95-1f3e7cfd8277: T1137.006/bin/Addins/
+- T1140 / 9f8b1c54-cb76-4d5e-bb1f-2f5c0e8f5a11: T1140/src/art-expand-source.txt
+- T1140 / 9f8b1c54-cb76-4d5e-bb1f-2f5c0e8f5a11: T1140/src/art-expand-source.txt
+- T1140 / 9f8b1c54-cb76-4d5e-bb1f-2f5c0e8f5a11: T1140/src/art-expand-source.txt
+- T1218.008 / 331ce274-f9c9-440b-9f8c-a1006e1fce0b: T1218.008/bin/
+- T1218.008 / 331ce274-f9c9-440b-9f8c-a1006e1fce0b: T1218.008/bin/
+- T1505.003 / 0a2ce662-1efa-496f-a472-2fe7b080db16: T1505.003/src
+- T1505.003 / 0a2ce662-1efa-496f-a472-2fe7b080db16: T1505.003/src
+- T1546 / aca9ae16-7425-4b6d-8c30-cad306fdbd5b: T1546/bin/
+- T1546 / 547a4736-dd1c-4b48-b4fe-e916190bb2e7: T1546/src/
+- T1547.001 / befc2b40-d487-4a5a-8813-c11085fb5672: T1547.001/src/SessionManagerBackup.reg
+- T1547.001 / befc2b40-d487-4a5a-8813-c11085fb5672: T1547.001/src/SessionManagerBackup.reg
+- T1547.001 / befc2b40-d487-4a5a-8813-c11085fb5672: T1547.001/src/SessionManagerBackup.reg
+- T1547.001 / befc2b40-d487-4a5a-8813-c11085fb5672: T1547.001/src/SessionManagerBackup.reg
+- T1555.003 / 9a2915b3-3954-4cce-8c76-00fbf4dbd014: T1555.003/bin/LaZagne.exe
+- T1555.003 / 9a2915b3-3954-4cce-8c76-00fbf4dbd014: T1555.003/bin/LaZagne.exe
+- T1555.003 / e359627f-2d90-4320-ba5e-b0f878155bbe: T1555.003/bin/
+- T1555.003 / 6f2c5c87-a4d5-4898-9bd1-47a55ecaf1dd: T1555.003/bin
+- T1555.003 / 6f2c5c87-a4d5-4898-9bd1-47a55ecaf1dd: T1555.003/bin/BrowserCollector.exe
+- T1555.003 / 6f2c5c87-a4d5-4898-9bd1-47a55ecaf1dd: T1555.003/bin/
+- T1555.003 / 6f2c5c87-a4d5-4898-9bd1-47a55ecaf1dd: T1555.003/bin/BrowserCollector.exe
+- T1556.002 / a7961770-beb5-4134-9674-83d7e1fa865c: T1556.002/bin
+- T1556.002 / a7961770-beb5-4134-9674-83d7e1fa865c: T1556.002/bin
+- T1556.002 / a7961770-beb5-4134-9674-83d7e1fa865c: T1556.002/lsa_backup.reg
+- T1556.002 / a7961770-beb5-4134-9674-83d7e1fa865c: T1556.002/lsa_backup.reg
+- T1556.002 / 91580da6-bc6e-431b-8b88-ac77180005f2: T1556.002/bin
+- T1556.002 / 91580da6-bc6e-431b-8b88-ac77180005f2: T1556.002/bin
+- T1556.002 / 91580da6-bc6e-431b-8b88-ac77180005f2: T1556.002/lsa_backup.reg
+- T1556.002 / 91580da6-bc6e-431b-8b88-ac77180005f2: T1556.002/lsa_backup.reg
+- T1560.001 / d1334303-59cb-4a03-8313-b3e24d02c198: T1560.001/victim-files
+- T1560.001 / d1334303-59cb-4a03-8313-b3e24d02c198: T1560.001/victim-files
+- T1560.001 / d1334303-59cb-4a03-8313-b3e24d02c198: T1560.001/victim-files
+- T1574.001 / 65526037-7079-44a9-bda1-2cb624838040: T1574.002/bin/GUP.exe
+- T1574.001 / 65526037-7079-44a9-bda1-2cb624838040: T1574.002/bin/GUP.exe
+- T1574.001 / d322cdd7-7d60-46e3-9111-648848da7c02: T1574.002/bin/preloader.dll
+- T1574.001 / d322cdd7-7d60-46e3-9111-648848da7c02: T1574.002/bin/preloader.dll
+- T1685 / a316fb2e-5344-470d-91c1-23e15c374edc: T1685/bin/sysmon.exe
+- T1685 / a316fb2e-5344-470d-91c1-23e15c374edc: T1685/bin/sysmon.exe
+- T1689 / 14d55b96-b2f5-428d-8fed-49dc4d9dd616: T1698/src/esx_community_supported.txt
+- T1689 / 14d55b96-b2f5-428d-8fed-49dc4d9dd616: T1698/src/esx_community_supported.txt
+
+## Abilities with a missing payload (routed to `_missing-payloads/`)
+- T1001.002 / c7921449-8b62-4c4d-8a83-d9281ac0190b / Steganographic Tarball Embedding
+- T1001.002 / 04bb8e3d-1670-46ab-a3f1-5cee64da29b6 / Embedded Script in Image Execution via Extract-Invoke-PSImage
+- T1027.006 / 30cbeda4-08d9-42f1-8685-197fad677734 / HTML Smuggling Remote Payload
+- T1055 / 0128e48e-8c1a-433a-a11a-a5387384f1e1 / Read-Write-Execute process Injection
+- T1055.011 / 93ca40d2-336c-446d-bcef-87f14d438018 / Process Injection via Extra Window Memory (EWM) x64 executable
+- T1074.001 / a57fbe4b-3440-452a-88a7-943531ac872a / Zip a Folder with PowerShell for Staging in Temp
+- T1090.003 / 14d55ca0-920e-4b44-8425-37eedd72b173 / Psiphon
+- T1105 / 66ee226e-64cb-4dae-80e3-5bf5763e4a51 / Arbitrary file download using the Notepad++ GUP.exe binary
+- T1114.001 / 3f1b5096-0139-4736-9b78-19bcb02bb1cb / Email Collection with PowerShell Get-Inbox
+- T1134.001 / 7be1bc0f-d8e5-4345-9333-f5f67d742cb9 / Launch NSudo Executable
+- T1137.002 / c3e35b58-fe1c-480b-b540-7600fb612563 / Office Application Startup Test Persistence (HKCU)
+- T1137.006 / 441b1a0f-a771-428a-8af0-e99e4698cda3 / Code Executed Via Excel Add-in File (XLL)
+- T1137.006 / 9c307886-9fef-41d5-b344-073a0f5b2f5f / Persistent Code Execution Via Excel Add-in File (XLL)
+- T1137.006 / 95408a99-4fa7-4cd6-a7ef-cb65f86351cf / Persistent Code Execution Via Word Add-in File (WLL)
+- T1137.006 / 082141ed-b048-4c86-99c7-2b8da5b5bf48 / Persistent Code Execution Via Excel VBA Add-in File (XLAM)
+- T1137.006 / f89e58f9-2b49-423b-ac95-1f3e7cfd8277 / Persistent Code Execution Via PowerPoint VBA Add-in File (PPAM)
+- T1140 / 9f8b1c54-cb76-4d5e-bb1f-2f5c0e8f5a11 / Expand CAB with expand.exe
+- T1218.008 / 331ce274-f9c9-440b-9f8c-a1006e1fce0b / Odbcconf.exe - Load Response File
+- T1505.003 / 0a2ce662-1efa-496f-a472-2fe7b080db16 / Web Shell Written to Disk
+- T1546 / aca9ae16-7425-4b6d-8c30-cad306fdbd5b / Persistence with Custom AutodialDLL
+- T1546 / 547a4736-dd1c-4b48-b4fe-e916190bb2e7 / Persistence via ErrorHandler.cmd script execution
+- T1547.001 / befc2b40-d487-4a5a-8813-c11085fb5672 / Modify BootExecute Value
+- T1555.003 / 9a2915b3-3954-4cce-8c76-00fbf4dbd014 / LaZagne - Credentials from Browser
+- T1555.003 / e359627f-2d90-4320-ba5e-b0f878155bbe / WebBrowserPassView - Credentials from Browser
+- T1555.003 / 6f2c5c87-a4d5-4898-9bd1-47a55ecaf1dd / BrowserStealer (Chrome / Firefox / Microsoft Edge)
+- T1556.002 / a7961770-beb5-4134-9674-83d7e1fa865c / Install and Register Password Filter DLL
+- T1556.002 / 91580da6-bc6e-431b-8b88-ac77180005f2 / Install Additional Authentication Packages
+- T1560.001 / d1334303-59cb-4a03-8313-b3e24d02c198 / Compress Data and lock with password for Exfiltration with 7zip
+- T1574.001 / 65526037-7079-44a9-bda1-2cb624838040 / DLL Side-Loading using the Notepad++ GUP.exe binary
+- T1574.001 / d322cdd7-7d60-46e3-9111-648848da7c02 / DLL Side-Loading using the dotnet startup hook environment variable
+- T1685 / a316fb2e-5344-470d-91c1-23e15c374edc / Uninstall Sysmon
+- T1689 / 14d55b96-b2f5-428d-8fed-49dc4d9dd616 / ESXi - Change VIB acceptance level to CommunitySupported via ESXCLI
+
+## cmd-shell dependency prereqs (manual review recommended)
+- T1003.003 / dcebead7-6c28-4b4b-bf3c-79deb1b1fc7f
+- T1003.003 / c6237146-9ea6-4711-85c9-c56d263a6b03
+- T1003.003 / 2364e33d-ceab-4641-8468-bfb1d7cc2723
+- T1003.003 / 224f7de0-8f0a-4a94-b5d8-989b036c86da
+- T1003.003 / d893459f-71f0-484d-9808-ec83b2b64226
+- T1003.003 / 21c7bf80-3e8b-40fa-8f9d-f5b194ff2865
+- T1070.004 / 861ea0b4-708a-4d17-848d-186c9c7f17e3
+- T1070.004 / ded937c4-2add-42f7-9c2c-c742b7a98698
+- T1105 / 815bef8b-bf91-4b67-be4c-abe4c2a94ccc
+- T1110.003 / 90bc2e54-6c84-47a5-9439-0a2a92b4b175
+- T1218.010 / 1ae5ea1f-0a4e-4e54-b2f5-4ac328a7f421
+- T1222.001 / 98d34bb4-6e75-42ad-9c41-1dae7dc6a001
+- T1222.001 / a8206bcc-f282-40a9-a389-05d9c0263485
+- T1222.001 / bec1e95c-83aa-492e-ab77-60c71bbd21b0
+- T1222.001 / ac7e6118-473d-41ec-9ac0-ef4f1d1ed2f6
+- T1482 / 2e22641d-0498-48d2-b9ff-c71e496ccdbe
+- T1491.001 / 0eeb68ce-e64c-4420-8d53-ad5bdc6f86d5
+- T1560.001 / 02ea31cb-3b4c-4a2d-9bf1-e4e70ebcf5d0
+- T1560.001 / 8dd61a55-44c6-43cc-af0c-8bdda276860c
+- T1560.001 / d1334303-59cb-4a03-8313-b3e24d02c198
+- T1560.001 / 2a7bc405-9555-4f49-ace2-b2ae2941d629
+- T1564.001 / f70974c8-c094-4574-b542-2c545af95a32
+- T1564.001 / dadb792e-4358-4d8d-9207-b771faa0daa5
+- T1564.001 / 7f66d539-4fbe-4cfa-9a56-4a2bf660c58a
+- T1564.001 / d380c318-0b34-45cb-9dad-828c11891e43
+- T1685 / 4b841aa1-0d05-4b32-bbe7-7564346e7c76
+
+## Warnings
+- ambiguous tactic for ('T1055.011', '93ca40d2-336c-446d-bcef-87f14d438018'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1055.003', '578025d5-faa9-4f6d-8390-aae527d503e1'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1055', '1c91e740-1729-4329-b779-feba6e71d048'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1055', '3203ad24-168e-4bec-be36-f79b13ef8a83'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1055', 'c6952f41-6cf0-450a-b352-2ca8dae7c178'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1055', '49543237-25db-497b-90df-d0a0a6e8fe2c'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1055', '0128e48e-8c1a-433a-a11a-a5387384f1e1'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1055', '2315ce15-38b6-46ac-a3eb-5e21abef2545'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1055', '7362ecef-6461-402e-8716-7410e1566400'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1055', 'a0c1725f-abcd-40d6-baac-020f3cf94ecd'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1055', '69534efc-d5f5-4550-89e6-12c6457b9edd'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1055', '2a4ab5c1-97ad-4d6d-b5d3-13f3a6c94e39'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1055', '2871ed59-3837-4a52-9107-99500ebc87cb'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1055', '2a3c7035-d14f-467a-af94-933e49fe6786'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1055', '0128e48e-8c1a-433a-a11a-a5304734f1e1'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1078.001', '99747561-ed8d-47f2-9c91-1e5fde1ed6e0'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1078.001', 'aa6cb8c4-b582-4f8e-b677-37733914abda'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1134.002', 'dbf4f5a9-b8e0-46a3-9841-9ad71247239e'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1134.002', 'ccf4ac39-ec93-42be-9035-90e2f26bcd92'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1055.004', '611b39b7-e243-4c81-87a4-7145a90358b1'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1055.004', '73785dd2-323b-4205-ab16-bb6f06677e14'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1055.004', '4cc571b1-f450-414a-850f-879baf36aa06'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1055.002', '578025d5-faa9-4f6d-8390-aae739d503e1'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1134.001', '90db9e27-8e7c-4c04-b602-a45927884966'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1134.001', '34f0a430-9d04-4d98-bcb5-1989f14719f0'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1134.001', '7be1bc0f-d8e5-4345-9333-f5f67d742cb9'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1134.001', '9c6d799b-c111-4749-a42f-ec2f8cb51448'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1134.001', 'f095e373-b936-4eb4-8d22-f47ccbfbe64a'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1134.004', '069258f4-2162-46e9-9a25-c9c6c56150d2'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1134.004', '14920ebd-1d61-491a-85e0-fe98efe37f25'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1134.004', 'cbbff285-9051-444a-9d17-c07cd2d230eb'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1134.004', 'e9f2b777-3123-430b-805d-5cedc66ab591'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1134.004', '2988133e-561c-4e42-a15f-6281e6a9b2db'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1055.012', '562427b4-39ef-4e8c-af88-463a78e70b9c'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1055.012', '3ad4a037-1598-4136-837c-4027e4fa319b'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1055.012', 'c8f98fe1-c89b-4c49-a7e3-d60ee4bc2f5a'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1055.012', '94903cc5-d462-498a-b919-b1e5ab155fee'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1134.005', '6bef32e5-9456-4072-8f14-35566fb85401'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1055.015', '4f3c7502-b111-4dfe-8a6e-529307891a59'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1055.001', '74496461-11a1-4982-b439-4d87a550d254'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1055.001', '8b56f787-73d9-4f1d-87e8-d07e89cbc7f5'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1078.003', 'a524ce99-86de-4db6-b4f9-e08f35a47a15'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1078.003', '9e9fd066-453d-442f-88c1-ad7911d32912'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1078.003', 'e9fdb899-a980-4ba4-934b-486ad22e22f4'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1078.003', '6904235f-0f55-4039-8aed-41c300ff7733'): keeping 'stealth', also saw 'privilege-escalation'
+- ambiguous tactic for ('T1053.005', 'fec27f65-db86-4c2d-b66c-61945aee87c2'): keeping 'privilege-escalation', also saw 'execution'
+- ambiguous tactic for ('T1053.005', '42f53695-ad4a-4546-abb6-7d837f644a71'): keeping 'privilege-escalation', also saw 'execution'
+- ambiguous tactic for ('T1053.005', '2e5eac3e-327b-4a88-a0c0-c4057039a8dd'): keeping 'privilege-escalation', also saw 'execution'
+- ambiguous tactic for ('T1053.005', 'af9fd58f-c4ac-4bf2-a9ba-224b71ff25fd'): keeping 'privilege-escalation', also saw 'execution'
+- ambiguous tactic for ('T1053.005', 'ecd3fa21-7792-41a2-8726-2c5c673414d3'): keeping 'privilege-escalation', also saw 'execution'
+- ambiguous tactic for ('T1053.005', 'e16b3b75-dc9e-4cde-a23d-dfa2d0507b3b'): keeping 'privilege-escalation', also saw 'execution'
+- ambiguous tactic for ('T1053.005', 'e895677d-4f06-49ab-91b6-ae3742d0a2ba'): keeping 'privilege-escalation', also saw 'execution'
+- ambiguous tactic for ('T1053.005', 'cd925593-fbb4-486d-8def-16cbdf944bf4'): keeping 'privilege-escalation', also saw 'execution'
+- ambiguous tactic for ('T1053.005', 'dda6fc7b-c9a6-4c18-b98d-95ec6542af6d'): keeping 'privilege-escalation', also saw 'execution'
+- ambiguous tactic for ('T1053.005', '704333ca-cc12-4bcf-9916-101844881f54'): keeping 'privilege-escalation', also saw 'execution'
+- ambiguous tactic for ('T1053.005', '8fcfa3d5-ea7d-4e1c-bd3e-3c4ed315b7d2'): keeping 'privilege-escalation', also saw 'execution'
+- ambiguous tactic for ('T1053.005', '02124c37-767e-4b76-9383-c9fc366d9d4c'): keeping 'privilege-escalation', also saw 'execution'
+- ambiguous tactic for ('T1574.011', 'f7536d63-7fd4-466f-89da-7e48d550752a'): keeping 'stealth', also saw 'execution'
+- ambiguous tactic for ('T1574.011', 'f38e9eea-e1d7-4ba6-b716-584791963827'): keeping 'stealth', also saw 'execution'
+- ambiguous tactic for ('T1574.001', '8549ad4b-b5df-4a2d-a3d7-2aee9e7052a3'): keeping 'stealth', also saw 'execution'
+- ambiguous tactic for ('T1574.001', '46ed938b-c617-429a-88dc-d49b5c9ffedb'): keeping 'stealth', also saw 'execution'
+- ambiguous tactic for ('T1574.001', '5898902d-c5ad-479a-8545-6f5ab3cfc87f'): keeping 'stealth', also saw 'execution'
+- ambiguous tactic for ('T1574.001', '65526037-7079-44a9-bda1-2cb624838040'): keeping 'stealth', also saw 'execution'
+- ambiguous tactic for ('T1574.001', 'd322cdd7-7d60-46e3-9111-648848da7c02'): keeping 'stealth', also saw 'execution'
+- ambiguous tactic for ('T1574.001', 'c095ad8e-4469-4d33-be9d-6f6d1fb21585'): keeping 'stealth', also saw 'execution'
+- ambiguous tactic for ('T1574.001', 'e96b8105-d7f7-484e-8d81-2d0c7086971b'): keeping 'stealth', also saw 'execution'
+- ambiguous tactic for ('T1574.008', '1561de08-0b4b-498e-8261-e922f3494aae'): keeping 'stealth', also saw 'execution'
+- ambiguous tactic for ('T1574.009', '2770dea7-c50f-457b-84c4-c40a47460d9f'): keeping 'stealth', also saw 'execution'
+- ambiguous tactic for ('T1197', '3c73d728-75fb-4180-a12f-6712864d7421'): keeping 'stealth', also saw 'execution'
+- ambiguous tactic for ('T1197', 'f63b8bc4-07e5-4112-acba-56f646f3f0bc'): keeping 'stealth', also saw 'execution'
+- ambiguous tactic for ('T1197', '62a06ec5-5754-47d2-bcfc-123d8314c6ae'): keeping 'stealth', also saw 'execution'
+- ambiguous tactic for ('T1197', 'afb5e09e-e385-4dee-9a94-6ee60979d114'): keeping 'stealth', also saw 'execution'
+- ambiguous tactic for ('T1127.001', '58742c0f-cb01-44cd-a60b-fb26e8871c93'): keeping 'stealth', also saw 'execution'
+- ambiguous tactic for ('T1127.001', 'ab042179-c0c5-402f-9bc8-42741f5ce359'): keeping 'stealth', also saw 'execution'
+- ambiguous tactic for ('T1053.002', '4a6c0dc4-0f2a-4203-9298-a5a9bdc21ed8'): keeping 'privilege-escalation', also saw 'execution'
+- ambiguous tactic for ('T1127', '1ec1c269-d6bd-49e7-b71b-a461f7fa7bc8'): keeping 'stealth', also saw 'execution'
+- ambiguous tactic for ('T1127', '3fc9fea2-871d-414d-8ef6-02e85e322b80'): keeping 'stealth', also saw 'execution'
+- ambiguous tactic for ('T1574.012', '9d5f89dc-c3a5-4f8a-a4fc-a6ed02e7cb5a'): keeping 'stealth', also saw 'execution'
+- ambiguous tactic for ('T1574.012', 'f373b482-48c8-4ce4-85ed-d40c8b3f7310'): keeping 'stealth', also saw 'execution'
+- ambiguous tactic for ('T1574.012', '79d57242-bbef-41db-b301-9d01d9f6e817'): keeping 'stealth', also saw 'execution'
+- ambiguous tactic for ('T1053.005', 'fec27f65-db86-4c2d-b66c-61945aee87c2'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1053.005', '42f53695-ad4a-4546-abb6-7d837f644a71'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1053.005', '2e5eac3e-327b-4a88-a0c0-c4057039a8dd'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1053.005', 'af9fd58f-c4ac-4bf2-a9ba-224b71ff25fd'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1053.005', 'ecd3fa21-7792-41a2-8726-2c5c673414d3'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1053.005', 'e16b3b75-dc9e-4cde-a23d-dfa2d0507b3b'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1053.005', 'e895677d-4f06-49ab-91b6-ae3742d0a2ba'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1053.005', 'cd925593-fbb4-486d-8def-16cbdf944bf4'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1053.005', 'dda6fc7b-c9a6-4c18-b98d-95ec6542af6d'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1053.005', '704333ca-cc12-4bcf-9916-101844881f54'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1053.005', '8fcfa3d5-ea7d-4e1c-bd3e-3c4ed315b7d2'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1053.005', '02124c37-767e-4b76-9383-c9fc366d9d4c'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546.013', '090e5aa5-32b6-473b-a49b-21e843a56896'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1542.001', 'b8a49f03-e3c4-40f2-b7bb-9e8f8fdddbf1'): keeping 'stealth', also saw 'persistence'
+- ambiguous tactic for ('T1547', 'cb01b3da-b0e7-4e24-bf6d-de5223526785'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547', '5cb0b071-8a5a-412f-839d-116beb2ed9f7'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547', 'fdd45306-74f6-4ade-9a97-0a4895961228'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547.014', 'deff4586-0517-49c2-981d-bbea24d48d71'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547.014', '39e417dd-4fed-4d9c-ae3a-ba433b4d0e9a'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547.014', '04d55cef-f283-40ba-ae2a-316bc3b5e78c'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1543.003', 'ed366cde-7d12-49df-a833-671904770b9f'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1543.003', '981e2942-e433-44e9-afc1-8c957a1496b6'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1543.003', '491a4af6-a521-4b74-b23b-f7b3f1ee9e77'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1543.003', 'ef0581fd-528e-4662-87bc-4c2affb86940'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1543.003', 'fb4151a2-db33-4f8c-b7f8-78ea8790f961'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1543.003', '1f896ce4-8070-4959-8a25-2658856a70c9'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547.012', 'f7d38f47-c61b-47cc-a59d-fc0368f47ed0'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546.011', '9ab27e22-ee62-4211-962b-d36d9a0e6a18'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546.011', 'aefd6866-d753-431f-a7a4-215ca7e3f13d'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546.011', '9b6a06f9-ab5e-4e8d-8289-1df4289db02f'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547.010', 'd34ef297-f178-4462-871e-9ce618d44e50'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547.009', 'ce4fc678-364f-4282-af16-2fb4c78005ce'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547.009', 'cfdc954d-4bb0-4027-875b-a1893ce406f2'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547.005', 'afdfd7e3-8a0b-409f-85f7-886fdf249c9e'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547.005', 'de3f8e74-3351-4fdb-a442-265dbf231738'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1078.001', '99747561-ed8d-47f2-9c91-1e5fde1ed6e0'): keeping 'stealth', also saw 'persistence'
+- ambiguous tactic for ('T1078.001', 'aa6cb8c4-b582-4f8e-b677-37733914abda'): keeping 'stealth', also saw 'persistence'
+- ambiguous tactic for ('T1547.003', 'df1efab7-bc6d-4b88-8be9-91f55ae017aa'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547.003', '29e0afca-8d1d-471a-8d34-25512fc48315'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547.004', 'bf9f9d65-ee4d-4c3e-a843-777d04f19c38'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547.004', 'fb32c935-ee2e-454b-8fa3-1c46b42e8dfb'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547.004', 'd40da266-e073-4e5a-bb8b-2b385023e5f9'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547.004', '95a3c42f-8c88-4952-ad60-13b81d929a9d'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547.004', 'f9b8daff-8fa7-4e6a-a1a7-7c14675a545b'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546.012', 'fdda2626-5234-4c90-b163-60849a24c0b8'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546.012', '46b1f278-c8ee-4aa5-acce-65e77b11f3c1'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546.012', '13117939-c9b2-4a43-999e-0a543df92f0d'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546.008', '3309f53e-b22b-4eb6-8fd2-a6cf58b355a9'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546.008', '934e90cf-29ca-48b3-863c-411737ad44e3'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546.008', '51ef369c-5e87-4f33-88cd-6d61be63edf2'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546.008', '444ff124-4c83-4e28-8df6-6efd3ece6bd4'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546.008', '7125eba8-7b30-426b-9147-781d152be6fb'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546.008', '1db380da-3422-481d-a3c8-6d5770dba580'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546.008', '5e4fa70d-c789-470e-85e1-6992b92bb321'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546.008', '2002f5ea-cd13-4c82-bf73-e46722e5dc5e'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546.008', '825ba8ca-71cc-436b-b1dd-ea0d5e109086'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546.008', '210be7ea-d841-40ec-b3e1-ff610bb62744'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546.009', 'a5ad6104-5bab-4c43-b295-b4c44c7c6b05'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546.003', '3c64f177-28e2-49eb-a799-d767b24dd1e0'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546.003', 'fecd0dfd-fb55-45fa-a10b-6250272d0832'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546.003', '29786d7e-8916-4de6-9c55-be7b093b2706'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546.001', '10a08978-2045-4d62-8c42-1957bbbea102'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547.001', 'e55be3fd-3521-4610-9d1a-e210e42dcf05'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547.001', '554cbd88-cde1-4b56-8168-0be552eed9eb'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547.001', 'eb44f842-0457-4ddc-9b92-c4caa144ac42'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547.001', '2cb98256-625e-4da9-9d44-f2e5f90b8bd5'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547.001', 'dade9447-791e-4c8f-b04b-3a35855dfa06'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547.001', '5b6768e4-44d2-44f0-89da-a01d1430fd5e'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547.001', '24e55612-85f6-4bd6-ae74-a73d02e3441d'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547.001', 'bda6a3d6-7aa7-4e89-908b-306772e9662f'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547.001', '9dc7767b-30c1-4cc4-b999-50cab5e27891'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547.001', 'acfef903-7662-447e-a391-9c91c2f00f7b'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547.001', '8834b65a-f808-4ece-ad7e-2acdf647aafa'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547.001', 'a70faea1-e206-4f6f-8d9a-67379be8f6f1'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547.001', 'b5c9a9bc-dda3-4ea0-b16a-add8e81ab75f'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547.001', 'f7fab6cc-8ece-4ca7-a0f1-30a22fccd374'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547.001', '1d958c61-09c6-4d9e-b26b-4130314e520e'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547.001', '14fdc3f1-6fc3-4556-8d36-aa89d9d42d02'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547.001', 'befc2b40-d487-4a5a-8813-c11085fb5672'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547.001', 'b051b3c0-66e7-4a81-916d-e6383bd3a669'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547.001', '6e1666d5-3f2b-4b9a-80aa-f011322380d4'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547.001', 'de47f4a0-2acb-416d-9a6b-cee584a4c4d1'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1098', '5598f7cb-cf43-455e-883a-f6008c5d46af'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1098', 'a55a22e9-a3d3-42ce-bd48-2653adb8f7a9'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1098', 'd5b886d9-d1c7-4b6e-a7b0-460041bf2823'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1098', 'fc5f9414-bd67-4f5f-a08e-e5381e29cbd1'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1098', '68190529-069b-4ffc-a942-919704158065'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1098', '7d984ef2-2db2-4cec-b090-e637e1698f61'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1098', 'b299c120-44a7-4d68-b8e2-8ba5a28511ec'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1098', '945da11e-977e-4dab-85d2-f394d03c5887'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1098', '784d1349-5a26-4d20-af5e-d6af53bae460'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1098', '81959d03-c51f-49a1-bb24-23f1ec885578'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546', 'aca9ae16-7425-4b6d-8c30-cad306fdbd5b'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546', 'a574dafe-a903-4cce-9701-14040f4f3532'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546', '36b8dbf9-59b1-4e9b-a3bb-36e80563ef01'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546', 'adae83d3-0df6-45e7-b2c3-575f91584577'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546', '17d1a3cc-3373-495a-857a-e5dd005fb302'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546', '2db7852e-5a32-4ec7-937f-f4e027881700'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546', 'b7fc4c3f-fe6e-479a-ba27-ef91b88536e3'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546', '547a4736-dd1c-4b48-b4fe-e916190bb2e7'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546', 'f0027655-25ef-47b0-acaf-3d83d106156c'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547.002', 'be2590e8-4ac3-47ac-b4b5-945820f2fbe9'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546.015', '48117158-d7be-441b-bc6a-d9e36e47b52b'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546.015', '752191b1-7c71-445c-9dbe-21bb031b18eb'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546.015', '123520cc-e998-471b-a920-bd28e3feafa0'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546.015', '33eacead-f117-4863-8eb0-5c6304fbfaa9'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546.018', '57289962-21dc-4501-b756-80cd30608d9f'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546.018', '05cc7a2c-ce32-46f2-a358-f27f76718c39'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1197', '3c73d728-75fb-4180-a12f-6712864d7421'): keeping 'stealth', also saw 'persistence'
+- ambiguous tactic for ('T1197', 'f63b8bc4-07e5-4112-acba-56f646f3f0bc'): keeping 'stealth', also saw 'persistence'
+- ambiguous tactic for ('T1197', '62a06ec5-5754-47d2-bcfc-123d8314c6ae'): keeping 'stealth', also saw 'persistence'
+- ambiguous tactic for ('T1197', 'afb5e09e-e385-4dee-9a94-6ee60979d114'): keeping 'stealth', also saw 'persistence'
+- ambiguous tactic for ('T1546.010', 'a58d9386-3080-4242-ab5f-454c16503d18'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546.002', '281201e7-de41-4dc9-b73d-f288938cbb64'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1037.001', 'd6042746-07d4-4c92-9ad8-e644c114a231'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1547.008', '8ecef16d-d289-46b4-917b-0dba6dc81cf1'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1053.002', '4a6c0dc4-0f2a-4203-9298-a5a9bdc21ed8'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1546.007', '3244697d-5a3a-4dfc-941c-550f69f91a4d'): keeping 'privilege-escalation', also saw 'persistence'
+- ambiguous tactic for ('T1078.003', 'a524ce99-86de-4db6-b4f9-e08f35a47a15'): keeping 'stealth', also saw 'persistence'
+- ambiguous tactic for ('T1078.003', '9e9fd066-453d-442f-88c1-ad7911d32912'): keeping 'stealth', also saw 'persistence'
+- ambiguous tactic for ('T1078.003', 'e9fdb899-a980-4ba4-934b-486ad22e22f4'): keeping 'stealth', also saw 'persistence'
+- ambiguous tactic for ('T1078.003', '6904235f-0f55-4039-8aed-41c300ff7733'): keeping 'stealth', also saw 'persistence'
+- ambiguous tactic for ('T1072', 'b4988cad-6ed2-434d-ace5-ea2670782129'): keeping 'execution', also saw 'lateral-movement'
+- ambiguous tactic for ('T1072', 'e447b83b-a698-4feb-bed1-a7aaf45c3443'): keeping 'execution', also saw 'lateral-movement'
+- ambiguous tactic for ('T1072', '2169e8b0-2ee7-44cb-8a6e-d816a5db7d8a'): keeping 'execution', also saw 'lateral-movement'
+- ambiguous tactic for ('T1556.002', 'a7961770-beb5-4134-9674-83d7e1fa865c'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1556.002', '91580da6-bc6e-431b-8b88-ac77180005f2'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '1324796b-d0f6-455a-b4ae-21ffee6aa6b9'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '282f929a-6bc5-42b8-bd93-960c3ba35afe'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', 'c0413fb5-33e2-40b7-9b6f-60b29f4a7a18'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '68254a85-aa42-4312-a695-38b7276307f8'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', 'cf447677-5a4e-4937-a82c-e47d254afd57'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '15f44ea9-4571-4837-be9e-802431a7bfae'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', 'f3a6cceb-06c9-48e5-8df8-8867a6814245'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '4f4e2f9f-6209-4fcf-9b15-3b7455706f5b'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '0b79c06f-c788-44a2-8630-d69051f1123d'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', 'ac34b0f7-0f85-4ac0-b93e-3ced2bc69bb8'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', 'd2561a6d-72bd-408c-b150-13efe1801c2a'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', 'af254e70-dd0e-4de6-9afe-a994d9ea8b62'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', 'c0d6d67f-1f63-42cc-95c0-5fd6b20082ad'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '6e0d1131-2d7e-4905-8ca5-d6172f05d03d'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', 'e246578a-c24d-46a7-9237-0213ff86fb0c'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', 'd4a6da40-618f-454d-9a9e-26af552aaeb0'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '3dacb0d2-46ee-4c27-ac1b-f9886bf91a56'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '93386d41-525c-4a1b-8235-134a628dee17'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', 'd49ff3cc-8168-4123-b5b3-f057d9abbd55'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', 'ffbb407e-7f1d-4c95-b22e-548169db1fbd'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', 'a450e469-ba54-4de1-9deb-9023a6111690'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '5e27bdb4-7fd9-455d-a2b5-4b4b22c9dea4'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '12f50e15-dbc6-478b-a801-a746e8ba1723'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', 'd29b7faf-7355-4036-9ed3-719bd17951ed'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '4d72d4b1-fa7b-4374-b423-0fe326da49d2'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '20fc9daa-bd48-4325-9aff-81b967a84b1d'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '8023db1e-ad06-4966-934b-b6a0ae52689e'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', 'a4637291-40b1-4a96-8c82-b28f1d73e54e'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '3e757ce7-eca0-411a-9583-1c33b8508d52'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '8d85a5d8-702f-436f-bc78-fcd9119496fc'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '7f037590-b4c6-4f13-b3cc-e424c5ab8ade'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '795d3248-0394-4d4d-8e86-4e8df2a2693f'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '95b25212-91a7-42ff-9613-124aca6845a8'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '1dd59fb3-1cb3-4828-805d-cf80b4c3bbb5'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', 'c173c948-65e5-499c-afbe-433722ed5bd4'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '003f466a-6010-4b15-803a-cbb478a314d7'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '45914594-8df6-4ea9-b3cc-7eb9321a807e'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', 'c30dada3-7777-4590-b970-dc890b8cf113'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '86677d0e-0b5e-4a2b-b302-454175f9aa9e'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '65704cd4-6e36-4b90-b6c1-dc29a82c8e56'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', 'c375558d-7c25-45e9-bd64-7b23a97c1db0'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '3448824b-3c35-4a9e-a8f5-f887f68bea21'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', 'd2c9e41e-cd86-473d-980d-b6403562e3e1'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '71db768a-5a9c-4047-b5e7-59e01f188e84'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', 'fe7974e5-5813-477b-a7bd-311d4f535e83'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '39f1f378-ba8a-42b3-96dc-2a6540cfc1e3'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '35727d9e-7a7f-4d0c-a259-dc3906d6e8b9'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '6174be7f-5153-4afd-92c5-e0c3b7cdb5ae'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '81483501-b8a5-4225-8b32-52128e2f69db'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', 'e3ad8e83-3089-49ff-817f-e52f8c948090'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '12e03af7-79f9-4f95-af48-d3f12f28a260'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '01b20ca8-c7a3-4d86-af59-059f15ed5474'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '396f997b-c5f8-4a96-bb2c-3c8795cf459d'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '335a6b15-b8d2-4a3f-a973-ad69aa2620d7'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', 'd1de3767-99c2-4c6c-8c5a-4ba4586474c8'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '3b625eaa-c10d-4635-af96-3eae7d2a2f3c'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '8318ad20-0488-4a64-98f4-72525a012f6b'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '37950714-e923-4f92-8c7c-51e4b6fffbf6'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', 'c88ef166-50fa-40d5-a80c-e2b87d4180f7'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', 'b1a4d687-ba52-4057-81ab-757c3dc0d3b5'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', 'c26fb85a-fa50-4fab-a64a-c51f5dc538d5'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', 'ffeddced-bb9f-49c6-97f0-3d07a509bf94'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', 'ca8ba39c-3c5a-459f-8e15-280aec65a910'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '61d35188-f113-4334-8245-8c6556d43909'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '4b81bcfa-fb0a-45e9-90c2-e3efe5160140'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '09147b61-40f6-4b2a-b6fb-9e73a3437c96'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', 'eb0ba433-63e5-4a8c-a9f0-27c4192e1336'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', 'd88a3d3b-d016-4939-a745-03638aafd21b'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '7e7b62e9-5f83-477d-8935-48600f38a3c6'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '16bdbe52-371c-4ccf-b708-79fba61f1db4'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '7979dd41-2045-48b2-a54e-b1bc2415c9da'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', 'ac494fe5-81a4-4897-af42-e774cf005ecb'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', 'ecbd533e-b45d-4239-aeff-b857c6f6d68b'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '5f8e36de-37ca-455e-b054-a2584f043c06'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '4c4bf587-fe7f-448f-ba8d-1ecec9db88be'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '26fc7375-a551-4336-90d7-3f2817564304'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', 'bacb3e73-8161-43a9-8204-a69fe0e4b482'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '7c8c7bd8-0a5c-4514-a6a3-0814c5a98cf0'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '10b33fb0-c58b-44cd-8599-b6da5ad6384c'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', 'c8480c83-a932-446e-a919-06a1fd1e512a'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '02d8b9f7-1a51-4011-8901-2d55cca667f9'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', 'e672a340-a933-447c-954c-d68db38a09b1'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', 'b5169fd5-85c8-4b2c-a9b6-64cc0b9febef'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '3ac0b30f-532f-43c6-8f01-fb657aaed7e4'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '4469192c-2d2d-4a3a-9758-1f31d937a92b'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', 'c691cee2-8d17-4395-b22f-00644c7f1c2d'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', 'f2915249-4485-42e2-96b7-9bf34328d497'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '3235aafe-b49d-451b-a1f1-d979fa65ddaf'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '599f3b5c-0323-44ed-bb63-4551623bf675'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1112', '573d15da-c34e-4c59-a7d2-18f20d92dfa3'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1484.001', '9ab80952-74ee-43da-a98c-1e740a985f28'): keeping 'privilege-escalation', also saw 'defense-impairment'
+- ambiguous tactic for ('T1484.001', 'b51eae65-5441-4789-b8e8-64783c26c1d1'): keeping 'privilege-escalation', also saw 'defense-impairment'
+- ambiguous tactic for ('T1556.001', '0ee8081f-e9a7-4a2e-a23f-68473023184f'): keeping 'persistence', also saw 'defense-impairment'
+- ambiguous tactic for ('T1056.001', 'd9b633ca-8efb-45e6-b838-70f595c6ae26'): keeping 'collection', also saw 'credential-access'
+- ambiguous tactic for ('T1556.002', 'a7961770-beb5-4134-9674-83d7e1fa865c'): keeping 'persistence', also saw 'credential-access'
+- ambiguous tactic for ('T1556.002', '91580da6-bc6e-431b-8b88-ac77180005f2'): keeping 'persistence', also saw 'credential-access'
+- ambiguous tactic for ('T1557.001', 'deecd55f-afe0-4a62-9fba-4d1ba2deb321'): keeping 'collection', also saw 'credential-access'
+- ambiguous tactic for ('T1056.002', '2b162bfd-0928-4d4c-9ec3-4d9f88374b52'): keeping 'collection', also saw 'credential-access'
+- ambiguous tactic for ('T1556.001', '0ee8081f-e9a7-4a2e-a23f-68473023184f'): keeping 'persistence', also saw 'credential-access'
+- ambiguous tactic for ('T1056.004', 'de1934ea-1fbf-425b-8795-65fb27dd7e33'): keeping 'collection', also saw 'credential-access'
+- ambiguous tactic for ('T1497.001', '502a7dc4-9d6f-4d28-abf2-f0e84692562d'): keeping 'stealth', also saw 'discovery'
+- ambiguous tactic for ('T1497.001', '4a41089a-48e0-47aa-82cb-5b81a463bc78'): keeping 'stealth', also saw 'discovery'
+- ambiguous tactic for ('T1040', 'a5b2f6a0-24b4-493e-9590-c699f75723ca'): keeping 'credential-access', also saw 'discovery'
+- ambiguous tactic for ('T1040', 'b5656f67-d67f-4de8-8e62-b5581630f528'): keeping 'credential-access', also saw 'discovery'
+- ambiguous tactic for ('T1040', 'c67ba807-f48b-446e-b955-e4928cd1bf91'): keeping 'credential-access', also saw 'discovery'
+- ambiguous tactic for ('T1040', '855fb8b4-b8ab-4785-ae77-09f5df7bff55'): keeping 'credential-access', also saw 'discovery'
+- ambiguous tactic for ('T1040', '9c15a7de-de14-46c3-bc2a-6d94130986ae'): keeping 'credential-access', also saw 'discovery'
+- ambiguous tactic for ('T1622', '58bd8c8d-3a1a-4467-a69c-439c75469b07'): keeping 'stealth', also saw 'discovery'
+- ambiguous tactic for ('T1133', '4c8db261-a58b-42a6-a866-0a294deedde4'): keeping 'persistence', also saw 'initial-access'
+- ambiguous tactic for ('T1091', 'd44b7297-622c-4be8-ad88-ec40d7563c75'): keeping 'lateral-movement', also saw 'initial-access'
+- ambiguous tactic for ('T1659', 'dcc2ca85-a21c-43a4-acc7-7314d4e5891c'): keeping 'command-and-control', also saw 'initial-access'
+- ambiguous tactic for ('T1078.001', '99747561-ed8d-47f2-9c91-1e5fde1ed6e0'): keeping 'stealth', also saw 'initial-access'
+- ambiguous tactic for ('T1078.001', 'aa6cb8c4-b582-4f8e-b677-37733914abda'): keeping 'stealth', also saw 'initial-access'
+- ambiguous tactic for ('T1078.003', 'a524ce99-86de-4db6-b4f9-e08f35a47a15'): keeping 'stealth', also saw 'initial-access'
+- ambiguous tactic for ('T1078.003', '9e9fd066-453d-442f-88c1-ad7911d32912'): keeping 'stealth', also saw 'initial-access'
+- ambiguous tactic for ('T1078.003', 'e9fdb899-a980-4ba4-934b-486ad22e22f4'): keeping 'stealth', also saw 'initial-access'
+- ambiguous tactic for ('T1078.003', '6904235f-0f55-4039-8aed-41c300ff7733'): keeping 'stealth', also saw 'initial-access'
+- payload filename collision: 'calc.dll' referenced from both C:\Users\soums\OneDrive\Desktop\Research\atomic-red-team-tests\atomic-red-team\atomics\T1134.004\bin\calc.dll and C:\Users\soums\OneDrive\Desktop\Research\atomic-red-team-tests\atomic-red-team\atomics\T1218\bin\calc.dll
+- payload filename collision: 'calc.dll' referenced from both C:\Users\soums\OneDrive\Desktop\Research\atomic-red-team-tests\atomic-red-team\atomics\T1134.004\bin\calc.dll and C:\Users\soums\OneDrive\Desktop\Research\atomic-red-team-tests\atomic-red-team\atomics\T1218\bin\calc.dll
+- payload filename collision: 'T1218-2.dll' referenced from both C:\Users\soums\OneDrive\Desktop\Research\atomic-red-team-tests\atomic-red-team\atomics\T1218\src\Win32\T1218-2.dll and C:\Users\soums\OneDrive\Desktop\Research\atomic-red-team-tests\atomic-red-team\atomics\T1218.008\src\Win32\T1218-2.dll
+- payload filename collision: 'T1218-2.dll' referenced from both C:\Users\soums\OneDrive\Desktop\Research\atomic-red-team-tests\atomic-red-team\atomics\T1218\src\Win32\T1218-2.dll and C:\Users\soums\OneDrive\Desktop\Research\atomic-red-team-tests\atomic-red-team\atomics\T1218.008\src\Win32\T1218-2.dll
+- payload filename collision: 'calc.dll' referenced from both C:\Users\soums\OneDrive\Desktop\Research\atomic-red-team-tests\atomic-red-team\atomics\T1134.004\bin\calc.dll and C:\Users\soums\OneDrive\Desktop\Research\atomic-red-team-tests\atomic-red-team\atomics\T1047\bin\calc.dll
+- payload filename collision: 'calc.dll' referenced from both C:\Users\soums\OneDrive\Desktop\Research\atomic-red-team-tests\atomic-red-team\atomics\T1134.004\bin\calc.dll and C:\Users\soums\OneDrive\Desktop\Research\atomic-red-team-tests\atomic-red-team\atomics\T1047\bin\calc.dll
+- payload filename collision: 'AtomicTest.dll' referenced from both C:\Users\soums\OneDrive\Desktop\Research\atomic-red-team-tests\atomic-red-team\atomics\T1546.009\bin\AtomicTest.dll and C:\Users\soums\OneDrive\Desktop\Research\atomic-red-team-tests\atomic-red-team\atomics\T1547.003\bin\AtomicTest.dll
+- payload filename collision: 'AtomicTest.dll' referenced from both C:\Users\soums\OneDrive\Desktop\Research\atomic-red-team-tests\atomic-red-team\atomics\T1546.009\bin\AtomicTest.dll and C:\Users\soums\OneDrive\Desktop\Research\atomic-red-team-tests\atomic-red-team\atomics\T1547.003\bin\AtomicTest.dll
+- payload filename collision: 'AtomicTest.dll' referenced from both C:\Users\soums\OneDrive\Desktop\Research\atomic-red-team-tests\atomic-red-team\atomics\T1546.009\bin\AtomicTest.dll and C:\Users\soums\OneDrive\Desktop\Research\atomic-red-team-tests\atomic-red-team\atomics\T1547.012\bin\AtomicTest.dll
+- payload filename collision: 'calc.cs' referenced from both C:\Users\soums\OneDrive\Desktop\Research\atomic-red-team-tests\atomic-red-team\atomics\T1027.004\src\calc.cs and C:\Users\soums\OneDrive\Desktop\Research\atomic-red-team-tests\atomic-red-team\atomics\T1574.008\bin\calc.cs

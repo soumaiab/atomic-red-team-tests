@@ -1,0 +1,16 @@
+- id: 0bbec880-3137-5485-8ada-49b7751d89ff
+  name: Soumaia ART Tests - Creating Boot Verification Program Key for application execution during successful boot
+  description: 'Microsoft allows users to define a custom boot verification program for those situations by creating the registry key “HKLM\System\CurrentControlSet\Control\BootVerificationProgram” and setting the value of ImagePath to the path of boot verification program.Threat Actor
+
+    can abuse by creating this registry key and providing a malicious application to be executed during successful boot (requires elevation)'
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1547.001
+    name: 'Boot or Logon Autostart Execution: Registry Run Keys / Startup Folder'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          reg add HKLM\System\CurrentControlSet\Control\BootVerificationProgram /v ImagePath /t REG_SZ /d "C:\Program Files\Internet Explorer\iexplore.exe"
+        cleanup: |-
+          reg delete HKLM\System\CurrentControlSet\Control\BootVerificationProgram /f

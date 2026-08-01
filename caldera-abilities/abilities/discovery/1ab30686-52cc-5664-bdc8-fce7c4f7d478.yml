@@ -1,0 +1,12 @@
+- id: 1ab30686-52cc-5664-bdc8-fce7c4f7d478
+  name: Soumaia ART Tests - WMIObject Group Discovery
+  description: Utilizing PowerShell cmdlet - get-wmiobject, to enumerate local groups on the endpoint. Upon execution, Upon execution, information will be displayed of local groups on system.
+  tactic: discovery
+  technique:
+    attack_id: T1069.001
+    name: 'Permission Groups Discovery: Local Groups'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          Get-WMIObject Win32_Group

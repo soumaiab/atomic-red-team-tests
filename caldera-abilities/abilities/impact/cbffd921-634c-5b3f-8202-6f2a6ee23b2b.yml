@@ -1,0 +1,12 @@
+- id: cbffd921-634c-5b3f-8202-6f2a6ee23b2b
+  name: Soumaia ART Tests - Replace Desktop Wallpaper
+  description: Downloads an image from a URL and sets it as the desktop wallpaper.
+  tactic: impact
+  technique:
+    attack_id: T1491.001
+    name: 'Defacement: Internal Defacement'
+  platforms:
+    windows:
+      psh:
+        command: "$url = \"https://redcanary.com/wp-content/uploads/Atomic-Red-Team-Logo.png\"\n$imgLocation = \"$env:TEMP\\T1491.001-newWallpaper.png\"\n$orgWallpaper = (Get-ItemProperty -Path Registry::'HKEY_CURRENT_USER\\Control Panel\\Desktop\\' -Name WallPaper).WallPaper\n$orgWallpaper | Out-File -FilePath \"$env:TEMP\\T1491.001-OrginalWallpaperLocation\"\n$updateWallpapercode = @' \nusing System.Runtime.InteropServices; \nnamespace Win32{\n\n    public class Wallpaper{ \n        [DllImport(\"user32.dll\", CharSet=CharSet.Auto)] \n         static extern int SystemParametersInfo (int uAction , int uParam , string lpvParam , int fuWinIni) ; \n         \n         public static void SetWallpaper(string thePath){ \n            SystemParametersInfo(20,0,thePath,3); \n        }\n    }\n} \n'@\n$wc = New-Object System.Net.WebClient  \ntry{  \n    $wc.DownloadFile($url, $imgLocation)\n    add-type $updateWallpapercode \n    [Win32.Wallpaper]::SetWallpaper($imgLocation)\n} \ncatch [System.Net.WebException]{  \n    Write-Host(\"Cannot download $url\") \n    add-type $updateWallpapercode \n    [Win32.Wallpaper]::SetWallpaper($imgLocation)\n} \nfinally{    \n    $wc.Dispose()  \n}"
+        cleanup: "$updateWallpapercode = @' \nusing System.Runtime.InteropServices; \nnamespace Win32{\n\n    public class Wallpaper{ \n        [DllImport(\"user32.dll\", CharSet=CharSet.Auto)] \n         static extern int SystemParametersInfo (int uAction , int uParam , string lpvParam , int fuWinIni) ; \n         \n         public static void SetWallpaper(string thePath){ \n            SystemParametersInfo(20,0,thePath,3); \n        }\n    }\n} \n'@\nif (Test-Path -Path $env:TEMP\\T1491.001-OrginalWallpaperLocation -PathType Leaf) {\n     $orgImg = Get-Content -Path \"$env:TEMP\\T1491.001-OrginalWallpaperLocation\"\n     add-type $updateWallpapercode \n     [Win32.Wallpaper]::SetWallpaper($orgImg)\n}\nRemove-Item \"$env:TEMP\\T1491.001-OrginalWallpaperLocation\" -ErrorAction Ignore\nRemove-Item \"$env:TEMP\\T1491.001-newWallpaper.png\" -ErrorAction Ignore"

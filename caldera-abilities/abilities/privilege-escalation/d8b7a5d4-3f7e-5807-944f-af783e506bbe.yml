@@ -1,0 +1,17 @@
+- id: d8b7a5d4-3f7e-5807-944f-af783e506bbe
+  name: Soumaia ART Tests - Reg Key RunOnce
+  description: 'RunOnce Key Persistence.
+
+
+    Upon successful execution, cmd.exe will modify the registry to load AtomicRedTeam.dll to RunOnceEx. Output will be via stdout. (requires elevation)'
+  tactic: privilege-escalation
+  technique:
+    attack_id: T1547.001
+    name: 'Boot or Logon Autostart Execution: Registry Run Keys / Startup Folder'
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnceEx\0001\Depend /v 1 /d "C:\Path\AtomicRedTeam.dll"
+        cleanup: |-
+          REG DELETE HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnceEx\0001\Depend /v 1 /f >nul 2>&1

@@ -1,0 +1,30 @@
+- id: 8fe3a47c-f089-5707-92d6-2abaec258ef0
+  name: Soumaia ART Tests - Create and start Hyper-V virtual machine
+  description: 'Create a simple Hyper-V VM (Windows native hypervisor) and start up the machine
+
+    Cleanup command stops and deletes the newly created VM
+
+    https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v
+
+    https://embracethered.com/blog/posts/2020/shadowbunny-virtual-machine-red-teaming-technique/
+
+    https://attack.mitre.org/techniques/T1564/006/ (requires elevation)'
+  tactic: stealth
+  technique:
+    attack_id: T1564.006
+    name: Run Virtual Instance
+  platforms:
+    windows:
+      psh:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKAAoAEcAZQB0AC0AVwBpAG4AZABvAHcAcwBPAHAAdABpAG8AbgBhAGwARgBlAGEAdAB1AHIAZQAgAC0ATwBuAGwAaQBuAGUAIAAtAEYAZQBhAHQAdQByAGUATgBhAG0AZQAgAE0AaQBjAHIAbwBzAG8AZgB0AC0ASAB5AHAAZQByAC0AVgApAC4AUwB0AGEAdABlACAAPQAgACIARQBuAGEAYgBsAGUAZAAiACkAIAB7AGUAeABpAHQAIAAwAH0AIABlAGwAcwBlACAAewBlAHgAaQB0ACAAMQB9AAoA
+          if ($LASTEXITCODE -ne 0) {
+              powershell -NoProfile -EncodedCommand RQBuAGEAYgBsAGUALQBXAGkAbgBkAG8AdwBzAE8AcAB0AGkAbwBuAGEAbABGAGUAYQB0AHUAcgBlACAALQBPAG4AbABpAG4AZQAgAC0ARgBlAGEAdAB1AHIAZQBOAGEAbQBlACAATQBpAGMAcgBvAHMAbwBmAHQALQBIAHkAcABlAHIALQBWACAALQBBAGwAbAAgAC0ARgBvAHIAYwBlAAoA
+          }
+          $VM = "Atomic VM"
+          New-VM -Name $VM -Generation 2
+          Set-VMFirmware $VM -EnableSecureBoot Off
+          Start-VM $VM
+        cleanup: |-
+          Stop-VM $VM -Force
+          Remove-VM $VM -Force

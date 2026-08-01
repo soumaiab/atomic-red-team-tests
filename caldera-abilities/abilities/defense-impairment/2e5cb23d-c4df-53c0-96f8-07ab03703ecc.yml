@@ -1,0 +1,20 @@
+- id: 2e5cb23d-c4df-53c0-96f8-07ab03703ecc
+  name: Soumaia ART Tests - Disable Arbitrary Security Windows Service
+  description: 'With administrative rights, an adversary can disable Windows Services related to security products. This test requires McAfeeDLPAgentService to be installed.
+
+    Change the service_name input argument for your AV solution. Upon exeuction, infomration will be displayed stating the status of the service.
+
+    To verify that the service has stopped, run "sc query McAfeeDLPAgentService" (requires elevation)'
+  tactic: defense-impairment
+  technique:
+    attack_id: T1685
+    name: Disable or Modify Tools
+  platforms:
+    windows:
+      cmd:
+        command: |-
+          net.exe stop McAfeeDLPAgentService
+          sc.exe config McAfeeDLPAgentService start= disabled
+        cleanup: |-
+          sc.exe config McAfeeDLPAgentService start= auto >nul 2>&1
+          net.exe start McAfeeDLPAgentService >nul 2>&1
