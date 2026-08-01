@@ -1,7 +1,7 @@
 # === CONFIGURATION ===
-$startTime = "2026-08-01T22:57:00.000Z"
-$endTime   = "2026-08-01T23:03:00.000Z"
-$agentName = "windows-15"
+$startTime = "2026-08-01T19:54:00.000Z"
+$endTime   = "2026-08-01T23:12:00.000Z"
+$agentName = "windows-12"
 $size = 10000
 $index = 1
 $lastSort = $null
