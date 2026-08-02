@@ -1,9 +1,14 @@
+import argparse
 import json
+from pathlib import Path
+
 from openpyxl import Workbook
 from openpyxl.cell.cell import ILLEGAL_CHARACTERS_RE
 
+
 def map_status(code):
     return {0: "success", 1: "failure"}.get(code, "timeout")
+
 
 def sanitize_excel(value):
     if value is None:
@@ -13,6 +18,7 @@ def sanitize_excel(value):
     # Remove characters Excel/openpyxl cannot store (control chars)
     return ILLEGAL_CHARACTERS_RE.sub("", value)
 
+
 def extract_steps(data):
     results = []
     for host_id, step_container in data.get("steps", {}).items():
@@ -20,7 +26,7 @@ def extract_steps(data):
         if isinstance(step_list, list) and step_list:
             for step in step_list:
                 if not isinstance(step, dict):
-                    print(f"⚠️ Skipping malformed step for host {host_id}: {step}")
+                    print(f"[!] Skipping malformed step for host {host_id}: {step}")
                     continue
                 results.append({
                     "Ability Name": step.get("name") or "-",
@@ -30,48 +36,41 @@ def extract_steps(data):
                     "Output": step.get("output", {}).get("stdout") or "-",
                     "Error": step.get("output", {}).get("stderr") or "-"
                 })
-            break  # Only process first host with steps
     return results
 
-def save_to_excel(data, filename):
+
+def save_to_excel(data, filename, headers=None):
     wb = Workbook()
     ws = wb.active
     ws.title = "Tactic Steps"
 
-    headers = list(data[0].keys())
+    headers = headers or list(data[0].keys())
     ws.append(headers)
 
     for row in data:
         ws.append([sanitize_excel(row.get(h, "-")) for h in headers])
 
     wb.save(filename)
-    print(f"\n✅ Saved to: {filename}")
+    print(f"\n[ok] Saved to: {filename}")
 
-def main(): 
-    # resource-development\rd - 1_report.json
-    input_paths = [r"resource-development\rd - 1_report.json", 
-                   r"resource-development\rd - 2_report.json",
-                   r"resource-development\rd - 3_report.json",
-                   r"resource-development\rd - 4_report.json",
-                   r"resource-development\rd - 5_report.json",    
-                   ]
-    
-    output_paths = [r"resource-development\rd - 1_report.xlsx", 
-                   r"resource-development\rd - 2_report.xlsx",
-                   r"resource-development\rd - 3_report.xlsx",
-                   r"resource-development\rd - 4_report.xlsx",
-                   r"resource-development\rd - 5_report.xlsx",    
-                   ]
-    for input_path, output_path in zip(input_paths, output_paths):
-        with open(input_path, "r", encoding="utf-8") as f:
-            data = json.load(f)
 
-        extracted = extract_steps(data)
+def main():
+    parser = argparse.ArgumentParser(description="Extract Caldera report.json collection steps into an Excel sheet.")
+    parser.add_argument("report_json_path", type=Path, help="Path to the *_report.json file")
+    parser.add_argument("-o", "--output", type=Path, default=None, help="Output .xlsx path (default: alongside input)")
+    args = parser.parse_args()
 
-        if extracted:
-            save_to_excel(extracted, output_path)
-        else:
-            print("⚠️ No valid steps found.")
+    output_path = args.output or args.report_json_path.with_suffix(".xlsx")
+
+    with open(args.report_json_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    extracted = extract_steps(data)
+    if extracted:
+        save_to_excel(extracted, output_path)
+    else:
+        print("[!] No valid steps found.")
+
 
 if __name__ == "__main__":
     main()

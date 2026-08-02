@@ -314,6 +314,73 @@ Before trusting the whole batch, it's worth hand-importing 2-3 individual files 
 confirming Caldera loads them without errors — that's the one verification step that can't be
 done from this environment.
 
+## Extracting test-run results (`Data/`)
+
+Once you've run the generated abilities against a target, Caldera gives you a report for that
+operation. The scripts in `Data/` turn that report into an Excel workbook — one row per ability,
+with its status, command, stdout, and stderr — instead of you reading it out of Caldera's UI or
+raw JSON by hand.
+
+Caldera can give you two different artifacts per operation, and they're not equally complete:
+
+- **`<name>_report.json`** — always available. A structured report of every ability that ran, but
+  in practice its `output.stdout`/`output.stderr` fields are frequently empty even when the
+  ability clearly produced output.
+- **`<name>.html`** — only available if you exported it from Caldera's UI. It renders the same
+  abilities but with the *actual* Standard Output/Standard Error text Caldera captured, which is
+  often present here even when it's missing from the JSON.
+
+Because coverage differs per folder — some technique folders only have the JSON, others have
+both — there are three scripts, but you'll normally only run one:
+
+### `Data/collect_reports.py` — the one to run
+
+Walks a folder tree, finds every `*_report.json`, and for each one:
+- If there's no matching HTML in the same folder, exports the JSON's steps directly.
+- If there's a matching HTML report too, extracts both and **merges** them into one sheet:
+  `Ability Name`/`TTP`/`Status`/`Command` come from the JSON (it's the structured source of
+  truth), while `Output`/`Error` prefer the HTML's text and only fall back to the JSON's when the
+  HTML has nothing (Caldera renders `"Nothing to show"` for an empty stream). A `Source` column
+  (`json`, `html`, or `both`) records where each row's data came from.
+
+```
+python Data/collect_reports.py [path] [--output-dir DIR] [--dry-run]
+```
+
+| Flag | What it does |
+|---|---|
+| `path` | Folder to scan, recursively (default: `Data`). Point it at the whole tree or a single technique/run folder. |
+| `--output-dir <path>` | Write outputs under this folder instead of alongside each `report.json`. |
+| `--dry-run` | Print what would be read/written — matched HTML, planned output paths — without writing anything. Worth running once before a full pass. |
+
+Each report gets its own workbook, named after the source file: `<report-name>.xlsx` for a
+JSON-only folder, `<report-name>_combined.xlsx` when HTML was merged in. Two reports sitting in
+the same folder always produce two separate workbooks, never one merged file.
+
+Example — check what a full run would do first, then do it:
+```
+python Data/collect_reports.py Data --dry-run
+python Data/collect_reports.py Data
+```
+
+### `Data/parse_collection_steps.py` / `Data/extract_html.py` — the individual extractors
+
+`collect_reports.py` calls these two internally, but each is also a standalone CLI if you just
+want one file converted without any merge logic:
+
+```
+python Data/parse_collection_steps.py <report.json> [-o output.xlsx]
+python Data/extract_html.py <report.html> [-o output.xlsx]
+```
+
+Both default to writing the `.xlsx` alongside the input file if `-o`/`--output` isn't given.
+
+### Requirements for these three scripts
+
+```
+pip install beautifulsoup4 openpyxl
+```
+
 ## Re-running after ART updates
 
 The script is safe to re-run any time (e.g. after pulling submodule updates). Ability and
