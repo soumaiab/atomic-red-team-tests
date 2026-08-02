@@ -349,9 +349,8 @@ For each report that feeds into a tactic's workbook:
   `Error` prefer the HTML's text and only fall back to the JSON's when the HTML has nothing
   (Caldera renders `"Nothing to show"` for an empty stream).
 
-Every row also gets a `Source` column (`json`, `html`, or `both`) recording where its data came
-from, so a tactic's workbook is a flat stack of every run's rows with consistent provenance
-tracking, not a guess about which run a row belongs to.
+Every tactic's workbook is a flat stack of that tactic's rows across all its runs, six columns:
+`Ability Name`, `TTP`, `Status`, `Command`, `Output`, `Error`.
 
 ```
 python Data/collect_reports.py [path] [--output-dir DIR] [--dry-run]

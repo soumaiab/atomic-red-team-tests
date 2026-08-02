@@ -6,7 +6,7 @@ from pathlib import Path
 from extract_html import extract_rows
 from parse_collection_steps import extract_steps, save_to_excel
 
-MERGED_HEADERS = ["Ability Name", "TTP", "Status", "Command", "Output", "Error", "Source"]
+MERGED_HEADERS = ["Ability Name", "TTP", "Status", "Command", "Output", "Error"]
 PLACEHOLDER_OUTPUTS = {"", "-", "nothing to show"}
 
 
@@ -82,7 +82,7 @@ def merge_rows(json_rows: list[dict], html_rows: list[dict]) -> list[dict]:
         html_row = bucket.pop(0) if bucket else None
 
         if html_row is None:
-            merged.append({**row, "Source": "json"})
+            merged.append(row)
             continue
 
         def pick(field_name: str) -> str:
@@ -98,7 +98,6 @@ def merge_rows(json_rows: list[dict], html_rows: list[dict]) -> list[dict]:
             "Command": row["Command"],
             "Output": pick("Output"),
             "Error": pick("Error"),
-            "Source": "both",
         })
 
     for bucket in html_index.values():
@@ -110,7 +109,6 @@ def merge_rows(json_rows: list[dict], html_rows: list[dict]) -> list[dict]:
                 "Command": html_row["Command"],
                 "Output": html_row["Output"],
                 "Error": html_row["Error"],
-                "Source": "html",
             })
 
     return merged
@@ -142,7 +140,7 @@ def extract_unit_rows(unit: ReportUnit) -> list[dict]:
     json_rows = extract_steps(data)
 
     if not unit.html_files:
-        return [{**row, "Source": "json"} for row in json_rows]
+        return json_rows
 
     html_rows: list[dict] = []
     for html_file in unit.html_files:
