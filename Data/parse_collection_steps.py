@@ -1,9 +1,23 @@
 import argparse
 import json
+import time
 from pathlib import Path
 
-from openpyxl import Workbook
+import xlsxwriter
 from openpyxl.cell.cell import ILLEGAL_CHARACTERS_RE
+
+# xlsxwriter's default mode stages each worksheet as its own file in %TEMP%
+# before zipping - antivirus real-time scanning quarantines those temp files
+# outright when the cell content is raw attack commands (observed: Windows
+# Defender flagging them as Trojan:VBS/Boxter.HAB!MTB). in_memory=True builds
+# the workbook entirely in RAM and writes the .xlsx in one shot, which avoids
+# ever creating that scannable intermediate file.
+EXCEL_MAX_CELL_LENGTH = 32767
+
+# The final file write can still occasionally lose a race (e.g. the .xlsx is
+# open in Excel, or a one-off AV scan of the finished file). Retry a few times.
+SAVE_RETRIES = 5
+SAVE_RETRY_DELAY_SECONDS = 1
 
 
 def map_status(code):
@@ -15,8 +29,9 @@ def sanitize_excel(value):
         return "-"
     if not isinstance(value, str):
         return value
-    # Remove characters Excel/openpyxl cannot store (control chars)
-    return ILLEGAL_CHARACTERS_RE.sub("", value)
+    # Remove characters Excel cannot store (control chars)
+    value = ILLEGAL_CHARACTERS_RE.sub("", value)
+    return value[:EXCEL_MAX_CELL_LENGTH]
 
 
 def extract_steps(data):
@@ -40,17 +55,29 @@ def extract_steps(data):
 
 
 def save_to_excel(data, filename, headers=None):
-    wb = Workbook()
-    ws = wb.active
-    ws.title = "Tactic Steps"
-
     headers = headers or list(data[0].keys())
-    ws.append(headers)
+    rows = [[sanitize_excel(row.get(h, "-")) for h in headers] for row in data]
 
-    for row in data:
-        ws.append([sanitize_excel(row.get(h, "-")) for h in headers])
+    for attempt in range(1, SAVE_RETRIES + 1):
+        try:
+            wb = xlsxwriter.Workbook(str(filename), {"in_memory": True})
+            ws = wb.add_worksheet("Tactic Steps")
+            for col, header in enumerate(headers):
+                ws.write_string(0, col, header)
+            for r, row in enumerate(rows, start=1):
+                for c, value in enumerate(row):
+                    if isinstance(value, str):
+                        ws.write_string(r, c, value)
+                    else:
+                        ws.write(r, c, value)
+            wb.close()
+            break
+        except OSError:
+            if attempt == SAVE_RETRIES:
+                raise
+            print(f"[!] Save failed (attempt {attempt}/{SAVE_RETRIES}) - retrying: {filename}")
+            time.sleep(SAVE_RETRY_DELAY_SECONDS)
 
-    wb.save(filename)
     print(f"\n[ok] Saved to: {filename}")
 
 

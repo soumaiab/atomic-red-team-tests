@@ -116,50 +116,50 @@ def merge_rows(json_rows: list[dict], html_rows: list[dict]) -> list[dict]:
     return merged
 
 
-def output_path_for(unit: ReportUnit, output_dir: Path | None, root: Path) -> Path:
-    stem = _report_stem(unit.report_json)
-    filename = f"{stem}_combined.xlsx" if unit.html_files else f"{stem}.xlsx"
+def find_tactic_dir(directory: Path, root: Path) -> Path:
+    """Walk up from a report's directory to its tactic-level ancestor (every
+    tactic folder in this repo is named '<tactic>-done'), bounded by root."""
+    current = directory
+    while True:
+        if current.name.endswith("-done"):
+            return current
+        if current == root or current.parent == current:
+            return directory  # no '-done' ancestor within the scanned tree
+        current = current.parent
 
+
+def tactic_output_path(tactic_dir: Path, output_dir: Path | None, root: Path) -> Path:
+    filename = f"{tactic_dir.name}.xlsx"
     if output_dir is None:
-        return unit.report_json.parent / filename
-
-    rel_dir = unit.report_json.parent.relative_to(root)
+        return tactic_dir / filename
+    rel_dir = tactic_dir.relative_to(root) if tactic_dir != root else Path(".")
     return output_dir / rel_dir / filename
 
 
-def process_unit(unit: ReportUnit, output_dir: Path | None, root: Path) -> Path:
+def extract_unit_rows(unit: ReportUnit) -> list[dict]:
     with open(unit.report_json, "r", encoding="utf-8") as f:
         data = json.load(f)
     json_rows = extract_steps(data)
 
-    output_path = output_path_for(unit, output_dir, root)
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-
     if not unit.html_files:
-        if json_rows:
-            save_to_excel(json_rows, output_path)
-        else:
-            print(f"[!] No valid steps found in {unit.report_json}")
-        return output_path
+        return [{**row, "Source": "json"} for row in json_rows]
 
     html_rows: list[dict] = []
     for html_file in unit.html_files:
         html_rows.extend(extract_rows(html_file))
 
-    merged = merge_rows(json_rows, html_rows)
-    save_to_excel(merged, output_path, headers=MERGED_HEADERS)
-    return output_path
+    return merge_rows(json_rows, html_rows)
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Walk a directory tree of Caldera report.json / HTML report pairs "
-                     "and export Excel sheets, merging HTML output with JSON steps when both are present."
+        description="Walk a directory tree of Caldera report.json / HTML report pairs and "
+                     "export one merged Excel workbook per tactic folder."
     )
     parser.add_argument("path", nargs="?", type=Path, default=Path("Data"),
                          help="File tree to scan (default: Data)")
     parser.add_argument("--output-dir", type=Path, default=None,
-                         help="Write outputs under this directory instead of alongside each report.json")
+                         help="Write outputs under this directory instead of at each tactic folder's root")
     parser.add_argument("--dry-run", action="store_true",
                          help="Print discovered report/HTML pairings and planned output paths without writing")
     args = parser.parse_args()
@@ -171,13 +171,31 @@ def main() -> None:
         print(f"No *_report.json files found under {root}")
         return
 
+    units_by_tactic: dict[Path, list[ReportUnit]] = {}
     for unit in units:
-        output_path = output_path_for(unit, args.output_dir, root)
+        tactic_dir = find_tactic_dir(unit.report_json.parent, root)
+        units_by_tactic.setdefault(tactic_dir, []).append(unit)
+
+    for tactic_dir, tactic_units in units_by_tactic.items():
+        merged_path = tactic_output_path(tactic_dir, args.output_dir, root)
+
         if args.dry_run:
-            html_names = [h.name for h in unit.html_files] or "none"
-            print(f"{unit.report_json} + html={html_names} -> {output_path}")
+            for unit in tactic_units:
+                html_names = [h.name for h in unit.html_files] or "none"
+                print(f"{unit.report_json} + html={html_names}")
+            print(f"[tactic] {tactic_dir} ({len(tactic_units)} report(s)) -> {merged_path}")
             continue
-        process_unit(unit, args.output_dir, root)
+
+        rows: list[dict] = []
+        for unit in tactic_units:
+            rows.extend(extract_unit_rows(unit))
+
+        if not rows:
+            print(f"[!] No valid steps found under {tactic_dir}")
+            continue
+
+        merged_path.parent.mkdir(parents=True, exist_ok=True)
+        save_to_excel(rows, merged_path, headers=MERGED_HEADERS)
 
 
 if __name__ == "__main__":

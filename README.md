@@ -335,13 +335,23 @@ both — there are three scripts, but you'll normally only run one:
 
 ### `Data/collect_reports.py` — the one to run
 
-Walks a folder tree, finds every `*_report.json`, and for each one:
-- If there's no matching HTML in the same folder, exports the JSON's steps directly.
-- If there's a matching HTML report too, extracts both and **merges** them into one sheet:
-  `Ability Name`/`TTP`/`Status`/`Command` come from the JSON (it's the structured source of
-  truth), while `Output`/`Error` prefer the HTML's text and only fall back to the JSON's when the
-  HTML has nothing (Caldera renders `"Nothing to show"` for an empty stream). A `Source` column
-  (`json`, `html`, or `both`) records where each row's data came from.
+Walks a folder tree, finds every `*_report.json`, groups them by tactic folder (any top-level
+`<tactic>-done` folder under `Data/` — `credential-access-done`'s `run1`-`run4`, `stealth-done`'s
+`run1` and `run2/p1-p3`, etc. all roll up into their shared `<tactic>-done` ancestor), and writes
+**exactly one workbook per tactic folder**, always named `<tactic>-done.xlsx` and written at that
+tactic folder's root — regardless of whether it had one report or several. There's no per-run or
+per-report output file; everything for a tactic lands in that one sheet.
+
+For each report that feeds into a tactic's workbook:
+- If there's no matching HTML in the same folder, its JSON steps are used directly.
+- If there's a matching HTML report too, both are extracted and **merged**: `Ability Name`/`TTP`/
+  `Status`/`Command` come from the JSON (it's the structured source of truth), while `Output`/
+  `Error` prefer the HTML's text and only fall back to the JSON's when the HTML has nothing
+  (Caldera renders `"Nothing to show"` for an empty stream).
+
+Every row also gets a `Source` column (`json`, `html`, or `both`) recording where its data came
+from, so a tactic's workbook is a flat stack of every run's rows with consistent provenance
+tracking, not a guess about which run a row belongs to.
 
 ```
 python Data/collect_reports.py [path] [--output-dir DIR] [--dry-run]
@@ -349,13 +359,9 @@ python Data/collect_reports.py [path] [--output-dir DIR] [--dry-run]
 
 | Flag | What it does |
 |---|---|
-| `path` | Folder to scan, recursively (default: `Data`). Point it at the whole tree or a single technique/run folder. |
-| `--output-dir <path>` | Write outputs under this folder instead of alongside each `report.json`. |
-| `--dry-run` | Print what would be read/written — matched HTML, planned output paths — without writing anything. Worth running once before a full pass. |
-
-Each report gets its own workbook, named after the source file: `<report-name>.xlsx` for a
-JSON-only folder, `<report-name>_combined.xlsx` when HTML was merged in. Two reports sitting in
-the same folder always produce two separate workbooks, never one merged file.
+| `path` | Folder to scan, recursively (default: `Data`). Point it at the whole tree or a single tactic/run folder — tactic grouping is based on the `-done` folder-naming convention itself, so it works the same way either way. |
+| `--output-dir <path>` | Write outputs under this folder instead of at each tactic folder's root. |
+| `--dry-run` | Print what would be read and which tactic workbook it would feed into, without writing anything. Worth running once before a full pass. |
 
 Example — check what a full run would do first, then do it:
 ```
@@ -378,8 +384,15 @@ Both default to writing the `.xlsx` alongside the input file if `-o`/`--output` 
 ### Requirements for these three scripts
 
 ```
-pip install beautifulsoup4 openpyxl
+pip install beautifulsoup4 openpyxl xlsxwriter
 ```
+
+(`.xlsx` files are written with `xlsxwriter` in its `in_memory` mode rather than `openpyxl`'s
+default save path, because openpyxl stages each worksheet as its own file in `%TEMP%` before
+zipping it up — and real-time antivirus has been observed quarantining that staging file outright
+as a false positive, since its content is literally raw attack-technique commands and output.
+`in_memory` mode builds the workbook in RAM and writes the finished `.xlsx` in one shot, which
+avoids creating that intermediate file at all.)
 
 ## Re-running after ART updates
 
