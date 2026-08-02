@@ -368,6 +368,22 @@ python Data/collect_reports.py Data --dry-run
 python Data/collect_reports.py Data
 ```
 
+**`Data/analysis-summary.md`.** After writing every tactic workbook, `collect_reports.py` also
+writes a birds-eye markdown summary across all of them (skipped on `--dry-run`) — an overview
+(total tactics/reports/steps/TTPs/abilities, total OpenSearch log entries, overall success rate),
+a per-tactic breakdown table (ability-execution steps, OpenSearch log entries, unique TTPs, unique
+abilities, success/failure/timeout counts), a data-completeness check (how often a real Standard
+Output/Error was actually captured vs. left as a placeholder — the same concern the row-leak/Facts
+bugs above were about), a "most-tested TTPs" highlight list, and a full per-TTP table of
+**procedures** — the number of *distinct commands* seen for each technique ID, i.e. how many
+different ways this repo exercises that technique, sorted most-tested first.
+
+The "OpenSearch Logs" counts come from each tactic folder's raw OpenSearch export(s) — files named
+like `*os-logs*.json`, or (`stealth-done`'s paginated exports) `page*.json` — summed across every
+matching file found anywhere under that tactic folder. These are a separate, much larger data
+source than the ability-execution steps: raw log records collected from the target during the
+operation, not one row per ability run.
+
 ### `Data/parse_collection_steps.py` / `Data/extract_html.py` — the individual extractors
 
 `collect_reports.py` calls these two internally, but each is also a standalone CLI if you just
