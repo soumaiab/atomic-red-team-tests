@@ -1,7 +1,7 @@
 # === CONFIGURATION ===
-$startTime = "2026-08-01T22:25:00.000Z"
-$endTime   = "2026-08-02T00:05:00.000Z"
-$agentName = "windows-13"
+$startTime = "2026-08-01T19:55:00.000Z"
+$endTime   = "2026-08-02T00:00:00.000Z"
+$agentName = "windows-14"
 $size = 10000
 $index = 1
 $lastSort = $null
@@ -35,11 +35,15 @@ try {
                 keep_alive = $pitKeepAlive
             }
             # Elasticsearch's PIT wants "_shard_doc" as the tiebreaker, but this
-            # OpenSearch cluster rejects it ("No mapping found for [_shard_doc]") -
-            # verified directly, _doc is the correct tiebreaker here instead.
+            # OpenSearch cluster rejects it ("No mapping found for [_shard_doc]"). _doc
+            # is only unique WITHIN a single shard, not across the many shards/indices
+            # logs-* spans - using it as the tiebreaker let search_after return the same
+            # document again on a later page whenever two docs across different shards
+            # shared a _doc value, inflating the total. _id is globally unique across
+            # every shard/index, confirmed to work as a sort field on this cluster.
             sort  = @(
                 @{ "@timestamp" = "asc" },
-                @{ "_doc" = "asc" }
+                @{ "_id" = "asc" }
             )
             query = @{
                 bool = @{
